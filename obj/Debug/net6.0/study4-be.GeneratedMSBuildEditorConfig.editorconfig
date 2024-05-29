@@ -8,141 +8,141 @@ build_property.PlatformNeutralAssembly =
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = study4_be
 build_property.RootNamespace = study4_be
-build_property.ProjectDir = C:\Users\phanv\OneDrive\Máy tính\SideProject\study4-be\
+build_property.ProjectDir = D:\Downloads\study4-be\
 build_property.RazorLangVersion = 6.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = C:\Users\phanv\OneDrive\Máy tính\SideProject\study4-be
+build_property.MSBuildProjectDirectory = D:\Downloads\study4-be
 build_property._RazorSourceGeneratorDebug = 
 
-[C:/Users/phanv/OneDrive/Máy tính/SideProject/study4-be/Views/Audio/Audio_Create.cshtml]
+[D:/Downloads/study4-be/Views/Audio/Audio_Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXVkaW9cQXVkaW9fQ3JlYXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/phanv/OneDrive/Máy tính/SideProject/study4-be/Views/Audio/Audio_Delete.cshtml]
+[D:/Downloads/study4-be/Views/Audio/Audio_Delete.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXVkaW9cQXVkaW9fRGVsZXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/phanv/OneDrive/Máy tính/SideProject/study4-be/Views/Audio/Audio_Details.cshtml]
+[D:/Downloads/study4-be/Views/Audio/Audio_Details.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXVkaW9cQXVkaW9fRGV0YWlscy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/phanv/OneDrive/Máy tính/SideProject/study4-be/Views/Audio/Audio_Edit.cshtml]
+[D:/Downloads/study4-be/Views/Audio/Audio_Edit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXVkaW9cQXVkaW9fRWRpdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/phanv/OneDrive/Máy tính/SideProject/study4-be/Views/Audio/Audio_List.cshtml]
+[D:/Downloads/study4-be/Views/Audio/Audio_List.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXVkaW9cQXVkaW9fTGlzdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/phanv/OneDrive/Máy tính/SideProject/study4-be/Views/Auth/Register.cshtml]
+[D:/Downloads/study4-be/Views/Auth/Register.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXV0aFxSZWdpc3Rlci5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/phanv/OneDrive/Máy tính/SideProject/study4-be/Views/Courses/Course_Create.cshtml]
+[D:/Downloads/study4-be/Views/Courses/Course_Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ291cnNlc1xDb3Vyc2VfQ3JlYXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/phanv/OneDrive/Máy tính/SideProject/study4-be/Views/Courses/Course_Delete.cshtml]
+[D:/Downloads/study4-be/Views/Courses/Course_Delete.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ291cnNlc1xDb3Vyc2VfRGVsZXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/phanv/OneDrive/Máy tính/SideProject/study4-be/Views/Courses/Course_Details.cshtml]
+[D:/Downloads/study4-be/Views/Courses/Course_Details.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ291cnNlc1xDb3Vyc2VfRGV0YWlscy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/phanv/OneDrive/Máy tính/SideProject/study4-be/Views/Courses/Course_Edit.cshtml]
+[D:/Downloads/study4-be/Views/Courses/Course_Edit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ291cnNlc1xDb3Vyc2VfRWRpdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/phanv/OneDrive/Máy tính/SideProject/study4-be/Views/Courses/Course_List.cshtml]
+[D:/Downloads/study4-be/Views/Courses/Course_List.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ291cnNlc1xDb3Vyc2VfTGlzdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/phanv/OneDrive/Máy tính/SideProject/study4-be/Views/Home/Index.cshtml]
+[D:/Downloads/study4-be/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/phanv/OneDrive/Máy tính/SideProject/study4-be/Views/Home/Privacy.cshtml]
+[D:/Downloads/study4-be/Views/Home/Privacy.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/phanv/OneDrive/Máy tính/SideProject/study4-be/Views/Lesson/Lesson_Create.cshtml]
+[D:/Downloads/study4-be/Views/Lesson/Lesson_Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTGVzc29uXExlc3Nvbl9DcmVhdGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/phanv/OneDrive/Máy tính/SideProject/study4-be/Views/Lesson/Lesson_Delete.cshtml]
+[D:/Downloads/study4-be/Views/Lesson/Lesson_Delete.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTGVzc29uXExlc3Nvbl9EZWxldGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/phanv/OneDrive/Máy tính/SideProject/study4-be/Views/Lesson/Lesson_Details.cshtml]
+[D:/Downloads/study4-be/Views/Lesson/Lesson_Details.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTGVzc29uXExlc3Nvbl9EZXRhaWxzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/phanv/OneDrive/Máy tính/SideProject/study4-be/Views/Lesson/Lesson_Edit.cshtml]
+[D:/Downloads/study4-be/Views/Lesson/Lesson_Edit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTGVzc29uXExlc3Nvbl9FZGl0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/phanv/OneDrive/Máy tính/SideProject/study4-be/Views/Lesson/Lesson_List.cshtml]
+[D:/Downloads/study4-be/Views/Lesson/Lesson_List.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTGVzc29uXExlc3Nvbl9MaXN0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/phanv/OneDrive/Máy tính/SideProject/study4-be/Views/Question/Question_Create.cshtml]
+[D:/Downloads/study4-be/Views/Question/Question_Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUXVlc3Rpb25cUXVlc3Rpb25fQ3JlYXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/phanv/OneDrive/Máy tính/SideProject/study4-be/Views/Question/Question_Delete.cshtml]
+[D:/Downloads/study4-be/Views/Question/Question_Delete.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUXVlc3Rpb25cUXVlc3Rpb25fRGVsZXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/phanv/OneDrive/Máy tính/SideProject/study4-be/Views/Question/Question_Details.cshtml]
+[D:/Downloads/study4-be/Views/Question/Question_Details.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUXVlc3Rpb25cUXVlc3Rpb25fRGV0YWlscy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/phanv/OneDrive/Máy tính/SideProject/study4-be/Views/Question/Question_Edit.cshtml]
+[D:/Downloads/study4-be/Views/Question/Question_Edit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUXVlc3Rpb25cUXVlc3Rpb25fRWRpdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/phanv/OneDrive/Máy tính/SideProject/study4-be/Views/Question/Question_List.cshtml]
+[D:/Downloads/study4-be/Views/Question/Question_List.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUXVlc3Rpb25cUXVlc3Rpb25fTGlzdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/phanv/OneDrive/Máy tính/SideProject/study4-be/Views/Quizzes/Quizzes_Create.cshtml]
+[D:/Downloads/study4-be/Views/Quizzes/Quizzes_Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUXVpenplc1xRdWl6emVzX0NyZWF0ZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/phanv/OneDrive/Máy tính/SideProject/study4-be/Views/Quizzes/Quizzes_Delete.cshtml]
+[D:/Downloads/study4-be/Views/Quizzes/Quizzes_Delete.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUXVpenplc1xRdWl6emVzX0RlbGV0ZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/phanv/OneDrive/Máy tính/SideProject/study4-be/Views/Quizzes/Quizzes_Details.cshtml]
+[D:/Downloads/study4-be/Views/Quizzes/Quizzes_Details.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUXVpenplc1xRdWl6emVzX0RldGFpbHMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/phanv/OneDrive/Máy tính/SideProject/study4-be/Views/Quizzes/Quizzes_Edit.cshtml]
+[D:/Downloads/study4-be/Views/Quizzes/Quizzes_Edit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUXVpenplc1xRdWl6emVzX0VkaXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/phanv/OneDrive/Máy tính/SideProject/study4-be/Views/Quizzes/Quizzes_List.cshtml]
+[D:/Downloads/study4-be/Views/Quizzes/Quizzes_List.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUXVpenplc1xRdWl6emVzX0xpc3QuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/phanv/OneDrive/Máy tính/SideProject/study4-be/Views/Shared/Error.cshtml]
+[D:/Downloads/study4-be/Views/Shared/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/phanv/OneDrive/Máy tính/SideProject/study4-be/Views/Shared/_ValidationScriptsPartial.cshtml]
+[D:/Downloads/study4-be/Views/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/phanv/OneDrive/Máy tính/SideProject/study4-be/Views/_ViewImports.cshtml]
+[D:/Downloads/study4-be/Views/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/phanv/OneDrive/Máy tính/SideProject/study4-be/Views/_ViewStart.cshtml]
+[D:/Downloads/study4-be/Views/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/phanv/OneDrive/Máy tính/SideProject/study4-be/Views/Shared/_Layout.cshtml]
+[D:/Downloads/study4-be/Views/Shared/_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = b-be3y5e04us

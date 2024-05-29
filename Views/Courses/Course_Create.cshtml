@@ -32,18 +32,11 @@
                     <input asp-for="CourseTag" class="form-control" />
                     <span asp-validation-for="CourseTag" class="text-danger"></span>
                 </div>
-              @*   <div class="form-group">
+                <div class="form-group">
                     <label>File upload</label>
-                    <input type="file" name="img[]" class="file-upload-default">
-                    <div class="input-group col-xs-12">
-                        <input type="text" class="form-control file-upload-info" disabled="" placeholder="Upload Image">
-                        <span class="input-group-append">
-                            <label for="uploadimg" class="file-upload-browse btn btn-gradient-primary" type="button">Upload</label>
-                            <input id="uploadimg" style="display:none" type="file" name="CourseImage" onchange="ChangeImage(this,document.getElementById('previewImg'))" />
-                        </span>
-                    </div>
-                    <img src="" height="150" width="150" id="previewImg" />
-                </div> *@
+                    <img src="https://thesavvyimg.co.uk/wp-content/uploads/2022/08/the-savvy-img-online-courses-masterclass-shortcut-plab-gmc-registration.png" height="150" width="150" id="previewImg" />
+                    <input type="file" name="UploadImage" onchange="ChangeImage(this, document.getElementById('previewImg'))" class="file-upload-default">
+                </div>
                 <div class="flex">
                     <button type="submit" class="btn btn-gradient-primary me-2">Submit</button>
                     @Html.ActionLink("Cancel", "Index", "Home", null, new { @class = "btn btn-light" })
@@ -65,3 +58,15 @@
         }
     </script>
 } *@
+
+<script>
+    function ChangeImage(UploadImage, previewImg) {
+        if (UploadImage.files && UploadImage.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                document.getElementById('previewImg').setAttribute('src', e.target.result);
+            }
+            reader.readAsDataURL(UploadImage.files[0])
+        }
+    }
+</script>
