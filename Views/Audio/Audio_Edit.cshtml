@@ -1,4 +1,5 @@
-﻿<style>
+﻿@model study4_be.Models.Audio
+<style>
     .flex {
         margin-top: 20px;
         display: flex;
@@ -12,27 +13,36 @@
     <hr />
     <div class="card-body">
         <p class="card-description"> Edit</p>
-        <form class="forms-sample">
+        <form asp-action="Audio_Create" method="post" enctype="multipart/form-data" class="forms-sample">
             <div class="form-group">
-                <label for="exampleInputPassword4">AUDIO_ID</label>
-                <input class="form-control" type="text" value="" readonly />
+                <label for="AudioId">AudioId</label>
+                <input asp-for="AudioId" class="form-control" />
+                <span asp-validation-for="AudioId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label for="exampleInputPassword4">AUDIO_URL</label>
-                <input class="form-control" type="text" readonly />
+                <label for="AudioUrl">AudioUrl</label>
+                <input asp-for="AudioUrl" class="form-control" />
+                <span asp-validation-for="AudioUrl" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label for="exampleInputPassword4">AUDIO_DESCRIPTION</label>
-                <input class="form-control" type="text" />
+                <label for="AudioDescription">AudioDescription</label>
+                <input asp-for="AudioDescription" class="form-control" />
+                <span asp-validation-for="AudioDescription" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label for="exampleInputPassword4">LESSON_ID</label>
-                <input class="form-control" type="text" />
+                <label for="LessonId">LessonId</label>
+                <input asp-for="LessonId" class="form-control" />
+                <span asp-validation-for="LessonId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label for="Lesson">Lesson</label>
+                <input asp-for="Lesson" class="form-control" />
+                <span asp-validation-for="Lesson" class="text-danger"></span>
+            </div>
+            <div class="flex">
+                <button type="submit" class="btn btn-gradient-primary me-2">Submit</button>
+                @Html.ActionLink("Cancel", "Index", "Home", null, new { @class = "btn btn-light" })
             </div>
         </form>
-        <div class="flex">
-            <button type="submit" class="btn btn-gradient-primary me-2">Submit</button>
-            @Html.ActionLink("Cancel", "Audio_List", "Audio", null, new { @class = "btn btn-light" })
-        </div>
     </div>
 </div>

@@ -1,4 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using study4_be.Models;
+using study4_be.Repositories;
 
 namespace study4_be.Controllers.Admin
 {
