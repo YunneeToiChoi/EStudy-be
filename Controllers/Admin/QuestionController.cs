@@ -15,7 +15,7 @@ namespace study4_be.Controllers.Admin
         public STUDY4Context _context = new STUDY4Context();
 
         [HttpGet("GetAllQuestions")]
-        public async Task<ActionResult<IEnumerable<Question>>> GetAllCourses()
+        public async Task<ActionResult<IEnumerable<Question>>> GetAllQuestions()
         {
             var questions = await _questionsRepository.GetAllQuestionsAsync();
             return Json(new { status = 200, message = "Get Questions Successful", questions });
@@ -23,7 +23,7 @@ namespace study4_be.Controllers.Admin
         }
         //development enviroment
         [HttpDelete("DeleteAllQuestions")]
-        public async Task<IActionResult> DeleteAllCourses()
+        public async Task<IActionResult> DeleteAllQuestions()
         {
             await _questionsRepository.DeleteAllQuestionsAsync();
             return Json(new { status = 200, message = "Delete Questions Successful" });

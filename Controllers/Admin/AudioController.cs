@@ -21,7 +21,7 @@ namespace study4_be.Controllers.Admin
 
         }
         [HttpDelete("DeleteAllAudios")]
-        public async Task<IActionResult> DeleteAllCourses()
+        public async Task<IActionResult> DeleteAllAudios()
         {
             await _audiosRepository.DeleteAllAudiosAsync();
             return Json(new { status = 200, message = "Delete Audios Successful" });

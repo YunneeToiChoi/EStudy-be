@@ -1,0 +1,38 @@
+﻿@model study4_be.Models.Unit
+<style>
+    .flex {
+        margin-top: 20px;
+        display: flex;
+        align-items: center;
+    }
+</style>
+
+
+<div class="form-horizontal">
+    <h4>Unit</h4>
+    <hr />
+    <div class="card-body">
+        <p class="card-description"> Edit</p>
+        <form asp-action="Course_Create" method="post" enctype="multipart/form-data" class="forms-sample">
+            <div class="form-group">
+                <label for="UnitTittle">UnitTittle</label>
+                <input asp-for="UnitTittle" class="form-control" />
+                <span asp-validation-for="UnitTittle" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label for="Course">Course</label>
+                <input asp-for="Course" class="form-control" />
+                <span asp-validation-for="Course" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label for="CoursePrice">Price</label>
+                <input asp-for="Containers" class="form-control" />
+                <span asp-validation-for="Containers" class="text-danger"></span>
+            </div>
+            <div class="flex">
+                <button type="submit" class="btn btn-gradient-primary me-2">Submit</button>
+                @Html.ActionLink("Cancel", "Index", "Home", null, new { @class = "btn btn-light" })
+            </div>
+        </form>
+    </div>
+</div>

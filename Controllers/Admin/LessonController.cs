@@ -22,7 +22,7 @@ namespace study4_be.Controllers.Admin
         }
 
         [HttpDelete("DeleteAllLessons")]
-        public async Task<IActionResult> DeleteAllCourses()
+        public async Task<IActionResult> DeleteAllLessons()
         {
             await _lessonsRepository.DeleteAllLessonsAsync();
             return Json(new { status = 200, message = "Delete Lessons Successful" });

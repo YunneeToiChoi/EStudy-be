@@ -1,23 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\study4-be\\study4-be.csproj": {}
+    "D:\\Downloads\\study4-be\\study4-be.csproj": {}
   },
   "projects": {
-    "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\study4-be\\study4-be.csproj": {
+    "D:\\Downloads\\study4-be\\study4-be.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\study4-be\\study4-be.csproj",
+        "projectUniqueName": "D:\\Downloads\\study4-be\\study4-be.csproj",
         "projectName": "study4-be",
-        "projectPath": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\study4-be\\study4-be.csproj",
-        "packagesPath": "C:\\Users\\phanv\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\study4-be\\obj\\",
+        "projectPath": "D:\\Downloads\\study4-be\\study4-be.csproj",
+        "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
+        "outputPath": "D:\\Downloads\\study4-be\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-        ],
         "configFilePaths": [
-          "C:\\Users\\phanv\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -37,6 +34,11 @@
           "warnAsError": [
             "NU1605"
           ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
         }
       },
       "frameworks": {
@@ -92,7 +94,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.100\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.131\\RuntimeIdentifierGraph.json"
         }
       }
     }
