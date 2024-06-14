@@ -38,7 +38,7 @@ namespace study4_be.Controllers.API
             try
             {
                 var allVocabOfLesson = await _vocabFlashCardRepo.GetAllVocabDependLesson(_vocabRequest.lessonId);
-                var  lessonTag = await _context.Lessons
+                var lessonTag = await _context.Lessons
                                            .Where(l => l.LessonId == _vocabRequest.lessonId)
                                            .Select(l => l.Tag)
                                            .FirstAsync();
@@ -54,22 +54,33 @@ namespace study4_be.Controllers.API
                 return StatusCode(500, new { status = 500, message = "An error occurred while processing your request." });
             }
         }
+
         [HttpPost("Get_AllVocabFindpair")]
         public async Task<IActionResult> Get_AllVocabFindpair([FromBody] VocabFlashCardRequest _vocabRequest)
         {
-            if (_vocabRequest.lessonId == null)
+            if (_vocabRequest.lessonId == default(int))
             {
                 _logger.LogWarning("LessonId is null or empty in the request.");
                 return BadRequest(new { status = 400, message = "LessonId is null or empty" });
             }
 
+            const int chunkSize = 8;
+            const int chunkLength = 20;
+            var stopwatch = Stopwatch.StartNew();
+
             try
             {
-                var allVocabOfLesson = await _vocabFlashCardRepo.GetAllVocabDependLesson(_vocabRequest.lessonId);
-                var lessonTag = await _context.Lessons
-                                  .Where(l => l.LessonId == _vocabRequest.lessonId)
-                                  .Select(l => l.Tag)
-                                  .FirstAsync();
+                var vocabTask = _vocabFlashCardRepo.GetAllVocabDependLesson(_vocabRequest.lessonId);
+                var tagTask = _context.Lessons
+                                      .Where(l => l.LessonId == _vocabRequest.lessonId)
+                                      .Select(l => l.Tag)
+                                      .FirstOrDefaultAsync();
+
+                await Task.WhenAll(vocabTask, tagTask);
+
+                var allVocabOfLesson = vocabTask.Result;
+                var lessonTag = tagTask.Result?.TagId;
+
                 var responseData = allVocabOfLesson.Select(vocab => new VocabFindPairResponse
                 {
                     vocabId = vocab.VocabId,
@@ -77,12 +88,48 @@ namespace study4_be.Controllers.API
                     vocabExplanation = vocab.Explanation,
                     vocabTitle = vocab.VocabTitle
                 }).ToList();
-        
-                var lessonTagResponse = new
+
+                var chunkedLists = new List<List<VocabFindPairResponse>>();
+                var random = new Random();
+
+                for (int i = 0; i < responseData.Count; i += chunkSize)
                 {
-                    lessonTag = lessonTag.TagId
-                };
-                return Ok(new { status = 200, message = "Get All Vocab Of Lesson Successful", data = responseData, lessonTag= lessonTagResponse });
+                    var chunk = responseData.Skip(i).Take(chunkSize).ToList();
+                    while (chunk.Count < chunkSize)
+                    {
+                        chunk.Add(responseData[random.Next(responseData.Count)]);
+                    }
+                    chunkedLists.Add(chunk);
+                }
+
+                while (chunkedLists.Count < chunkLength)
+                {
+                    var randomChunk = chunkedLists[random.Next(chunkedLists.Count)];
+                    var newChunk = new List<VocabFindPairResponse>(randomChunk);
+                    while (newChunk.Count < chunkSize)
+                    {
+                        newChunk.Add(responseData[random.Next(responseData.Count)]);
+                    }
+                    chunkedLists.Add(newChunk);
+                }
+
+                var chunkedData = chunkedLists.Take(chunkLength).Select((chunk, index) => new
+                {
+                    chunkName = $"chunk{index + 1}",
+                    vocabulary = chunk
+                }).ToList();
+
+                stopwatch.Stop();
+                var elapsedTime = stopwatch.Elapsed.TotalSeconds;
+
+                return Ok(new
+                {
+                    status = 200,
+                    message = "Get All Vocab Of Lesson Successful",
+                    data = chunkedData,
+                    lessonTag = new { lessonTag },
+                    elapsedTime
+                });
             }
             catch (Exception ex)
             {
@@ -90,7 +137,19 @@ namespace study4_be.Controllers.API
                 return StatusCode(500, new { status = 500, message = "An error occurred while processing your request." });
             }
         }
-        [HttpPost("Get_AllListenChossenVocab")]
+
+        // Helper method to partition list into chunks
+        private static IEnumerable<IEnumerable<T>> Partition<T>(IEnumerable<T> source, int chunkSize)
+        {
+            int i = 0;
+            while (source.Skip(i * chunkSize).Any())
+            {
+                yield return source.Skip(i * chunkSize).Take(chunkSize);
+                i++;
+            }
+        }
+
+         [HttpPost("Get_AllListenChossenVocab")]
         public async Task<IActionResult> Get_AllListenChossenVocab([FromBody] VocabFlashCardRequest _vocabRequest)
         {
             try
