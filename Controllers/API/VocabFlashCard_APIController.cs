@@ -9,6 +9,8 @@ using Google.Cloud.Storage.V1;
 using study4_be.Services;
 using Google.Apis.Auth.OAuth2;
 using Microsoft.EntityFrameworkCore;
+using Org.BouncyCastle.Ocsp;
+using Microsoft.CodeAnalysis.FlowAnalysis.DataFlow.ValueContentAnalysis;
 
 namespace study4_be.Controllers.API
 {
@@ -233,6 +235,45 @@ namespace study4_be.Controllers.API
             {
                 yield return source.Skip(i * chunkSize).Take(chunkSize);
                 i++;
+            }
+        }
+        [HttpPost("Get_AllVocabFillWorld")]
+        public async Task<IActionResult> Get_AllVocabFillWorld ([FromBody] OfLessonRequest _req)
+        {
+            if(_req.lessonId==0 || _req.lessonId == null)
+            {
+                _logger.LogWarning("LessonId is null or empty in the request.");
+                return BadRequest(new { status = 400, message = "LessonId is null or empty" });
+            }
+            try
+            {
+                var vocab = await _context.Vocabularies.Where(v => v.LessonId == _req.lessonId).ToListAsync();
+                var lessonTag = await _context.Lessons
+                                             .Where(l => l.LessonId == _req.lessonId)
+                                             .Select(l => l.Tag)
+                                             .FirstAsync();
+                var lessonTagResponse = new
+                {
+                    lessonTag = lessonTag.TagId
+                };
+                var fillWordResponse = vocab.Select(vocab => new VocabFillWorldResponse
+                {
+                    vocabId = vocab.VocabId,
+                    vocabMean = vocab.Mean,
+                    vocabTitle = vocab.VocabTitle,
+                    vocabExplanation = vocab.Explanation,
+                });
+                return Json(new
+                {
+                    statusCode= 200,
+                    messages = "Get All Vocab Fill World Successfull",
+                    data = fillWordResponse,
+                    lessonTag = lessonTagResponse,
+                });
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e);
             }
         }
 
