@@ -5,15 +5,20 @@ using Microsoft.EntityFrameworkCore;
 using study4_be.Models;
 using study4_be.Models.ViewModel;
 using study4_be.Repositories;
+using study4_be.Services;
 
 namespace study4_be.Controllers.Admin
 {
     public class QuestionController : Controller
     {
         private readonly ILogger<QuestionController> _logger;
-        public QuestionController(ILogger<QuestionController> logger)
+        private FireBaseServices _firebaseServices;
+        private GeneralAiAudioServices _generalAiAudioServices;
+        public QuestionController(ILogger<QuestionController> logger, FireBaseServices firebaseServices)
         {
             _logger = logger;
+            _firebaseServices = firebaseServices;
+            _generalAiAudioServices = new GeneralAiAudioServices();
         }
         private readonly QuestionRepository _questionsRepository = new QuestionRepository();
         public STUDY4Context _context = new STUDY4Context();
@@ -83,12 +88,26 @@ namespace study4_be.Controllers.Admin
         {
             try
             {
+                var firebaseBucketName = _firebaseServices.GetFirebaseBucketName();
+                // Generate and upload audio to Firebase Storage
+                var audioFilePath = Path.Combine(Path.GetTempPath(), $"QUESTION({questionViewModel.question.QuestionId}).wav");
+                if (questionViewModel.question.QuestionParagraph==null)
+                {
+                    _logger.LogError("Cannot generate AI question because there is no Paragraph.");
+                    ModelState.AddModelError("", "Cannot generate AI question because there is no Paragraph.");
+                }
+                _generalAiAudioServices.GenerateAudio(questionViewModel.question.QuestionParagraph, audioFilePath);
+
+                var audioBytes = System.IO.File.ReadAllBytes(audioFilePath);
+                var audioUrl = await _generalAiAudioServices.UploadFileToFirebaseStorageAsync(audioBytes, $"QUESTION({questionViewModel.question.QuestionId}).wav", firebaseBucketName);
+                // Delete the temporary file after uploading
+                System.IO.File.Delete(audioFilePath);
                 var question = new Question
                 {
                     QuestionId = questionViewModel.question.QuestionId,
                     QuestionText = questionViewModel.question.QuestionText,
                     QuestionParagraph = questionViewModel.question.QuestionParagraph,
-                    QuestionAudio = questionViewModel.question.QuestionAudio,
+                    QuestionAudio = audioUrl,
                     QuestionTranslate = questionViewModel.question.QuestionTranslate,
                     QuestionImage = questionViewModel.question.QuestionImage,
                     CorrectAnswer = questionViewModel.question.CorrectAnswer,
