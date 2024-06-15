@@ -38,16 +38,6 @@
                     <span asp-validation-for="vocab.Explanation" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label for="vocab.AudioUrlUs">AudioUrl Us</label>
-                    <input asp-for="vocab.AudioUrlUs" class="form-control" />
-                    <span asp-validation-for="vocab.AudioUrlUs" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label for="vocab.AudioUrlUk">AudioUrl Uk</label>
-                    <input asp-for="vocab.AudioUrlUk" class="form-control" />
-                    <span asp-validation-for="vocab.AudioUrlUk" class="text-danger"></span>
-                </div>
-                <div class="form-group">
                     <label asp-for="vocab.LessonId">Lesson</label>
                     <select asp-for="vocab.LessonId" class="form-control" asp-items="Model.lesson"></select>
                     <span asp-validation-for="vocab.LessonId" class="text-danger"></span>

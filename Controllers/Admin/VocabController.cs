@@ -1,18 +1,25 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Google.Apis.Auth.OAuth2;
+using Google.Cloud.Storage.V1;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using study4_be.Models;
 using study4_be.Models.ViewModel;
 using study4_be.Repositories;
+using study4_be.Services.Response;
+using study4_be.Services;
+using System.Diagnostics;
 
 namespace study4_be.Controllers.Admin
 {
     public class VocabController : Controller
     {
         private readonly ILogger<VocabController> _logger;
-        public VocabController(ILogger<VocabController> logger)
+        private FireBaseServices _firebaseServices;
+        public VocabController(ILogger<VocabController> logger, FireBaseServices firebaseServices)
         {
             _logger = logger;
+            _firebaseServices = firebaseServices;
         }
         private readonly VocabRepository _vocabsRepository = new VocabRepository();
         public STUDY4Context _context = new STUDY4Context();
@@ -78,6 +85,16 @@ namespace study4_be.Controllers.Admin
         [HttpPost]
         public async Task<IActionResult> Vocab_Create(VocabCreateViewModel vocabViewModel)
         {
+            var firebaseBucketName = _firebaseServices.GetFirebaseBucketName();
+            var responseData = new List<VocabListenChoosenResponse>();
+                // Generate and upload audio to Firebase Storage
+                var audioFilePath = Path.Combine(Path.GetTempPath(), $"{vocabViewModel.vocab.VocabId}.wav");
+                GenerateAudio(vocabViewModel.vocab.VocabTitle, audioFilePath);
+
+                var audioBytes = System.IO.File.ReadAllBytes(audioFilePath);
+                var audioUrl = await UploadFileToFirebaseStorageAsync(audioBytes, $"{vocabViewModel.vocab.VocabId}.wav", firebaseBucketName);
+                // Delete the temporary file after uploading
+                System.IO.File.Delete(audioFilePath);
             try
             {
                 var vocabulary = new Vocabulary
@@ -85,7 +102,7 @@ namespace study4_be.Controllers.Admin
                     VocabId = vocabViewModel.vocab.VocabId,
                     VocabType = vocabViewModel.vocab.VocabType,
                     VocabTitle = vocabViewModel.vocab.VocabTitle,
-                    AudioUrlUk = vocabViewModel.vocab.AudioUrlUk,
+                    AudioUrlUk = audioUrl,
                     AudioUrlUs = vocabViewModel.vocab.AudioUrlUs,
                     Mean = vocabViewModel.vocab.Mean,
                     Example = vocabViewModel.vocab.Example,
@@ -136,6 +153,50 @@ namespace study4_be.Controllers.Admin
         public IActionResult Vocab_Details()
         {
             return View();
+        }
+        // Thực hiện tải tệp lên Firebase Storage
+        public async Task<string> UploadFileToFirebaseStorageAsync(byte[] fileBytes, string fileName, string bucketName)
+        {
+            // Assuming your service account file is named "serviceAccount.json"
+            string serviceAccountPath = Path.Combine(Directory.GetCurrentDirectory(), "firebase_config.json");
+
+            // Load the credential from the file
+            var credential = GoogleCredential.FromFile(serviceAccountPath);
+
+            // Create a StorageClient object
+            var storage = StorageClient.Create(credential);
+            string correctedBucketName = "estudy-426108.appspot.com"; // Assuming the correct name is 'estudy426108'
+            // Create a MemoryStream object from the file bytes
+            using (var memoryStream = new MemoryStream(fileBytes))
+            {
+                // Upload the file to Firebase Storage
+                try
+                {
+                    var storageObject = await storage.UploadObjectAsync(correctedBucketName, fileName, null, memoryStream);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Error uploading file: {ex.Message}");
+                }
+                return $"https://firebasestorage.googleapis.com/v0/b/{correctedBucketName}/o/{fileName}?alt=media";
+            }
+        }
+        private void GenerateAudio(string text, string filePath)
+        {
+            var startInfo = new ProcessStartInfo
+            {
+                FileName = @"C:\Program Files (x86)\eSpeak NG\espeak-ng.exe",
+                Arguments = $"-w \"{filePath}\" \"{text}\"",
+                RedirectStandardOutput = true,
+                UseShellExecute = false,
+                CreateNoWindow = true
+            };
+
+            using (var process = new Process { StartInfo = startInfo })
+            {
+                process.Start();
+                process.WaitForExit();
+            }
         }
     }
 }
