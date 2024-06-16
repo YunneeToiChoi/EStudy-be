@@ -5,7 +5,7 @@ namespace study4_be.Models
 {
     public partial class Order
     {
-        public int OrderId { get; set; }
+        public string OrderId { get; set; } = null!;
         public string? UserId { get; set; }
         public int? CourseId { get; set; }
         public DateTime? OrderDate { get; set; }

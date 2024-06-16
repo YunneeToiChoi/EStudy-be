@@ -4,6 +4,8 @@ using Microsoft.EntityFrameworkCore;
 using study4_be.Models;
 using study4_be.Repositories;
 using study4_be.Services.Request;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace study4_be.Controllers.API
 {
@@ -18,12 +20,18 @@ namespace study4_be.Controllers.API
 			_logger = logger;
 		}
 		public STUDY4Context _context = new STUDY4Context();
-		public IActionResult Index()
-		{
-			return View();
-		}
-		//development enviroment
-		[HttpDelete("Delete_AllOrders")]
+
+        private string GenerateOrderId(string userId, int courseId)
+        {
+            using (var sha256 = SHA256.Create())
+            {
+                var baseString = $"{userId}-{courseId}-{Guid.NewGuid()}";
+                var hashBytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(baseString));
+                return Convert.ToBase64String(hashBytes).Substring(0, 20); // Keep it under 255 characters
+            }
+        }
+        //development enviroment
+        [HttpDelete("Delete_AllOrders")]
 		public async Task<IActionResult> Delete_AllOrders()
 		{
 			await ordRepo.DeleteAllOrdersAsync();
@@ -56,9 +64,11 @@ namespace study4_be.Controllers.API
 				return NotFound("Course not found.");
 			}
 			existingUser.PhoneNumber = request.PhoneNumber;
-			var order = new Order
+            var orderId = GenerateOrderId(request.UserId, request.CourseId);
+            var order = new Order
 			{
-				UserId = existingUser.UserId,
+                OrderId = orderId,
+                UserId = existingUser.UserId,
 				CourseId = existingCourse.CourseId,
 				TotalAmount = existingCourse.CoursePrice,
 				OrderDate = DateTime.Now,

@@ -2,6 +2,6 @@
 {
     public class Buy_SuccessRequest
     {
-        public int OrderId { get; set; }
+        public string OrderId { get; set; }
     }
 }

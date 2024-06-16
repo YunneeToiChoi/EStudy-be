@@ -95,8 +95,7 @@ public class Momo_PaymentController : ControllerBase
                 {
                     if (orderString != null)
                     {
-                         int orderId = int.Parse(orderString);
-                        return await Buy_Success(orderId);
+                        return await Buy_Success(orderString);
                     }
                     else
                     {
@@ -142,7 +141,7 @@ public class Momo_PaymentController : ControllerBase
 
             if (response.IsSuccessStatusCode)
             {
-                return await Buy_Success(int.Parse(req.orderId));
+                return await Buy_Success(req.orderId);
             }
             else
             {
@@ -151,7 +150,7 @@ public class Momo_PaymentController : ControllerBase
             }
         }
     }
-    public async Task<IActionResult> Buy_Success(int orderId)
+    public async Task<IActionResult> Buy_Success(string orderId)
     {
         var existingOrder = await _context.Orders.FirstOrDefaultAsync(o => o.OrderId == orderId);
         try

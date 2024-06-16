@@ -142,7 +142,9 @@ namespace study4_be.Models
 
             modelBuilder.Entity<Order>(entity =>
             {
-                entity.Property(e => e.OrderId).HasColumnName("Order_id");
+                entity.Property(e => e.OrderId)
+                    .HasMaxLength(255)
+                    .HasColumnName("Order_id");
 
                 entity.Property(e => e.Address).HasMaxLength(250);
 
