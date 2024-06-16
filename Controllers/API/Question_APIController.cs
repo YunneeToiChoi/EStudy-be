@@ -172,6 +172,83 @@ namespace study4_be.Controllers.API
                 return StatusCode(500, new { status = 500, message = "An error occurred while processing your request." });
             }
         }
+        [HttpPost("Get_AllQuestionDoulbeChoice")]
+        public async Task<IActionResult> Get_AllQuestionDoulbeChoice(OfLessonRequest _req)
+        {
+            if (_req.lessonId == null)
+            {
+                _logger.LogWarning("LessonId is null or empty in the request.");
+                return BadRequest(new { status = 400, message = "LessonId is null or empty" });
+            }
+
+            try
+            {
+                var lessonTag = await _context.Lessons
+                         .Where(l => l.LessonId == _req.lessonId)
+                         .Select(l => l.Tag)
+                         .FirstAsync();
+                var lessonTagResponse = new
+                {
+                    lessonTag = lessonTag.TagId
+                };
+                var allQuestionOfLesson = await _questionRepo.GetAllQuestionsOfLesson(_req.lessonId);
+                var listenDoubleChoiceResponse = allQuestionOfLesson.Select(question => new QuestionDoubleChoice
+                {
+                    QuestionId = question.QuestionId,
+                    QuestionTitle = question.QuestionText,
+                    QuestionTranslate = question.QuestionTranslate,
+                    CorrectAnswer = question.CorrectAnswer,
+                    OptionA = question.OptionA,
+                    OptionB = question.OptionB,
+                });
+                return Json(new { status = 200, message = "Get All Question Of Lesson Successful", data = listenDoubleChoiceResponse, lessonTag = lessonTagResponse });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while fetching vocab for lesson {LessonId}", _req.lessonId);
+                return StatusCode(500, new { status = 500, message = "An error occurred while processing your request." });
+            }
+        }      
+        [HttpPost("Get_AllQuestionReading")]
+        public async Task<IActionResult> Get_AllQuestionReading(OfLessonRequest _req)
+        {
+            if (_req.lessonId == null)
+            {
+                _logger.LogWarning("LessonId is null or empty in the request.");
+                return BadRequest(new { status = 400, message = "LessonId is null or empty" });
+            }
+
+            try
+            {
+                var lessonTag = await _context.Lessons
+                         .Where(l => l.LessonId == _req.lessonId)
+                         .Select(l => l.Tag)
+                         .FirstAsync();
+                var lessonTagResponse = new
+                {
+                    lessonTag = lessonTag.TagId
+                };
+                var allQuestionOfLesson = await _questionRepo.GetAllQuestionsOfLesson(_req.lessonId);
+                var listenDoubleChoiceResponse = allQuestionOfLesson.Select(question => new QuestionReadingResponse
+                {
+                    QuestionId = question.QuestionId,
+                    QuestionText = question.QuestionText,
+                    QuestionParagraph = question.QuestionParagraph, 
+                    QuestionTranslate = question.QuestionTranslate,
+                    CorrectAnswer = question.CorrectAnswer,
+                    OptionA = question.OptionA,
+                    OptionB = question.OptionB,
+                    OptionC = question.OptionC,
+                    OptionD = question.OptionD,
+                });
+                return Json(new { status = 200, message = "Get All Question Of Lesson Successful", data = listenDoubleChoiceResponse, lessonTag = lessonTagResponse });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while fetching vocab for lesson {LessonId}", _req.lessonId);
+                return StatusCode(500, new { status = 500, message = "An error occurred while processing your request." });
+            }
+        }
 
     }
 }
