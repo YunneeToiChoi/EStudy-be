@@ -40,7 +40,8 @@ namespace study4_be.Controllers.API
             var userList = await _userCoursesRepo.Get_DetailCourseAndUserBought(request.courseId);
             var totalAmount = userList.Count();
             var courseDetail = await _context.Courses.FindAsync(request.courseId);
-            return Json(new { status = 200, message = "Get Detail course and user Bought course", courseDetail, totalAmount, userList });
+            var finalPrice =  courseDetail.CoursePrice - (courseDetail.CoursePrice * courseDetail.CourseSale / 100);
+            return Json(new { status = 200, message = "Get Detail course and user Bought course", courseDetail,finalPrice, totalAmount, userList });
         }
         [HttpGet("Get_AllUserCourses")]
         public async Task<ActionResult<IEnumerable<User>>> Get_AllUserCourses()
