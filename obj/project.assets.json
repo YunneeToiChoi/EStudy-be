@@ -11715,24 +11715,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\SV\\.nuget\\packages\\": {},
-    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
+    "C:\\Users\\phanv\\.nuget\\packages\\": {},
+    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\22dh110310__ThaiGiaBao\\EStudy-be\\study4-be.csproj",
+      "projectUniqueName": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\study4-be.csproj",
       "projectName": "study4-be",
-      "projectPath": "D:\\22dh110310__ThaiGiaBao\\EStudy-be\\study4-be.csproj",
-      "packagesPath": "C:\\Users\\SV\\.nuget\\packages\\",
-      "outputPath": "D:\\22dh110310__ThaiGiaBao\\EStudy-be\\obj\\",
+      "projectPath": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\study4-be.csproj",
+      "packagesPath": "C:\\Users\\phanv\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
-        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "C:\\Users\\SV\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+        "C:\\Users\\phanv\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -11740,7 +11739,6 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {

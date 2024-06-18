@@ -37,11 +37,11 @@
                     <input asp-for="CourseTag" class="form-control" />
                     <span asp-validation-for="CourseTag" class="text-danger"></span>
                 </div>
-               <div class="form-group">
+                <div class="form-group">
                     <label>File upload</label>
                     <img src="https://thesavvyimg.co.uk/wp-content/uploads/2022/08/the-savvy-img-online-courses-masterclass-shortcut-plab-gmc-registration.png" height="150" width="150" id="previewImg" />
-                    <input type="file" name="UploadImage" onchange="ChangeImage(this, document.getElementById('previewImg'))" class="file-upload-default">
-                </div> 
+                    <input asp-for="CourseImage" type="file" name="CourseImage" onchange="ChangeImage(this, document.getElementById('previewImg'))" class="file-upload-default" />
+                </div>
                 <div class="flex">
                     <button type="submit" class="btn btn-gradient-primary me-2">Submit</button>
                     @Html.ActionLink("Cancel", "Course_List", "Courses", null, new { @class = "btn btn-light" })
