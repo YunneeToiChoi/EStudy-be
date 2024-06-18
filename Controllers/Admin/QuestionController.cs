@@ -90,7 +90,8 @@ namespace study4_be.Controllers.Admin
             {
                 var firebaseBucketName = _firebaseServices.GetFirebaseBucketName();
                 // Generate and upload audio to Firebase Storage
-                var audioFilePath = Path.Combine(Path.GetTempPath(), $"QUESTION({questionViewModel.question.QuestionId}).wav");
+                var uniqueId = Guid.NewGuid().ToString(); // Tạo một UUID ngẫu nhiên
+                var audioFilePath = Path.Combine(Path.GetTempPath(), $"QUESTION({uniqueId}).wav");
                 if (questionViewModel.question.QuestionParagraph==null)
                 {
                     _logger.LogError("Cannot generate AI question because there is no Paragraph.");
@@ -99,7 +100,7 @@ namespace study4_be.Controllers.Admin
                 _generalAiAudioServices.GenerateAudio(questionViewModel.question.QuestionParagraph, audioFilePath);
 
                 var audioBytes = System.IO.File.ReadAllBytes(audioFilePath);
-                var audioUrl = await _generalAiAudioServices.UploadFileToFirebaseStorageAsync(audioBytes, $"QUESTION({questionViewModel.question.QuestionId}).wav", firebaseBucketName);
+                var audioUrl = await _generalAiAudioServices.UploadFileToFirebaseStorageAsync(audioBytes, $"QUESTION({uniqueId}).wav", firebaseBucketName);
                 // Delete the temporary file after uploading
                 System.IO.File.Delete(audioFilePath);
                 var question = new Question

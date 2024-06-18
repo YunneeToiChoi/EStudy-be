@@ -33,5 +33,36 @@ namespace study4_be.Services
         {
             return _firebaseBucketName;
         }
+        public async Task<string> UploadFileToFirebaseStorageAsync(IFormFile file, string fileName, string bucketName)
+        {
+            // Đường dẫn tới tệp tin serviceAccount.json
+            string serviceAccountPath = Path.Combine(Directory.GetCurrentDirectory(), "firebase_config.json");
+
+            // Load thông tin xác thực từ file
+            var credential = GoogleCredential.FromFile(serviceAccountPath);
+
+            // Tạo đối tượng StorageClient
+            var storage = StorageClient.Create(credential);
+
+            try
+            {
+                // Tạo MemoryStream từ IFormFile
+                using (var memoryStream = new MemoryStream())
+                {
+                    await file.CopyToAsync(memoryStream);
+
+                    // Upload file lên Firebase Storage
+                    var storageObject = await storage.UploadObjectAsync(bucketName, fileName, null, memoryStream);
+                    // Trả về URL công khai để truy cập tệp tin vừa tải lên
+                    return $"https://firebasestorage.googleapis.com/v0/b/{bucketName}/o/{fileName}?alt=media";
+                }
+            }
+            catch (Exception ex)
+            {
+                // Xử lý các lỗi tải lên
+                Console.WriteLine($"Error uploading file: {ex.Message}");
+                throw;
+            }
+        }
     }
 }

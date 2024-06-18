@@ -3,14 +3,18 @@ using Microsoft.EntityFrameworkCore;
 using study4_be.Models;
 using study4_be.Repositories;
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Hosting;
+using study4_be.Services;
 namespace study4_be.Controllers.Admin
 {
     public class CoursesController : Controller
     {
         private readonly ILogger<CoursesController> _logger;
-        public CoursesController(ILogger<CoursesController> logger)
+        private FireBaseServices _fireBaseServices;
+        public CoursesController(ILogger<CoursesController> logger,FireBaseServices fireBaseServices)
         {
             _logger = logger;
+            _fireBaseServices = fireBaseServices;
         }
         private readonly CourseRepository _coursesRepository = new CourseRepository();
         public STUDY4Context _context = new STUDY4Context();
@@ -43,7 +47,7 @@ namespace study4_be.Controllers.Admin
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> Course_Create(Course course)
+        public async Task<IActionResult> Course_Create(Course course, IFormFile CourseImage)
         {
             if (!ModelState.IsValid)
             {
@@ -52,17 +56,20 @@ namespace study4_be.Controllers.Admin
             }
             try
             {
-                try
+                // Handle file upload to Firebase Storage
+                if (CourseImage != null && CourseImage.Length > 0)
                 {
+                    var firebaseBucketName = _fireBaseServices.GetFirebaseBucketName();
+                    var uniqueId = Guid.NewGuid().ToString(); // Tạo một UUID ngẫu nhiên
+                    var imgFilePath = ($"IMG{uniqueId}.jpg");
+                    // Upload file to Firebase Storage
+                    string firebaseUrl = await _fireBaseServices.UploadFileToFirebaseStorageAsync(CourseImage, imgFilePath, firebaseBucketName);
+                    // Save firebaseUrl to your course object or database
+                    course.CourseImage = firebaseUrl;
+                }
                     await _context.AddAsync(course);
                     await _context.SaveChangesAsync();
                     CreatedAtAction(nameof(GetCourseById), new { id = course.CourseId }, course);
-                }
-                catch (Exception e)
-                {
-                    CreatedAtAction(nameof(GetCourseById), new { id = course.CourseId }, course);
-                    _logger.LogError(e, "Error occurred while creating new course.");
-                }
                 return RedirectToAction("Course_List", "Courses"); // nav to main home when add successfull, after change nav to index create Courses
             }
             catch (Exception ex)

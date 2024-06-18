@@ -88,10 +88,10 @@ namespace study4_be.Controllers.Admin
         public async Task<IActionResult> Vocab_Create(VocabCreateViewModel vocabViewModel)
         {
                 var firebaseBucketName = _firebaseServices.GetFirebaseBucketName();
-            // Generate and upload audio to Firebase Storage
+                // Generate and upload audio to Firebase Storage
                 var uniqueId = Guid.NewGuid().ToString(); // Tạo một UUID ngẫu nhiên
                 var audioFilePath = Path.Combine(Path.GetTempPath(), $"VOCAB({uniqueId}).wav");
-            //var audioFilePath = Path.Combine(Path.GetTempPath(), $"VOCAB({vocabViewModel.vocab.VocabId}).wav");
+                //var audioFilePath = Path.Combine(Path.GetTempPath(), $"VOCAB({vocabViewModel.vocab.VocabId}).wav");
                 _generalAiAudioServices.GenerateAudio(vocabViewModel.vocab.VocabTitle, audioFilePath);
 
                 var audioBytes = System.IO.File.ReadAllBytes(audioFilePath);
