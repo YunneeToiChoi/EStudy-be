@@ -87,13 +87,15 @@ namespace study4_be.Controllers.Admin
         [HttpPost]
         public async Task<IActionResult> Vocab_Create(VocabCreateViewModel vocabViewModel)
         {
-            var firebaseBucketName = _firebaseServices.GetFirebaseBucketName();
-                // Generate and upload audio to Firebase Storage
-                var audioFilePath = Path.Combine(Path.GetTempPath(), $"VOCAB({vocabViewModel.vocab.VocabId}).wav");
+                var firebaseBucketName = _firebaseServices.GetFirebaseBucketName();
+            // Generate and upload audio to Firebase Storage
+                var uniqueId = Guid.NewGuid().ToString(); // Tạo một UUID ngẫu nhiên
+                var audioFilePath = Path.Combine(Path.GetTempPath(), $"VOCAB({uniqueId}).wav");
+            //var audioFilePath = Path.Combine(Path.GetTempPath(), $"VOCAB({vocabViewModel.vocab.VocabId}).wav");
                 _generalAiAudioServices.GenerateAudio(vocabViewModel.vocab.VocabTitle, audioFilePath);
 
                 var audioBytes = System.IO.File.ReadAllBytes(audioFilePath);
-                var audioUrl = await _generalAiAudioServices.UploadFileToFirebaseStorageAsync(audioBytes, $"{vocabViewModel.vocab.VocabId}.wav", firebaseBucketName);
+                var audioUrl = await _generalAiAudioServices.UploadFileToFirebaseStorageAsync(audioBytes, $"VOCAB({uniqueId}).wav", firebaseBucketName);
                 // Delete the temporary file after uploading
                 System.IO.File.Delete(audioFilePath);
             try
