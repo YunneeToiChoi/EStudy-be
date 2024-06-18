@@ -1,148 +1,69 @@
-<p align="center">
-  <a href="https://github.com/adminkit/adminkit"><img src="https://adminkit.io/icons/icon-512x512.png" alt="AdminKit is a free & open-source HTML dashboard & admin template based on Bootstrap 5" width="96"></a>
-</p>
+<a href="http://www.bootstrapdash.com/demo/purple-admin-free" target="_blank"><img src="screenshot.jpg"></a>
 
-<h3 align="center">AdminKit</h3>
+<h1>PurpleAdmin-Free-Admin-Template</h1>
+Purple Admin is a free responsive admin template built with Bootstrap 5. The template has colorful, attractive yet simple and elegant design. The template is well crafted, with all the components neatly and carefully designed and arranged within the template.
 
-<p align="center">
-  AdminKit is a free & open-source HTML dashboard & admin template based on Bootstrap 5.
-</p>
+Purple Admin is packed with all the features that fit your needs but not cramped with components you would not even use. It is an excellent fit to build admin panels, e-commerce systems,  project management systems, CMS or CRM.
 
-<p align="center">
-  <a href="https://www.npmjs.com/package/@adminkit/core" rel="nofollow"><img src="https://img.shields.io/npm/v/@adminkit/core" alt="NPM version"></a>
-  <a href="https://github.com/adminkit/adminkit/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License"></a>
-  <a href="https://github.com/adminkit/adminkit/issues?q=is%3Aopen+is%3Aissue"><img src="https://img.shields.io/github/issues/adminkit/adminkit.svg" alt="GitHub issues open"></a>
-  <a href="https://github.com/adminkit/adminkit/issues?q=is%3Aissue+is%3Aclosed"><img src="https://img.shields.io/github/issues-closed-raw/adminkit/adminkit.svg" alt="GitHub issues closed"></a>
-  <a href="https://demo.adminkit.io/" rel="nofollow"><img src="https://img.shields.io/badge/demo-online-green.svg" alt="Live Demo"></a>
-  <a href="https://adminkit.io/#download"><img src="https://img.shields.io/static/v1?label=download&message=ZIP&color=green" alt="Download"></a>
+Although the template has a design like none other, it is easily customizable to suit your requirements. Purple Admin comes with a clean and well-commented code that makes it easy to work with the template. Thus making it an ideal pick for jump starting your project.
+
+
+<h1>Credits:</h1>
+
+- Bootstrap 5
+- Material Design Icons
+- jQuery
+- Gulp
+- Chart.js
+
+<h1>Browser Support:</h1>
+
+Purple Admin is designed to work flawlessly with all the latest and modern web browsers.
+
+- Chrome (latest)
+- FireFox (latest)
+- Safari (latest)
+- Opera (latest)
+- IE10+  
+
+<h1>License Information:</h1>
+
+
+Purple Admin is released under MIT license. Purple Admin is a free Bootstrap 5 admin template developed from BootstrapDash. Feel free to download it, use it, share it, get creative with it.
+
+<h1>How to use Purple Admin?</h1>
+
+
+1 - Click the Clone or Download button in GitHub and download as a ZIP file or you can enter the command git clone https://github.com/BootstrapDash/PurpleAdmin-Free-Admin-Template.git in you terminal to get a copy of this template.
+
+2 - After the files have been downloaded you will get a folder with all the required files
+
+3 - You can install all the dependencies in the template by running the command npm install. All the required files are in the node modules.
+
+4 - Find the file named index.html, check what all components you need. Open the file in a text editor and you can start editing.
+
+5 - Now that your project has now kick-started, all you need to do now is to code, code, and code to your heart's content.
+
+<h1>How to Contribute?:</h1>
+
+
+We love your contributions and we welcome them wholeheartedly. We believe the more the merrier.
+To contribute make sure you have a Node.js and npm installed. Now run the command gulp --version. If the command returns with the Gulp version number, it means you have Gulp installed. If not you need to run the command npm install --global gulp-cli to install Gulp.
+
+<h2>Next</h2>
+
+After Gulp has been installed, follow the steps below to contribute.
   <br>
-<a href="https://github.com/adminkit/adminkit"><img alt="GitHub stars" src="https://img.shields.io/github/stars/adminkit/adminkit?style=social"></a>
-</p>
-
-## Preview
-A professional Admin & Dashboard template based on Bootstrap 5 that comes with hundreds of UI components, forms, tables, charts, pages and icons. AdminKit **does not require jQuery** and neither does one of the 3rd party libraries AdminKit is using. [Open demo](https://demo.adminkit.io/).
-
-<a href="https://demo.adminkit.io" target="_blank"><img src="https://assets.adminkit.io/banners/github-1280%C3%97640px.png?2" alt="AdminKit Demo"></a>
-
-## Features
-
-* **Customizable:** You don't need to be an expert to customize AdminKit. Our code is very readable and well documented.
-* **Fully Responsive:** With mobile, tablet & desktop support it doesn't matter what device you're using. AdminKit is responsive in all browsers.
-* **Cross-Browser:** Our themes are working perfectly with Chrome, Firefox, Safari, Opera, and Edge. We're working hard to support them.
-* **Clean Code:** We strictly follow Bootstrap's guidelines to make your integration as easy as possible. All code is handwritten.
-* **No jQuery:** AdminKit, and all third-party libraries used in the admin template, do not require jQuery as a dependency.
-* **Regular Updates:** From time to time you'll receive an update containing new components, improvements, and bugfixes.
-
-## Quick start
-
-### Download
-
-* Clone this repo `git clone https://github.com/adminkit/adminkit.git`
-* [Download from GitHub](https://github.com/adminkit/adminkit/archive/master.zip)
-* [Download from Website](https://adminkit.io/#download)
-
-### Build tools
-
-The theme includes a custom Webpack file, which can be used to quickly recompile and minify theme assets while developing or for deployment. You'll need to install Node.js before using Webpack.
-
-Once Node.js is installed, run npm install to install the rest of AdminKit's dependencies. All dependencies will be downloaded to the node_modules directory.
-
-```sh
-npm install
-```
-
-Now you're ready to modify the source files and generate new dist/ files. AdminKit uses webpack-dev-server to automatically detect file changes and start a local webserver at http://localhost:8080.
-
-```sh
-npm start
-```
-
-Compile, optimize, minify and uglify all source files to dist/ folder:
-
-```sh
-npm run build
-```
-
-## CDN support
-
-All files included in the `@adminkit/core` npm package are available over a CDN.
-
-**CSS:**
-
-```html
-<link rel="stylesheet" href="https://unpkg.com/@adminkit/core@latest/dist/css/app.css">
-```
-
-**Javascript:**
-
-```html
-<script src="https://unpkg.com/@adminkit/core@latest/dist/js/app.js"></script>
-```
-
-## File structure
-The package contains the following directories and files:
-
-```
-adminkit/
-├── .babelrc
-├── .eslintrc
-├── .nvmrc
-├── README.md
-├── package.json
-├── postcss.config.js
-├── webpack.config.js
-├── src/
-│   ├── fonts/
-│   ├── img/
-│   ├── js/
-│   │   ├── modules/
-│   │   └── app.js
-│   └── scss/
-│       ├── 1-variables/
-│       ├── 2-mixins/
-│       ├── 3-components/
-│       ├── 4-utilities/
-│       ├── 5-vendor/
-│       └── app.scss
-└── dist/
-    ├── css/
-    │   └── app.css
-    └── js/
-        └── app.js
-```
-
-## Browser Support
-
-| <img src="https://assets.adminkit.io/browsers/edge.png" alt="Edge" width="24px" height="24px" /><br/>Edge | <img src="https://assets.adminkit.io/browsers/firefox.png" alt="Firefox" width="24px" height="24px" /><br/>Firefox | <img src="https://assets.adminkit.io/browsers/chrome.png" alt="Chrome" width="24px" height="24px" /><br/>Chrome | <img src="https://assets.adminkit.io/browsers/safari.png" alt="Safari" width="24px" height="24px" /><br/>Safari | <img src="https://assets.adminkit.io/browsers/safari-ios.png" alt="iOS Safari" width="24px" height="24px" /><br/>iOS Safari |
-| --------- | --------- | --------- | --------- | --------- |
-| last version| last 2 versions| last 2 versions| last 2 versions| last 2 versions
-
-## Resources
-
-* [Demo](https://demo.adminkit.io/)
-* [Website](https://adminkit.io/)
-* [Documentation](https://adminkit.io/docs)
-* [Support](https://adminkit.io/support/)
-* [Affiliate Program](https://adminkit.io/affiliate-program)
-
-## Bugs and feature requests
-
-Found a bug or have a feature request? [Please open a new issue](https://github.com/adminkit/adminkit/issues/new).
-
-## Upgrade to PRO
-Get more power with AdminKit PRO, a premium variant of AdminKit, featuring hundreds of UI components, forms, tables, charts, pages, and icons.
-
-| Free Version        | [AdminKit PRO](https://adminkit.io/pricing/) |
-|---------------------|----------------------------------------------|
-| 15 Demo Pages       | ✔ 45+ Demo Pages                             |
-| 1 Plugin            | ✔ 10+ Plugins                                |
-| 1 Color Scheme      | ✔ 3 Color Schemes                            |
-|                     | ✔ All Bootstrap 5 Components                 |
-|                     | ✔ Dark Mode 🌙                               |
-|                     | ✔ Compact Sidebar                            |
-|                     | ✔ Calendar                                   |
-|                     | ✔ Advanced Forms                             |
-|                     | ✔ Drag and Drop                              |
-|                     | ✔ Toast Notifications                        |
-|                     | ✔ WYSIWYG Editors                            |
-|                     | ✔ Premium Support                            |
+	1 - Fork and clone the repo of Purple Admin.
+  <br>
+	2 - Run the command npm install to install all the dependencies.
+  <br>
+	3 - Enter the command gulp serve. This will open Purple Admin in your default browser.
+  <br>
+	4 - Make your valuable contribution
+  <br>
+	5 - Submit a pull request.
+  <hr>
+	Do you need a template with more features and functionalities? Get more with our collection of the premium template with more plugins, eye catching animations, UI components, and sample pages all fitting together with a high-quality design.
+Visit
+  <a href="https://www.bootstrapdash.com" target="_blank">https://www.bootstrapdash.com</a> for more admin templates.

@@ -1,17 +1,5 @@
-# dependencies
+# Add any directories, files, or patterns you don't want to be tracked by version control
+
 /node_modules
-/package-lock.json
-/yarn.lock
-
-# production
-/dist
-/_builder
-
-# misc
-.DS_Store
-.vscode/
-
-# logs
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
+/bower_components
+package-lock.json
