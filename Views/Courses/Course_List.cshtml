@@ -17,6 +17,19 @@
     .course__create-btn:hover{
         opacity: 0.8;
     }
+
+    .admin__item{
+        max-width: 120px;
+    }
+
+    .admin__item-text {
+        overflow: hidden;
+        display: block;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp:1;
+    }
+
 </style>
 
 
@@ -39,7 +52,6 @@
                     <th>Sale</th>
                     <th>Tag</th>
                     <th>Options</th>
-
                 </tr>
             </thead>
             <tbody>
@@ -49,25 +61,25 @@
                         <td>
                             <img style="border-radius:0%!important" src="@course.CourseImage" height="150" width="150" id="previewImg" />
                         </td>
-                        <td>
-                            <p>@course.CourseId</p>
+                        <td class="admin__item">
+                            <p class="admin__item-text">@course.CourseId</p>
                         </td>
-                        <td>
-                            <p>@course.CourseName</p>
+                        <td class="admin__item">
+                            <p class="admin__item-text">@course.CourseName</p>
                         </td>
-                        <td>
-                            <p>@course.CourseDescription</p>
+                        <td class="admin__item">
+                            <p class="admin__item-text">@course.CourseDescription</p>
                         </td>
-                        <td>
-                            <p>@course.CoursePrice</p>
-                        </td> 
-                        <td>
-                            <p>@course.CourseSale%</p>
+                        <td class="admin__item">
+                            <p class="admin__item-text">@course.CoursePrice</p>
                         </td>
-                        <td>
-                            <p>@course.CourseTag</p>
+                        <td class="admin__item">
+                            <p class="admin__item-text">@course.CourseSale%</p>
                         </td>
-                        <td>
+                        <td class="admin__item">
+                            <p class="admin__item-text">@course.CourseTag</p>
+                        </td>
+                        <td class="admin__item">
                             <a href="@Url.Action("Course_Edit", "Courses", new { id = course.CourseId })" class="text-link-action">Sửa</a>
                             <span style="padding:0 8px">|</span>
                             <a href="@Url.Action("Course_Delete", "Courses", new { id = course.CourseId })" class="text-link-action">Xóa</a>
