@@ -35,8 +35,10 @@ namespace study4_be.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("Server=tcp:eu-az-sql-serv1.database.windows.net,1433;Initial Catalog=dhg7j87tg1pusg4;Persist Security Info=False;User ID=uwgdxq29hpow6g5;Password=IbDMPbfFDSqhd4kWlRk0W3cz*;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
+ //To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+                
+                optionsBuilder.UseSqlServer("Data Source=LAPTOP-62MKG1UJ;Initial Catalog=STUDY4;Integrated Security=True;Trust Server Certificate=True");
+                //optionsBuilder.UseSqlServer("Server=tcp:eu-az-sql-serv1.database.windows.net,1433;Initial Catalog=dhg7j87tg1pusg4;Persist Security Info=False;User ID=uwgdxq29hpow6g5;Password=IbDMPbfFDSqhd4kWlRk0W3cz*;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30; ");
             }
         }
 
@@ -142,7 +144,9 @@ namespace study4_be.Models
 
             modelBuilder.Entity<Order>(entity =>
             {
-                entity.Property(e => e.OrderId).HasColumnName("Order_id");
+                entity.Property(e => e.OrderId)
+                    .HasMaxLength(255)
+                    .HasColumnName("Order_id");
 
                 entity.Property(e => e.Address).HasMaxLength(250);
 

@@ -1,18 +1,27 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Google.Apis.Auth.OAuth2;
+using Google.Cloud.Storage.V1;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using study4_be.Models;
 using study4_be.Models.ViewModel;
 using study4_be.Repositories;
+using study4_be.Services.Response;
+using study4_be.Services;
+using System.Diagnostics;
 
 namespace study4_be.Controllers.Admin
 {
     public class VocabController : Controller
     {
         private readonly ILogger<VocabController> _logger;
-        public VocabController(ILogger<VocabController> logger)
+        private FireBaseServices _firebaseServices;
+        private GeneralAiAudioServices _generalAiAudioServices;
+        public VocabController(ILogger<VocabController> logger, FireBaseServices firebaseServices)
         {
             _logger = logger;
+            _generalAiAudioServices = new GeneralAiAudioServices();
+            _firebaseServices = firebaseServices;
         }
         private readonly VocabRepository _vocabsRepository = new VocabRepository();
         public STUDY4Context _context = new STUDY4Context();
@@ -78,6 +87,17 @@ namespace study4_be.Controllers.Admin
         [HttpPost]
         public async Task<IActionResult> Vocab_Create(VocabCreateViewModel vocabViewModel)
         {
+                var firebaseBucketName = _firebaseServices.GetFirebaseBucketName();
+            // Generate and upload audio to Firebase Storage
+                var uniqueId = Guid.NewGuid().ToString(); // Tạo một UUID ngẫu nhiên
+                var audioFilePath = Path.Combine(Path.GetTempPath(), $"VOCAB({uniqueId}).wav");
+            //var audioFilePath = Path.Combine(Path.GetTempPath(), $"VOCAB({vocabViewModel.vocab.VocabId}).wav");
+                _generalAiAudioServices.GenerateAudio(vocabViewModel.vocab.VocabTitle, audioFilePath);
+
+                var audioBytes = System.IO.File.ReadAllBytes(audioFilePath);
+                var audioUrl = await _generalAiAudioServices.UploadFileToFirebaseStorageAsync(audioBytes, $"VOCAB({uniqueId}).wav", firebaseBucketName);
+                // Delete the temporary file after uploading
+                System.IO.File.Delete(audioFilePath);
             try
             {
                 var vocabulary = new Vocabulary
@@ -85,7 +105,7 @@ namespace study4_be.Controllers.Admin
                     VocabId = vocabViewModel.vocab.VocabId,
                     VocabType = vocabViewModel.vocab.VocabType,
                     VocabTitle = vocabViewModel.vocab.VocabTitle,
-                    AudioUrlUk = vocabViewModel.vocab.AudioUrlUk,
+                    AudioUrlUk = audioUrl,
                     AudioUrlUs = vocabViewModel.vocab.AudioUrlUs,
                     Mean = vocabViewModel.vocab.Mean,
                     Example = vocabViewModel.vocab.Example,

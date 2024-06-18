@@ -1,2 +1,5 @@
 /firebase_config.json 
 /appsettings.json
+/obj
+/.vs
+/bin

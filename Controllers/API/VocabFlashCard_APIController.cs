@@ -9,6 +9,8 @@ using Google.Cloud.Storage.V1;
 using study4_be.Services;
 using Google.Apis.Auth.OAuth2;
 using Microsoft.EntityFrameworkCore;
+using Org.BouncyCastle.Ocsp;
+using Microsoft.CodeAnalysis.FlowAnalysis.DataFlow.ValueContentAnalysis;
 
 namespace study4_be.Controllers.API
 {
@@ -138,7 +140,94 @@ namespace study4_be.Controllers.API
             }
         }
 
-        // Helper method to partition list into chunks
+        [HttpPost("Get_AllListenChossenVocab")]
+        public async Task<IActionResult> Get_AllListenChossenVocab([FromBody] VocabFlashCardRequest _vocabRequest)
+        {
+            if (_vocabRequest.lessonId == default(int))
+            {
+                _logger.LogWarning("LessonId is null or empty in the request.");
+                return BadRequest(new { status = 400, message = "LessonId is null or empty" });
+            }
+
+            try
+            {
+                var allVocabOfLesson = await _vocabFlashCardRepo.GetAllVocabDependLesson(_vocabRequest.lessonId);
+                var lessonTag = await _context.Lessons
+                            .Where(l => l.LessonId == _vocabRequest.lessonId)
+                            .Select(l => l.Tag)
+                            .FirstOrDefaultAsync();
+
+                var lessonTagResponse = new
+                {
+                    lessonTag = lessonTag?.TagId
+                };
+
+                var responseData = allVocabOfLesson.Select(vocab => new VocabListenChoosenResponse
+                {
+                    vocabId = vocab.VocabId,
+                    vocabMean = vocab.Mean,
+                    vocabTitle = vocab.VocabTitle,
+                    vocabAudioUrl = vocab.AudioUrlUk
+                }).ToList();
+
+                const int chunkSize = 9;
+                const int chunkLength = 20;
+                var random = new Random();
+                var chunkedData = new List<object>();
+
+                for (int i = 0; i < responseData.Count; i += chunkSize)
+                {
+                    var chunk = responseData.Skip(i).Take(chunkSize).ToList();
+                    while (chunk.Count < chunkSize)
+                    {
+                        chunk.Add(responseData[random.Next(responseData.Count)]);
+                    }
+
+                    var randomVocab = chunk[random.Next(chunk.Count)];
+
+                    chunkedData.Add(new
+                    {
+                        url = randomVocab.vocabAudioUrl,
+                        correct = randomVocab.vocabId,
+                        listVocab = chunk
+                    });
+                }
+
+                // Ensure there are at least 20 chunks
+                while (chunkedData.Count < chunkLength)
+                {
+                    var newChunk = new List<VocabListenChoosenResponse>();
+                    while (newChunk.Count < chunkSize)
+                    {
+                        newChunk.Add(responseData[random.Next(responseData.Count)]);
+                    }
+                    var randomVocab = newChunk[random.Next(newChunk.Count)];
+                    chunkedData.Add(new
+                    {
+                        chunkName = $"chunk {chunkedData.Count + 1}",
+                        url = randomVocab.vocabAudioUrl,
+                        correct = randomVocab.vocabId,
+                        listVocab = newChunk
+                    });
+                }
+
+                // If there are more than 20 chunks, take only the first 20
+                chunkedData = chunkedData.Take(chunkLength).ToList();
+
+                return Ok(new
+                {
+                    status = 200,
+                    message = "Get All Vocab Of Lesson Successful",
+                    data = chunkedData,
+                    lessonTag = lessonTagResponse
+                });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while fetching vocab for lesson {LessonId}", _vocabRequest.lessonId);
+                return StatusCode(500, new { status = 500, message = "An error occurred while processing your request." });
+            }
+        }
         private static IEnumerable<IEnumerable<T>> Partition<T>(IEnumerable<T> source, int chunkSize)
         {
             int i = 0;
@@ -148,98 +237,43 @@ namespace study4_be.Controllers.API
                 i++;
             }
         }
-
-         [HttpPost("Get_AllListenChossenVocab")]
-        public async Task<IActionResult> Get_AllListenChossenVocab([FromBody] VocabFlashCardRequest _vocabRequest)
+        [HttpPost("Get_AllVocabFillWorld")]
+        public async Task<IActionResult> Get_AllVocabFillWorld ([FromBody] OfLessonRequest _req)
         {
+            if(_req.lessonId==0 || _req.lessonId == null)
+            {
+                _logger.LogWarning("LessonId is null or empty in the request.");
+                return BadRequest(new { status = 400, message = "LessonId is null or empty" });
+            }
             try
             {
-                var allVocabOfLesson = await _vocabFlashCardRepo.GetAllVocabDependLesson(_vocabRequest.lessonId);
-
-                var firebaseBucketName =  _firebaseServices.GetFirebaseBucketName();
-
-                // Use firebaseBucketName as needed...
+                var vocab = await _context.Vocabularies.Where(v => v.LessonId == _req.lessonId).ToListAsync();
                 var lessonTag = await _context.Lessons
-                         .Where(l => l.LessonId == _vocabRequest.lessonId)
-                         .Select(l => l.Tag)
-                         .FirstAsync();
+                                             .Where(l => l.LessonId == _req.lessonId)
+                                             .Select(l => l.Tag)
+                                             .FirstAsync();
                 var lessonTagResponse = new
                 {
                     lessonTag = lessonTag.TagId
                 };
-                var responseData = new List<VocabListenChoosenResponse>();
-                foreach (var vocab in allVocabOfLesson)
+                var fillWordResponse = vocab.Select(vocab => new VocabFillWorldResponse
                 {
-                    // Generate and upload audio to Firebase Storage
-                    var audioFilePath = Path.Combine(Path.GetTempPath(), $"{vocab.VocabId}.wav");
-                    GenerateAudio(vocab.VocabTitle, audioFilePath);
-
-                    var audioBytes = System.IO.File.ReadAllBytes(audioFilePath);
-                    var audioUrl = await UploadFileToFirebaseStorageAsync(audioBytes, $"{vocab.VocabId}.wav", firebaseBucketName);
-                    // Example: Upload to Firebase Storage using firebaseBucketName...
-
-                    responseData.Add(new VocabListenChoosenResponse
-                    {
-                        vocabId = vocab.VocabId,
-                        vocabMean = vocab.Mean,
-                        vocabTitle = vocab.VocabTitle,
-                        vocabAudioUrl = audioUrl
-                    });
-                    // Delete the temporary file after uploading
-                    System.IO.File.Delete(audioFilePath);
-                }
-
-                return Ok(new { status = 200, message = "Get All Vocab Of Lesson Successful", data = responseData, lessontag=lessonTagResponse });
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "An error occurred while fetching vocab for lesson {LessonId}", _vocabRequest.lessonId);
-                return StatusCode(500, new { status = 500, message = "An error occurred while processing your request." });
-            }
-        }
-
-        // Thực hiện tải tệp lên Firebase Storage
-        public async Task<string> UploadFileToFirebaseStorageAsync(byte[] fileBytes, string fileName, string bucketName)
-        {
-            // Assuming your service account file is named "serviceAccount.json"
-            string serviceAccountPath = Path.Combine(Directory.GetCurrentDirectory(), "firebase_config.json");
-
-            // Load the credential from the file
-            var credential = GoogleCredential.FromFile(serviceAccountPath);
-
-            // Create a StorageClient object
-            var storage = StorageClient.Create(credential);
-                    string correctedBucketName = "estudy-426108.appspot.com"; // Assuming the correct name is 'estudy426108'
-            // Create a MemoryStream object from the file bytes
-            using (var memoryStream = new MemoryStream(fileBytes))
-            {
-                // Upload the file to Firebase Storage
-                try
+                    vocabId = vocab.VocabId,
+                    vocabMean = vocab.Mean,
+                    vocabTitle = vocab.VocabTitle,
+                    vocabExplanation = vocab.Explanation,
+                });
+                return Json(new
                 {
-                    var storageObject = await storage.UploadObjectAsync(correctedBucketName, fileName, null, memoryStream);
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"Error uploading file: {ex.Message}");
-                }
-                return $"https://firebasestorage.googleapis.com/v0/b/{correctedBucketName}/o/{fileName}?alt=media";
+                    statusCode= 200,
+                    messages = "Get All Vocab Fill World Successfull",
+                    data = fillWordResponse,
+                    lessonTag = lessonTagResponse,
+                });
             }
-        }
-        private void GenerateAudio(string text, string filePath)
-        {
-            var startInfo = new ProcessStartInfo
+            catch (Exception e)
             {
-                FileName = @"C:\Program Files (x86)\eSpeak NG\espeak-ng.exe",
-                Arguments = $"-w \"{filePath}\" \"{text}\"",
-                RedirectStandardOutput = true,
-                UseShellExecute = false,
-                CreateNoWindow = true
-            };
-
-            using (var process = new Process { StartInfo = startInfo })
-            {
-                process.Start();
-                process.WaitForExit();
+                return BadRequest(e);
             }
         }
 
