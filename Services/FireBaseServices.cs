@@ -64,5 +64,34 @@ namespace study4_be.Services
                 throw;
             }
         }
+        public async Task DeleteFileFromFirebaseStorageAsync(string fileName, string bucketName)
+        {
+            // Đường dẫn tới tệp tin serviceAccount.json
+            string serviceAccountPath = Path.Combine(Directory.GetCurrentDirectory(), "firebase_config.json");
+
+            // Load thông tin xác thực từ file
+            var credential = GoogleCredential.FromFile(serviceAccountPath);
+
+            // Tạo đối tượng StorageClient
+            var storage = StorageClient.Create(credential);
+
+            try
+            {
+                // Xóa file khỏi Firebase Storage
+                await storage.DeleteObjectAsync(bucketName, fileName);
+            }
+            catch (Google.GoogleApiException ex) when (ex.Error.Code == 404)
+            {
+                // Tệp không tồn tại
+                Console.WriteLine($"File {fileName} does not exist in bucket {bucketName}");
+            }
+            catch (Exception ex)
+            {
+                // Xử lý các lỗi khác
+                Console.WriteLine($"Error deleting file: {ex.Message}");
+                throw;
+            }
+        }
+
     }
 }

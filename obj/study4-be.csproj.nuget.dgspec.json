@@ -1,20 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "D:\\EStudy-be\\study4-be.csproj": {}
+    "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\study4-be.csproj": {}
   },
   "projects": {
-    "D:\\EStudy-be\\study4-be.csproj": {
+    "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\study4-be.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\EStudy-be\\study4-be.csproj",
+        "projectUniqueName": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\study4-be.csproj",
         "projectName": "study4-be",
-        "projectPath": "D:\\EStudy-be\\study4-be.csproj",
-        "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-        "outputPath": "D:\\EStudy-be\\obj\\",
+        "projectPath": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\study4-be.csproj",
+        "packagesPath": "C:\\Users\\phanv\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
         "configFilePaths": [
-          "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\phanv\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -34,11 +37,6 @@
           "warnAsError": [
             "NU1605"
           ]
-        },
-        "restoreAuditProperties": {
-          "enableAudit": "true",
-          "auditLevel": "low",
-          "auditMode": "direct"
         }
       },
       "frameworks": {
@@ -106,7 +104,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.131\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.100\\RuntimeIdentifierGraph.json"
         }
       }
     }

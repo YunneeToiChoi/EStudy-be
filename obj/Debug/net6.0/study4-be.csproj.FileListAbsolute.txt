@@ -846,8 +846,6 @@ D:\22dh110310__ThaiGiaBao\EStudy-be\obj\Debug\net6.0\refint\study4-be.dll
 D:\22dh110310__ThaiGiaBao\EStudy-be\obj\Debug\net6.0\study4-be.pdb
 D:\22dh110310__ThaiGiaBao\EStudy-be\obj\Debug\net6.0\study4-be.genruntimeconfig.cache
 D:\22dh110310__ThaiGiaBao\EStudy-be\obj\Debug\net6.0\ref\study4-be.dll
-C:\Users\phanv\OneDrive\Máy tính\SideProject\be\bin\Debug\net6.0\appsettings.json
-C:\Users\phanv\OneDrive\Máy tính\SideProject\be\bin\Debug\net6.0\firebase_config.json
 C:\Users\phanv\OneDrive\Máy tính\SideProject\be\bin\Debug\net6.0\global.json
 C:\Users\phanv\OneDrive\Máy tính\SideProject\be\bin\Debug\net6.0\study4-be.staticwebassets.runtime.json
 C:\Users\phanv\OneDrive\Máy tính\SideProject\be\bin\Debug\net6.0\study4-be.exe
@@ -1410,3 +1408,5 @@ D:\EStudy-be\obj\Debug\net6.0\refint\study4-be.dll
 D:\EStudy-be\obj\Debug\net6.0\study4-be.pdb
 D:\EStudy-be\obj\Debug\net6.0\study4-be.genruntimeconfig.cache
 D:\EStudy-be\obj\Debug\net6.0\ref\study4-be.dll
+C:\Users\phanv\OneDrive\Máy tính\SideProject\be\bin\Debug\net6.0\appsettings.json
+C:\Users\phanv\OneDrive\Máy tính\SideProject\be\bin\Debug\net6.0\firebase_config.json
