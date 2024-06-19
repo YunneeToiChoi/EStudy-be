@@ -27,7 +27,7 @@ builder.Services.AddTransient<IConnectionService, ConnectionService>();
 builder.Services.AddTransient<ISqlService, SqlService>();
 builder.Services.AddMediatR(typeof(Program).Assembly);
 builder.Services.Configure<MomoConfig>(
-    builder.Configuration.GetSection(MomoConfig.ConfigName));
+builder.Configuration.GetSection(MomoConfig.ConfigName));
 //Add services to the container.
 //builder.Services.Configure<EmailConfig>(builder.Configuration.GetSection(EmailConfig.ConfigName));
 //builder.Services.AddSingleton<EmailService>();

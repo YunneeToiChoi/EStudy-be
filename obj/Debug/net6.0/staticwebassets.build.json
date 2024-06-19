@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "Q+at9wBq3RXdO7gmSgaTFMznc2iWkN7SdmkOQjzkkNg=",
+  "Hash": "VNUGbe9ndl+sxqnSeYpi8I6AKBfxKayrcsZk6wy3iOo=",
   "Source": "study4-be",
   "BasePath": "_content/study4-be",
   "Mode": "Default",
@@ -8,19 +8,19 @@
   "ReferencedProjectsConfiguration": [],
   "DiscoveryPatterns": [
     {
-      "Name": "study4-be\\wwwroot",
+      "Name": "study4-be/wwwroot",
       "Source": "study4-be",
-      "ContentRoot": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\",
+      "ContentRoot": "/root/clone-project/EStudy-be/wwwroot/",
       "BasePath": "_content/study4-be",
       "Pattern": "**"
     }
   ],
   "Assets": [
     {
-      "Identity": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\obj\\Debug\\net6.0\\scopedcss\\bundle\\study4-be.styles.css",
+      "Identity": "/root/clone-project/EStudy-be/obj/Debug/net6.0/scopedcss/bundle/study4-be.styles.css",
       "SourceId": "study4-be",
       "SourceType": "Computed",
-      "ContentRoot": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\obj\\Debug\\net6.0\\scopedcss\\bundle\\",
+      "ContentRoot": "/root/clone-project/EStudy-be/obj/Debug/net6.0/scopedcss/bundle/",
       "BasePath": "_content/study4-be",
       "RelativePath": "study4-be.styles.css",
       "AssetKind": "All",
@@ -31,13 +31,13 @@
       "AssetTraitValue": "ApplicationBundle",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\obj\\Debug\\net6.0\\scopedcss\\bundle\\study4-be.styles.css"
+      "OriginalItemSpec": "/root/clone-project/EStudy-be/obj/Debug/net6.0/scopedcss/bundle/study4-be.styles.css"
     },
     {
-      "Identity": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\obj\\Debug\\net6.0\\scopedcss\\projectbundle\\study4-be.bundle.scp.css",
+      "Identity": "/root/clone-project/EStudy-be/obj/Debug/net6.0/scopedcss/projectbundle/study4-be.bundle.scp.css",
       "SourceId": "study4-be",
       "SourceType": "Computed",
-      "ContentRoot": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\obj\\Debug\\net6.0\\scopedcss\\projectbundle\\",
+      "ContentRoot": "/root/clone-project/EStudy-be/obj/Debug/net6.0/scopedcss/projectbundle/",
       "BasePath": "_content/study4-be",
       "RelativePath": "study4-be.bundle.scp.css",
       "AssetKind": "All",
@@ -48,13 +48,13 @@
       "AssetTraitValue": "ProjectBundle",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\obj\\Debug\\net6.0\\scopedcss\\projectbundle\\study4-be.bundle.scp.css"
+      "OriginalItemSpec": "/root/clone-project/EStudy-be/obj/Debug/net6.0/scopedcss/projectbundle/study4-be.bundle.scp.css"
     },
     {
-      "Identity": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\css\\site.css",
+      "Identity": "/root/clone-project/EStudy-be/wwwroot/css/site.css",
       "SourceId": "study4-be",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\",
+      "ContentRoot": "/root/clone-project/EStudy-be/wwwroot/",
       "BasePath": "_content/study4-be",
       "RelativePath": "css/site.css",
       "AssetKind": "All",
@@ -65,13 +65,13 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\css\\site.css"
+      "OriginalItemSpec": "wwwroot/css/site.css"
     },
     {
-      "Identity": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\favicon.ico",
+      "Identity": "/root/clone-project/EStudy-be/wwwroot/favicon.ico",
       "SourceId": "study4-be",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\",
+      "ContentRoot": "/root/clone-project/EStudy-be/wwwroot/",
       "BasePath": "_content/study4-be",
       "RelativePath": "favicon.ico",
       "AssetKind": "All",
@@ -82,13 +82,13 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\favicon.ico"
+      "OriginalItemSpec": "wwwroot/favicon.ico"
     },
     {
-      "Identity": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\js\\site.js",
+      "Identity": "/root/clone-project/EStudy-be/wwwroot/js/site.js",
       "SourceId": "study4-be",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\",
+      "ContentRoot": "/root/clone-project/EStudy-be/wwwroot/",
       "BasePath": "_content/study4-be",
       "RelativePath": "js/site.js",
       "AssetKind": "All",
@@ -99,13 +99,13 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\js\\site.js"
+      "OriginalItemSpec": "wwwroot/js/site.js"
     },
     {
-      "Identity": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\LayoutAdmin\\.babelrc",
+      "Identity": "/root/clone-project/EStudy-be/wwwroot/LayoutAdmin/.babelrc",
       "SourceId": "study4-be",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\",
+      "ContentRoot": "/root/clone-project/EStudy-be/wwwroot/",
       "BasePath": "_content/study4-be",
       "RelativePath": "LayoutAdmin/.babelrc",
       "AssetKind": "All",
@@ -116,13 +116,13 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\LayoutAdmin\\.babelrc"
+      "OriginalItemSpec": "wwwroot/LayoutAdmin/.babelrc"
     },
     {
-      "Identity": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\LayoutAdmin\\.eslintrc",
+      "Identity": "/root/clone-project/EStudy-be/wwwroot/LayoutAdmin/.eslintrc",
       "SourceId": "study4-be",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\",
+      "ContentRoot": "/root/clone-project/EStudy-be/wwwroot/",
       "BasePath": "_content/study4-be",
       "RelativePath": "LayoutAdmin/.eslintrc",
       "AssetKind": "All",
@@ -133,13 +133,13 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\LayoutAdmin\\.eslintrc"
+      "OriginalItemSpec": "wwwroot/LayoutAdmin/.eslintrc"
     },
     {
-      "Identity": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\LayoutAdmin\\.gitignore",
+      "Identity": "/root/clone-project/EStudy-be/wwwroot/LayoutAdmin/.gitignore",
       "SourceId": "study4-be",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\",
+      "ContentRoot": "/root/clone-project/EStudy-be/wwwroot/",
       "BasePath": "_content/study4-be",
       "RelativePath": "LayoutAdmin/.gitignore",
       "AssetKind": "All",
@@ -150,13 +150,13 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\LayoutAdmin\\.gitignore"
+      "OriginalItemSpec": "wwwroot/LayoutAdmin/.gitignore"
     },
     {
-      "Identity": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\LayoutAdmin\\.nvmrc",
+      "Identity": "/root/clone-project/EStudy-be/wwwroot/LayoutAdmin/.nvmrc",
       "SourceId": "study4-be",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\",
+      "ContentRoot": "/root/clone-project/EStudy-be/wwwroot/",
       "BasePath": "_content/study4-be",
       "RelativePath": "LayoutAdmin/.nvmrc",
       "AssetKind": "All",
@@ -167,13 +167,13 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\LayoutAdmin\\.nvmrc"
+      "OriginalItemSpec": "wwwroot/LayoutAdmin/.nvmrc"
     },
     {
-      "Identity": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\LayoutAdmin\\CHANGELOG.md",
+      "Identity": "/root/clone-project/EStudy-be/wwwroot/LayoutAdmin/CHANGELOG.md",
       "SourceId": "study4-be",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\",
+      "ContentRoot": "/root/clone-project/EStudy-be/wwwroot/",
       "BasePath": "_content/study4-be",
       "RelativePath": "LayoutAdmin/CHANGELOG.md",
       "AssetKind": "All",
@@ -184,13 +184,13 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\LayoutAdmin\\CHANGELOG.md"
+      "OriginalItemSpec": "wwwroot/LayoutAdmin/CHANGELOG.md"
     },
     {
-      "Identity": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\LayoutAdmin\\LICENSE",
+      "Identity": "/root/clone-project/EStudy-be/wwwroot/LayoutAdmin/LICENSE",
       "SourceId": "study4-be",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\",
+      "ContentRoot": "/root/clone-project/EStudy-be/wwwroot/",
       "BasePath": "_content/study4-be",
       "RelativePath": "LayoutAdmin/LICENSE",
       "AssetKind": "All",
@@ -201,13 +201,13 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\LayoutAdmin\\LICENSE"
+      "OriginalItemSpec": "wwwroot/LayoutAdmin/LICENSE"
     },
     {
-      "Identity": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\LayoutAdmin\\package.json",
+      "Identity": "/root/clone-project/EStudy-be/wwwroot/LayoutAdmin/package.json",
       "SourceId": "study4-be",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\",
+      "ContentRoot": "/root/clone-project/EStudy-be/wwwroot/",
       "BasePath": "_content/study4-be",
       "RelativePath": "LayoutAdmin/package.json",
       "AssetKind": "All",
@@ -218,13 +218,13 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\LayoutAdmin\\package.json"
+      "OriginalItemSpec": "wwwroot/LayoutAdmin/package.json"
     },
     {
-      "Identity": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\LayoutAdmin\\postcss.config.js",
+      "Identity": "/root/clone-project/EStudy-be/wwwroot/LayoutAdmin/postcss.config.js",
       "SourceId": "study4-be",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\",
+      "ContentRoot": "/root/clone-project/EStudy-be/wwwroot/",
       "BasePath": "_content/study4-be",
       "RelativePath": "LayoutAdmin/postcss.config.js",
       "AssetKind": "All",
@@ -235,13 +235,13 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\LayoutAdmin\\postcss.config.js"
+      "OriginalItemSpec": "wwwroot/LayoutAdmin/postcss.config.js"
     },
     {
-      "Identity": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\LayoutAdmin\\README.md",
+      "Identity": "/root/clone-project/EStudy-be/wwwroot/LayoutAdmin/README.md",
       "SourceId": "study4-be",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\",
+      "ContentRoot": "/root/clone-project/EStudy-be/wwwroot/",
       "BasePath": "_content/study4-be",
       "RelativePath": "LayoutAdmin/README.md",
       "AssetKind": "All",
@@ -252,13 +252,13 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\LayoutAdmin\\README.md"
+      "OriginalItemSpec": "wwwroot/LayoutAdmin/README.md"
     },
     {
-      "Identity": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\LayoutAdmin\\src\\fonts\\.gitkeep",
+      "Identity": "/root/clone-project/EStudy-be/wwwroot/LayoutAdmin/src/fonts/.gitkeep",
       "SourceId": "study4-be",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\",
+      "ContentRoot": "/root/clone-project/EStudy-be/wwwroot/",
       "BasePath": "_content/study4-be",
       "RelativePath": "LayoutAdmin/src/fonts/.gitkeep",
       "AssetKind": "All",
@@ -269,30 +269,13 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\LayoutAdmin\\src\\fonts\\.gitkeep"
+      "OriginalItemSpec": "wwwroot/LayoutAdmin/src/fonts/.gitkeep"
     },
     {
-      "Identity": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\LayoutAdmin\\src\\img\\avatars\\avatar.jpg",
+      "Identity": "/root/clone-project/EStudy-be/wwwroot/LayoutAdmin/src/img/avatars/avatar-2.jpg",
       "SourceId": "study4-be",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\",
-      "BasePath": "_content/study4-be",
-      "RelativePath": "LayoutAdmin/src/img/avatars/avatar.jpg",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\LayoutAdmin\\src\\img\\avatars\\avatar.jpg"
-    },
-    {
-      "Identity": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\LayoutAdmin\\src\\img\\avatars\\avatar-2.jpg",
-      "SourceId": "study4-be",
-      "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\",
+      "ContentRoot": "/root/clone-project/EStudy-be/wwwroot/",
       "BasePath": "_content/study4-be",
       "RelativePath": "LayoutAdmin/src/img/avatars/avatar-2.jpg",
       "AssetKind": "All",
@@ -303,13 +286,13 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\LayoutAdmin\\src\\img\\avatars\\avatar-2.jpg"
+      "OriginalItemSpec": "wwwroot/LayoutAdmin/src/img/avatars/avatar-2.jpg"
     },
     {
-      "Identity": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\LayoutAdmin\\src\\img\\avatars\\avatar-3.jpg",
+      "Identity": "/root/clone-project/EStudy-be/wwwroot/LayoutAdmin/src/img/avatars/avatar-3.jpg",
       "SourceId": "study4-be",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\",
+      "ContentRoot": "/root/clone-project/EStudy-be/wwwroot/",
       "BasePath": "_content/study4-be",
       "RelativePath": "LayoutAdmin/src/img/avatars/avatar-3.jpg",
       "AssetKind": "All",
@@ -320,13 +303,13 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\LayoutAdmin\\src\\img\\avatars\\avatar-3.jpg"
+      "OriginalItemSpec": "wwwroot/LayoutAdmin/src/img/avatars/avatar-3.jpg"
     },
     {
-      "Identity": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\LayoutAdmin\\src\\img\\avatars\\avatar-4.jpg",
+      "Identity": "/root/clone-project/EStudy-be/wwwroot/LayoutAdmin/src/img/avatars/avatar-4.jpg",
       "SourceId": "study4-be",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\",
+      "ContentRoot": "/root/clone-project/EStudy-be/wwwroot/",
       "BasePath": "_content/study4-be",
       "RelativePath": "LayoutAdmin/src/img/avatars/avatar-4.jpg",
       "AssetKind": "All",
@@ -337,13 +320,13 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\LayoutAdmin\\src\\img\\avatars\\avatar-4.jpg"
+      "OriginalItemSpec": "wwwroot/LayoutAdmin/src/img/avatars/avatar-4.jpg"
     },
     {
-      "Identity": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\LayoutAdmin\\src\\img\\avatars\\avatar-5.jpg",
+      "Identity": "/root/clone-project/EStudy-be/wwwroot/LayoutAdmin/src/img/avatars/avatar-5.jpg",
       "SourceId": "study4-be",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\",
+      "ContentRoot": "/root/clone-project/EStudy-be/wwwroot/",
       "BasePath": "_content/study4-be",
       "RelativePath": "LayoutAdmin/src/img/avatars/avatar-5.jpg",
       "AssetKind": "All",
@@ -354,13 +337,30 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\LayoutAdmin\\src\\img\\avatars\\avatar-5.jpg"
+      "OriginalItemSpec": "wwwroot/LayoutAdmin/src/img/avatars/avatar-5.jpg"
     },
     {
-      "Identity": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\LayoutAdmin\\src\\img\\icons\\icon-48x48.png",
+      "Identity": "/root/clone-project/EStudy-be/wwwroot/LayoutAdmin/src/img/avatars/avatar.jpg",
       "SourceId": "study4-be",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\",
+      "ContentRoot": "/root/clone-project/EStudy-be/wwwroot/",
+      "BasePath": "_content/study4-be",
+      "RelativePath": "LayoutAdmin/src/img/avatars/avatar.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/LayoutAdmin/src/img/avatars/avatar.jpg"
+    },
+    {
+      "Identity": "/root/clone-project/EStudy-be/wwwroot/LayoutAdmin/src/img/icons/icon-48x48.png",
+      "SourceId": "study4-be",
+      "SourceType": "Discovered",
+      "ContentRoot": "/root/clone-project/EStudy-be/wwwroot/",
       "BasePath": "_content/study4-be",
       "RelativePath": "LayoutAdmin/src/img/icons/icon-48x48.png",
       "AssetKind": "All",
@@ -371,13 +371,13 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\LayoutAdmin\\src\\img\\icons\\icon-48x48.png"
+      "OriginalItemSpec": "wwwroot/LayoutAdmin/src/img/icons/icon-48x48.png"
     },
     {
-      "Identity": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\LayoutAdmin\\src\\img\\photos\\unsplash-1.jpg",
+      "Identity": "/root/clone-project/EStudy-be/wwwroot/LayoutAdmin/src/img/photos/unsplash-1.jpg",
       "SourceId": "study4-be",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\",
+      "ContentRoot": "/root/clone-project/EStudy-be/wwwroot/",
       "BasePath": "_content/study4-be",
       "RelativePath": "LayoutAdmin/src/img/photos/unsplash-1.jpg",
       "AssetKind": "All",
@@ -388,13 +388,13 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\LayoutAdmin\\src\\img\\photos\\unsplash-1.jpg"
+      "OriginalItemSpec": "wwwroot/LayoutAdmin/src/img/photos/unsplash-1.jpg"
     },
     {
-      "Identity": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\LayoutAdmin\\src\\img\\photos\\unsplash-2.jpg",
+      "Identity": "/root/clone-project/EStudy-be/wwwroot/LayoutAdmin/src/img/photos/unsplash-2.jpg",
       "SourceId": "study4-be",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\",
+      "ContentRoot": "/root/clone-project/EStudy-be/wwwroot/",
       "BasePath": "_content/study4-be",
       "RelativePath": "LayoutAdmin/src/img/photos/unsplash-2.jpg",
       "AssetKind": "All",
@@ -405,13 +405,13 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\LayoutAdmin\\src\\img\\photos\\unsplash-2.jpg"
+      "OriginalItemSpec": "wwwroot/LayoutAdmin/src/img/photos/unsplash-2.jpg"
     },
     {
-      "Identity": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\LayoutAdmin\\src\\img\\photos\\unsplash-3.jpg",
+      "Identity": "/root/clone-project/EStudy-be/wwwroot/LayoutAdmin/src/img/photos/unsplash-3.jpg",
       "SourceId": "study4-be",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\",
+      "ContentRoot": "/root/clone-project/EStudy-be/wwwroot/",
       "BasePath": "_content/study4-be",
       "RelativePath": "LayoutAdmin/src/img/photos/unsplash-3.jpg",
       "AssetKind": "All",
@@ -422,13 +422,13 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\LayoutAdmin\\src\\img\\photos\\unsplash-3.jpg"
+      "OriginalItemSpec": "wwwroot/LayoutAdmin/src/img/photos/unsplash-3.jpg"
     },
     {
-      "Identity": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\LayoutAdmin\\src\\js\\app.js",
+      "Identity": "/root/clone-project/EStudy-be/wwwroot/LayoutAdmin/src/js/app.js",
       "SourceId": "study4-be",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\",
+      "ContentRoot": "/root/clone-project/EStudy-be/wwwroot/",
       "BasePath": "_content/study4-be",
       "RelativePath": "LayoutAdmin/src/js/app.js",
       "AssetKind": "All",
@@ -439,13 +439,13 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\LayoutAdmin\\src\\js\\app.js"
+      "OriginalItemSpec": "wwwroot/LayoutAdmin/src/js/app.js"
     },
     {
-      "Identity": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\LayoutAdmin\\src\\js\\modules\\bootstrap.js",
+      "Identity": "/root/clone-project/EStudy-be/wwwroot/LayoutAdmin/src/js/modules/bootstrap.js",
       "SourceId": "study4-be",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\",
+      "ContentRoot": "/root/clone-project/EStudy-be/wwwroot/",
       "BasePath": "_content/study4-be",
       "RelativePath": "LayoutAdmin/src/js/modules/bootstrap.js",
       "AssetKind": "All",
@@ -456,13 +456,13 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\LayoutAdmin\\src\\js\\modules\\bootstrap.js"
+      "OriginalItemSpec": "wwwroot/LayoutAdmin/src/js/modules/bootstrap.js"
     },
     {
-      "Identity": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\LayoutAdmin\\src\\js\\modules\\chartjs.js",
+      "Identity": "/root/clone-project/EStudy-be/wwwroot/LayoutAdmin/src/js/modules/chartjs.js",
       "SourceId": "study4-be",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\",
+      "ContentRoot": "/root/clone-project/EStudy-be/wwwroot/",
       "BasePath": "_content/study4-be",
       "RelativePath": "LayoutAdmin/src/js/modules/chartjs.js",
       "AssetKind": "All",
@@ -473,13 +473,13 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\LayoutAdmin\\src\\js\\modules\\chartjs.js"
+      "OriginalItemSpec": "wwwroot/LayoutAdmin/src/js/modules/chartjs.js"
     },
     {
-      "Identity": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\LayoutAdmin\\src\\js\\modules\\feather.js",
+      "Identity": "/root/clone-project/EStudy-be/wwwroot/LayoutAdmin/src/js/modules/feather.js",
       "SourceId": "study4-be",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\",
+      "ContentRoot": "/root/clone-project/EStudy-be/wwwroot/",
       "BasePath": "_content/study4-be",
       "RelativePath": "LayoutAdmin/src/js/modules/feather.js",
       "AssetKind": "All",
@@ -490,13 +490,13 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\LayoutAdmin\\src\\js\\modules\\feather.js"
+      "OriginalItemSpec": "wwwroot/LayoutAdmin/src/js/modules/feather.js"
     },
     {
-      "Identity": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\LayoutAdmin\\src\\js\\modules\\flatpickr.js",
+      "Identity": "/root/clone-project/EStudy-be/wwwroot/LayoutAdmin/src/js/modules/flatpickr.js",
       "SourceId": "study4-be",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\",
+      "ContentRoot": "/root/clone-project/EStudy-be/wwwroot/",
       "BasePath": "_content/study4-be",
       "RelativePath": "LayoutAdmin/src/js/modules/flatpickr.js",
       "AssetKind": "All",
@@ -507,13 +507,13 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\LayoutAdmin\\src\\js\\modules\\flatpickr.js"
+      "OriginalItemSpec": "wwwroot/LayoutAdmin/src/js/modules/flatpickr.js"
     },
     {
-      "Identity": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\LayoutAdmin\\src\\js\\modules\\sidebar.js",
+      "Identity": "/root/clone-project/EStudy-be/wwwroot/LayoutAdmin/src/js/modules/sidebar.js",
       "SourceId": "study4-be",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\",
+      "ContentRoot": "/root/clone-project/EStudy-be/wwwroot/",
       "BasePath": "_content/study4-be",
       "RelativePath": "LayoutAdmin/src/js/modules/sidebar.js",
       "AssetKind": "All",
@@ -524,13 +524,13 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\LayoutAdmin\\src\\js\\modules\\sidebar.js"
+      "OriginalItemSpec": "wwwroot/LayoutAdmin/src/js/modules/sidebar.js"
     },
     {
-      "Identity": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\LayoutAdmin\\src\\js\\modules\\theme.js",
+      "Identity": "/root/clone-project/EStudy-be/wwwroot/LayoutAdmin/src/js/modules/theme.js",
       "SourceId": "study4-be",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\",
+      "ContentRoot": "/root/clone-project/EStudy-be/wwwroot/",
       "BasePath": "_content/study4-be",
       "RelativePath": "LayoutAdmin/src/js/modules/theme.js",
       "AssetKind": "All",
@@ -541,13 +541,13 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\LayoutAdmin\\src\\js\\modules\\theme.js"
+      "OriginalItemSpec": "wwwroot/LayoutAdmin/src/js/modules/theme.js"
     },
     {
-      "Identity": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\LayoutAdmin\\src\\js\\modules\\vector-maps.js",
+      "Identity": "/root/clone-project/EStudy-be/wwwroot/LayoutAdmin/src/js/modules/vector-maps.js",
       "SourceId": "study4-be",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\",
+      "ContentRoot": "/root/clone-project/EStudy-be/wwwroot/",
       "BasePath": "_content/study4-be",
       "RelativePath": "LayoutAdmin/src/js/modules/vector-maps.js",
       "AssetKind": "All",
@@ -558,13 +558,13 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\LayoutAdmin\\src\\js\\modules\\vector-maps.js"
+      "OriginalItemSpec": "wwwroot/LayoutAdmin/src/js/modules/vector-maps.js"
     },
     {
-      "Identity": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\LayoutAdmin\\src\\js\\modules\\vector-maps\\world.js",
+      "Identity": "/root/clone-project/EStudy-be/wwwroot/LayoutAdmin/src/js/modules/vector-maps/world.js",
       "SourceId": "study4-be",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\",
+      "ContentRoot": "/root/clone-project/EStudy-be/wwwroot/",
       "BasePath": "_content/study4-be",
       "RelativePath": "LayoutAdmin/src/js/modules/vector-maps/world.js",
       "AssetKind": "All",
@@ -575,13 +575,13 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\LayoutAdmin\\src\\js\\modules\\vector-maps\\world.js"
+      "OriginalItemSpec": "wwwroot/LayoutAdmin/src/js/modules/vector-maps/world.js"
     },
     {
-      "Identity": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\LayoutAdmin\\src\\scss\\1-variables\\_app.scss",
+      "Identity": "/root/clone-project/EStudy-be/wwwroot/LayoutAdmin/src/scss/1-variables/_app.scss",
       "SourceId": "study4-be",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\",
+      "ContentRoot": "/root/clone-project/EStudy-be/wwwroot/",
       "BasePath": "_content/study4-be",
       "RelativePath": "LayoutAdmin/src/scss/1-variables/_app.scss",
       "AssetKind": "All",
@@ -592,13 +592,13 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\LayoutAdmin\\src\\scss\\1-variables\\_app.scss"
+      "OriginalItemSpec": "wwwroot/LayoutAdmin/src/scss/1-variables/_app.scss"
     },
     {
-      "Identity": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\LayoutAdmin\\src\\scss\\2-mixins\\_button.scss",
+      "Identity": "/root/clone-project/EStudy-be/wwwroot/LayoutAdmin/src/scss/2-mixins/_button.scss",
       "SourceId": "study4-be",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\",
+      "ContentRoot": "/root/clone-project/EStudy-be/wwwroot/",
       "BasePath": "_content/study4-be",
       "RelativePath": "LayoutAdmin/src/scss/2-mixins/_button.scss",
       "AssetKind": "All",
@@ -609,13 +609,13 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\LayoutAdmin\\src\\scss\\2-mixins\\_button.scss"
+      "OriginalItemSpec": "wwwroot/LayoutAdmin/src/scss/2-mixins/_button.scss"
     },
     {
-      "Identity": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\LayoutAdmin\\src\\scss\\3-components\\_avatar.scss",
+      "Identity": "/root/clone-project/EStudy-be/wwwroot/LayoutAdmin/src/scss/3-components/_avatar.scss",
       "SourceId": "study4-be",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\",
+      "ContentRoot": "/root/clone-project/EStudy-be/wwwroot/",
       "BasePath": "_content/study4-be",
       "RelativePath": "LayoutAdmin/src/scss/3-components/_avatar.scss",
       "AssetKind": "All",
@@ -626,13 +626,13 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\LayoutAdmin\\src\\scss\\3-components\\_avatar.scss"
+      "OriginalItemSpec": "wwwroot/LayoutAdmin/src/scss/3-components/_avatar.scss"
     },
     {
-      "Identity": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\LayoutAdmin\\src\\scss\\3-components\\_buttons.scss",
+      "Identity": "/root/clone-project/EStudy-be/wwwroot/LayoutAdmin/src/scss/3-components/_buttons.scss",
       "SourceId": "study4-be",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\",
+      "ContentRoot": "/root/clone-project/EStudy-be/wwwroot/",
       "BasePath": "_content/study4-be",
       "RelativePath": "LayoutAdmin/src/scss/3-components/_buttons.scss",
       "AssetKind": "All",
@@ -643,13 +643,13 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\LayoutAdmin\\src\\scss\\3-components\\_buttons.scss"
+      "OriginalItemSpec": "wwwroot/LayoutAdmin/src/scss/3-components/_buttons.scss"
     },
     {
-      "Identity": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\LayoutAdmin\\src\\scss\\3-components\\_card.scss",
+      "Identity": "/root/clone-project/EStudy-be/wwwroot/LayoutAdmin/src/scss/3-components/_card.scss",
       "SourceId": "study4-be",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\",
+      "ContentRoot": "/root/clone-project/EStudy-be/wwwroot/",
       "BasePath": "_content/study4-be",
       "RelativePath": "LayoutAdmin/src/scss/3-components/_card.scss",
       "AssetKind": "All",
@@ -660,13 +660,13 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\LayoutAdmin\\src\\scss\\3-components\\_card.scss"
+      "OriginalItemSpec": "wwwroot/LayoutAdmin/src/scss/3-components/_card.scss"
     },
     {
-      "Identity": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\LayoutAdmin\\src\\scss\\3-components\\_chart.scss",
+      "Identity": "/root/clone-project/EStudy-be/wwwroot/LayoutAdmin/src/scss/3-components/_chart.scss",
       "SourceId": "study4-be",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\",
+      "ContentRoot": "/root/clone-project/EStudy-be/wwwroot/",
       "BasePath": "_content/study4-be",
       "RelativePath": "LayoutAdmin/src/scss/3-components/_chart.scss",
       "AssetKind": "All",
@@ -677,13 +677,13 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\LayoutAdmin\\src\\scss\\3-components\\_chart.scss"
+      "OriginalItemSpec": "wwwroot/LayoutAdmin/src/scss/3-components/_chart.scss"
     },
     {
-      "Identity": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\LayoutAdmin\\src\\scss\\3-components\\_content.scss",
+      "Identity": "/root/clone-project/EStudy-be/wwwroot/LayoutAdmin/src/scss/3-components/_content.scss",
       "SourceId": "study4-be",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\",
+      "ContentRoot": "/root/clone-project/EStudy-be/wwwroot/",
       "BasePath": "_content/study4-be",
       "RelativePath": "LayoutAdmin/src/scss/3-components/_content.scss",
       "AssetKind": "All",
@@ -694,13 +694,13 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\LayoutAdmin\\src\\scss\\3-components\\_content.scss"
+      "OriginalItemSpec": "wwwroot/LayoutAdmin/src/scss/3-components/_content.scss"
     },
     {
-      "Identity": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\LayoutAdmin\\src\\scss\\3-components\\_dropdown.scss",
+      "Identity": "/root/clone-project/EStudy-be/wwwroot/LayoutAdmin/src/scss/3-components/_dropdown.scss",
       "SourceId": "study4-be",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\",
+      "ContentRoot": "/root/clone-project/EStudy-be/wwwroot/",
       "BasePath": "_content/study4-be",
       "RelativePath": "LayoutAdmin/src/scss/3-components/_dropdown.scss",
       "AssetKind": "All",
@@ -711,13 +711,13 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\LayoutAdmin\\src\\scss\\3-components\\_dropdown.scss"
+      "OriginalItemSpec": "wwwroot/LayoutAdmin/src/scss/3-components/_dropdown.scss"
     },
     {
-      "Identity": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\LayoutAdmin\\src\\scss\\3-components\\_feather.scss",
+      "Identity": "/root/clone-project/EStudy-be/wwwroot/LayoutAdmin/src/scss/3-components/_feather.scss",
       "SourceId": "study4-be",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\",
+      "ContentRoot": "/root/clone-project/EStudy-be/wwwroot/",
       "BasePath": "_content/study4-be",
       "RelativePath": "LayoutAdmin/src/scss/3-components/_feather.scss",
       "AssetKind": "All",
@@ -728,13 +728,13 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\LayoutAdmin\\src\\scss\\3-components\\_feather.scss"
+      "OriginalItemSpec": "wwwroot/LayoutAdmin/src/scss/3-components/_feather.scss"
     },
     {
-      "Identity": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\LayoutAdmin\\src\\scss\\3-components\\_footer.scss",
+      "Identity": "/root/clone-project/EStudy-be/wwwroot/LayoutAdmin/src/scss/3-components/_footer.scss",
       "SourceId": "study4-be",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\",
+      "ContentRoot": "/root/clone-project/EStudy-be/wwwroot/",
       "BasePath": "_content/study4-be",
       "RelativePath": "LayoutAdmin/src/scss/3-components/_footer.scss",
       "AssetKind": "All",
@@ -745,13 +745,13 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\LayoutAdmin\\src\\scss\\3-components\\_footer.scss"
+      "OriginalItemSpec": "wwwroot/LayoutAdmin/src/scss/3-components/_footer.scss"
     },
     {
-      "Identity": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\LayoutAdmin\\src\\scss\\3-components\\_hamburger.scss",
+      "Identity": "/root/clone-project/EStudy-be/wwwroot/LayoutAdmin/src/scss/3-components/_hamburger.scss",
       "SourceId": "study4-be",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\",
+      "ContentRoot": "/root/clone-project/EStudy-be/wwwroot/",
       "BasePath": "_content/study4-be",
       "RelativePath": "LayoutAdmin/src/scss/3-components/_hamburger.scss",
       "AssetKind": "All",
@@ -762,13 +762,13 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\LayoutAdmin\\src\\scss\\3-components\\_hamburger.scss"
+      "OriginalItemSpec": "wwwroot/LayoutAdmin/src/scss/3-components/_hamburger.scss"
     },
     {
-      "Identity": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\LayoutAdmin\\src\\scss\\3-components\\_list-group.scss",
+      "Identity": "/root/clone-project/EStudy-be/wwwroot/LayoutAdmin/src/scss/3-components/_list-group.scss",
       "SourceId": "study4-be",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\",
+      "ContentRoot": "/root/clone-project/EStudy-be/wwwroot/",
       "BasePath": "_content/study4-be",
       "RelativePath": "LayoutAdmin/src/scss/3-components/_list-group.scss",
       "AssetKind": "All",
@@ -779,13 +779,13 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\LayoutAdmin\\src\\scss\\3-components\\_list-group.scss"
+      "OriginalItemSpec": "wwwroot/LayoutAdmin/src/scss/3-components/_list-group.scss"
     },
     {
-      "Identity": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\LayoutAdmin\\src\\scss\\3-components\\_main.scss",
+      "Identity": "/root/clone-project/EStudy-be/wwwroot/LayoutAdmin/src/scss/3-components/_main.scss",
       "SourceId": "study4-be",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\",
+      "ContentRoot": "/root/clone-project/EStudy-be/wwwroot/",
       "BasePath": "_content/study4-be",
       "RelativePath": "LayoutAdmin/src/scss/3-components/_main.scss",
       "AssetKind": "All",
@@ -796,13 +796,13 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\LayoutAdmin\\src\\scss\\3-components\\_main.scss"
+      "OriginalItemSpec": "wwwroot/LayoutAdmin/src/scss/3-components/_main.scss"
     },
     {
-      "Identity": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\LayoutAdmin\\src\\scss\\3-components\\_navbar.scss",
+      "Identity": "/root/clone-project/EStudy-be/wwwroot/LayoutAdmin/src/scss/3-components/_navbar.scss",
       "SourceId": "study4-be",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\",
+      "ContentRoot": "/root/clone-project/EStudy-be/wwwroot/",
       "BasePath": "_content/study4-be",
       "RelativePath": "LayoutAdmin/src/scss/3-components/_navbar.scss",
       "AssetKind": "All",
@@ -813,13 +813,13 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\LayoutAdmin\\src\\scss\\3-components\\_navbar.scss"
+      "OriginalItemSpec": "wwwroot/LayoutAdmin/src/scss/3-components/_navbar.scss"
     },
     {
-      "Identity": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\LayoutAdmin\\src\\scss\\3-components\\_reboot.scss",
+      "Identity": "/root/clone-project/EStudy-be/wwwroot/LayoutAdmin/src/scss/3-components/_reboot.scss",
       "SourceId": "study4-be",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\",
+      "ContentRoot": "/root/clone-project/EStudy-be/wwwroot/",
       "BasePath": "_content/study4-be",
       "RelativePath": "LayoutAdmin/src/scss/3-components/_reboot.scss",
       "AssetKind": "All",
@@ -830,13 +830,13 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\LayoutAdmin\\src\\scss\\3-components\\_reboot.scss"
+      "OriginalItemSpec": "wwwroot/LayoutAdmin/src/scss/3-components/_reboot.scss"
     },
     {
-      "Identity": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\LayoutAdmin\\src\\scss\\3-components\\_sidebar.scss",
+      "Identity": "/root/clone-project/EStudy-be/wwwroot/LayoutAdmin/src/scss/3-components/_sidebar.scss",
       "SourceId": "study4-be",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\",
+      "ContentRoot": "/root/clone-project/EStudy-be/wwwroot/",
       "BasePath": "_content/study4-be",
       "RelativePath": "LayoutAdmin/src/scss/3-components/_sidebar.scss",
       "AssetKind": "All",
@@ -847,13 +847,13 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\LayoutAdmin\\src\\scss\\3-components\\_sidebar.scss"
+      "OriginalItemSpec": "wwwroot/LayoutAdmin/src/scss/3-components/_sidebar.scss"
     },
     {
-      "Identity": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\LayoutAdmin\\src\\scss\\3-components\\_sizing.scss",
+      "Identity": "/root/clone-project/EStudy-be/wwwroot/LayoutAdmin/src/scss/3-components/_sizing.scss",
       "SourceId": "study4-be",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\",
+      "ContentRoot": "/root/clone-project/EStudy-be/wwwroot/",
       "BasePath": "_content/study4-be",
       "RelativePath": "LayoutAdmin/src/scss/3-components/_sizing.scss",
       "AssetKind": "All",
@@ -864,13 +864,13 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\LayoutAdmin\\src\\scss\\3-components\\_sizing.scss"
+      "OriginalItemSpec": "wwwroot/LayoutAdmin/src/scss/3-components/_sizing.scss"
     },
     {
-      "Identity": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\LayoutAdmin\\src\\scss\\3-components\\_stat.scss",
+      "Identity": "/root/clone-project/EStudy-be/wwwroot/LayoutAdmin/src/scss/3-components/_stat.scss",
       "SourceId": "study4-be",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\",
+      "ContentRoot": "/root/clone-project/EStudy-be/wwwroot/",
       "BasePath": "_content/study4-be",
       "RelativePath": "LayoutAdmin/src/scss/3-components/_stat.scss",
       "AssetKind": "All",
@@ -881,13 +881,13 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\LayoutAdmin\\src\\scss\\3-components\\_stat.scss"
+      "OriginalItemSpec": "wwwroot/LayoutAdmin/src/scss/3-components/_stat.scss"
     },
     {
-      "Identity": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\LayoutAdmin\\src\\scss\\3-components\\_tables.scss",
+      "Identity": "/root/clone-project/EStudy-be/wwwroot/LayoutAdmin/src/scss/3-components/_tables.scss",
       "SourceId": "study4-be",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\",
+      "ContentRoot": "/root/clone-project/EStudy-be/wwwroot/",
       "BasePath": "_content/study4-be",
       "RelativePath": "LayoutAdmin/src/scss/3-components/_tables.scss",
       "AssetKind": "All",
@@ -898,13 +898,13 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\LayoutAdmin\\src\\scss\\3-components\\_tables.scss"
+      "OriginalItemSpec": "wwwroot/LayoutAdmin/src/scss/3-components/_tables.scss"
     },
     {
-      "Identity": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\LayoutAdmin\\src\\scss\\3-components\\_type.scss",
+      "Identity": "/root/clone-project/EStudy-be/wwwroot/LayoutAdmin/src/scss/3-components/_type.scss",
       "SourceId": "study4-be",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\",
+      "ContentRoot": "/root/clone-project/EStudy-be/wwwroot/",
       "BasePath": "_content/study4-be",
       "RelativePath": "LayoutAdmin/src/scss/3-components/_type.scss",
       "AssetKind": "All",
@@ -915,13 +915,13 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\LayoutAdmin\\src\\scss\\3-components\\_type.scss"
+      "OriginalItemSpec": "wwwroot/LayoutAdmin/src/scss/3-components/_type.scss"
     },
     {
-      "Identity": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\LayoutAdmin\\src\\scss\\3-components\\_wrapper.scss",
+      "Identity": "/root/clone-project/EStudy-be/wwwroot/LayoutAdmin/src/scss/3-components/_wrapper.scss",
       "SourceId": "study4-be",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\",
+      "ContentRoot": "/root/clone-project/EStudy-be/wwwroot/",
       "BasePath": "_content/study4-be",
       "RelativePath": "LayoutAdmin/src/scss/3-components/_wrapper.scss",
       "AssetKind": "All",
@@ -932,13 +932,13 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\LayoutAdmin\\src\\scss\\3-components\\_wrapper.scss"
+      "OriginalItemSpec": "wwwroot/LayoutAdmin/src/scss/3-components/_wrapper.scss"
     },
     {
-      "Identity": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\LayoutAdmin\\src\\scss\\4-utilities\\_cursors.scss",
+      "Identity": "/root/clone-project/EStudy-be/wwwroot/LayoutAdmin/src/scss/4-utilities/_cursors.scss",
       "SourceId": "study4-be",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\",
+      "ContentRoot": "/root/clone-project/EStudy-be/wwwroot/",
       "BasePath": "_content/study4-be",
       "RelativePath": "LayoutAdmin/src/scss/4-utilities/_cursors.scss",
       "AssetKind": "All",
@@ -949,13 +949,13 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\LayoutAdmin\\src\\scss\\4-utilities\\_cursors.scss"
+      "OriginalItemSpec": "wwwroot/LayoutAdmin/src/scss/4-utilities/_cursors.scss"
     },
     {
-      "Identity": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\LayoutAdmin\\src\\scss\\5-vendor\\_flatpickr.scss",
+      "Identity": "/root/clone-project/EStudy-be/wwwroot/LayoutAdmin/src/scss/5-vendor/_flatpickr.scss",
       "SourceId": "study4-be",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\",
+      "ContentRoot": "/root/clone-project/EStudy-be/wwwroot/",
       "BasePath": "_content/study4-be",
       "RelativePath": "LayoutAdmin/src/scss/5-vendor/_flatpickr.scss",
       "AssetKind": "All",
@@ -966,13 +966,13 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\LayoutAdmin\\src\\scss\\5-vendor\\_flatpickr.scss"
+      "OriginalItemSpec": "wwwroot/LayoutAdmin/src/scss/5-vendor/_flatpickr.scss"
     },
     {
-      "Identity": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\LayoutAdmin\\src\\scss\\5-vendor\\_simplebar.scss",
+      "Identity": "/root/clone-project/EStudy-be/wwwroot/LayoutAdmin/src/scss/5-vendor/_simplebar.scss",
       "SourceId": "study4-be",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\",
+      "ContentRoot": "/root/clone-project/EStudy-be/wwwroot/",
       "BasePath": "_content/study4-be",
       "RelativePath": "LayoutAdmin/src/scss/5-vendor/_simplebar.scss",
       "AssetKind": "All",
@@ -983,13 +983,13 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\LayoutAdmin\\src\\scss\\5-vendor\\_simplebar.scss"
+      "OriginalItemSpec": "wwwroot/LayoutAdmin/src/scss/5-vendor/_simplebar.scss"
     },
     {
-      "Identity": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\LayoutAdmin\\src\\scss\\app.scss",
+      "Identity": "/root/clone-project/EStudy-be/wwwroot/LayoutAdmin/src/scss/app.scss",
       "SourceId": "study4-be",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\",
+      "ContentRoot": "/root/clone-project/EStudy-be/wwwroot/",
       "BasePath": "_content/study4-be",
       "RelativePath": "LayoutAdmin/src/scss/app.scss",
       "AssetKind": "All",
@@ -1000,13 +1000,13 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\LayoutAdmin\\src\\scss\\app.scss"
+      "OriginalItemSpec": "wwwroot/LayoutAdmin/src/scss/app.scss"
     },
     {
-      "Identity": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\LayoutAdmin\\static\\charts-chartjs.html",
+      "Identity": "/root/clone-project/EStudy-be/wwwroot/LayoutAdmin/static/charts-chartjs.html",
       "SourceId": "study4-be",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\",
+      "ContentRoot": "/root/clone-project/EStudy-be/wwwroot/",
       "BasePath": "_content/study4-be",
       "RelativePath": "LayoutAdmin/static/charts-chartjs.html",
       "AssetKind": "All",
@@ -1017,13 +1017,13 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\LayoutAdmin\\static\\charts-chartjs.html"
+      "OriginalItemSpec": "wwwroot/LayoutAdmin/static/charts-chartjs.html"
     },
     {
-      "Identity": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\LayoutAdmin\\static\\css\\app.css",
+      "Identity": "/root/clone-project/EStudy-be/wwwroot/LayoutAdmin/static/css/app.css",
       "SourceId": "study4-be",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\",
+      "ContentRoot": "/root/clone-project/EStudy-be/wwwroot/",
       "BasePath": "_content/study4-be",
       "RelativePath": "LayoutAdmin/static/css/app.css",
       "AssetKind": "All",
@@ -1034,13 +1034,13 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\LayoutAdmin\\static\\css\\app.css"
+      "OriginalItemSpec": "wwwroot/LayoutAdmin/static/css/app.css"
     },
     {
-      "Identity": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\LayoutAdmin\\static\\css\\app.css.map",
+      "Identity": "/root/clone-project/EStudy-be/wwwroot/LayoutAdmin/static/css/app.css.map",
       "SourceId": "study4-be",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\",
+      "ContentRoot": "/root/clone-project/EStudy-be/wwwroot/",
       "BasePath": "_content/study4-be",
       "RelativePath": "LayoutAdmin/static/css/app.css.map",
       "AssetKind": "All",
@@ -1051,13 +1051,13 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\LayoutAdmin\\static\\css\\app.css.map"
+      "OriginalItemSpec": "wwwroot/LayoutAdmin/static/css/app.css.map"
     },
     {
-      "Identity": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\LayoutAdmin\\static\\fonts\\.gitkeep",
+      "Identity": "/root/clone-project/EStudy-be/wwwroot/LayoutAdmin/static/fonts/.gitkeep",
       "SourceId": "study4-be",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\",
+      "ContentRoot": "/root/clone-project/EStudy-be/wwwroot/",
       "BasePath": "_content/study4-be",
       "RelativePath": "LayoutAdmin/static/fonts/.gitkeep",
       "AssetKind": "All",
@@ -1068,13 +1068,13 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\LayoutAdmin\\static\\fonts\\.gitkeep"
+      "OriginalItemSpec": "wwwroot/LayoutAdmin/static/fonts/.gitkeep"
     },
     {
-      "Identity": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\LayoutAdmin\\static\\icons-feather.html",
+      "Identity": "/root/clone-project/EStudy-be/wwwroot/LayoutAdmin/static/icons-feather.html",
       "SourceId": "study4-be",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\",
+      "ContentRoot": "/root/clone-project/EStudy-be/wwwroot/",
       "BasePath": "_content/study4-be",
       "RelativePath": "LayoutAdmin/static/icons-feather.html",
       "AssetKind": "All",
@@ -1085,30 +1085,13 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\LayoutAdmin\\static\\icons-feather.html"
+      "OriginalItemSpec": "wwwroot/LayoutAdmin/static/icons-feather.html"
     },
     {
-      "Identity": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\LayoutAdmin\\static\\img\\avatars\\avatar.jpg",
+      "Identity": "/root/clone-project/EStudy-be/wwwroot/LayoutAdmin/static/img/avatars/avatar-2.jpg",
       "SourceId": "study4-be",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\",
-      "BasePath": "_content/study4-be",
-      "RelativePath": "LayoutAdmin/static/img/avatars/avatar.jpg",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\LayoutAdmin\\static\\img\\avatars\\avatar.jpg"
-    },
-    {
-      "Identity": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\LayoutAdmin\\static\\img\\avatars\\avatar-2.jpg",
-      "SourceId": "study4-be",
-      "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\",
+      "ContentRoot": "/root/clone-project/EStudy-be/wwwroot/",
       "BasePath": "_content/study4-be",
       "RelativePath": "LayoutAdmin/static/img/avatars/avatar-2.jpg",
       "AssetKind": "All",
@@ -1119,13 +1102,13 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\LayoutAdmin\\static\\img\\avatars\\avatar-2.jpg"
+      "OriginalItemSpec": "wwwroot/LayoutAdmin/static/img/avatars/avatar-2.jpg"
     },
     {
-      "Identity": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\LayoutAdmin\\static\\img\\avatars\\avatar-3.jpg",
+      "Identity": "/root/clone-project/EStudy-be/wwwroot/LayoutAdmin/static/img/avatars/avatar-3.jpg",
       "SourceId": "study4-be",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\",
+      "ContentRoot": "/root/clone-project/EStudy-be/wwwroot/",
       "BasePath": "_content/study4-be",
       "RelativePath": "LayoutAdmin/static/img/avatars/avatar-3.jpg",
       "AssetKind": "All",
@@ -1136,13 +1119,13 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\LayoutAdmin\\static\\img\\avatars\\avatar-3.jpg"
+      "OriginalItemSpec": "wwwroot/LayoutAdmin/static/img/avatars/avatar-3.jpg"
     },
     {
-      "Identity": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\LayoutAdmin\\static\\img\\avatars\\avatar-4.jpg",
+      "Identity": "/root/clone-project/EStudy-be/wwwroot/LayoutAdmin/static/img/avatars/avatar-4.jpg",
       "SourceId": "study4-be",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\",
+      "ContentRoot": "/root/clone-project/EStudy-be/wwwroot/",
       "BasePath": "_content/study4-be",
       "RelativePath": "LayoutAdmin/static/img/avatars/avatar-4.jpg",
       "AssetKind": "All",
@@ -1153,13 +1136,13 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\LayoutAdmin\\static\\img\\avatars\\avatar-4.jpg"
+      "OriginalItemSpec": "wwwroot/LayoutAdmin/static/img/avatars/avatar-4.jpg"
     },
     {
-      "Identity": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\LayoutAdmin\\static\\img\\avatars\\avatar-5.jpg",
+      "Identity": "/root/clone-project/EStudy-be/wwwroot/LayoutAdmin/static/img/avatars/avatar-5.jpg",
       "SourceId": "study4-be",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\",
+      "ContentRoot": "/root/clone-project/EStudy-be/wwwroot/",
       "BasePath": "_content/study4-be",
       "RelativePath": "LayoutAdmin/static/img/avatars/avatar-5.jpg",
       "AssetKind": "All",
@@ -1170,13 +1153,30 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\LayoutAdmin\\static\\img\\avatars\\avatar-5.jpg"
+      "OriginalItemSpec": "wwwroot/LayoutAdmin/static/img/avatars/avatar-5.jpg"
     },
     {
-      "Identity": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\LayoutAdmin\\static\\img\\icons\\icon-48x48.png",
+      "Identity": "/root/clone-project/EStudy-be/wwwroot/LayoutAdmin/static/img/avatars/avatar.jpg",
       "SourceId": "study4-be",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\",
+      "ContentRoot": "/root/clone-project/EStudy-be/wwwroot/",
+      "BasePath": "_content/study4-be",
+      "RelativePath": "LayoutAdmin/static/img/avatars/avatar.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/LayoutAdmin/static/img/avatars/avatar.jpg"
+    },
+    {
+      "Identity": "/root/clone-project/EStudy-be/wwwroot/LayoutAdmin/static/img/icons/icon-48x48.png",
+      "SourceId": "study4-be",
+      "SourceType": "Discovered",
+      "ContentRoot": "/root/clone-project/EStudy-be/wwwroot/",
       "BasePath": "_content/study4-be",
       "RelativePath": "LayoutAdmin/static/img/icons/icon-48x48.png",
       "AssetKind": "All",
@@ -1187,13 +1187,13 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\LayoutAdmin\\static\\img\\icons\\icon-48x48.png"
+      "OriginalItemSpec": "wwwroot/LayoutAdmin/static/img/icons/icon-48x48.png"
     },
     {
-      "Identity": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\LayoutAdmin\\static\\img\\photos\\unsplash-1.jpg",
+      "Identity": "/root/clone-project/EStudy-be/wwwroot/LayoutAdmin/static/img/photos/unsplash-1.jpg",
       "SourceId": "study4-be",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\",
+      "ContentRoot": "/root/clone-project/EStudy-be/wwwroot/",
       "BasePath": "_content/study4-be",
       "RelativePath": "LayoutAdmin/static/img/photos/unsplash-1.jpg",
       "AssetKind": "All",
@@ -1204,13 +1204,13 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\LayoutAdmin\\static\\img\\photos\\unsplash-1.jpg"
+      "OriginalItemSpec": "wwwroot/LayoutAdmin/static/img/photos/unsplash-1.jpg"
     },
     {
-      "Identity": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\LayoutAdmin\\static\\img\\photos\\unsplash-2.jpg",
+      "Identity": "/root/clone-project/EStudy-be/wwwroot/LayoutAdmin/static/img/photos/unsplash-2.jpg",
       "SourceId": "study4-be",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\",
+      "ContentRoot": "/root/clone-project/EStudy-be/wwwroot/",
       "BasePath": "_content/study4-be",
       "RelativePath": "LayoutAdmin/static/img/photos/unsplash-2.jpg",
       "AssetKind": "All",
@@ -1221,13 +1221,13 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\LayoutAdmin\\static\\img\\photos\\unsplash-2.jpg"
+      "OriginalItemSpec": "wwwroot/LayoutAdmin/static/img/photos/unsplash-2.jpg"
     },
     {
-      "Identity": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\LayoutAdmin\\static\\img\\photos\\unsplash-3.jpg",
+      "Identity": "/root/clone-project/EStudy-be/wwwroot/LayoutAdmin/static/img/photos/unsplash-3.jpg",
       "SourceId": "study4-be",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\",
+      "ContentRoot": "/root/clone-project/EStudy-be/wwwroot/",
       "BasePath": "_content/study4-be",
       "RelativePath": "LayoutAdmin/static/img/photos/unsplash-3.jpg",
       "AssetKind": "All",
@@ -1238,13 +1238,13 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\LayoutAdmin\\static\\img\\photos\\unsplash-3.jpg"
+      "OriginalItemSpec": "wwwroot/LayoutAdmin/static/img/photos/unsplash-3.jpg"
     },
     {
-      "Identity": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\LayoutAdmin\\static\\index.html",
+      "Identity": "/root/clone-project/EStudy-be/wwwroot/LayoutAdmin/static/index.html",
       "SourceId": "study4-be",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\",
+      "ContentRoot": "/root/clone-project/EStudy-be/wwwroot/",
       "BasePath": "_content/study4-be",
       "RelativePath": "LayoutAdmin/static/index.html",
       "AssetKind": "All",
@@ -1255,13 +1255,13 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\LayoutAdmin\\static\\index.html"
+      "OriginalItemSpec": "wwwroot/LayoutAdmin/static/index.html"
     },
     {
-      "Identity": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\LayoutAdmin\\static\\js\\app.js",
+      "Identity": "/root/clone-project/EStudy-be/wwwroot/LayoutAdmin/static/js/app.js",
       "SourceId": "study4-be",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\",
+      "ContentRoot": "/root/clone-project/EStudy-be/wwwroot/",
       "BasePath": "_content/study4-be",
       "RelativePath": "LayoutAdmin/static/js/app.js",
       "AssetKind": "All",
@@ -1272,13 +1272,13 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\LayoutAdmin\\static\\js\\app.js"
+      "OriginalItemSpec": "wwwroot/LayoutAdmin/static/js/app.js"
     },
     {
-      "Identity": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\LayoutAdmin\\static\\js\\app.js.LICENSE.txt",
+      "Identity": "/root/clone-project/EStudy-be/wwwroot/LayoutAdmin/static/js/app.js.LICENSE.txt",
       "SourceId": "study4-be",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\",
+      "ContentRoot": "/root/clone-project/EStudy-be/wwwroot/",
       "BasePath": "_content/study4-be",
       "RelativePath": "LayoutAdmin/static/js/app.js.LICENSE.txt",
       "AssetKind": "All",
@@ -1289,13 +1289,13 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\LayoutAdmin\\static\\js\\app.js.LICENSE.txt"
+      "OriginalItemSpec": "wwwroot/LayoutAdmin/static/js/app.js.LICENSE.txt"
     },
     {
-      "Identity": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\LayoutAdmin\\static\\js\\app.js.map",
+      "Identity": "/root/clone-project/EStudy-be/wwwroot/LayoutAdmin/static/js/app.js.map",
       "SourceId": "study4-be",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\",
+      "ContentRoot": "/root/clone-project/EStudy-be/wwwroot/",
       "BasePath": "_content/study4-be",
       "RelativePath": "LayoutAdmin/static/js/app.js.map",
       "AssetKind": "All",
@@ -1306,13 +1306,13 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\LayoutAdmin\\static\\js\\app.js.map"
+      "OriginalItemSpec": "wwwroot/LayoutAdmin/static/js/app.js.map"
     },
     {
-      "Identity": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\LayoutAdmin\\static\\maps-google.html",
+      "Identity": "/root/clone-project/EStudy-be/wwwroot/LayoutAdmin/static/maps-google.html",
       "SourceId": "study4-be",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\",
+      "ContentRoot": "/root/clone-project/EStudy-be/wwwroot/",
       "BasePath": "_content/study4-be",
       "RelativePath": "LayoutAdmin/static/maps-google.html",
       "AssetKind": "All",
@@ -1323,13 +1323,13 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\LayoutAdmin\\static\\maps-google.html"
+      "OriginalItemSpec": "wwwroot/LayoutAdmin/static/maps-google.html"
     },
     {
-      "Identity": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\LayoutAdmin\\static\\pages-blank.html",
+      "Identity": "/root/clone-project/EStudy-be/wwwroot/LayoutAdmin/static/pages-blank.html",
       "SourceId": "study4-be",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\",
+      "ContentRoot": "/root/clone-project/EStudy-be/wwwroot/",
       "BasePath": "_content/study4-be",
       "RelativePath": "LayoutAdmin/static/pages-blank.html",
       "AssetKind": "All",
@@ -1340,13 +1340,13 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\LayoutAdmin\\static\\pages-blank.html"
+      "OriginalItemSpec": "wwwroot/LayoutAdmin/static/pages-blank.html"
     },
     {
-      "Identity": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\LayoutAdmin\\static\\pages-profile.html",
+      "Identity": "/root/clone-project/EStudy-be/wwwroot/LayoutAdmin/static/pages-profile.html",
       "SourceId": "study4-be",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\",
+      "ContentRoot": "/root/clone-project/EStudy-be/wwwroot/",
       "BasePath": "_content/study4-be",
       "RelativePath": "LayoutAdmin/static/pages-profile.html",
       "AssetKind": "All",
@@ -1357,13 +1357,13 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\LayoutAdmin\\static\\pages-profile.html"
+      "OriginalItemSpec": "wwwroot/LayoutAdmin/static/pages-profile.html"
     },
     {
-      "Identity": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\LayoutAdmin\\static\\pages-sign-in.html",
+      "Identity": "/root/clone-project/EStudy-be/wwwroot/LayoutAdmin/static/pages-sign-in.html",
       "SourceId": "study4-be",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\",
+      "ContentRoot": "/root/clone-project/EStudy-be/wwwroot/",
       "BasePath": "_content/study4-be",
       "RelativePath": "LayoutAdmin/static/pages-sign-in.html",
       "AssetKind": "All",
@@ -1374,13 +1374,13 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\LayoutAdmin\\static\\pages-sign-in.html"
+      "OriginalItemSpec": "wwwroot/LayoutAdmin/static/pages-sign-in.html"
     },
     {
-      "Identity": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\LayoutAdmin\\static\\pages-sign-up.html",
+      "Identity": "/root/clone-project/EStudy-be/wwwroot/LayoutAdmin/static/pages-sign-up.html",
       "SourceId": "study4-be",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\",
+      "ContentRoot": "/root/clone-project/EStudy-be/wwwroot/",
       "BasePath": "_content/study4-be",
       "RelativePath": "LayoutAdmin/static/pages-sign-up.html",
       "AssetKind": "All",
@@ -1391,13 +1391,13 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\LayoutAdmin\\static\\pages-sign-up.html"
+      "OriginalItemSpec": "wwwroot/LayoutAdmin/static/pages-sign-up.html"
     },
     {
-      "Identity": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\LayoutAdmin\\static\\ui-buttons.html",
+      "Identity": "/root/clone-project/EStudy-be/wwwroot/LayoutAdmin/static/ui-buttons.html",
       "SourceId": "study4-be",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\",
+      "ContentRoot": "/root/clone-project/EStudy-be/wwwroot/",
       "BasePath": "_content/study4-be",
       "RelativePath": "LayoutAdmin/static/ui-buttons.html",
       "AssetKind": "All",
@@ -1408,13 +1408,13 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\LayoutAdmin\\static\\ui-buttons.html"
+      "OriginalItemSpec": "wwwroot/LayoutAdmin/static/ui-buttons.html"
     },
     {
-      "Identity": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\LayoutAdmin\\static\\ui-cards.html",
+      "Identity": "/root/clone-project/EStudy-be/wwwroot/LayoutAdmin/static/ui-cards.html",
       "SourceId": "study4-be",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\",
+      "ContentRoot": "/root/clone-project/EStudy-be/wwwroot/",
       "BasePath": "_content/study4-be",
       "RelativePath": "LayoutAdmin/static/ui-cards.html",
       "AssetKind": "All",
@@ -1425,13 +1425,13 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\LayoutAdmin\\static\\ui-cards.html"
+      "OriginalItemSpec": "wwwroot/LayoutAdmin/static/ui-cards.html"
     },
     {
-      "Identity": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\LayoutAdmin\\static\\ui-forms.html",
+      "Identity": "/root/clone-project/EStudy-be/wwwroot/LayoutAdmin/static/ui-forms.html",
       "SourceId": "study4-be",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\",
+      "ContentRoot": "/root/clone-project/EStudy-be/wwwroot/",
       "BasePath": "_content/study4-be",
       "RelativePath": "LayoutAdmin/static/ui-forms.html",
       "AssetKind": "All",
@@ -1442,13 +1442,13 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\LayoutAdmin\\static\\ui-forms.html"
+      "OriginalItemSpec": "wwwroot/LayoutAdmin/static/ui-forms.html"
     },
     {
-      "Identity": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\LayoutAdmin\\static\\ui-typography.html",
+      "Identity": "/root/clone-project/EStudy-be/wwwroot/LayoutAdmin/static/ui-typography.html",
       "SourceId": "study4-be",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\",
+      "ContentRoot": "/root/clone-project/EStudy-be/wwwroot/",
       "BasePath": "_content/study4-be",
       "RelativePath": "LayoutAdmin/static/ui-typography.html",
       "AssetKind": "All",
@@ -1459,13 +1459,13 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\LayoutAdmin\\static\\ui-typography.html"
+      "OriginalItemSpec": "wwwroot/LayoutAdmin/static/ui-typography.html"
     },
     {
-      "Identity": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\LayoutAdmin\\static\\upgrade-to-pro.html",
+      "Identity": "/root/clone-project/EStudy-be/wwwroot/LayoutAdmin/static/upgrade-to-pro.html",
       "SourceId": "study4-be",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\",
+      "ContentRoot": "/root/clone-project/EStudy-be/wwwroot/",
       "BasePath": "_content/study4-be",
       "RelativePath": "LayoutAdmin/static/upgrade-to-pro.html",
       "AssetKind": "All",
@@ -1476,13 +1476,13 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\LayoutAdmin\\static\\upgrade-to-pro.html"
+      "OriginalItemSpec": "wwwroot/LayoutAdmin/static/upgrade-to-pro.html"
     },
     {
-      "Identity": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\LayoutAdmin\\webpack.config.js",
+      "Identity": "/root/clone-project/EStudy-be/wwwroot/LayoutAdmin/webpack.config.js",
       "SourceId": "study4-be",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\",
+      "ContentRoot": "/root/clone-project/EStudy-be/wwwroot/",
       "BasePath": "_content/study4-be",
       "RelativePath": "LayoutAdmin/webpack.config.js",
       "AssetKind": "All",
@@ -1493,149 +1493,13 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\LayoutAdmin\\webpack.config.js"
+      "OriginalItemSpec": "wwwroot/LayoutAdmin/webpack.config.js"
     },
     {
-      "Identity": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.css",
+      "Identity": "/root/clone-project/EStudy-be/wwwroot/lib/bootstrap/dist/css/bootstrap-grid.css",
       "SourceId": "study4-be",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\",
-      "BasePath": "_content/study4-be",
-      "RelativePath": "lib/bootstrap/dist/css/bootstrap.css",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.css"
-    },
-    {
-      "Identity": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.css.map",
-      "SourceId": "study4-be",
-      "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\",
-      "BasePath": "_content/study4-be",
-      "RelativePath": "lib/bootstrap/dist/css/bootstrap.css.map",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.css.map"
-    },
-    {
-      "Identity": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.min.css",
-      "SourceId": "study4-be",
-      "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\",
-      "BasePath": "_content/study4-be",
-      "RelativePath": "lib/bootstrap/dist/css/bootstrap.min.css",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.min.css"
-    },
-    {
-      "Identity": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.min.css.map",
-      "SourceId": "study4-be",
-      "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\",
-      "BasePath": "_content/study4-be",
-      "RelativePath": "lib/bootstrap/dist/css/bootstrap.min.css.map",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.min.css.map"
-    },
-    {
-      "Identity": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css",
-      "SourceId": "study4-be",
-      "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\",
-      "BasePath": "_content/study4-be",
-      "RelativePath": "lib/bootstrap/dist/css/bootstrap.rtl.css",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css"
-    },
-    {
-      "Identity": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css.map",
-      "SourceId": "study4-be",
-      "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\",
-      "BasePath": "_content/study4-be",
-      "RelativePath": "lib/bootstrap/dist/css/bootstrap.rtl.css.map",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css.map"
-    },
-    {
-      "Identity": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css",
-      "SourceId": "study4-be",
-      "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\",
-      "BasePath": "_content/study4-be",
-      "RelativePath": "lib/bootstrap/dist/css/bootstrap.rtl.min.css",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css"
-    },
-    {
-      "Identity": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css.map",
-      "SourceId": "study4-be",
-      "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\",
-      "BasePath": "_content/study4-be",
-      "RelativePath": "lib/bootstrap/dist/css/bootstrap.rtl.min.css.map",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css.map"
-    },
-    {
-      "Identity": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css",
-      "SourceId": "study4-be",
-      "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\",
+      "ContentRoot": "/root/clone-project/EStudy-be/wwwroot/",
       "BasePath": "_content/study4-be",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-grid.css",
       "AssetKind": "All",
@@ -1646,13 +1510,13 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css"
+      "OriginalItemSpec": "wwwroot/lib/bootstrap/dist/css/bootstrap-grid.css"
     },
     {
-      "Identity": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css.map",
+      "Identity": "/root/clone-project/EStudy-be/wwwroot/lib/bootstrap/dist/css/bootstrap-grid.css.map",
       "SourceId": "study4-be",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\",
+      "ContentRoot": "/root/clone-project/EStudy-be/wwwroot/",
       "BasePath": "_content/study4-be",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-grid.css.map",
       "AssetKind": "All",
@@ -1663,13 +1527,13 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css.map"
+      "OriginalItemSpec": "wwwroot/lib/bootstrap/dist/css/bootstrap-grid.css.map"
     },
     {
-      "Identity": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css",
+      "Identity": "/root/clone-project/EStudy-be/wwwroot/lib/bootstrap/dist/css/bootstrap-grid.min.css",
       "SourceId": "study4-be",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\",
+      "ContentRoot": "/root/clone-project/EStudy-be/wwwroot/",
       "BasePath": "_content/study4-be",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-grid.min.css",
       "AssetKind": "All",
@@ -1680,13 +1544,13 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css"
+      "OriginalItemSpec": "wwwroot/lib/bootstrap/dist/css/bootstrap-grid.min.css"
     },
     {
-      "Identity": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css.map",
+      "Identity": "/root/clone-project/EStudy-be/wwwroot/lib/bootstrap/dist/css/bootstrap-grid.min.css.map",
       "SourceId": "study4-be",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\",
+      "ContentRoot": "/root/clone-project/EStudy-be/wwwroot/",
       "BasePath": "_content/study4-be",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-grid.min.css.map",
       "AssetKind": "All",
@@ -1697,13 +1561,13 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css.map"
+      "OriginalItemSpec": "wwwroot/lib/bootstrap/dist/css/bootstrap-grid.min.css.map"
     },
     {
-      "Identity": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css",
+      "Identity": "/root/clone-project/EStudy-be/wwwroot/lib/bootstrap/dist/css/bootstrap-grid.rtl.css",
       "SourceId": "study4-be",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\",
+      "ContentRoot": "/root/clone-project/EStudy-be/wwwroot/",
       "BasePath": "_content/study4-be",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-grid.rtl.css",
       "AssetKind": "All",
@@ -1714,13 +1578,13 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css"
+      "OriginalItemSpec": "wwwroot/lib/bootstrap/dist/css/bootstrap-grid.rtl.css"
     },
     {
-      "Identity": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css.map",
+      "Identity": "/root/clone-project/EStudy-be/wwwroot/lib/bootstrap/dist/css/bootstrap-grid.rtl.css.map",
       "SourceId": "study4-be",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\",
+      "ContentRoot": "/root/clone-project/EStudy-be/wwwroot/",
       "BasePath": "_content/study4-be",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-grid.rtl.css.map",
       "AssetKind": "All",
@@ -1731,13 +1595,13 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css.map"
+      "OriginalItemSpec": "wwwroot/lib/bootstrap/dist/css/bootstrap-grid.rtl.css.map"
     },
     {
-      "Identity": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css",
+      "Identity": "/root/clone-project/EStudy-be/wwwroot/lib/bootstrap/dist/css/bootstrap-grid.rtl.min.css",
       "SourceId": "study4-be",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\",
+      "ContentRoot": "/root/clone-project/EStudy-be/wwwroot/",
       "BasePath": "_content/study4-be",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-grid.rtl.min.css",
       "AssetKind": "All",
@@ -1748,13 +1612,13 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css"
+      "OriginalItemSpec": "wwwroot/lib/bootstrap/dist/css/bootstrap-grid.rtl.min.css"
     },
     {
-      "Identity": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css.map",
+      "Identity": "/root/clone-project/EStudy-be/wwwroot/lib/bootstrap/dist/css/bootstrap-grid.rtl.min.css.map",
       "SourceId": "study4-be",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\",
+      "ContentRoot": "/root/clone-project/EStudy-be/wwwroot/",
       "BasePath": "_content/study4-be",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-grid.rtl.min.css.map",
       "AssetKind": "All",
@@ -1765,13 +1629,13 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css.map"
+      "OriginalItemSpec": "wwwroot/lib/bootstrap/dist/css/bootstrap-grid.rtl.min.css.map"
     },
     {
-      "Identity": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css",
+      "Identity": "/root/clone-project/EStudy-be/wwwroot/lib/bootstrap/dist/css/bootstrap-reboot.css",
       "SourceId": "study4-be",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\",
+      "ContentRoot": "/root/clone-project/EStudy-be/wwwroot/",
       "BasePath": "_content/study4-be",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-reboot.css",
       "AssetKind": "All",
@@ -1782,13 +1646,13 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css"
+      "OriginalItemSpec": "wwwroot/lib/bootstrap/dist/css/bootstrap-reboot.css"
     },
     {
-      "Identity": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css.map",
+      "Identity": "/root/clone-project/EStudy-be/wwwroot/lib/bootstrap/dist/css/bootstrap-reboot.css.map",
       "SourceId": "study4-be",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\",
+      "ContentRoot": "/root/clone-project/EStudy-be/wwwroot/",
       "BasePath": "_content/study4-be",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-reboot.css.map",
       "AssetKind": "All",
@@ -1799,13 +1663,13 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css.map"
+      "OriginalItemSpec": "wwwroot/lib/bootstrap/dist/css/bootstrap-reboot.css.map"
     },
     {
-      "Identity": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css",
+      "Identity": "/root/clone-project/EStudy-be/wwwroot/lib/bootstrap/dist/css/bootstrap-reboot.min.css",
       "SourceId": "study4-be",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\",
+      "ContentRoot": "/root/clone-project/EStudy-be/wwwroot/",
       "BasePath": "_content/study4-be",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-reboot.min.css",
       "AssetKind": "All",
@@ -1816,13 +1680,13 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css"
+      "OriginalItemSpec": "wwwroot/lib/bootstrap/dist/css/bootstrap-reboot.min.css"
     },
     {
-      "Identity": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css.map",
+      "Identity": "/root/clone-project/EStudy-be/wwwroot/lib/bootstrap/dist/css/bootstrap-reboot.min.css.map",
       "SourceId": "study4-be",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\",
+      "ContentRoot": "/root/clone-project/EStudy-be/wwwroot/",
       "BasePath": "_content/study4-be",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-reboot.min.css.map",
       "AssetKind": "All",
@@ -1833,13 +1697,13 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css.map"
+      "OriginalItemSpec": "wwwroot/lib/bootstrap/dist/css/bootstrap-reboot.min.css.map"
     },
     {
-      "Identity": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css",
+      "Identity": "/root/clone-project/EStudy-be/wwwroot/lib/bootstrap/dist/css/bootstrap-reboot.rtl.css",
       "SourceId": "study4-be",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\",
+      "ContentRoot": "/root/clone-project/EStudy-be/wwwroot/",
       "BasePath": "_content/study4-be",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-reboot.rtl.css",
       "AssetKind": "All",
@@ -1850,13 +1714,13 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css"
+      "OriginalItemSpec": "wwwroot/lib/bootstrap/dist/css/bootstrap-reboot.rtl.css"
     },
     {
-      "Identity": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css.map",
+      "Identity": "/root/clone-project/EStudy-be/wwwroot/lib/bootstrap/dist/css/bootstrap-reboot.rtl.css.map",
       "SourceId": "study4-be",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\",
+      "ContentRoot": "/root/clone-project/EStudy-be/wwwroot/",
       "BasePath": "_content/study4-be",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-reboot.rtl.css.map",
       "AssetKind": "All",
@@ -1867,13 +1731,13 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css.map"
+      "OriginalItemSpec": "wwwroot/lib/bootstrap/dist/css/bootstrap-reboot.rtl.css.map"
     },
     {
-      "Identity": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css",
+      "Identity": "/root/clone-project/EStudy-be/wwwroot/lib/bootstrap/dist/css/bootstrap-reboot.rtl.min.css",
       "SourceId": "study4-be",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\",
+      "ContentRoot": "/root/clone-project/EStudy-be/wwwroot/",
       "BasePath": "_content/study4-be",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-reboot.rtl.min.css",
       "AssetKind": "All",
@@ -1884,13 +1748,13 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css"
+      "OriginalItemSpec": "wwwroot/lib/bootstrap/dist/css/bootstrap-reboot.rtl.min.css"
     },
     {
-      "Identity": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css.map",
+      "Identity": "/root/clone-project/EStudy-be/wwwroot/lib/bootstrap/dist/css/bootstrap-reboot.rtl.min.css.map",
       "SourceId": "study4-be",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\",
+      "ContentRoot": "/root/clone-project/EStudy-be/wwwroot/",
       "BasePath": "_content/study4-be",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-reboot.rtl.min.css.map",
       "AssetKind": "All",
@@ -1901,13 +1765,13 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css.map"
+      "OriginalItemSpec": "wwwroot/lib/bootstrap/dist/css/bootstrap-reboot.rtl.min.css.map"
     },
     {
-      "Identity": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css",
+      "Identity": "/root/clone-project/EStudy-be/wwwroot/lib/bootstrap/dist/css/bootstrap-utilities.css",
       "SourceId": "study4-be",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\",
+      "ContentRoot": "/root/clone-project/EStudy-be/wwwroot/",
       "BasePath": "_content/study4-be",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-utilities.css",
       "AssetKind": "All",
@@ -1918,13 +1782,13 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css"
+      "OriginalItemSpec": "wwwroot/lib/bootstrap/dist/css/bootstrap-utilities.css"
     },
     {
-      "Identity": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css.map",
+      "Identity": "/root/clone-project/EStudy-be/wwwroot/lib/bootstrap/dist/css/bootstrap-utilities.css.map",
       "SourceId": "study4-be",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\",
+      "ContentRoot": "/root/clone-project/EStudy-be/wwwroot/",
       "BasePath": "_content/study4-be",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-utilities.css.map",
       "AssetKind": "All",
@@ -1935,13 +1799,13 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css.map"
+      "OriginalItemSpec": "wwwroot/lib/bootstrap/dist/css/bootstrap-utilities.css.map"
     },
     {
-      "Identity": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css",
+      "Identity": "/root/clone-project/EStudy-be/wwwroot/lib/bootstrap/dist/css/bootstrap-utilities.min.css",
       "SourceId": "study4-be",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\",
+      "ContentRoot": "/root/clone-project/EStudy-be/wwwroot/",
       "BasePath": "_content/study4-be",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-utilities.min.css",
       "AssetKind": "All",
@@ -1952,13 +1816,13 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css"
+      "OriginalItemSpec": "wwwroot/lib/bootstrap/dist/css/bootstrap-utilities.min.css"
     },
     {
-      "Identity": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css.map",
+      "Identity": "/root/clone-project/EStudy-be/wwwroot/lib/bootstrap/dist/css/bootstrap-utilities.min.css.map",
       "SourceId": "study4-be",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\",
+      "ContentRoot": "/root/clone-project/EStudy-be/wwwroot/",
       "BasePath": "_content/study4-be",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-utilities.min.css.map",
       "AssetKind": "All",
@@ -1969,13 +1833,13 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css.map"
+      "OriginalItemSpec": "wwwroot/lib/bootstrap/dist/css/bootstrap-utilities.min.css.map"
     },
     {
-      "Identity": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css",
+      "Identity": "/root/clone-project/EStudy-be/wwwroot/lib/bootstrap/dist/css/bootstrap-utilities.rtl.css",
       "SourceId": "study4-be",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\",
+      "ContentRoot": "/root/clone-project/EStudy-be/wwwroot/",
       "BasePath": "_content/study4-be",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-utilities.rtl.css",
       "AssetKind": "All",
@@ -1986,13 +1850,13 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css"
+      "OriginalItemSpec": "wwwroot/lib/bootstrap/dist/css/bootstrap-utilities.rtl.css"
     },
     {
-      "Identity": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css.map",
+      "Identity": "/root/clone-project/EStudy-be/wwwroot/lib/bootstrap/dist/css/bootstrap-utilities.rtl.css.map",
       "SourceId": "study4-be",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\",
+      "ContentRoot": "/root/clone-project/EStudy-be/wwwroot/",
       "BasePath": "_content/study4-be",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-utilities.rtl.css.map",
       "AssetKind": "All",
@@ -2003,13 +1867,13 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css.map"
+      "OriginalItemSpec": "wwwroot/lib/bootstrap/dist/css/bootstrap-utilities.rtl.css.map"
     },
     {
-      "Identity": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css",
+      "Identity": "/root/clone-project/EStudy-be/wwwroot/lib/bootstrap/dist/css/bootstrap-utilities.rtl.min.css",
       "SourceId": "study4-be",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\",
+      "ContentRoot": "/root/clone-project/EStudy-be/wwwroot/",
       "BasePath": "_content/study4-be",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-utilities.rtl.min.css",
       "AssetKind": "All",
@@ -2020,13 +1884,13 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css"
+      "OriginalItemSpec": "wwwroot/lib/bootstrap/dist/css/bootstrap-utilities.rtl.min.css"
     },
     {
-      "Identity": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css.map",
+      "Identity": "/root/clone-project/EStudy-be/wwwroot/lib/bootstrap/dist/css/bootstrap-utilities.rtl.min.css.map",
       "SourceId": "study4-be",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\",
+      "ContentRoot": "/root/clone-project/EStudy-be/wwwroot/",
       "BasePath": "_content/study4-be",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-utilities.rtl.min.css.map",
       "AssetKind": "All",
@@ -2037,13 +1901,149 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css.map"
+      "OriginalItemSpec": "wwwroot/lib/bootstrap/dist/css/bootstrap-utilities.rtl.min.css.map"
     },
     {
-      "Identity": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js",
+      "Identity": "/root/clone-project/EStudy-be/wwwroot/lib/bootstrap/dist/css/bootstrap.css",
       "SourceId": "study4-be",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\",
+      "ContentRoot": "/root/clone-project/EStudy-be/wwwroot/",
+      "BasePath": "_content/study4-be",
+      "RelativePath": "lib/bootstrap/dist/css/bootstrap.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/lib/bootstrap/dist/css/bootstrap.css"
+    },
+    {
+      "Identity": "/root/clone-project/EStudy-be/wwwroot/lib/bootstrap/dist/css/bootstrap.css.map",
+      "SourceId": "study4-be",
+      "SourceType": "Discovered",
+      "ContentRoot": "/root/clone-project/EStudy-be/wwwroot/",
+      "BasePath": "_content/study4-be",
+      "RelativePath": "lib/bootstrap/dist/css/bootstrap.css.map",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/lib/bootstrap/dist/css/bootstrap.css.map"
+    },
+    {
+      "Identity": "/root/clone-project/EStudy-be/wwwroot/lib/bootstrap/dist/css/bootstrap.min.css",
+      "SourceId": "study4-be",
+      "SourceType": "Discovered",
+      "ContentRoot": "/root/clone-project/EStudy-be/wwwroot/",
+      "BasePath": "_content/study4-be",
+      "RelativePath": "lib/bootstrap/dist/css/bootstrap.min.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/lib/bootstrap/dist/css/bootstrap.min.css"
+    },
+    {
+      "Identity": "/root/clone-project/EStudy-be/wwwroot/lib/bootstrap/dist/css/bootstrap.min.css.map",
+      "SourceId": "study4-be",
+      "SourceType": "Discovered",
+      "ContentRoot": "/root/clone-project/EStudy-be/wwwroot/",
+      "BasePath": "_content/study4-be",
+      "RelativePath": "lib/bootstrap/dist/css/bootstrap.min.css.map",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/lib/bootstrap/dist/css/bootstrap.min.css.map"
+    },
+    {
+      "Identity": "/root/clone-project/EStudy-be/wwwroot/lib/bootstrap/dist/css/bootstrap.rtl.css",
+      "SourceId": "study4-be",
+      "SourceType": "Discovered",
+      "ContentRoot": "/root/clone-project/EStudy-be/wwwroot/",
+      "BasePath": "_content/study4-be",
+      "RelativePath": "lib/bootstrap/dist/css/bootstrap.rtl.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/lib/bootstrap/dist/css/bootstrap.rtl.css"
+    },
+    {
+      "Identity": "/root/clone-project/EStudy-be/wwwroot/lib/bootstrap/dist/css/bootstrap.rtl.css.map",
+      "SourceId": "study4-be",
+      "SourceType": "Discovered",
+      "ContentRoot": "/root/clone-project/EStudy-be/wwwroot/",
+      "BasePath": "_content/study4-be",
+      "RelativePath": "lib/bootstrap/dist/css/bootstrap.rtl.css.map",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/lib/bootstrap/dist/css/bootstrap.rtl.css.map"
+    },
+    {
+      "Identity": "/root/clone-project/EStudy-be/wwwroot/lib/bootstrap/dist/css/bootstrap.rtl.min.css",
+      "SourceId": "study4-be",
+      "SourceType": "Discovered",
+      "ContentRoot": "/root/clone-project/EStudy-be/wwwroot/",
+      "BasePath": "_content/study4-be",
+      "RelativePath": "lib/bootstrap/dist/css/bootstrap.rtl.min.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/lib/bootstrap/dist/css/bootstrap.rtl.min.css"
+    },
+    {
+      "Identity": "/root/clone-project/EStudy-be/wwwroot/lib/bootstrap/dist/css/bootstrap.rtl.min.css.map",
+      "SourceId": "study4-be",
+      "SourceType": "Discovered",
+      "ContentRoot": "/root/clone-project/EStudy-be/wwwroot/",
+      "BasePath": "_content/study4-be",
+      "RelativePath": "lib/bootstrap/dist/css/bootstrap.rtl.min.css.map",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/lib/bootstrap/dist/css/bootstrap.rtl.min.css.map"
+    },
+    {
+      "Identity": "/root/clone-project/EStudy-be/wwwroot/lib/bootstrap/dist/js/bootstrap.bundle.js",
+      "SourceId": "study4-be",
+      "SourceType": "Discovered",
+      "ContentRoot": "/root/clone-project/EStudy-be/wwwroot/",
       "BasePath": "_content/study4-be",
       "RelativePath": "lib/bootstrap/dist/js/bootstrap.bundle.js",
       "AssetKind": "All",
@@ -2054,13 +2054,13 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js"
+      "OriginalItemSpec": "wwwroot/lib/bootstrap/dist/js/bootstrap.bundle.js"
     },
     {
-      "Identity": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js.map",
+      "Identity": "/root/clone-project/EStudy-be/wwwroot/lib/bootstrap/dist/js/bootstrap.bundle.js.map",
       "SourceId": "study4-be",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\",
+      "ContentRoot": "/root/clone-project/EStudy-be/wwwroot/",
       "BasePath": "_content/study4-be",
       "RelativePath": "lib/bootstrap/dist/js/bootstrap.bundle.js.map",
       "AssetKind": "All",
@@ -2071,13 +2071,13 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js.map"
+      "OriginalItemSpec": "wwwroot/lib/bootstrap/dist/js/bootstrap.bundle.js.map"
     },
     {
-      "Identity": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js",
+      "Identity": "/root/clone-project/EStudy-be/wwwroot/lib/bootstrap/dist/js/bootstrap.bundle.min.js",
       "SourceId": "study4-be",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\",
+      "ContentRoot": "/root/clone-project/EStudy-be/wwwroot/",
       "BasePath": "_content/study4-be",
       "RelativePath": "lib/bootstrap/dist/js/bootstrap.bundle.min.js",
       "AssetKind": "All",
@@ -2088,13 +2088,13 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js"
+      "OriginalItemSpec": "wwwroot/lib/bootstrap/dist/js/bootstrap.bundle.min.js"
     },
     {
-      "Identity": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js.map",
+      "Identity": "/root/clone-project/EStudy-be/wwwroot/lib/bootstrap/dist/js/bootstrap.bundle.min.js.map",
       "SourceId": "study4-be",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\",
+      "ContentRoot": "/root/clone-project/EStudy-be/wwwroot/",
       "BasePath": "_content/study4-be",
       "RelativePath": "lib/bootstrap/dist/js/bootstrap.bundle.min.js.map",
       "AssetKind": "All",
@@ -2105,13 +2105,13 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js.map"
+      "OriginalItemSpec": "wwwroot/lib/bootstrap/dist/js/bootstrap.bundle.min.js.map"
     },
     {
-      "Identity": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js",
+      "Identity": "/root/clone-project/EStudy-be/wwwroot/lib/bootstrap/dist/js/bootstrap.esm.js",
       "SourceId": "study4-be",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\",
+      "ContentRoot": "/root/clone-project/EStudy-be/wwwroot/",
       "BasePath": "_content/study4-be",
       "RelativePath": "lib/bootstrap/dist/js/bootstrap.esm.js",
       "AssetKind": "All",
@@ -2122,13 +2122,13 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js"
+      "OriginalItemSpec": "wwwroot/lib/bootstrap/dist/js/bootstrap.esm.js"
     },
     {
-      "Identity": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js.map",
+      "Identity": "/root/clone-project/EStudy-be/wwwroot/lib/bootstrap/dist/js/bootstrap.esm.js.map",
       "SourceId": "study4-be",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\",
+      "ContentRoot": "/root/clone-project/EStudy-be/wwwroot/",
       "BasePath": "_content/study4-be",
       "RelativePath": "lib/bootstrap/dist/js/bootstrap.esm.js.map",
       "AssetKind": "All",
@@ -2139,13 +2139,13 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js.map"
+      "OriginalItemSpec": "wwwroot/lib/bootstrap/dist/js/bootstrap.esm.js.map"
     },
     {
-      "Identity": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js",
+      "Identity": "/root/clone-project/EStudy-be/wwwroot/lib/bootstrap/dist/js/bootstrap.esm.min.js",
       "SourceId": "study4-be",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\",
+      "ContentRoot": "/root/clone-project/EStudy-be/wwwroot/",
       "BasePath": "_content/study4-be",
       "RelativePath": "lib/bootstrap/dist/js/bootstrap.esm.min.js",
       "AssetKind": "All",
@@ -2156,13 +2156,13 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js"
+      "OriginalItemSpec": "wwwroot/lib/bootstrap/dist/js/bootstrap.esm.min.js"
     },
     {
-      "Identity": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js.map",
+      "Identity": "/root/clone-project/EStudy-be/wwwroot/lib/bootstrap/dist/js/bootstrap.esm.min.js.map",
       "SourceId": "study4-be",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\",
+      "ContentRoot": "/root/clone-project/EStudy-be/wwwroot/",
       "BasePath": "_content/study4-be",
       "RelativePath": "lib/bootstrap/dist/js/bootstrap.esm.min.js.map",
       "AssetKind": "All",
@@ -2173,13 +2173,13 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js.map"
+      "OriginalItemSpec": "wwwroot/lib/bootstrap/dist/js/bootstrap.esm.min.js.map"
     },
     {
-      "Identity": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.js",
+      "Identity": "/root/clone-project/EStudy-be/wwwroot/lib/bootstrap/dist/js/bootstrap.js",
       "SourceId": "study4-be",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\",
+      "ContentRoot": "/root/clone-project/EStudy-be/wwwroot/",
       "BasePath": "_content/study4-be",
       "RelativePath": "lib/bootstrap/dist/js/bootstrap.js",
       "AssetKind": "All",
@@ -2190,13 +2190,13 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.js"
+      "OriginalItemSpec": "wwwroot/lib/bootstrap/dist/js/bootstrap.js"
     },
     {
-      "Identity": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.js.map",
+      "Identity": "/root/clone-project/EStudy-be/wwwroot/lib/bootstrap/dist/js/bootstrap.js.map",
       "SourceId": "study4-be",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\",
+      "ContentRoot": "/root/clone-project/EStudy-be/wwwroot/",
       "BasePath": "_content/study4-be",
       "RelativePath": "lib/bootstrap/dist/js/bootstrap.js.map",
       "AssetKind": "All",
@@ -2207,13 +2207,13 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.js.map"
+      "OriginalItemSpec": "wwwroot/lib/bootstrap/dist/js/bootstrap.js.map"
     },
     {
-      "Identity": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.min.js",
+      "Identity": "/root/clone-project/EStudy-be/wwwroot/lib/bootstrap/dist/js/bootstrap.min.js",
       "SourceId": "study4-be",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\",
+      "ContentRoot": "/root/clone-project/EStudy-be/wwwroot/",
       "BasePath": "_content/study4-be",
       "RelativePath": "lib/bootstrap/dist/js/bootstrap.min.js",
       "AssetKind": "All",
@@ -2224,13 +2224,13 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.min.js"
+      "OriginalItemSpec": "wwwroot/lib/bootstrap/dist/js/bootstrap.min.js"
     },
     {
-      "Identity": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.min.js.map",
+      "Identity": "/root/clone-project/EStudy-be/wwwroot/lib/bootstrap/dist/js/bootstrap.min.js.map",
       "SourceId": "study4-be",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\",
+      "ContentRoot": "/root/clone-project/EStudy-be/wwwroot/",
       "BasePath": "_content/study4-be",
       "RelativePath": "lib/bootstrap/dist/js/bootstrap.min.js.map",
       "AssetKind": "All",
@@ -2241,13 +2241,13 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.min.js.map"
+      "OriginalItemSpec": "wwwroot/lib/bootstrap/dist/js/bootstrap.min.js.map"
     },
     {
-      "Identity": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\lib\\bootstrap\\LICENSE",
+      "Identity": "/root/clone-project/EStudy-be/wwwroot/lib/bootstrap/LICENSE",
       "SourceId": "study4-be",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\",
+      "ContentRoot": "/root/clone-project/EStudy-be/wwwroot/",
       "BasePath": "_content/study4-be",
       "RelativePath": "lib/bootstrap/LICENSE",
       "AssetKind": "All",
@@ -2258,166 +2258,13 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\LICENSE"
+      "OriginalItemSpec": "wwwroot/lib/bootstrap/LICENSE"
     },
     {
-      "Identity": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\lib\\jquery\\dist\\jquery.js",
+      "Identity": "/root/clone-project/EStudy-be/wwwroot/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js",
       "SourceId": "study4-be",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\",
-      "BasePath": "_content/study4-be",
-      "RelativePath": "lib/jquery/dist/jquery.js",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\lib\\jquery\\dist\\jquery.js"
-    },
-    {
-      "Identity": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\lib\\jquery\\dist\\jquery.min.js",
-      "SourceId": "study4-be",
-      "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\",
-      "BasePath": "_content/study4-be",
-      "RelativePath": "lib/jquery/dist/jquery.min.js",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\lib\\jquery\\dist\\jquery.min.js"
-    },
-    {
-      "Identity": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\lib\\jquery\\dist\\jquery.min.map",
-      "SourceId": "study4-be",
-      "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\",
-      "BasePath": "_content/study4-be",
-      "RelativePath": "lib/jquery/dist/jquery.min.map",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\lib\\jquery\\dist\\jquery.min.map"
-    },
-    {
-      "Identity": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\lib\\jquery\\LICENSE.txt",
-      "SourceId": "study4-be",
-      "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\",
-      "BasePath": "_content/study4-be",
-      "RelativePath": "lib/jquery/LICENSE.txt",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\lib\\jquery\\LICENSE.txt"
-    },
-    {
-      "Identity": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\lib\\jquery-validation\\dist\\additional-methods.js",
-      "SourceId": "study4-be",
-      "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\",
-      "BasePath": "_content/study4-be",
-      "RelativePath": "lib/jquery-validation/dist/additional-methods.js",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\lib\\jquery-validation\\dist\\additional-methods.js"
-    },
-    {
-      "Identity": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\lib\\jquery-validation\\dist\\additional-methods.min.js",
-      "SourceId": "study4-be",
-      "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\",
-      "BasePath": "_content/study4-be",
-      "RelativePath": "lib/jquery-validation/dist/additional-methods.min.js",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\lib\\jquery-validation\\dist\\additional-methods.min.js"
-    },
-    {
-      "Identity": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\lib\\jquery-validation\\dist\\jquery.validate.js",
-      "SourceId": "study4-be",
-      "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\",
-      "BasePath": "_content/study4-be",
-      "RelativePath": "lib/jquery-validation/dist/jquery.validate.js",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\lib\\jquery-validation\\dist\\jquery.validate.js"
-    },
-    {
-      "Identity": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\lib\\jquery-validation\\dist\\jquery.validate.min.js",
-      "SourceId": "study4-be",
-      "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\",
-      "BasePath": "_content/study4-be",
-      "RelativePath": "lib/jquery-validation/dist/jquery.validate.min.js",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\lib\\jquery-validation\\dist\\jquery.validate.min.js"
-    },
-    {
-      "Identity": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\lib\\jquery-validation\\LICENSE.md",
-      "SourceId": "study4-be",
-      "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\",
-      "BasePath": "_content/study4-be",
-      "RelativePath": "lib/jquery-validation/LICENSE.md",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\lib\\jquery-validation\\LICENSE.md"
-    },
-    {
-      "Identity": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.js",
-      "SourceId": "study4-be",
-      "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\",
+      "ContentRoot": "/root/clone-project/EStudy-be/wwwroot/",
       "BasePath": "_content/study4-be",
       "RelativePath": "lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js",
       "AssetKind": "All",
@@ -2428,13 +2275,13 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.js"
+      "OriginalItemSpec": "wwwroot/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"
     },
     {
-      "Identity": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.min.js",
+      "Identity": "/root/clone-project/EStudy-be/wwwroot/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js",
       "SourceId": "study4-be",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\",
+      "ContentRoot": "/root/clone-project/EStudy-be/wwwroot/",
       "BasePath": "_content/study4-be",
       "RelativePath": "lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js",
       "AssetKind": "All",
@@ -2445,13 +2292,13 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.min.js"
+      "OriginalItemSpec": "wwwroot/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"
     },
     {
-      "Identity": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\lib\\jquery-validation-unobtrusive\\LICENSE.txt",
+      "Identity": "/root/clone-project/EStudy-be/wwwroot/lib/jquery-validation-unobtrusive/LICENSE.txt",
       "SourceId": "study4-be",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\wwwroot\\",
+      "ContentRoot": "/root/clone-project/EStudy-be/wwwroot/",
       "BasePath": "_content/study4-be",
       "RelativePath": "lib/jquery-validation-unobtrusive/LICENSE.txt",
       "AssetKind": "All",
@@ -2462,7 +2309,160 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\lib\\jquery-validation-unobtrusive\\LICENSE.txt"
+      "OriginalItemSpec": "wwwroot/lib/jquery-validation-unobtrusive/LICENSE.txt"
+    },
+    {
+      "Identity": "/root/clone-project/EStudy-be/wwwroot/lib/jquery-validation/dist/additional-methods.js",
+      "SourceId": "study4-be",
+      "SourceType": "Discovered",
+      "ContentRoot": "/root/clone-project/EStudy-be/wwwroot/",
+      "BasePath": "_content/study4-be",
+      "RelativePath": "lib/jquery-validation/dist/additional-methods.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/lib/jquery-validation/dist/additional-methods.js"
+    },
+    {
+      "Identity": "/root/clone-project/EStudy-be/wwwroot/lib/jquery-validation/dist/additional-methods.min.js",
+      "SourceId": "study4-be",
+      "SourceType": "Discovered",
+      "ContentRoot": "/root/clone-project/EStudy-be/wwwroot/",
+      "BasePath": "_content/study4-be",
+      "RelativePath": "lib/jquery-validation/dist/additional-methods.min.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/lib/jquery-validation/dist/additional-methods.min.js"
+    },
+    {
+      "Identity": "/root/clone-project/EStudy-be/wwwroot/lib/jquery-validation/dist/jquery.validate.js",
+      "SourceId": "study4-be",
+      "SourceType": "Discovered",
+      "ContentRoot": "/root/clone-project/EStudy-be/wwwroot/",
+      "BasePath": "_content/study4-be",
+      "RelativePath": "lib/jquery-validation/dist/jquery.validate.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/lib/jquery-validation/dist/jquery.validate.js"
+    },
+    {
+      "Identity": "/root/clone-project/EStudy-be/wwwroot/lib/jquery-validation/dist/jquery.validate.min.js",
+      "SourceId": "study4-be",
+      "SourceType": "Discovered",
+      "ContentRoot": "/root/clone-project/EStudy-be/wwwroot/",
+      "BasePath": "_content/study4-be",
+      "RelativePath": "lib/jquery-validation/dist/jquery.validate.min.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/lib/jquery-validation/dist/jquery.validate.min.js"
+    },
+    {
+      "Identity": "/root/clone-project/EStudy-be/wwwroot/lib/jquery-validation/LICENSE.md",
+      "SourceId": "study4-be",
+      "SourceType": "Discovered",
+      "ContentRoot": "/root/clone-project/EStudy-be/wwwroot/",
+      "BasePath": "_content/study4-be",
+      "RelativePath": "lib/jquery-validation/LICENSE.md",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/lib/jquery-validation/LICENSE.md"
+    },
+    {
+      "Identity": "/root/clone-project/EStudy-be/wwwroot/lib/jquery/dist/jquery.js",
+      "SourceId": "study4-be",
+      "SourceType": "Discovered",
+      "ContentRoot": "/root/clone-project/EStudy-be/wwwroot/",
+      "BasePath": "_content/study4-be",
+      "RelativePath": "lib/jquery/dist/jquery.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/lib/jquery/dist/jquery.js"
+    },
+    {
+      "Identity": "/root/clone-project/EStudy-be/wwwroot/lib/jquery/dist/jquery.min.js",
+      "SourceId": "study4-be",
+      "SourceType": "Discovered",
+      "ContentRoot": "/root/clone-project/EStudy-be/wwwroot/",
+      "BasePath": "_content/study4-be",
+      "RelativePath": "lib/jquery/dist/jquery.min.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/lib/jquery/dist/jquery.min.js"
+    },
+    {
+      "Identity": "/root/clone-project/EStudy-be/wwwroot/lib/jquery/dist/jquery.min.map",
+      "SourceId": "study4-be",
+      "SourceType": "Discovered",
+      "ContentRoot": "/root/clone-project/EStudy-be/wwwroot/",
+      "BasePath": "_content/study4-be",
+      "RelativePath": "lib/jquery/dist/jquery.min.map",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/lib/jquery/dist/jquery.min.map"
+    },
+    {
+      "Identity": "/root/clone-project/EStudy-be/wwwroot/lib/jquery/LICENSE.txt",
+      "SourceId": "study4-be",
+      "SourceType": "Discovered",
+      "ContentRoot": "/root/clone-project/EStudy-be/wwwroot/",
+      "BasePath": "_content/study4-be",
+      "RelativePath": "lib/jquery/LICENSE.txt",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/lib/jquery/LICENSE.txt"
     }
   ]
 }

@@ -1,30 +1,25 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\study4-be.csproj": {}
+    "/root/clone-project/EStudy-be/study4-be.csproj": {}
   },
   "projects": {
-    "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\study4-be.csproj": {
+    "/root/clone-project/EStudy-be/study4-be.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\study4-be.csproj",
+        "projectUniqueName": "/root/clone-project/EStudy-be/study4-be.csproj",
         "projectName": "study4-be",
-        "projectPath": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\study4-be.csproj",
-        "packagesPath": "C:\\Users\\phanv\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\phanv\\OneDrive\\Máy tính\\SideProject\\be\\obj\\",
+        "projectPath": "/root/clone-project/EStudy-be/study4-be.csproj",
+        "packagesPath": "/root/.nuget/packages/",
+        "outputPath": "/root/clone-project/EStudy-be/obj/",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-        ],
         "configFilePaths": [
-          "C:\\Users\\phanv\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "/root/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net6.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -104,7 +99,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.100\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/lib64/dotnet/sdk/6.0.130/RuntimeIdentifierGraph.json"
         }
       }
     }
