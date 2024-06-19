@@ -1,4 +1,6 @@
-﻿using MediatR;
+﻿using FirebaseAdmin.Auth;
+using FirebaseAdmin;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
@@ -16,6 +18,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using study4_be.Services;
 [Route("api/[controller]")]
 [ApiController]
 public class Momo_PaymentController : ControllerBase
@@ -23,12 +26,16 @@ public class Momo_PaymentController : ControllerBase
     private readonly ILogger<Momo_PaymentController> _logger;
     private readonly MomoConfig _momoConfig;
     private readonly HashHelper _hashHelper;
+    private readonly FireBaseServices _fireBaseServices;
+    private FirebaseApp _firebaseApp;
+    private SMTPServices _smtpServices = new SMTPServices();
     private STUDY4Context _context = new STUDY4Context();
-    public Momo_PaymentController(ILogger<Momo_PaymentController> logger, IOptions<MomoConfig> momoPaymentSettings)
+    public Momo_PaymentController(ILogger<Momo_PaymentController> logger, IOptions<MomoConfig> momoPaymentSettings, FireBaseServices fireBaseServices)
     {
         _logger = logger;
         _momoConfig = momoPaymentSettings.Value;
         _hashHelper = new HashHelper();
+        fireBaseServices = _fireBaseServices;
     }
     [HttpPost]
     public async Task<IActionResult> MakePayment([FromBody] MomoPaymentRequest request)
@@ -180,6 +187,33 @@ public class Momo_PaymentController : ControllerBase
         catch (Exception e)
         {
             return BadRequest("Has error when Update State of Order" + e);
+        }
+    }
+    [HttpPost("sendEmail")]
+    public async Task<IActionResult> SendEmailAsync(string userEmail)
+    {
+        try
+        {
+            // Initialize Firebase Auth
+            var auth = FirebaseAuth.GetAuth(_firebaseApp);
+
+            // Generate email verification link for the user
+            var emailLink = await auth.GenerateEmailVerificationLinkAsync(userEmail);
+
+            // Send the email using Firebase (example: using SendGrid)
+            await _smtpServices.SendEmailUsingSendGrid(userEmail, emailLink);
+
+            return Ok("Email sent successfully");
+        }
+        catch (FirebaseAuthException ex)
+        {
+            // Handle Firebase Auth exceptions
+            return StatusCode(500, $"Failed to send email: {ex.Message}");
+        }
+        catch (Exception ex)
+        {
+            // Handle other exceptions
+            return StatusCode(500, $"An error occurred: {ex.Message}");
         }
     }
 
