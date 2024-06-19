@@ -22,7 +22,7 @@ builder.Services.AddDbContext<STUDY4Context>(); // Đăng ký STUDY4Context vào
 builder.Services.AddScoped<UserCourseExpirationService>(); // Đăng ký dịch vụ UserCourseExpirationService với phạm vi Scoped
                                                            // Momo config payment
 builder.Services.AddTransient<ICurrentUserServices, CurrentUserServices>(); // Đăng ký ICurrentUserServices
-builder.Configuration.AddJsonFile("appsettings.json", optional: false);
+//builder.Configuration.AddJsonFile("appsettings.json", optional: false);
 builder.Services.AddTransient<IConnectionService, ConnectionService>();
 builder.Services.AddTransient<ISqlService, SqlService>();
 builder.Services.AddMediatR(typeof(Program).Assembly);

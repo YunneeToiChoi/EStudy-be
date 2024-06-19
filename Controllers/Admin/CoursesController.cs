@@ -92,16 +92,92 @@ namespace study4_be.Controllers.Admin
 
             return Ok(course);
         }
-
-        public IActionResult Course_Edit()
+        [HttpGet]
+        public IActionResult Course_Edit(int id)
         {
-            return View();
+            var course = _context.Courses.FirstOrDefault(c => c.CourseId == id);
+            if (course == null)
+            {
+                return NotFound();
+            }
+            return View(course);
         }
 
-        public IActionResult Course_Delete()
+        [HttpPost]
+        public async Task<IActionResult> Course_Edit(Course course, IFormFile CourseImage)
         {
-            return View();
+            if (ModelState.IsValid)
+            {
+                var courseToUpdate = _context.Courses.FirstOrDefault(c => c.CourseId == course.CourseId);
+                if (CourseImage != null && CourseImage.Length > 0)
+                {
+                    var firebaseBucketName = _fireBaseServices.GetFirebaseBucketName();
+                    // Delete the old image from Firebase Storage
+                    if (!string.IsNullOrEmpty(courseToUpdate.CourseImage))
+                    {
+                        // Extract the file name from the URL
+                        var oldFileName = Path.GetFileName(new Uri(courseToUpdate.CourseImage).LocalPath);
+                        await _fireBaseServices.DeleteFileFromFirebaseStorageAsync(oldFileName, firebaseBucketName);
+                    }
+                    var uniqueId = Guid.NewGuid().ToString(); 
+                    var imgFilePath = ($"IMG{uniqueId}.jpg");
+                    string firebaseUrl = await _fireBaseServices.UploadFileToFirebaseStorageAsync(CourseImage, imgFilePath, firebaseBucketName);
+                    course.CourseImage = firebaseUrl;
+                }
+                courseToUpdate.CourseName = course.CourseName;
+                courseToUpdate.CourseDescription = course.CourseDescription;
+                courseToUpdate.CoursePrice = course.CoursePrice;
+                courseToUpdate.CourseTag = course.CourseTag;
+                courseToUpdate.CourseImage = course.CourseImage;
+                try
+                {
+                    _context.SaveChanges();
+                    return RedirectToAction("Course_List");
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError($"Error updating course with ID {course.CourseId}: {ex.Message}");
+                    ModelState.AddModelError(string.Empty, "An error occurred while updating the course.");
+                }
+            }
+            return View(course);
         }
+        [HttpGet]
+        public IActionResult Course_Delete(int id)
+        {
+            var course = _context.Courses.FirstOrDefault(c => c.CourseId == id);
+            if (course == null)
+            {
+                _logger.LogError($"Course with ID {id} not found for delete.");
+                return NotFound($"Course with ID {id} not found.");
+            }
+            return View(course);
+        }
+
+        [HttpPost, ActionName("Course_Delete")]
+        public IActionResult Course_DeleteConfirmed(int id)
+        {
+            var course = _context.Courses.FirstOrDefault(c => c.CourseId == id);
+            if (course == null)
+            {
+                _logger.LogError($"Course with ID {id} not found for deletion.");
+                return NotFound($"Course with ID {id} not found.");
+            }
+
+            try
+            {
+                _context.Courses.Remove(course);
+                _context.SaveChanges();
+                return RedirectToAction("Course_List");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Error deleting course with ID {id}: {ex.Message}");
+                ModelState.AddModelError(string.Empty, "An error occurred while deleting the course.");
+                return View(course);
+            }
+        }
+
 
         public IActionResult Course_Details()
         {

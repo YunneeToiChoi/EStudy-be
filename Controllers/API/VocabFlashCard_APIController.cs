@@ -153,9 +153,9 @@ namespace study4_be.Controllers.API
             {
                 var allVocabOfLesson = await _vocabFlashCardRepo.GetAllVocabDependLesson(_vocabRequest.lessonId);
                 var lessonTag = await _context.Lessons
-                            .Where(l => l.LessonId == _vocabRequest.lessonId)
-                            .Select(l => l.Tag)
-                            .FirstOrDefaultAsync();
+                    .Where(l => l.LessonId == _vocabRequest.lessonId)
+                    .Select(l => l.Tag)
+                    .FirstOrDefaultAsync();
 
                 var lessonTagResponse = new
                 {
@@ -175,44 +175,34 @@ namespace study4_be.Controllers.API
                 var random = new Random();
                 var chunkedData = new List<object>();
 
-                for (int i = 0; i < responseData.Count; i += chunkSize)
+                // Create chunks without duplicate vocabIds
+                while (chunkedData.Count < chunkLength)
                 {
-                    var chunk = responseData.Skip(i).Take(chunkSize).ToList();
+                    var chunk = new List<VocabListenChoosenResponse>();
+                    var chosenIds = new HashSet<int>(); // HashSet to store chosen vocab ids
+
                     while (chunk.Count < chunkSize)
                     {
-                        chunk.Add(responseData[random.Next(responseData.Count)]);
+                        var randomIndex = random.Next(responseData.Count);
+                        var vocab = responseData[randomIndex];
+
+                        if (!chosenIds.Contains(vocab.vocabId))
+                        {
+                            chunk.Add(vocab);
+                            chosenIds.Add(vocab.vocabId);
+                        }
                     }
 
                     var randomVocab = chunk[random.Next(chunk.Count)];
 
                     chunkedData.Add(new
                     {
+                        chunkName = $"chunk {chunkedData.Count + 1}",
                         url = randomVocab.vocabAudioUrl,
                         correct = randomVocab.vocabId,
                         listVocab = chunk
                     });
                 }
-
-                // Ensure there are at least 20 chunks
-                while (chunkedData.Count < chunkLength)
-                {
-                    var newChunk = new List<VocabListenChoosenResponse>();
-                    while (newChunk.Count < chunkSize)
-                    {
-                        newChunk.Add(responseData[random.Next(responseData.Count)]);
-                    }
-                    var randomVocab = newChunk[random.Next(newChunk.Count)];
-                    chunkedData.Add(new
-                    {
-                        chunkName = $"chunk {chunkedData.Count + 1}",
-                        url = randomVocab.vocabAudioUrl,
-                        correct = randomVocab.vocabId,
-                        listVocab = newChunk
-                    });
-                }
-
-                // If there are more than 20 chunks, take only the first 20
-                chunkedData = chunkedData.Take(chunkLength).ToList();
 
                 return Ok(new
                 {
@@ -228,7 +218,7 @@ namespace study4_be.Controllers.API
                 return StatusCode(500, new { status = 500, message = "An error occurred while processing your request." });
             }
         }
-        private static IEnumerable<IEnumerable<T>> Partition<T>(IEnumerable<T> source, int chunkSize)
+    private static IEnumerable<IEnumerable<T>> Partition<T>(IEnumerable<T> source, int chunkSize)
         {
             int i = 0;
             while (source.Skip(i * chunkSize).Any())
