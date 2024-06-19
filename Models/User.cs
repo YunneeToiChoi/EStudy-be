@@ -7,6 +7,7 @@ namespace study4_be.Models
     {
         public User()
         {
+            Orders = new HashSet<Order>();
             Ratings = new HashSet<Rating>();
             UserCourses = new HashSet<UserCourse>();
         }
@@ -20,6 +21,7 @@ namespace study4_be.Models
         public string? UserBanner { get; set; }
         public string? PhoneNumber { get; set; }
 
+        public virtual ICollection<Order> Orders { get; set; }
         public virtual ICollection<Rating> Ratings { get; set; }
         public virtual ICollection<UserCourse> UserCourses { get; set; }
     }

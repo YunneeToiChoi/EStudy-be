@@ -1114,16 +1114,11 @@ C:\Users\phanv\OneDrive\Máy tính\SideProject\be\obj\Debug\net6.0\study4-be.Ass
 C:\Users\phanv\OneDrive\Máy tính\SideProject\be\obj\Debug\net6.0\study4-be.AssemblyInfo.cs
 C:\Users\phanv\OneDrive\Máy tính\SideProject\be\obj\Debug\net6.0\study4-be.csproj.CoreCompileInputs.cache
 C:\Users\phanv\OneDrive\Máy tính\SideProject\be\obj\Debug\net6.0\study4-be.MvcApplicationPartsAssemblyInfo.cache
-C:\Users\phanv\OneDrive\Máy tính\SideProject\be\obj\Debug\net6.0\study4-be.RazorAssemblyInfo.cache
-C:\Users\phanv\OneDrive\Máy tính\SideProject\be\obj\Debug\net6.0\study4-be.RazorAssemblyInfo.cs
 C:\Users\phanv\OneDrive\Máy tính\SideProject\be\obj\Debug\net6.0\staticwebassets.build.json
 C:\Users\phanv\OneDrive\Máy tính\SideProject\be\obj\Debug\net6.0\staticwebassets.development.json
-C:\Users\phanv\OneDrive\Máy tính\SideProject\be\obj\Debug\net6.0\scopedcss\Views\Shared\_Layout.cshtml.rz.scp.css
 C:\Users\phanv\OneDrive\Máy tính\SideProject\be\obj\Debug\net6.0\scopedcss\bundle\study4-be.styles.css
-C:\Users\phanv\OneDrive\Máy tính\SideProject\be\obj\Debug\net6.0\scopedcss\projectbundle\study4-be.bundle.scp.css
 C:\Users\phanv\OneDrive\Máy tính\SideProject\be\obj\Debug\net6.0\study4-be.csproj.CopyComplete
 C:\Users\phanv\OneDrive\Máy tính\SideProject\be\obj\Debug\net6.0\study4-be.dll
-C:\Users\phanv\OneDrive\Máy tính\SideProject\be\obj\Debug\net6.0\refint\study4-be.dll
 C:\Users\phanv\OneDrive\Máy tính\SideProject\be\obj\Debug\net6.0\study4-be.pdb
 C:\Users\phanv\OneDrive\Máy tính\SideProject\be\obj\Debug\net6.0\study4-be.genruntimeconfig.cache
 C:\Users\phanv\OneDrive\Máy tính\SideProject\be\obj\Debug\net6.0\ref\study4-be.dll
@@ -1410,3 +1405,8 @@ D:\EStudy-be\obj\Debug\net6.0\study4-be.genruntimeconfig.cache
 D:\EStudy-be\obj\Debug\net6.0\ref\study4-be.dll
 C:\Users\phanv\OneDrive\Máy tính\SideProject\be\bin\Debug\net6.0\appsettings.json
 C:\Users\phanv\OneDrive\Máy tính\SideProject\be\bin\Debug\net6.0\firebase_config.json
+C:\Users\phanv\OneDrive\Máy tính\SideProject\be\obj\Debug\net6.0\study4-be.RazorAssemblyInfo.cache
+C:\Users\phanv\OneDrive\Máy tính\SideProject\be\obj\Debug\net6.0\study4-be.RazorAssemblyInfo.cs
+C:\Users\phanv\OneDrive\Máy tính\SideProject\be\obj\Debug\net6.0\scopedcss\Views\Shared\_Layout.cshtml.rz.scp.css
+C:\Users\phanv\OneDrive\Máy tính\SideProject\be\obj\Debug\net6.0\scopedcss\projectbundle\study4-be.bundle.scp.css
+C:\Users\phanv\OneDrive\Máy tính\SideProject\be\obj\Debug\net6.0\refint\study4-be.dll

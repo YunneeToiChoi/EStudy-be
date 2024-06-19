@@ -63,7 +63,6 @@ namespace study4_be.Controllers.API
 			{
 				return NotFound("Course not found.");
 			}
-			existingUser.PhoneNumber = request.PhoneNumber;
             var orderId = GenerateOrderId(request.UserId, request.CourseId);
             var order = new Order
 			{
@@ -72,7 +71,7 @@ namespace study4_be.Controllers.API
 				CourseId = existingCourse.CourseId,
 				TotalAmount = existingCourse.CoursePrice,
 				OrderDate = DateTime.Now,
-				PhoneNumber = request.PhoneNumber,
+				Email = request.Email,
 				Address = request.Address,
 				State = false
 			};

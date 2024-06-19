@@ -15,26 +15,6 @@ build_property.GenerateRazorMetadataSourceChecksumAttributes =
 build_property.MSBuildProjectDirectory = C:\Users\phanv\OneDrive\Máy tính\SideProject\be
 build_property._RazorSourceGeneratorDebug = 
 
-[C:/Users/phanv/OneDrive/Máy tính/SideProject/be/Views/Audio/Audio_Create.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXVkaW9cQXVkaW9fQ3JlYXRlLmNzaHRtbA==
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/phanv/OneDrive/Máy tính/SideProject/be/Views/Audio/Audio_Delete.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXVkaW9cQXVkaW9fRGVsZXRlLmNzaHRtbA==
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/phanv/OneDrive/Máy tính/SideProject/be/Views/Audio/Audio_Details.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXVkaW9cQXVkaW9fRGV0YWlscy5jc2h0bWw=
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/phanv/OneDrive/Máy tính/SideProject/be/Views/Audio/Audio_Edit.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXVkaW9cQXVkaW9fRWRpdC5jc2h0bWw=
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/phanv/OneDrive/Máy tính/SideProject/be/Views/Audio/Audio_List.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXVkaW9cQXVkaW9fTGlzdC5jc2h0bWw=
-build_metadata.AdditionalFiles.CssScope = 
-
 [C:/Users/phanv/OneDrive/Máy tính/SideProject/be/Views/Auth/Register.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXV0aFxSZWdpc3Rlci5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
@@ -153,26 +133,6 @@ build_metadata.AdditionalFiles.CssScope =
 
 [C:/Users/phanv/OneDrive/Máy tính/SideProject/be/Views/Tags/Tag_List.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGFnc1xUYWdfTGlzdC5jc2h0bWw=
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/phanv/OneDrive/Máy tính/SideProject/be/Views/Translate/Translate_Create.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVHJhbnNsYXRlXFRyYW5zbGF0ZV9DcmVhdGUuY3NodG1s
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/phanv/OneDrive/Máy tính/SideProject/be/Views/Translate/Translate_Delete.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVHJhbnNsYXRlXFRyYW5zbGF0ZV9EZWxldGUuY3NodG1s
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/phanv/OneDrive/Máy tính/SideProject/be/Views/Translate/Translate_Details.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVHJhbnNsYXRlXFRyYW5zbGF0ZV9EZXRhaWxzLmNzaHRtbA==
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/phanv/OneDrive/Máy tính/SideProject/be/Views/Translate/Translate_Edit.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVHJhbnNsYXRlXFRyYW5zbGF0ZV9FZGl0LmNzaHRtbA==
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/phanv/OneDrive/Máy tính/SideProject/be/Views/Translate/Translate_List.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVHJhbnNsYXRlXFRyYW5zbGF0ZV9MaXN0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/phanv/OneDrive/Máy tính/SideProject/be/Views/Unit/Unit_Create.cshtml]
