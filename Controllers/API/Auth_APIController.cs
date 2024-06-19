@@ -94,15 +94,15 @@ namespace study4_be.Controllers.API
             await _userRepository.DeleteAllUsersAsync();
             return Json(new { status = 200, message = "Delete Users Successful" });
         }
-        [HttpDelete("User_UpdateAvatar")]
-        public async Task<IActionResult> User_UpdateAvatar(UserEditRequest _req, IFormFile userImage)
+        [HttpPost("User_UpdateAvatar")]
+        public async Task<IActionResult> User_UpdateAvatar([FromForm] UserUploadImageRequest _req, [FromForm]  IFormFile userImage)
         {
-            if (_req.UserId == null)
+            if (_req.userId == null)
             {
-                return BadRequest(new { status = 400, message = "Invalid request data" });
+                return BadRequest(new { status = 400, message = "User id is not valid" });
             }
 
-            var userExist = _context.Users.FirstOrDefault(u => u.UserId == _req.UserId);
+            var userExist = _context.Users.FirstOrDefault(u => u.UserId == _req.userId);
 
             if (userExist == null)
             {
@@ -139,7 +139,7 @@ namespace study4_be.Controllers.API
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Error updating avatar for user with ID {_req.UserId}: {ex.Message}");
+                _logger.LogError($"Error updating avatar for user with ID {_req.userId}: {ex.Message}");
                 return StatusCode(500, new { status = 500, message = "An error occurred while updating the avatar" });
             }
         }
