@@ -6,6 +6,9 @@ using NuGet.Protocol.Core.Types;
 using System.IO;
 using System.Text.Json;
 using System.Threading.Tasks;
+using study4_be.Services.Request;
+using study4_be.Services;
+using study4_be.Controllers.Admin;
 namespace study4_be.Controllers.API
 {
     [Route("api/[controller]")]
@@ -16,9 +19,12 @@ namespace study4_be.Controllers.API
 
         private STUDY4Context _context = new STUDY4Context();
         private UserRegistrationValidator _userRegistrationValidator = new UserRegistrationValidator();
-        public IActionResult Index()
+        private readonly ILogger<CoursesController> _logger;
+        private FireBaseServices _fireBaseServices;
+        public Auth_APIController(ILogger<CoursesController> logger, FireBaseServices fireBaseServices)
         {
-            return View();
+            _logger = logger;
+            _fireBaseServices = fireBaseServices;
         }
         [HttpPost("Register")]
         public async Task<IActionResult> Register()
@@ -87,6 +93,55 @@ namespace study4_be.Controllers.API
         {
             await _userRepository.DeleteAllUsersAsync();
             return Json(new { status = 200, message = "Delete Users Successful" });
+        }
+        [HttpDelete("User_UpdateAvatar")]
+        public async Task<IActionResult> User_UpdateAvatar(UserEditRequest _req, IFormFile userImage)
+        {
+            if (_req.UserId == null)
+            {
+                return BadRequest(new { status = 400, message = "Invalid request data" });
+            }
+
+            var userExist = _context.Users.FirstOrDefault(u => u.UserId == _req.UserId);
+
+            if (userExist == null)
+            {
+                return NotFound(new { status = 404, message = "User not found" });
+            }
+
+            if (userImage == null || userImage.Length == 0)
+            {
+                return BadRequest(new { status = 400, message = "Invalid image file" });
+            }
+
+            var firebaseBucketName = _fireBaseServices.GetFirebaseBucketName();
+
+            // Delete the old avatar image from Firebase Storage if it exists
+            if (!string.IsNullOrEmpty(userExist.UserImage))
+            {
+                // Extract the file name from the URL
+                var oldFileName = Path.GetFileName(new Uri(userExist.UserImage).LocalPath);
+                await _fireBaseServices.DeleteFileFromFirebaseStorageAsync(oldFileName, firebaseBucketName);
+            }
+
+            // Upload the new avatar image to Firebase Storage
+            var uniqueId = Guid.NewGuid().ToString();
+            var imgFilePath = $"IMG{uniqueId}.jpg";
+            string firebaseUrl = await _fireBaseServices.UploadFileToFirebaseStorageAsync(userImage, imgFilePath, firebaseBucketName);
+
+            // Update the user's avatar URL in the database
+            userExist.UserImage = firebaseUrl;
+
+            try
+            {
+                _context.SaveChanges();
+                return Json(new { status = 200, message = "User avatar updated successfully" });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Error updating avatar for user with ID {_req.UserId}: {ex.Message}");
+                return StatusCode(500, new { status = 500, message = "An error occurred while updating the avatar" });
+            }
         }
     }
 }
