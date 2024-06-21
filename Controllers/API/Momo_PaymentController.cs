@@ -19,6 +19,8 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using study4_be.Services;
+using SendGrid.Helpers.Mail;
+using SendGrid;
 [Route("api/[controller]")]
 [ApiController]
 public class Momo_PaymentController : ControllerBase
@@ -27,15 +29,15 @@ public class Momo_PaymentController : ControllerBase
     private readonly MomoConfig _momoConfig;
     private readonly HashHelper _hashHelper;
     private readonly FireBaseServices _fireBaseServices;
-    private FirebaseApp _firebaseApp;
-    private SMTPServices _smtpServices = new SMTPServices();
+    private SMTPServices _smtpServices;
     private STUDY4Context _context = new STUDY4Context();
-    public Momo_PaymentController(ILogger<Momo_PaymentController> logger, IOptions<MomoConfig> momoPaymentSettings, FireBaseServices fireBaseServices)
+    public Momo_PaymentController(ILogger<Momo_PaymentController> logger, IOptions<MomoConfig> momoPaymentSettings, FireBaseServices fireBaseServices,SMTPServices sMTPServices)
     {
         _logger = logger;
         _momoConfig = momoPaymentSettings.Value;
         _hashHelper = new HashHelper();
-        fireBaseServices = _fireBaseServices;
+        _fireBaseServices= fireBaseServices;
+        _smtpServices = sMTPServices;
     }
     [HttpPost]
     public async Task<IActionResult> MakePayment([FromBody] MomoPaymentRequest request)
@@ -189,32 +191,26 @@ public class Momo_PaymentController : ControllerBase
             return BadRequest("Has error when Update State of Order" + e);
         }
     }
-    [HttpPost("sendEmail")]
-    public async Task<IActionResult> SendEmailAsync(string userEmail)
+    [HttpPost("SendVerificationEmail")]
+    public async Task<IActionResult> SendVerificationEmail([FromBody] SendEmailUserRequest _req)
     {
         try
         {
-            // Initialize Firebase Auth
-            var auth = FirebaseAuth.GetAuth(_firebaseApp);
-
-            // Generate email verification link for the user
-            var emailLink = await auth.GenerateEmailVerificationLinkAsync(userEmail);
-
-            // Send the email using Firebase (example: using SendGrid)
-            await _smtpServices.SendEmailUsingSendGrid(userEmail, emailLink);
+            //// Generate email verification link using Firebase
+            //var emailLink = await _fireBaseServices.GenerateEmailVerificationLinkAsync(_req.userEmail);
+            var email = "hoangphongcuade@gmail.com";
+            // Send email using SMTP
+            var subject = "Email Verification Link";
+            var emailLink = "https://developers.momo.vn/v3/docs/payment/api/result-handling/resultcode";
+            var plainTextContent = $"Please verify your email by clicking on this link: {emailLink}";
+            var htmlContent = $"<strong>Please verify your email by clicking on this link: <a href='{emailLink}'>Verify Email</a></strong>";
+            await _smtpServices.SendEmailAsync(email, subject, plainTextContent, htmlContent);
 
             return Ok("Email sent successfully");
         }
-        catch (FirebaseAuthException ex)
-        {
-            // Handle Firebase Auth exceptions
-            return StatusCode(500, $"Failed to send email: {ex.Message}");
-        }
         catch (Exception ex)
         {
-            // Handle other exceptions
             return StatusCode(500, $"An error occurred: {ex.Message}");
         }
     }
-
 }
