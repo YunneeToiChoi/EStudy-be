@@ -1,29 +1,23 @@
 ﻿@model IEnumerable<study4_be.Models.ViewModel.LessonListViewModel>
+
 <style>
-    .course__create-btn {
-        padding: 10px;
-        margin-top: 40px;
-        border: none;
-        font-size: 20px;
-        background-color: #d1ecf1;
-        font-weight: 500;
-        text-decoration: none;
-        text-align: center;
+    .item {
+        overflow: hidden;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+        max-width: 200px
     }
 
-        .course__create-btn:hover {
-            opacity: 0.8;
-        }
+    .text-btn-admin {
+        text-decoration: none;
+        color: white;
+    }
+
 </style>
 
-
+<h2 style="text-align:center">LIST LESSONS</h2>
+<button class="btn btn-block btn-lg btn-gradient-primary mt-4"> @Html.ActionLink("+ Add Lesson", "Lesson_Create", "Lesson", null, new { @class = "text-btn-admin" })</button>
 <div class="card">
-    <div class="container">
-        <p>Search</p>
-        <input type="text" class="col-md-10" />
-        <a href="" class="course__create-btn col-md-1"><i class="fa-solid fa-magnifying-glass"></i></a>
-        <a href="@Url.ActionLink("Lesson_Create","Lesson")" class="course__create-btn col-md-1"><i class="fa-solid fa-plus"></i></a>
-    </div>
     <div class="card-body">
         <table class="table">
             <thead class="table-info">
@@ -33,7 +27,7 @@
                     <th>Lesson Title</th>
                     <th>Container Title</th>
                     <th>Unit Title</th>
-                    <th>Course Title</th>   
+                    <th>Course Title</th>
                     <th>Tag ID</th>
                     <th>Options</th>
                 </tr>
@@ -48,18 +42,18 @@
                         <td>
                             <p>@item.Lesson.LessonType</p>
                         </td>
-                        <td>
+                        <td class="item">
                             <p>@item.Lesson.LessonTitle</p>
                         </td>
-                        <td>
+                        <td class="item">
                             <p>@item.containerTitle</p>
                         </td>
-                        <td>
+                        <td class="item">
                             <p>@item.unitTitle</p>
                         </td>
-                        <td>
+                        <td class="item">
                             <p>@item.courseTitle</p>
-                        </td> 
+                        </td>
                         <td>
                             <p>@item.Lesson.TagId</p>
                         </td>
@@ -72,7 +66,6 @@
                         </td>
                     </tr>
                 }
-
             </tbody>
         </table>
     </div>
