@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using study4_be.Models;
 using study4_be.Repositories;
+using study4_be.Services;
 
 namespace study4_be.Controllers.Admin
 {
@@ -13,10 +14,7 @@ namespace study4_be.Controllers.Admin
             _logger = logger;
         }
         public STUDY4Context _context = new STUDY4Context();
-        public IActionResult Index()
-        {
-            return View();
-        }
+
         public async Task<IActionResult> Tag_List()
         {
             var tags = await _context.Tags.ToListAsync(); // Retrieve list of courses from repository
@@ -70,19 +68,77 @@ namespace study4_be.Controllers.Admin
             return Ok(tag);
         }
 
-        public IActionResult Tag_Edit()
+        [HttpGet]
+        public IActionResult Tag_Edit(string id)
         {
-            return View();
+            var tag = _context.Tags.FirstOrDefault(c => c.TagId == id);
+            if (tag == null)
+            {
+                return NotFound();
+            }
+            return View(tag);
         }
 
-        public IActionResult Tag_Delete()
+        [HttpPost]
+        public async Task<IActionResult> Tag_Edit(Tag tag)
         {
-            return View();
+            if (ModelState.IsValid)
+            {
+                var courseToUpdate = _context.Tags.FirstOrDefault(c => c.TagId == tag.TagId);
+                courseToUpdate.TagId = tag.TagId;
+                try
+                {
+                    _context.SaveChanges();
+                    return RedirectToAction("Tag_List");
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError($"Error updating course with ID {tag.TagId}: {ex.Message}");
+                    ModelState.AddModelError(string.Empty, "An error occurred while updating the course.");
+                }
+            }
+            return View(tag);
         }
 
-        public IActionResult Tag_Details()
+        [HttpGet]
+        public IActionResult Tag_Delete(string id)
         {
-            return View();
+            var tag = _context.Tags.FirstOrDefault(c => c.TagId == id);
+            if (tag == null)
+            {
+                _logger.LogError($"Course with ID {id} not found for delete.");
+                return NotFound($"Course with ID {id} not found.");
+            }
+            return View(tag);
+        }
+
+        [HttpPost, ActionName("Tag_Delete")]
+        public IActionResult Tag_DeleteConfirmed(string id)
+        {
+            var tag = _context.Tags.FirstOrDefault(c => c.TagId == id);
+            if (tag == null)
+            {
+                _logger.LogError($"Course with ID {id} not found for deletion.");
+                return NotFound($"Course with ID {id} not found.");
+            }
+
+            try
+            {
+                _context.Tags.Remove(tag);
+                _context.SaveChanges();
+                return RedirectToAction("Tag_List");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Error deleting course with ID {id}: {ex.Message}");
+                ModelState.AddModelError(string.Empty, "An error occurred while deleting the course.");
+                return View(tag);
+            }
+        }
+
+        public IActionResult Tag_Details(string id)
+        {
+            return View(_context.Tags.FirstOrDefault(c => c.TagId == id));
         }
     }
 }

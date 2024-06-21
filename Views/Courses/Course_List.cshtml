@@ -3,43 +3,23 @@
     ViewData["Title"] = "Course List";
 }
 <style>
-    .course__create-btn{
-        padding: 10px;
-        margin-top: 40px;
-        border: none;
-        font-size: 20px;
-        background-color: #d1ecf1;
-        font-weight: 500;
-        text-decoration:none;
-        text-align:center;
-    }
-
-    .course__create-btn:hover{
-        opacity: 0.8;
-    }
-
-    .admin__item{
-        max-width: 120px;
-    }
-
-    .admin__item-text {
+    .item {
         overflow: hidden;
-        display: block;
-        display: -webkit-box;
         -webkit-box-orient: vertical;
-        -webkit-line-clamp:1;
+        -webkit-line-clamp: 2;
+        max-width: 200px
     }
 
+    .text-btn-admin {
+        text-decoration: none;
+        color: white;
+    }
 </style>
 
+<h2 style="text-align:center">LIST Course</h2>
 
+<button class="btn btn-block btn-lg btn-gradient-primary mt-4"> @Html.ActionLink("+ Add Course", "Course_Create", "Courses", null, new { @class = "text-btn-admin" })</button>
 <div class="card">
-    <div class="container">
-        <p>Search</p>
-            <input type="text" class="col-md-10" />
-            <a href="" class="course__create-btn col-md-1"><i class="fa-solid fa-magnifying-glass"></i></a>
-        <a href="@Url.ActionLink("Course_Create","Courses")" class="course__create-btn col-md-1"><i class="fa-solid fa-plus"></i></a>
-    </div>
     <div class="card-body">
         <table class="table">
             <thead class="table-info">
@@ -59,27 +39,35 @@
                 {
                     <tr>
                         <td>
-                            <img style="border-radius:0%!important" src="@course.CourseImage" height="150" width="150" id="previewImg" />
+                            <img style="border-radius:0%!important" src="@Url.Content(course.CourseImage)" height="150" width="150" id="previewImg" />
                         </td>
-                        <td class="admin__item">
-                            <p class="admin__item-text">@course.CourseId</p>
+                        <td>
+                            @course.CourseId
                         </td>
-                        <td class="admin__item">
-                            <p class="admin__item-text">@course.CourseName</p>
+                        <td class="item">
+                            @course.CourseName
                         </td>
-                        <td class="admin__item">
-                            <p class="admin__item-text">@course.CourseDescription</p>
+                        <td class="item">
+                            <label class="badge badge-danger">
+                                @course.CourseDescription
+                            </label>
                         </td>
-                        <td class="admin__item">
-                            <p class="admin__item-text">@course.CoursePrice</p>
+                        <td>
+                            <label>
+                                @course.CoursePrice
+                            </label>
                         </td>
-                        <td class="admin__item">
-                            <p class="admin__item-text">@course.CourseSale%</p>
+                        <td>
+                            <label>
+                                @course.CourseSale<span>%</span>
+                            </label>
                         </td>
-                        <td class="admin__item">
-                            <p class="admin__item-text">@course.CourseTag</p>
+                        <td class="item">
+                            <label>
+                                @course.CourseTag
+                            </label>
                         </td>
-                        <td class="admin__item">
+                        <td>
                             <a href="@Url.Action("Course_Edit", "Courses", new { id = course.CourseId })" class="text-link-action">Sửa</a>
                             <span style="padding:0 8px">|</span>
                             <a href="@Url.Action("Course_Delete", "Courses", new { id = course.CourseId })" class="text-link-action">Xóa</a>
@@ -91,5 +79,4 @@
             </tbody>
         </table>
     </div>
-
 </div>

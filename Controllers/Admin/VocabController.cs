@@ -87,17 +87,17 @@ namespace study4_be.Controllers.Admin
         [HttpPost]
         public async Task<IActionResult> Vocab_Create(VocabCreateViewModel vocabViewModel)
         {
-                var firebaseBucketName = _firebaseServices.GetFirebaseBucketName();
-                // Generate and upload audio to Firebase Storage
-                var uniqueId = Guid.NewGuid().ToString(); // Tạo một UUID ngẫu nhiên
-                var audioFilePath = Path.Combine(Path.GetTempPath(), $"VOCAB({uniqueId}).wav");
-                //var audioFilePath = Path.Combine(Path.GetTempPath(), $"VOCAB({vocabViewModel.vocab.VocabId}).wav");
-                _generalAiAudioServices.GenerateAudio(vocabViewModel.vocab.VocabTitle, audioFilePath);
+            var firebaseBucketName = _firebaseServices.GetFirebaseBucketName();
+            // Generate and upload audio to Firebase Storage
+            var uniqueId = Guid.NewGuid().ToString(); // Tạo một UUID ngẫu nhiên
+            var audioFilePath = Path.Combine(Path.GetTempPath(), $"VOCAB({uniqueId}).wav");
+            //var audioFilePath = Path.Combine(Path.GetTempPath(), $"VOCAB({vocabViewModel.vocab.VocabId}).wav");
+            _generalAiAudioServices.GenerateAudio(vocabViewModel.vocab.VocabTitle, audioFilePath);
 
-                var audioBytes = System.IO.File.ReadAllBytes(audioFilePath);
-                var audioUrl = await _generalAiAudioServices.UploadFileToFirebaseStorageAsync(audioBytes, $"VOCAB({uniqueId}).wav", firebaseBucketName);
-                // Delete the temporary file after uploading
-                System.IO.File.Delete(audioFilePath);
+            var audioBytes = System.IO.File.ReadAllBytes(audioFilePath);
+            var audioUrl = await _generalAiAudioServices.UploadFileToFirebaseStorageAsync(audioBytes, $"VOCAB({uniqueId}).wav", firebaseBucketName);
+            // Delete the temporary file after uploading
+            System.IO.File.Delete(audioFilePath);
             try
             {
                 var vocabulary = new Vocabulary
@@ -145,17 +145,79 @@ namespace study4_be.Controllers.Admin
             return Ok(vocab);
         }
 
-        public IActionResult Vocab_Delete()
+        [HttpGet]
+        public IActionResult Vocab_Delete(int id)
         {
-            return View();
+            var vocab = _context.Vocabularies.FirstOrDefault(c => c.VocabId == id);
+            if (vocab == null)
+            {
+                _logger.LogError($"Course with ID {id} not found for delete.");
+                return NotFound($"Course with ID {id} not found.");
+            }
+            return View(vocab);
         }
-        public IActionResult Vocab_Edit()
+
+        [HttpPost, ActionName("Vocab_Delete")]
+        public IActionResult Vocab_DeleteConfirmed(int id)
         {
-            return View();
+            var vocab = _context.Vocabularies.FirstOrDefault(c => c.VocabId == id);
+            if (vocab == null)
+            {
+                _logger.LogError($"Course with ID {id} not found for deletion.");
+                return NotFound($"Course with ID {id} not found.");
+            }
+
+            try
+            {
+                _context.Vocabularies.Remove(vocab);
+                _context.SaveChanges();
+                return RedirectToAction("Vocab_List");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Error deleting course with ID {id}: {ex.Message}");
+                ModelState.AddModelError(string.Empty, "An error occurred while deleting the course.");
+                return View(vocab);
+            }
         }
-        public IActionResult Vocab_Details()
+        [HttpGet]
+        public IActionResult Vocab_Edit(int id)
         {
-            return View();
+            var vocab = _context.Vocabularies.FirstOrDefault(c => c.VocabId == id);
+            if (vocab == null)
+            {
+                return NotFound();
+            }
+            return View(vocab);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Vocab_Edit(Vocabulary vocab)
+        {
+            if (ModelState.IsValid)
+            {
+                var courseToUpdate = _context.Vocabularies.FirstOrDefault(c => c.VocabId == vocab.VocabId);
+                courseToUpdate.VocabTitle = vocab.VocabTitle;
+                courseToUpdate.VocabType = vocab.VocabType;
+                courseToUpdate.Mean = vocab.Mean;
+                courseToUpdate.Example = vocab.Example;
+                courseToUpdate.Explanation = vocab.Explanation;
+                try
+                {
+                    _context.SaveChanges();
+                    return RedirectToAction("Vocab_List");
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError($"Error updating course with ID {vocab.VocabId}: {ex.Message}");
+                    ModelState.AddModelError(string.Empty, "An error occurred while updating the course.");
+                }
+            }
+            return View(vocab);
+        }
+        public IActionResult Vocab_Details(int id)
+        {
+            return View(_context.Vocabularies.FirstOrDefault(c => c.VocabId == id));
         }
     }
 }

@@ -1,46 +1,24 @@
-﻿<h2>Delete</h2>
+﻿@model study4_be.Models.Question
 
-<h3>Are you sure you want to delete this?</h3>
-<div>
-    <hr />
-    <dl class="dl-horizontal">
-        <div class="card">
-            <div class="card-body">
-                <h4 class="card-title">Recent Tickets</h4>
-                <div class="table-responsive">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>QUESTION_ID</th>
-                                <th> ID_QUIZZES </th>
-                                <th>QUESTION_TEXT</th>
-                                <th>CORRECT_ANSWER</th>
-                                <th>OPTION_A</th>
-                                <th>OPTION_B</th>
-                                <th>OPTION_C</th>
-                                <th>OPTION_D</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td> 123</td>
-                                <td>123</td>
-                                <td>123</td>
-                                <td>123</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                @using (Html.BeginForm())
-                {
-                    @Html.AntiForgeryToken()
-
-                    <div style="padding-top:10px" class="form-actions no-color">
-                        <input type="submit" value="Delete" class="btn btn-gradient-primary me-2" />
-                        @Html.ActionLink("Cancel", "Question_List", "Question", new { @class = "btn btn-light" })
-                    </div>
-                }
-            </div>
-        </div>
-    </dl>
+<h4>Delete Unit</h4>
+<hr />
+<div class="card-body">
+    <p>Are you sure you want to delete this?</p>
+    <div>
+        <h4>@Model.QuestionId</h4>
+        <p>@Model.QuestionParagraph</p>
+        <p>@Model.QuestionTranslate</p>
+        <p>@Model.QuestionText</p>
+        <p>@Model.OptionA</p>
+        <p>@Model.OptionB</p>
+        <p>@Model.OptionC</p>
+        <p>@Model.OptionD</p>
+        <p>@Model.CorrectAnswer</p>
+    </div>
+    <form asp-action="Question_Delete">
+        <input type="hidden" asp-for="QuestionId" />
+        <button type="submit" class="btn btn-danger">Delete</button>
+        @Html.ActionLink("Cancel", "Question_List", null, new { @class = "btn btn-light" })
+    </form>
+    <div asp-validation-summary="All" class="text-danger"></div>
 </div>

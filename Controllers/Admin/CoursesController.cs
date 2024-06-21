@@ -11,7 +11,7 @@ namespace study4_be.Controllers.Admin
     {
         private readonly ILogger<CoursesController> _logger;
         private FireBaseServices _fireBaseServices;
-        public CoursesController(ILogger<CoursesController> logger,FireBaseServices fireBaseServices)
+        public CoursesController(ILogger<CoursesController> logger, FireBaseServices fireBaseServices)
         {
             _logger = logger;
             _fireBaseServices = fireBaseServices;
@@ -67,9 +67,9 @@ namespace study4_be.Controllers.Admin
                     // Save firebaseUrl to your course object or database
                     course.CourseImage = firebaseUrl;
                 }
-                    await _context.AddAsync(course);
-                    await _context.SaveChangesAsync();
-                    CreatedAtAction(nameof(GetCourseById), new { id = course.CourseId }, course);
+                await _context.AddAsync(course);
+                await _context.SaveChangesAsync();
+                CreatedAtAction(nameof(GetCourseById), new { id = course.CourseId }, course);
                 return RedirectToAction("Course_List", "Courses"); // nav to main home when add successfull, after change nav to index create Courses
             }
             catch (Exception ex)
@@ -119,7 +119,7 @@ namespace study4_be.Controllers.Admin
                         var oldFileName = Path.GetFileName(new Uri(courseToUpdate.CourseImage).LocalPath);
                         await _fireBaseServices.DeleteFileFromFirebaseStorageAsync(oldFileName, firebaseBucketName);
                     }
-                    var uniqueId = Guid.NewGuid().ToString(); 
+                    var uniqueId = Guid.NewGuid().ToString();
                     var imgFilePath = ($"IMG{uniqueId}.jpg");
                     string firebaseUrl = await _fireBaseServices.UploadFileToFirebaseStorageAsync(CourseImage, imgFilePath, firebaseBucketName);
                     course.CourseImage = firebaseUrl;
@@ -179,9 +179,9 @@ namespace study4_be.Controllers.Admin
         }
 
 
-        public IActionResult Course_Details()
+        public IActionResult Course_Details(int id)
         {
-            return View();
+            return View(_context.Courses.FirstOrDefault(c => c.CourseId == id));
         }
         public IActionResult BuyCourse()
         {

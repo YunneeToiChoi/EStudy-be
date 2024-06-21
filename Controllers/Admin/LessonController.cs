@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using study4_be.Models;
 using study4_be.Models.ViewModel;
 using study4_be.Repositories;
+using study4_be.Services;
 
 namespace study4_be.Controllers.Admin
 {
@@ -123,23 +124,76 @@ namespace study4_be.Controllers.Admin
             return Ok(lesson);
         }
 
-        public IActionResult Lesson_Delete()
+        [HttpGet]
+        public IActionResult Lesson_Delete(int id)
         {
-            return View();
-        }
-        public IActionResult Lesson_Edit()
-        {
-            return View();
-        }
-        public IActionResult Lesson_Details()
-        {
-            return View();
+            var lesson = _context.Lessons.FirstOrDefault(c => c.LessonId == id);
+            if (lesson == null)
+            {
+                _logger.LogError($"Course with ID {id} not found for delete.");
+                return NotFound($"Course with ID {id} not found.");
+            }
+            return View(lesson);
         }
 
-        //public ActionResult SelectContainer()
-        //{
-        //    Container container = new Container();
-        //    container.ListContainer =
-        //}
+        [HttpPost, ActionName("Lesson_Delete")]
+        public IActionResult Lesson_DeleteConfirmed(int id)
+        {
+            var lesson = _context.Lessons.FirstOrDefault(c => c.LessonId == id);
+            if (lesson == null)
+            {
+                _logger.LogError($"Course with ID {id} not found for deletion.");
+                return NotFound($"Course with ID {id} not found.");
+            }
+
+            try
+            {
+                _context.Lessons.Remove(lesson);
+                _context.SaveChanges();
+                return RedirectToAction("Lesson_List");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Error deleting course with ID {id}: {ex.Message}");
+                ModelState.AddModelError(string.Empty, "An error occurred while deleting the course.");
+                return View(lesson);
+            }
+        }
+        [HttpGet]
+        public IActionResult Lesson_Edit(int id)
+        {
+            var lesson = _context.Lessons.FirstOrDefault(c => c.LessonId == id);
+            if (lesson == null)
+            {
+                return NotFound();
+            }
+            return View(lesson);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Lesson_Edit(Lesson lesson)
+        {
+            if (ModelState.IsValid)
+            {
+                var courseToUpdate = _context.Lessons.FirstOrDefault(c => c.LessonId == lesson.LessonId);
+                courseToUpdate.LessonTitle = lesson.LessonTitle;
+                courseToUpdate.LessonType = lesson.LessonType;
+                try
+                {
+                    _context.SaveChanges();
+                    return RedirectToAction("Lesson_List");
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError($"Error updating course with ID {lesson.LessonId}: {ex.Message}");
+                    ModelState.AddModelError(string.Empty, "An error occurred while updating the course.");
+                }
+            }
+            return View(lesson);
+        }
+        public IActionResult Lesson_Details(int id)
+        {
+            return View(_context.Lessons.FirstOrDefault(c => c.LessonId == id));
+        }
     }
 }

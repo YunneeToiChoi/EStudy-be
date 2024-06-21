@@ -37,7 +37,6 @@
             </div>
             <div class="form-group">
                 <label>File upload</label>
-                @* <img src="CourseImage" height="150" width="150" id="previewImg" /> *@
                 <img src="@Model.CourseImage" height="150" width="150" id="previewImg" />
                 <input asp-for="CourseImage" type="file" name="CourseImage" onchange="ChangeImage(this, document.getElementById('previewImg'))" />
             </div>

@@ -1,4 +1,5 @@
-﻿<style>
+﻿@model study4_be.Models.Course
+<style>
     .mb-5{
         color: black;
     }
@@ -17,37 +18,41 @@
     <dl class="dl-horizontal">
         <div class="card bg-gradient-danger card-img-holder text-white" style="overflow:hidden!important">
             <div class="card-body" style="text-align:center">
-                <img style="border-radius:0%!important" src="" height="150" width="200" id="previewImg" />
+                <img style="border-radius:0%!important" src="@Url.Content(Model.CourseImage)" height="150" width="200" id="previewImg" />
                 <div style="padding:20px"></div>
                 <h4 class="font-weight-normal mb-3" style="display:flex;align-items:center;justify-content:center">
                     Id<i style="padding-left:10px" class="mdi mdi-account-card-details"></i>
                 </h4>
-                <p class="mb-5">123</p>
+                <p class="mb-5">@Html.DisplayFor(model => model.CourseId)</p>
                 <div style="padding:20px"></div>
                 <h4 class="font-weight-normal mb-3" style="display:flex;align-items:center;justify-content:center">
                     Name<i style="padding-left:10px" class="mdi mdi-account-card-details"></i>
                 </h4>
-                <p class="mb-5">123</p>
+                <p class="mb-5">@Html.DisplayFor(model => model.CourseName)</p>
                 <div style="padding:20px"></div>
                 <h4 class="font-weight-normal mb-3" style="display:flex;align-items:center;justify-content:center">
                     Price<i style="padding-left:10px" class="mdi mdi-account-card-details"></i>
                 </h4>
-                <p class="mb-5">123</p>
+                <p class="mb-5">@Html.DisplayFor(model => model.CoursePrice)</p>
                 <div style="padding:20px"></div>
                 <h4 class="font-weight-normal mb-3" style="display:flex;align-items:center;justify-content:center">
                     Description<i style="padding-left:10px" class="mdi mdi-account-card-details"></i>
                 </h4>
-                <p class="mb-5">123</p>
+                <p class="mb-5">@Html.DisplayFor(model => model.CourseDescription)</p>
                 <div style="padding:20px"></div>
                 <h4 class="font-weight-normal mb-3" style="display:flex;align-items:center;justify-content:center">
                     Tag<i style="padding-left:10px" class="mdi mdi-account-card-details"></i>
                 </h4>
-                <p class="mb-5">123</p>
+                <p class="mb-5">@Html.DisplayFor(model => model.CourseTag)</p>
+                <h4 class="font-weight-normal mb-3" style="display:flex;align-items:center;justify-content:center">
+                    Sale<i style="padding-left:10px" class="mdi mdi-account-card-details"></i>
+                </h4>
+                <p class="mb-5">@Html.DisplayFor(model => model.CourseSale)</p>
             </div>
         </div>
         <div style="padding:20px"></div>
         <div class="form-actions no-color">
-            @Html.ActionLink("Edit", "Course_Edit", "Courses", null, new { @class = "btn btn-light me-2 course__details-btn" })
+            <a href="@Url.Action("Course_Edit", "Courses", new { id = Model.CourseId})" class="text-link-action">Sửa</a>
             @Html.ActionLink("Cancel", "Course_List", "Courses",null, new { @class = "btn btn-light course__details-btn" })
         </div>
     </dl>

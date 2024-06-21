@@ -14,6 +14,7 @@
     <div class="card-body">
         <p class="card-description"> Edit</p>
         <form asp-action="Lesson_Edit" method="post" enctype="multipart/form-data" class="forms-sample">
+            <input type="hidden" asp-for="LessonId" />
             <div class="form-group">
                 <label for="LessonType">LessonType</label>
                 <input asp-for="LessonType" class="form-control" />
