@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using study4_be.Models;
 using study4_be.Models.ViewModel;
 using study4_be.Repositories;
+using study4_be.Services;
 
 namespace study4_be.Controllers.Admin
 {
@@ -78,17 +79,78 @@ namespace study4_be.Controllers.Admin
 
             return Ok(unit);
         }
-        public IActionResult Unit_Delete()
+        [HttpGet]
+        public IActionResult Unit_Edit(int id)
         {
-            return View();
+            var unit = _context.Units.FirstOrDefault(c => c.UnitId == id);
+            if (unit == null)
+            {
+                return NotFound();
+            }
+            return View(unit);
         }
-        public IActionResult Unit_Edit()
+
+        [HttpPost]
+        public async Task<IActionResult> Unit_Edit(Unit unit)
         {
-            return View();
+            if (ModelState.IsValid)
+            {
+                var courseToUpdate = _context.Units.FirstOrDefault(c => c.UnitId == unit.UnitId);
+                courseToUpdate.UnitTittle = unit.UnitTittle;
+                courseToUpdate.Course = unit.Course;
+                try
+                {
+                    _context.SaveChanges();
+                    return RedirectToAction("Unit_List");
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError($"Error updating course with ID {unit.UnitId}: {ex.Message}");
+                    ModelState.AddModelError(string.Empty, "An error occurred while updating the course.");
+                }
+            }
+            return View(unit);
         }
-        public IActionResult Unit_Details()
+
+        [HttpGet]
+        public IActionResult Unit_Delete(int id)
         {
-            return View();
+            var unit = _context.Units.FirstOrDefault(c => c.UnitId == id);
+            if (unit == null)
+            {
+                _logger.LogError($"Course with ID {id} not found for delete.");
+                return NotFound($"Course with ID {id} not found.");
+            }
+            return View(unit);
+        }
+
+        [HttpPost, ActionName("Unit_Delete")]
+        public IActionResult Unit_DeleteConfirmed(int id)
+        {
+            var unit = _context.Units.FirstOrDefault(c => c.UnitId == id);
+            if (unit == null)
+            {
+                _logger.LogError($"Course with ID {id} not found for deletion.");
+                return NotFound($"Course with ID {id} not found.");
+            }
+
+            try
+            {
+                _context.Units.Remove(unit);
+                _context.SaveChanges();
+                return RedirectToAction("Unit_List");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Error deleting course with ID {id}: {ex.Message}");
+                ModelState.AddModelError(string.Empty, "An error occurred while deleting the course.");
+                return View(unit);
+            }
+        }
+
+        public IActionResult Unit_Details(int id)
+        {
+            return View(_context.Units.FirstOrDefault(c => c.UnitId == id));
         }
     }
 }

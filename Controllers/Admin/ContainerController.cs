@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using study4_be.Models;
 using study4_be.Models.ViewModel;
 using study4_be.Repositories;
+using study4_be.Services;
 
 namespace study4_be.Controllers.Admin
 {
@@ -89,19 +90,77 @@ namespace study4_be.Controllers.Admin
             return Ok(container);
         }
 
-        public IActionResult Container_Edit()
+        [HttpGet]
+        public IActionResult Container_Edit(int id)
         {
-            return View();
+            var container = _context.Containers.FirstOrDefault(c => c.ContainerId == id);
+            if (container == null)
+            {
+                return NotFound();
+            }
+            return View(container);
         }
 
-        public IActionResult Container_Delete()
+        [HttpPost]
+        public async Task<IActionResult> Container_Edit(Container container)
         {
-            return View();
+            if (ModelState.IsValid)
+            {
+                var courseToUpdate = _context.Containers.FirstOrDefault(c => c.ContainerId == container.ContainerId);
+                courseToUpdate.ContainerTitle = container.ContainerTitle;
+                try
+                {
+                    _context.SaveChanges();
+                    return RedirectToAction("Container_List");
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError($"Error updating course with ID {container.ContainerId}: {ex.Message}");
+                    ModelState.AddModelError(string.Empty, "An error occurred while updating the course.");
+                }
+            }
+            return View(container);
         }
 
-        public IActionResult Container_Details()
+        [HttpGet]
+        public IActionResult Container_Delete(int id)
         {
-            return View();
+            var container = _context.Containers.FirstOrDefault(c => c.ContainerId == id);
+            if (container == null)
+            {
+                _logger.LogError($"Course with ID {id} not found for delete.");
+                return NotFound($"Course with ID {id} not found.");
+            }
+            return View(container);
+        }
+
+        [HttpPost, ActionName("Container_Delete")]
+        public IActionResult Container_DeleteConfirmed(int id)
+        {
+            var container = _context.Containers.FirstOrDefault(c => c.ContainerId == id);
+            if (container == null)
+            {
+                _logger.LogError($"Course with ID {id} not found for deletion.");
+                return NotFound($"Course with ID {id} not found.");
+            }
+
+            try
+            {
+                _context.Containers.Remove(container);
+                _context.SaveChanges();
+                return RedirectToAction("Container_List");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Error deleting course with ID {id}: {ex.Message}");
+                ModelState.AddModelError(string.Empty, "An error occurred while deleting the course.");
+                return View(container);
+            }
+        }
+
+        public IActionResult Container_Details(int id)
+        {
+            return View(_context.Containers.FirstOrDefault(c => c.ContainerId == id));
         }
     }
 }
