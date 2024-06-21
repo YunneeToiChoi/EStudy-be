@@ -171,7 +171,7 @@ namespace study4_be.Controllers.Admin
         }
 
         [HttpPost]
-        public async Task<IActionResult> Course_Edit(Lesson lesson)
+        public async Task<IActionResult> Lesson_Edit(Lesson lesson)
         {
             if (ModelState.IsValid)
             {

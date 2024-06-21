@@ -1,4 +1,5 @@
-﻿<style>
+﻿@model study4_be.Models.Vocabulary
+<style>
     .mb-5 {
         color: black;
     }
@@ -21,52 +22,42 @@
                 <h4 class="font-weight-normal mb-3" style="display:flex;align-items:center;justify-content:center">
                     VocabId<i style="padding-left:10px" class="mdi mdi-account-card-details"></i>
                 </h4>
-                <p class="mb-5">123</p>
+                <p class="mb-5">@Html.DisplayFor(model => model.VocabId)</p>
                 <div style="padding:20px"></div>
                 <h4 class="font-weight-normal mb-3" style="display:flex;align-items:center;justify-content:center">
                     VocabType<i style="padding-left:10px" class="mdi mdi-account-card-details"></i>
                 </h4>
-                <p class="mb-5">123</p>
+                <p class="mb-5">@Html.DisplayFor(model => model.VocabType)</p>
                 <div style="padding:20px"></div>
                 <h4 class="font-weight-normal mb-3" style="display:flex;align-items:center;justify-content:center">
                     Mean<i style="padding-left:10px" class="mdi mdi-account-card-details"></i>
                 </h4>
-                <p class="mb-5">123</p>
+                <p class="mb-5">@Html.DisplayFor(model => model.Mean)</p>
                 <div style="padding:20px"></div>
                 <h4 class="font-weight-normal mb-3" style="display:flex;align-items:center;justify-content:center">
                     Example<i style="padding-left:10px" class="mdi mdi-account-card-details"></i>
                 </h4>
-                <p class="mb-5">123</p>
+                <p class="mb-5">@Html.DisplayFor(model => model.Example)</p>
                 <div style="padding:20px"></div>
                 <h4 class="font-weight-normal mb-3" style="display:flex;align-items:center;justify-content:center">
                     Explanation<i style="padding-left:10px" class="mdi mdi-account-card-details"></i>
                 </h4>
-                <p class="mb-5">123</p>
-                <div style="padding:20px"></div>
-                <h4 class="font-weight-normal mb-3" style="display:flex;align-items:center;justify-content:center">
-                    AudioUrlUs<i style="padding-left:10px" class="mdi mdi-account-card-details"></i>
-                </h4>
-                <p class="mb-5">123</p>
-                <div style="padding:20px"></div>
-                <h4 class="font-weight-normal mb-3" style="display:flex;align-items:center;justify-content:center">
-                    AudioUrlUk<i style="padding-left:10px" class="mdi mdi-account-card-details"></i>
-                </h4>
-                <p class="mb-5">123</p>
+                <p class="mb-5">@Html.DisplayFor(model => model.Explanation)</p>
                 <div style="padding:20px"></div>
                 <h4 class="font-weight-normal mb-3" style="display:flex;align-items:center;justify-content:center">
                     LessonId<i style="padding-left:10px" class="mdi mdi-account-card-details"></i>
                 </h4>
-                <p class="mb-5">123</p>
+                <p class="mb-5">@Html.DisplayFor(model => model.LessonId)</p>
                 <div style="padding:20px"></div>
                 <h4 class="font-weight-normal mb-3" style="display:flex;align-items:center;justify-content:center">
                     Lesson<i style="padding-left:10px" class="mdi mdi-account-card-details"></i>
                 </h4>
-                <p class="mb-5">123</p>
+                <p class="mb-5">@Html.DisplayFor(model => model.Lesson)</p>
             </div>
         </div>
         <div style="padding:20px"></div>
         <div class="form-actions no-color">
-            @Html.ActionLink("Edit", "Vocab_Edit", "Vocab", null, new { @class = "btn btn-light me-2 course__details-btn" })
+            @Html.ActionLink("Edit", "Vocab_Edit", "Vocab", new { id = Model.VocabId }, new { @class = "btn btn-light me-2 course__details-btn" })
             @Html.ActionLink("Cancel", "Vocab_List", "Vocab", null, new { @class = "btn btn-light course__details-btn" })
         </div>
     </dl>
