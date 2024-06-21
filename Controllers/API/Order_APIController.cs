@@ -21,14 +21,42 @@ namespace study4_be.Controllers.API
 		}
 		public STUDY4Context _context = new STUDY4Context();
 
-        private string GenerateOrderId(string userId, int courseId)
+        public string GenerateOrderId(string userId, int courseId)
         {
             using (var sha256 = SHA256.Create())
             {
-                var baseString = $"{userId}-{courseId}-{Guid.NewGuid()}";
+                var baseString = $"{userId}-{courseId}-{DateTime.UtcNow.Ticks}-{Guid.NewGuid()}";
                 var hashBytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(baseString));
-                return Convert.ToBase64String(hashBytes).Substring(0, 20); // Keep it under 255 characters
+                return ToBase32String(hashBytes).Substring(0, 32); // Increase length to 32 characters
             }
+        }
+        private string ToBase32String(byte[] bytes)
+        {
+            const string alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567";
+            StringBuilder result = new StringBuilder((bytes.Length + 4) / 5 * 8);
+            int bitIndex = 0;
+            int currentByte = 0;
+
+            while (bitIndex < bytes.Length * 8)
+            {
+                if (bitIndex % 8 == 0)
+                {
+                    currentByte = bytes[bitIndex / 8];
+                }
+
+                int dualByte = currentByte << 8;
+                if ((bitIndex / 8) + 1 < bytes.Length)
+                {
+                    dualByte |= bytes[(bitIndex / 8) + 1];
+                }
+
+                int index = (dualByte >> (16 - (bitIndex % 8 + 5))) & 31;
+                result.Append(alphabet[index]);
+
+                bitIndex += 5;
+            }
+
+            return result.ToString();
         }
         //development enviroment
         [HttpDelete("Delete_AllOrders")]
