@@ -17,10 +17,29 @@
         width: 100%;
         padding: 10px;
     }
+
+    .adSearch__container {
+        display: flex;
+        margin: 20px 0px;
+    }
+
+    #searchByContainerTitle, #searchByUnitTitle, #searchByCourseTitle, #searchByLessonTitle {
+        margin: 0px 10px;
+    }
 </style>
 
 <h2 style="text-align:center">LIST VOCABS</h2>
 <input id="searchInput" class="search__input col-11" type="text" placeholder="Search anything you want..." />
+<div class="adSearch__container">
+    <span>ContainerTitle: </span>
+    <input id="searchByContainerTitle" type="text" placeholder="Search by ContainerTitle..." />
+    <span>	Unit Title: </span>
+    <input id="searchByUnitTitle" type="text" placeholder="Search by UnitTitle..." />
+    <span>	CourseTitle: </span>
+    <input id="searchByCourseTitle" type="text" placeholder="Search by CourseTitle..." />
+    <span>Lesson Title: </span>
+    <input id="searchByLessonTitle" type="text" placeholder="Search by Lesson Title..." />
+</div>
 <button class="btn btn-block btn-lg btn-gradient-primary mt-4"> @Html.ActionLink("+ Add Vocab", "Vocab_Create", "Vocab", null, new { @class = "text-btn-admin" })</button>
 <div class="card">
     <div class="card-body">
@@ -100,23 +119,48 @@
 </div>
 
 <script>
-    document.getElementById('searchInput').addEventListener('keyup', function () {
-        var input, filter, table, tr, td, i, txtValue;
-        input = document.getElementById('searchInput');
-        filter = input.value.toUpperCase();
-        table = document.querySelector('.table tbody');
-        tr = table.getElementsByTagName('tr');
+    function filterTable() {
+        var searchInput = document.getElementById('searchInput').value.toUpperCase();
+        var searchByContainerTitle = document.getElementById('searchByContainerTitle').value.toUpperCase();
+        var searchByUnitTitle = document.getElementById('searchByUnitTitle').value.toUpperCase();
+        var searchByCourseTitle = document.getElementById('searchByCourseTitle').value.toUpperCase();
+        var searchByLessonTitle = document.getElementById('searchByLessonTitle').value.toUpperCase();
 
-        for (i = 0; i < tr.length; i++) {
-            td = tr[i].getElementsByTagName('td')[1];
-            if (td) {
-                txtValue = td.textContent || td.innerText;
-                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+        var table = document.querySelector('.table tbody');
+        var tr = table.getElementsByTagName('tr');
+
+        for (var i = 0; i < tr.length; i++) {
+            var tdVocabTitle = tr[i].getElementsByTagName('td')[1];
+            var tdContainerTitle = tr[i].getElementsByTagName('td')[9];
+            var tdUnitTitle = tr[i].getElementsByTagName('td')[10];
+            var tdCourseTitle = tr[i].getElementsByTagName('td')[11];
+            var tdLessonTitle = tr[i].getElementsByTagName('td')[8];
+
+            if (tdVocabTitle || tdContainerTitle || tdUnitTitle || tdCourseTitle || tdLessonTitle) {
+                var txtValueVocabTitle = tdVocabTitle.textContent || tdVocabTitle.innerText;
+                var txtValueContainerTitle = tdContainerTitle.textContent || tdContainerTitle.innerText;
+                var txtValueUnitTitle = tdUnitTitle.textContent || tdUnitTitle.innerText;
+                var txtValueCourseTitle = tdCourseTitle.textContent || tdCourseTitle.innerText;
+                var txtValueLessonTitle = tdLessonTitle.textContent || tdLessonTitle.innerText;
+
+                if (
+                    (txtValueVocabTitle.toUpperCase().indexOf(searchInput) > -1 || !searchInput) &&
+                    (txtValueContainerTitle.toUpperCase().indexOf(searchByContainerTitle) > -1 || !searchByContainerTitle) &&
+                    (txtValueUnitTitle.toUpperCase().indexOf(searchByUnitTitle) > -1 || !searchByUnitTitle) &&
+                    (txtValueCourseTitle.toUpperCase().indexOf(searchByCourseTitle) > -1 || !searchByCourseTitle) &&
+                    (txtValueLessonTitle.toUpperCase().indexOf(searchByLessonTitle) > -1 || !searchByLessonTitle)
+                ) {
                     tr[i].style.display = "";
                 } else {
                     tr[i].style.display = "none";
                 }
             }
         }
-    });
+    }
+
+    document.getElementById('searchInput').addEventListener('keyup', filterTable);
+    document.getElementById('searchByContainerTitle').addEventListener('keyup', filterTable);
+    document.getElementById('searchByUnitTitle').addEventListener('keyup', filterTable);
+    document.getElementById('searchByCourseTitle').addEventListener('keyup', filterTable);
+    document.getElementById('searchByLessonTitle').addEventListener('keyup', filterTable);
 </script>
