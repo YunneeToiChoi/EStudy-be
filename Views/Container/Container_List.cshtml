@@ -21,10 +21,23 @@
         padding: 10px;
     }
 
+    .adSearch__container{
+        display: flex;
+        margin: 10px 0px;
+    }
+
+    #searchByUnit{
+        margin: 0px 10px;
+    }
+
 </style>
 
 <h2 style="text-align:center">LIST CONTAINERS</h2>
 <input id="searchInput" class="search__input col-11" type="text" placeholder="Search anything you want..." />
+<div class="adSearch__container">
+    <span>Unit: </span>
+    <input id="searchByUnit" type="text" placeholder="Search by Unit..." />
+</div>
 <button class="btn btn-block btn-lg btn-gradient-primary mt-4"> @Html.ActionLink("+ Add Container", "Container_Create", "Container", null, new { @class = "text-btn-admin" })</button>
 <div class="card">
     <div class="card-body">
@@ -71,23 +84,36 @@
 </div>
 
 <script>
-    document.getElementById('searchInput').addEventListener('keyup', function () {
-        var input, filter, table, tr, td, i, txtValue;
+    function filterTable() {
+        var input, filter, table, tr, td, i, txtValue, unitInput, unitFilter;
+
         input = document.getElementById('searchInput');
         filter = input.value.toUpperCase();
+
+        unitInput = document.getElementById('searchByUnit');
+        unitFilter = unitInput.value.toUpperCase();
+
         table = document.querySelector('.table tbody');
         tr = table.getElementsByTagName('tr');
 
         for (i = 0; i < tr.length; i++) {
-            td = tr[i].getElementsByTagName('td')[1];
-            if (td) {
-                txtValue = td.textContent || td.innerText;
-                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+            tdTitle = tr[i].getElementsByTagName('td')[1];
+            tdUnit = tr[i].getElementsByTagName('td')[2];
+
+            if (tdTitle && tdUnit) {
+                txtValueTitle = tdTitle.textContent || tdTitle.innerText;
+                txtValueUnit = tdUnit.textContent || tdUnit.innerText;
+
+                if ((txtValueTitle.toUpperCase().indexOf(filter) > -1 || filter === "") &&
+                    (txtValueUnit.toUpperCase().indexOf(unitFilter) > -1 || unitFilter === "")) {
                     tr[i].style.display = "";
                 } else {
                     tr[i].style.display = "none";
                 }
             }
         }
-    });
+    }
+
+    document.getElementById('searchInput').addEventListener('keyup', filterTable);
+    document.getElementById('searchByUnit').addEventListener('keyup', filterTable);
 </script>

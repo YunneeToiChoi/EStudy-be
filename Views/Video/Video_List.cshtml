@@ -18,10 +18,25 @@
         padding: 10px;
     }
 
+    .adSearch__container {
+        display: flex;
+        margin: 20px 0px;
+    }
+
+    #searchByLessonTitle, #searchByCourseName {
+        margin: 0px 10px;
+    }
+
 </style>
 
 <h2 style="text-align:center">LIST VIDEOS</h2>
 <input id="searchInput" class="search__input col-11" type="text" placeholder="Search anything you want..." />
+<div class="adSearch__container">
+    <span>	Lesson Title: </span>
+    <input id="searchByLessonTitle" type="text" placeholder="Search by LessonTitle..." />
+    <span>	Course Name: </span>
+    <input id="searchByCourseName" type="text" placeholder="Search by CourseName..." />
+</div>
 <button class="btn btn-block btn-lg btn-gradient-primary mt-4"> @Html.ActionLink("+ Add Video", "Video_Create", "Video", null, new { @class = "text-btn-admin" })</button>
 <div class="card">
     <div class="card-body">
@@ -66,23 +81,38 @@
 </div>
 
 <script>
-    document.getElementById('searchInput').addEventListener('keyup', function () {
-        var input, filter, table, tr, td, i, txtValue;
-        input = document.getElementById('searchInput');
-        filter = input.value.toUpperCase();
-        table = document.querySelector('.table tbody');
-        tr = table.getElementsByTagName('tr');
+    function filterTable() {
+        var searchInput = document.getElementById('searchInput').value.toUpperCase();
+        var searchByLessonTitle = document.getElementById('searchByLessonTitle').value.toUpperCase();
+        var searchByCourseName = document.getElementById('searchByCourseName').value.toUpperCase();
 
-        for (i = 0; i < tr.length; i++) {
-            td = tr[i].getElementsByTagName('td')[0];
-            if (td) {
-                txtValue = td.textContent || td.innerText;
-                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+        var table = document.querySelector('.table tbody');
+        var tr = table.getElementsByTagName('tr');
+
+        for (var i = 0; i < tr.length; i++) {
+            var tdVideoId = tr[i].getElementsByTagName('td')[0];
+            var tdLessonTitle = tr[i].getElementsByTagName('td')[2];
+            var tdCourseName = tr[i].getElementsByTagName('td')[3];
+
+            if (tdVideoId || tdLessonTitle || tdCourseName) {
+                var txtValueVideoId = tdVideoId.textContent || tdVideoId.innerText;
+                var txtValueLessonTitle = tdLessonTitle.textContent || tdLessonTitle.innerText;
+                var txtValueCourseName = tdCourseName.textContent || tdCourseName.innerText;
+
+                if (
+                    (txtValueVideoId.toUpperCase().indexOf(searchInput) > -1 || !searchInput) &&
+                    (txtValueLessonTitle.toUpperCase().indexOf(searchByLessonTitle) > -1 || !searchByLessonTitle) &&
+                    (txtValueCourseName.toUpperCase().indexOf(searchByCourseName) > -1 || !searchByCourseName)
+                ) {
                     tr[i].style.display = "";
                 } else {
                     tr[i].style.display = "none";
                 }
             }
         }
-    });
+    }
+
+    document.getElementById('searchInput').addEventListener('keyup', filterTable);
+    document.getElementById('searchByLessonTitle').addEventListener('keyup', filterTable);
+    document.getElementById('searchByCourseName').addEventListener('keyup', filterTable);
 </script>

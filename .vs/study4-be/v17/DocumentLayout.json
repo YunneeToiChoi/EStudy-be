@@ -3,28 +3,12 @@
   "WorkspaceRootPath": "D:\\EStudy-be\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|d:\\estudy-be\\views\\vocab\\vocab_list.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|solutionrelative:views\\vocab\\vocab_list.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|d:\\estudy-be\\views\\video\\video_list.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|solutionrelative:views\\video\\video_list.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|d:\\estudy-be\\views\\unit\\unit_list.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|solutionrelative:views\\unit\\unit_list.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|d:\\estudy-be\\views\\tags\\tag_list.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|solutionrelative:views\\tags\\tag_list.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|d:\\estudy-be\\views\\question\\question_list.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|solutionrelative:views\\question\\question_list.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|d:\\estudy-be\\views\\container\\container_list.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|solutionrelative:views\\container\\container_list.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|d:\\estudy-be\\views\\lesson\\lesson_list.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|solutionrelative:views\\lesson\\lesson_list.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     }
   ],
   "DocumentGroupContainers": [
@@ -34,7 +18,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Bookmark",
@@ -46,76 +30,29 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "Vocab_List.cshtml",
-              "DocumentMoniker": "D:\\EStudy-be\\Views\\Vocab\\Vocab_List.cshtml",
-              "RelativeDocumentMoniker": "Views\\Vocab\\Vocab_List.cshtml",
-              "ToolTip": "D:\\EStudy-be\\Views\\Vocab\\Vocab_List.cshtml",
-              "RelativeToolTip": "Views\\Vocab\\Vocab_List.cshtml",
+              "DocumentIndex": 1,
+              "Title": "Lesson_List.cshtml",
+              "DocumentMoniker": "D:\\EStudy-be\\Views\\Lesson\\Lesson_List.cshtml",
+              "RelativeDocumentMoniker": "Views\\Lesson\\Lesson_List.cshtml",
+              "ToolTip": "D:\\EStudy-be\\Views\\Lesson\\Lesson_List.cshtml",
+              "RelativeToolTip": "Views\\Lesson\\Lesson_List.cshtml",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAABQAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-06-22T06:29:28.721Z",
+              "WhenOpened": "2024-06-22T12:19:02.944Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
               "Title": "Video_List.cshtml",
               "DocumentMoniker": "D:\\EStudy-be\\Views\\Video\\Video_List.cshtml",
               "RelativeDocumentMoniker": "Views\\Video\\Video_List.cshtml",
               "ToolTip": "D:\\EStudy-be\\Views\\Video\\Video_List.cshtml",
               "RelativeToolTip": "Views\\Video\\Video_List.cshtml",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA8AAAAAAAAA",
+              "ViewState": "AQIAAAQAAAAAAAAAAAAAwBkAAAAvAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-06-22T06:29:12.926Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "Unit_List.cshtml",
-              "DocumentMoniker": "D:\\EStudy-be\\Views\\Unit\\Unit_List.cshtml",
-              "RelativeDocumentMoniker": "Views\\Unit\\Unit_List.cshtml",
-              "ToolTip": "D:\\EStudy-be\\Views\\Unit\\Unit_List.cshtml",
-              "RelativeToolTip": "Views\\Unit\\Unit_List.cshtml",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA4AAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-06-22T06:28:43.108Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "Tag_List.cshtml",
-              "DocumentMoniker": "D:\\EStudy-be\\Views\\Tags\\Tag_List.cshtml",
-              "RelativeDocumentMoniker": "Views\\Tags\\Tag_List.cshtml",
-              "ToolTip": "D:\\EStudy-be\\Views\\Tags\\Tag_List.cshtml",
-              "RelativeToolTip": "Views\\Tags\\Tag_List.cshtml",
-              "ViewState": "AQIAADkAAAAAAAAAAAAAADoAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-06-22T06:28:13.657Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "Question_List.cshtml",
-              "DocumentMoniker": "D:\\EStudy-be\\Views\\Question\\Question_List.cshtml",
-              "RelativeDocumentMoniker": "Views\\Question\\Question_List.cshtml",
-              "ToolTip": "D:\\EStudy-be\\Views\\Question\\Question_List.cshtml",
-              "RelativeToolTip": "Views\\Question\\Question_List.cshtml",
-              "ViewState": "AQIAAAYAAAAAAAAAAAAAABkAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-06-22T06:27:42.115Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "Container_List.cshtml",
-              "DocumentMoniker": "D:\\EStudy-be\\Views\\Container\\Container_List.cshtml",
-              "RelativeDocumentMoniker": "Views\\Container\\Container_List.cshtml",
-              "ToolTip": "D:\\EStudy-be\\Views\\Container\\Container_List.cshtml",
-              "RelativeToolTip": "Views\\Container\\Container_List.cshtml",
-              "ViewState": "AQIAAAkAAAAAAAAAAAAAABoAAABtAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-06-22T06:26:07.542Z"
+              "WhenOpened": "2024-06-22T12:17:26.039Z",
+              "EditorCaption": ""
             }
           ]
         }
