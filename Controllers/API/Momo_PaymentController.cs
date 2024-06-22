@@ -1,9 +1,4 @@
-﻿using FirebaseAdmin.Auth;
-using FirebaseAdmin;
-using MediatR;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using study4_be.Helper;
 using study4_be.Models;
@@ -13,14 +8,14 @@ using study4_be.services.Request;
 using study4_be.Services.Request;
 using study4_be.Validation;
 using System;
+
 using System.Net.Http;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using study4_be.Services;
-using SendGrid.Helpers.Mail;
-using SendGrid;
+using Microsoft.EntityFrameworkCore;
 [Route("api/[controller]")]
 [ApiController]
 public class Momo_PaymentController : ControllerBase
