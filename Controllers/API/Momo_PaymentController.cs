@@ -1,4 +1,6 @@
-﻿using MediatR;
+﻿using FirebaseAdmin.Auth;
+using FirebaseAdmin;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
@@ -16,6 +18,9 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using study4_be.Services;
+using SendGrid.Helpers.Mail;
+using SendGrid;
 [Route("api/[controller]")]
 [ApiController]
 public class Momo_PaymentController : ControllerBase
@@ -23,12 +28,16 @@ public class Momo_PaymentController : ControllerBase
     private readonly ILogger<Momo_PaymentController> _logger;
     private readonly MomoConfig _momoConfig;
     private readonly HashHelper _hashHelper;
+    private readonly FireBaseServices _fireBaseServices;
+    private SMTPServices _smtpServices;
     private STUDY4Context _context = new STUDY4Context();
-    public Momo_PaymentController(ILogger<Momo_PaymentController> logger, IOptions<MomoConfig> momoPaymentSettings)
+    public Momo_PaymentController(ILogger<Momo_PaymentController> logger, IOptions<MomoConfig> momoPaymentSettings, FireBaseServices fireBaseServices,SMTPServices sMTPServices)
     {
         _logger = logger;
         _momoConfig = momoPaymentSettings.Value;
         _hashHelper = new HashHelper();
+        _fireBaseServices= fireBaseServices;
+        _smtpServices = sMTPServices;
     }
     [HttpPost]
     public async Task<IActionResult> MakePayment([FromBody] MomoPaymentRequest request)
@@ -182,5 +191,26 @@ public class Momo_PaymentController : ControllerBase
             return BadRequest("Has error when Update State of Order" + e);
         }
     }
+    [HttpPost("SendVerificationEmail")]
+    public async Task<IActionResult> SendVerificationEmail([FromBody] SendEmailUserRequest _req)
+    {
+        try
+        {
+            //// Generate email verification link using Firebase
+            //var emailLink = await _fireBaseServices.GenerateEmailVerificationLinkAsync(_req.userEmail);
+            var email = "hoangphongcuade@gmail.com";
+            // Send email using SMTP
+            var subject = "Email Verification Link";
+            var emailLink = "https://developers.momo.vn/v3/docs/payment/api/result-handling/resultcode";
+            var plainTextContent = $"Please verify your email by clicking on this link: {emailLink}";
+            var htmlContent = $"<strong>Please verify your email by clicking on this link: <a href='{emailLink}'>Verify Email</a></strong>";
+            await _smtpServices.SendEmailAsync(email, subject, plainTextContent, htmlContent);
 
+            return Ok("Email sent successfully");
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, $"An error occurred: {ex.Message}");
+        }
+    }
 }

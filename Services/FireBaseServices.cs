@@ -1,8 +1,11 @@
 ﻿using FirebaseAdmin;
+using FirebaseAdmin.Auth;
 using Google.Apis.Auth.OAuth2;
 using Google.Cloud.Storage.V1;
+using Microsoft.AspNetCore.Mvc;
 using NuGet.Protocol;
 using study4_be.Models;
+
 
 namespace study4_be.Services
 {
@@ -11,7 +14,6 @@ namespace study4_be.Services
         private readonly IConfiguration _config;
         private readonly FirebaseServiceAccountKey _serviceAccountKey;
         private readonly string _firebaseBucketName;
-
         public FireBaseServices(IConfiguration config)
         {
             _config = config;
@@ -92,6 +94,6 @@ namespace study4_be.Services
                 throw;
             }
         }
-
+     
     }
 }

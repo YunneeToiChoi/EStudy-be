@@ -92,7 +92,7 @@ namespace study4_be.Controllers.Admin
                 // Generate and upload audio to Firebase Storage
                 var uniqueId = Guid.NewGuid().ToString(); // Tạo một UUID ngẫu nhiên
                 var audioFilePath = Path.Combine(Path.GetTempPath(), $"QUESTION({uniqueId}).wav");
-                if (questionViewModel.question.QuestionParagraph==null)
+                if (questionViewModel.question.QuestionParagraph == null)
                 {
                     _logger.LogError("Cannot generate AI question because there is no Paragraph.");
                     ModelState.AddModelError("", "Cannot generate AI question because there is no Paragraph.");
@@ -150,17 +150,82 @@ namespace study4_be.Controllers.Admin
 
             return Ok(question);
         }
-        public IActionResult Question_Delete()
+        [HttpGet]
+        public IActionResult Question_Delete(int id)
         {
-            return View();
+            var question = _context.Questions.FirstOrDefault(c => c.QuestionId == id);
+            if (question == null)
+            {
+                _logger.LogError($"Course with ID {id} not found for delete.");
+                return NotFound($"Course with ID {id} not found.");
+            }
+            return View(question);
         }
-        public IActionResult Question_Edit()
+
+        [HttpPost, ActionName("Question_Delete")]
+        public IActionResult Question_DeleteConfirmed(int id)
         {
-            return View();
+            var question = _context.Questions.FirstOrDefault(c => c.QuestionId == id);
+            if (question == null)
+            {
+                _logger.LogError($"Course with ID {id} not found for deletion.");
+                return NotFound($"Course with ID {id} not found.");
+            }
+
+            try
+            {
+                _context.Questions.Remove(question);
+                _context.SaveChanges();
+                return RedirectToAction("Course_List");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Error deleting course with ID {id}: {ex.Message}");
+                ModelState.AddModelError(string.Empty, "An error occurred while deleting the course.");
+                return View(question);
+            }
         }
-        public IActionResult Question_Details()
+        [HttpGet]
+        public IActionResult Question_Edit(int id)
         {
-            return View();
+            var question = _context.Questions.FirstOrDefault(c => c.QuestionId == id);
+            if (question == null)
+            {
+                return NotFound();
+            }
+            return View(question);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Question_Edit(Question question)
+        {
+            if (ModelState.IsValid)
+            {
+                var courseToUpdate = _context.Questions.FirstOrDefault(c => c.QuestionId == question.QuestionId);
+                courseToUpdate.QuestionText = question.QuestionText;
+                courseToUpdate.QuestionParagraph = question.QuestionParagraph;
+                courseToUpdate.QuestionImage = question.QuestionImage;
+                courseToUpdate.OptionA = question.OptionA;
+                courseToUpdate.OptionB = question.OptionB;
+                courseToUpdate.OptionC = question.OptionC;
+                courseToUpdate.OptionD = question.OptionD;
+                courseToUpdate.CorrectAnswer = question.CorrectAnswer;
+                try
+                {
+                    _context.SaveChanges();
+                    return RedirectToAction("Question_List");
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError($"Error updating course with ID {question.QuestionId}: {ex.Message}");
+                    ModelState.AddModelError(string.Empty, "An error occurred while updating the course.");
+                }
+            }
+            return View(question);
+        }
+        public IActionResult Question_Details(int id)
+        {
+            return View(_context.Questions.FirstOrDefault(c => c.QuestionId == id));
         }
     }
 }

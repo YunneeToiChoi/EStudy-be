@@ -2,31 +2,25 @@
 @{
     ViewData["Title"] = "Container List";
 }
+
 <style>
-    .course__create-btn {
-        padding: 10px;
-        margin-top: 40px;
-        border: none;
-        font-size: 20px;
-        background-color: #d1ecf1;
-        font-weight: 500;
-        text-decoration: none;
-        text-align: center;
+    .item {
+        overflow: hidden;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+        max-width: 200px
     }
 
-        .course__create-btn:hover {
-            opacity: 0.8;
-        }
+    .text-btn-admin {
+        text-decoration: none;
+        color: white;
+    }
+
 </style>
 
-
+<h2 style="text-align:center">LIST CONTAINERS</h2>
+<button class="btn btn-block btn-lg btn-gradient-primary mt-4"> @Html.ActionLink("+ Add Container", "Container_Create", "Container", null, new { @class = "text-btn-admin" })</button>
 <div class="card">
-    <div class="container">
-        <p>Search</p>
-        <input type="text" class="col-md-10" />
-        <a href="" class="course__create-btn col-md-1"><i class="fa-solid fa-magnifying-glass"></i></a>
-        <a href="@Url.ActionLink("Container_Create","Container")" class="course__create-btn col-md-1"><i class="fa-solid fa-plus"></i></a>
-    </div>
     <div class="card-body">
         <table class="table">
             <thead class="table-info">
@@ -45,15 +39,15 @@
                         <td>
                             <p>@container.container.ContainerId</p>
                         </td>
-                        <td>
+                        <td class="item">
                             <p>@container.container.ContainerTitle</p>
                         </td>
-                                          
-                        <td>
+
+                        <td class="item">
                             <p>@container.unitTitle</p>
                         </td>
-                        
-                        <td>
+
+                        <td class="item">
                             <p>@container.courseName</p>
                         </td>
                         <td>

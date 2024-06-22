@@ -14,6 +14,7 @@
     <div class="card-body">
         <p class="card-description"> Edit</p>
         <form asp-action="Vocab_Edit" method="post" enctype="multipart/form-data" class="forms-sample">
+            <input type="hidden" asp-for="VocabId" />
             <div class="form-group">
                 <label for="VocabType">VocabType</label>
                 <input asp-for="VocabType" class="form-control" />
@@ -33,16 +34,6 @@
                 <label for="Explanation">Explanation</label>
                 <input asp-for="Explanation" class="form-control" />
                 <span asp-validation-for="Explanation" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label for="AudioUrlUs">AudioUrlUs</label>
-                <input asp-for="AudioUrlUs" class="form-control" />
-                <span asp-validation-for="AudioUrlUs" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label for="AudioUrlUk">AudioUrlUk</label>
-                <input asp-for="AudioUrlUk" class="form-control" />
-                <span asp-validation-for="AudioUrlUk" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label for="LessonId">LessonId</label>

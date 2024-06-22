@@ -246,12 +246,15 @@ namespace study4_be.Controllers.API
                 {
                     lessonTag = lessonTag.TagId
                 };
+                Random rnd = new Random();
                 var fillWordResponse = vocab.Select(vocab => new VocabFillWorldResponse
                 {
                     vocabId = vocab.VocabId,
                     vocabMean = vocab.Mean,
                     vocabTitle = vocab.VocabTitle,
                     vocabExplanation = vocab.Explanation,
+                    vocabExmample = vocab.Example,
+                    typeAgothism= rnd.Next(0,1),
                 });
                 return Json(new
                 {

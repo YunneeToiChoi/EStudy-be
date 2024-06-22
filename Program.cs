@@ -35,7 +35,7 @@ builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddControllersWithViews();
 // Thêm dịch vụ vào container
 builder.Services.AddSingleton<FireBaseServices>();
-
+builder.Services.AddSingleton<SMTPServices>();
 // Register HttpContextAccessor if needed
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 

@@ -1,4 +1,5 @@
-﻿<style>
+﻿@model study4_be.Models.Unit
+<style>
     .mb-5 {
         color: black;
     }
@@ -21,32 +22,23 @@
                 <h4 class="font-weight-normal mb-3" style="display:flex;align-items:center;justify-content:center">
                     UnitId<i style="padding-left:10px" class="mdi mdi-account-card-details"></i>
                 </h4>
-                <p class="mb-5">123</p>
+                <p class="mb-5">@Html.DisplayFor(model => model.UnitId)</p>
                 <div style="padding:20px"></div>
                 <h4 class="font-weight-normal mb-3" style="display:flex;align-items:center;justify-content:center">
                     CourseId<i style="padding-left:10px" class="mdi mdi-account-card-details"></i>
                 </h4>
-                <p class="mb-5">123</p>
+                <p class="mb-5">@Html.DisplayFor(model => model.CourseId)</p>
                 <div style="padding:20px"></div>
                 <h4 class="font-weight-normal mb-3" style="display:flex;align-items:center;justify-content:center">
                     UnitTittle<i style="padding-left:10px" class="mdi mdi-account-card-details"></i>
                 </h4>
-                <p class="mb-5">123</p>
+                <p class="mb-5">@Html.DisplayFor(model => model.UnitTittle)</p>
                 <div style="padding:20px"></div>
-                <h4 class="font-weight-normal mb-3" style="display:flex;align-items:center;justify-content:center">
-                    Course<i style="padding-left:10px" class="mdi mdi-account-card-details"></i>
-                </h4>
-                <p class="mb-5">123</p>
-                <div style="padding:20px"></div>
-                <h4 class="font-weight-normal mb-3" style="display:flex;align-items:center;justify-content:center">
-                    Containers<i style="padding-left:10px" class="mdi mdi-account-card-details"></i>
-                </h4>
-                <p class="mb-5">123</p>
             </div>
         </div>
         <div style="padding:20px"></div>
         <div class="form-actions no-color">
-            @Html.ActionLink("Edit", "Unit_Edit", "Unit", null, new { @class = "btn btn-light me-2 course__details-btn" })
+            @Html.ActionLink("Edit", "Unit_Edit", "Unit", new { id = Model.UnitId }, new { @class = "btn btn-light me-2 course__details-btn" })
             @Html.ActionLink("Cancel", "Unit_List", "Unit", null, new { @class = "btn btn-light course__details-btn" })
         </div>
     </dl>

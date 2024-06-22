@@ -1,4 +1,4 @@
-﻿@model study4_be.Models.ViewModel.VideoCreateViewModel
+﻿@model study4_be.Models.Video
 <style>
     .flex {
         margin-top: 20px;
@@ -9,20 +9,16 @@
 
 
 <div class="form-horizontal">
-    <h4>Unit</h4>
+    <h4>Video</h4>
     <hr />
     <div class="card-body">
         <p class="card-description"> Edit</p>
-        <form asp-action="Video_Create" method="post" enctype="multipart/form-data" class="forms-sample">
+        <form asp-action="Video_Edit" method="post" enctype="multipart/form-data" class="forms-sample">
+            <input type="hidden" asp-for="VideoId" />
             <div class="form-group">
-                <label asp-for="videos.VideoUrl">VideoUrl</label>
-                <input asp-for="videos.VideoUrl" class="form-control" />
-                <span asp-validation-for="videos.VideoUrl" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="videos.LessonId">Lesson</label>
-                <select asp-for="videos.LessonId" class="form-control" asp-items="Model.Lessons"></select>
-                <span asp-validation-for="videos.LessonId" class="text-danger"></span>
+                <label asp-for="VideoUrl">VideoUrl</label>
+                <input asp-for="VideoUrl" class="form-control" />
+                <span asp-validation-for="VideoUrl" class="text-danger"></span>
             </div>
             <div class="flex">
                 <button type="submit" class="btn btn-gradient-primary me-2">Submit</button>

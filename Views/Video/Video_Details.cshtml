@@ -1,4 +1,5 @@
-﻿<style>
+﻿@model study4_be.Models.Video
+<style>
     .mb-5 {
         color: black;
     }
@@ -21,27 +22,23 @@
                 <h4 class="font-weight-normal mb-3" style="display:flex;align-items:center;justify-content:center">
                     VideoId<i style="padding-left:10px" class="mdi mdi-account-card-details"></i>
                 </h4>
-                <p class="mb-5">123</p>
+                <p class="mb-5">@Html.DisplayFor(model => model.VideoId)</p>
                 <div style="padding:20px"></div>
                 <h4 class="font-weight-normal mb-3" style="display:flex;align-items:center;justify-content:center">
                     LessonId<i style="padding-left:10px" class="mdi mdi-account-card-details"></i>
                 </h4>
-                <p class="mb-5">123</p>
+                <p class="mb-5">@Html.DisplayFor(model => model.LessonId)</p>
                 <div style="padding:20px"></div>
                 <h4 class="font-weight-normal mb-3" style="display:flex;align-items:center;justify-content:center">
                     VideoUrl<i style="padding-left:10px" class="mdi mdi-account-card-details"></i>
                 </h4>
-                <p class="mb-5">123</p>
+                <p class="mb-5">@Html.DisplayFor(model => model.VideoUrl)</p>
                 <div style="padding:20px"></div>
-                <h4 class="font-weight-normal mb-3" style="display:flex;align-items:center;justify-content:center">
-                    VideoNavigation<i style="padding-left:10px" class="mdi mdi-account-card-details"></i>
-                </h4>
-                <p class="mb-5">123</p>
             </div>
         </div>
         <div style="padding:20px"></div>
         <div class="form-actions no-color">
-            @Html.ActionLink("Edit", "Video_Edit", "Video", null, new { @class = "btn btn-light me-2 course__details-btn" })
+            @Html.ActionLink("Edit", "Video_Edit", "Video", new { id = Model.VideoId }, new { @class = "btn btn-light me-2 course__details-btn" })
             @Html.ActionLink("Cancel", "Video_List", "Video", null, new { @class = "btn btn-light course__details-btn" })
         </div>
     </dl>

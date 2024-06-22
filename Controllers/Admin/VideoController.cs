@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using study4_be.Models;
 using study4_be.Models.ViewModel;
 using study4_be.Repositories;
+using study4_be.Services;
 
 namespace study4_be.Controllers.Admin
 {
@@ -79,7 +80,6 @@ namespace study4_be.Controllers.Admin
                     VideoUrl = videoViewMode.videos.VideoUrl,
                     LessonId = videoViewMode.videos.LessonId,
                     VideoId = videoViewMode.videos.VideoId,
-                    //dont have video ID, need video_APIController to done
                 };
 
                 await _context.AddAsync(video);
@@ -114,23 +114,77 @@ namespace study4_be.Controllers.Admin
             return Ok(video);
         }
 
-        public IActionResult Video_Edit()
+        [HttpGet]
+        public IActionResult Video_Edit(int id)
         {
-            return View();
+            var video = _context.Videos.FirstOrDefault(c => c.VideoId == id);
+            if (video == null)
+            {
+                return NotFound();
+            }
+            return View(video);
         }
 
-        public IActionResult Video_Delete()
+        [HttpPost]
+        public async Task<IActionResult> Video_Edit(Video video)
         {
-            return View();
+            if (ModelState.IsValid)
+            {
+                var courseToUpdate = _context.Videos.FirstOrDefault(c => c.VideoId == video.VideoId);
+                courseToUpdate.VideoUrl = video.VideoUrl;
+                try
+                {
+                    _context.SaveChanges();
+                    return RedirectToAction("Video_List");
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError($"Error updating course with ID {video.VideoId}: {ex.Message}");
+                    ModelState.AddModelError(string.Empty, "An error occurred while updating the course.");
+                }
+            }
+            return View(video);
         }
 
-        public IActionResult Video_Details()
+        [HttpGet]
+        public IActionResult Video_Delete(int id)
         {
-            return View();
+            var video = _context.Videos.FirstOrDefault(c => c.VideoId == id);
+            if (video == null)
+            {
+                _logger.LogError($"Course with ID {id} not found for delete.");
+                return NotFound($"Course with ID {id} not found.");
+            }
+            return View(video);
         }
-        public IActionResult BuyCourse()
+
+        [HttpPost, ActionName("Video_Delete")]
+        public IActionResult Video_DeleteConfirmed(int id)
         {
-            return View("test");
+            var video = _context.Videos.FirstOrDefault(c => c.VideoId == id);
+            if (video == null)
+            {
+                _logger.LogError($"Course with ID {id} not found for deletion.");
+                return NotFound($"Course with ID {id} not found.");
+            }
+
+            try
+            {
+                _context.Videos.Remove(video);
+                _context.SaveChanges();
+                return RedirectToAction("Video_List");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Error deleting course with ID {id}: {ex.Message}");
+                ModelState.AddModelError(string.Empty, "An error occurred while deleting the course.");
+                return View(video);
+            }
+        }
+
+        public IActionResult Video_Details(int id)
+        {
+            return View(_context.Videos.FirstOrDefault(c => c.VideoId == id));
         }
     }
 }
