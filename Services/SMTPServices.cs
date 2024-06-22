@@ -59,19 +59,14 @@ namespace study4_be.Services
 
                 using var client = new SmtpClient();
                 await client.ConnectAsync(_config["Smtp:Host"], int.Parse(_config["Smtp:Port"]), SecureSocketOptions.StartTls);
-                await client.AuthenticateAsync(_config["Smtp:UserName"], _config["Smtp:Password"]);
+                await client.AuthenticateAsync(_config["Smtp:Email"], _config["Smtp:Password"]);
                 await client.SendAsync(message);
                 await client.DisconnectAsync(true);
-            }
-            catch (ConfigurationException ex)
-            {
-                // Log the specific configuration exception
-                throw; // Re-throw the exception to propagate it further if needed
             }
             catch (Exception ex)
             {
                 // Handle other exceptions (e.g., MimeKit exceptions) appropriately
-                throw; // Re-throw or handle the exception as per your application's error handling strategy
+                throw new Exception($"An error occurred while sending email: {ex.Message}", ex);
             }
         }
 

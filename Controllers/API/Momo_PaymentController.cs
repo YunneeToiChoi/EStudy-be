@@ -196,16 +196,22 @@ public class Momo_PaymentController : ControllerBase
     {
         try
         {
-            //// Generate email verification link using Firebase
-            //var emailLink = await _fireBaseServices.GenerateEmailVerificationLinkAsync(_req.userEmail);
-            var email = "hoangphongcuade@gmail.com";
-            // Send email using SMTP
-            var subject = "Email Verification Link";
-            var emailLink = "https://developers.momo.vn/v3/docs/payment/api/result-handling/resultcode";
-            var plainTextContent = $"Please verify your email by clicking on this link: {emailLink}";
-            var htmlContent = $"<strong>Please verify your email by clicking on this link: <a href='{emailLink}'>Verify Email</a></strong>";
-            await _smtpServices.SendEmailAsync(email, subject, plainTextContent, htmlContent);
-
+            if(_req.userEmail == null)
+            {
+                BadRequest("user Email is null");
+            }
+            var codeActiveCourse = _smtpServices.GenerateCode(12);
+            var subject = "Code Active Course";
+            var plainTextContent = $"Your activation code for the course is: {codeActiveCourse}";
+            var htmlContent = $"<strong>Your activation code for the course is: <a href='#'>{codeActiveCourse}</a></strong>";
+            try
+            {
+                await _smtpServices.SendEmailAsync(_req.userEmail, subject, plainTextContent, htmlContent);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { error = $"An error occurred while sending the email or email not exist : {ex.Message}" });
+            }
             return Ok("Email sent successfully");
         }
         catch (Exception ex)
