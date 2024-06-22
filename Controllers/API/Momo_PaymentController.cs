@@ -142,7 +142,7 @@ public class Momo_PaymentController : ControllerBase
         {
             var content = new StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(dataRequest), Encoding.UTF8, "application/json");
             var response = await client.PostAsync(aa, content);
-
+            var existOrder = await _context.Orders.Where(o => o.OrderId == req.orderId).SingleOrDefaultAsync();
             if (response.IsSuccessStatusCode)
             {
                 return await Buy_Success(req.orderId);
@@ -161,16 +161,16 @@ public class Momo_PaymentController : ControllerBase
         {
             if (existingOrder != null &&  existingOrder.State==false)
             {
-                existingOrder.State = true;
-                var queryNewUserCourses = new UserCourse
+                try
                 {
-                    UserId = existingOrder.UserId,
-                    CourseId = (int)existingOrder.CourseId,
-                    Date = DateTime.Now,
-                };
-                await _context.UserCourses.AddAsync(queryNewUserCourses);
+                    await SendCodeActiveByEmail(existingOrder.Email, existingOrder.OrderId);
+
+                }catch(Exception ex) { 
+                   return BadRequest(ex.Message);
+                }
+                existingOrder.State = true;
                 await _context.SaveChangesAsync();
-                return Ok(new { status = 200, order = existingOrder, message = "Update Order State Successful" });
+                return Ok(new { status = 200, order = existingOrder, message = "Update Order State Successful and send email success" });
             }
             else if (existingOrder != null && existingOrder.State==true)
             {
@@ -186,12 +186,11 @@ public class Momo_PaymentController : ControllerBase
             return BadRequest("Has error when Update State of Order" + e);
         }
     }
-    [HttpPost("SendVerificationEmail")]
-    public async Task<IActionResult> SendVerificationEmail([FromBody] SendEmailUserRequest _req)
+    public async Task<IActionResult> SendCodeActiveByEmail(string userEmail, string orderId)
     {
         try
         {
-            if(_req.userEmail == null)
+            if(userEmail == null)
             {
                 BadRequest("user Email is null");
             }
@@ -201,7 +200,15 @@ public class Momo_PaymentController : ControllerBase
             var htmlContent = $"<strong>Your activation code for the course is: <a href='#'>{codeActiveCourse}</a></strong>";
             try
             {
-                await _smtpServices.SendEmailAsync(_req.userEmail, subject, plainTextContent, htmlContent);
+                await _smtpServices.SendEmailAsync(userEmail, subject, plainTextContent, htmlContent);
+                var existOrder = await _context.Orders.FirstOrDefaultAsync(o => o.OrderId == orderId);
+                if(existOrder != null)
+                {
+                    existOrder.Code = codeActiveCourse;
+                    await _context.SaveChangesAsync();
+                }
+                BadRequest("Order Not exist");
+
             }
             catch (Exception ex)
             {

@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using study4_be.Services.Request;
 using study4_be.Services;
 using study4_be.Controllers.Admin;
+using Microsoft.EntityFrameworkCore;
 namespace study4_be.Controllers.API
 {
     [Route("api/[controller]")]
@@ -141,6 +142,54 @@ namespace study4_be.Controllers.API
             {
                 _logger.LogError($"Error updating avatar for user with ID {_req.userId}: {ex.Message}");
                 return StatusCode(500, new { status = 500, message = "An error occurred while updating the avatar" });
+            }
+        }
+        [HttpPost("ActiveCode")]
+        public async Task<IActionResult> ActiveCode([FromBody] ActiveCodeRequest _req)
+        {
+            var existingOrder = await _context.Orders
+                                              .Where(o => o.UserId == _req.userId && o.Code == _req.code)
+                                              .FirstOrDefaultAsync();
+
+            if (existingOrder == null)
+            {
+                return BadRequest(new { status = 400, message = "Activation code is not valid or that code not for this user" });
+            }
+            try
+            {
+                if (existingOrder.State == true)
+                {
+                    var existingUserCourse = await _context.UserCourses
+                                                           .Where(uc => uc.UserId == existingOrder.UserId && uc.CourseId == existingOrder.CourseId)
+                                                           .FirstOrDefaultAsync();
+
+                    if (existingUserCourse != null) // thieu && state == true
+                    {
+                        return BadRequest(new { status = 400, message = "You have already activated this course" });
+                    }
+
+                    var newUserCourse = new UserCourse
+                    {
+                        UserId = existingOrder.UserId,
+                        CourseId = (int)existingOrder.CourseId,
+                        Date = DateTime.Now,
+                        Process = 0,
+                        // thieu state == true
+                    };
+
+                    await _context.UserCourses.AddAsync(newUserCourse);
+                    await _context.SaveChangesAsync();
+
+                    return Ok(new { status = 200, order = existingOrder, message = "Update User Course Successful" });
+                }
+                else
+                {
+                    return BadRequest(new { status = 400, message = "Order is not active" });
+                }
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, new { status = 500, message = "An error occurred while updating the state of the order", error = e.Message });
             }
         }
     }
