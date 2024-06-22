@@ -13,9 +13,28 @@
         color: white;
     }
 
+    .search__input {
+        width: 100%;
+        padding: 10px;
+    }
+
+    .adSearch__container {
+        display: flex;
+        margin: 10px 0px;
+    }
+
+    #searchByCourseId {
+        margin: 0px 10px;
+    }
+
 </style>
 
 <h2 style="text-align:center">LIST UNITS</h2>
+<input id="searchInput" class="search__input col-11" type="text" placeholder="Search anything you want..." />
+<div class="adSearch__container">
+    <span>CourseId: </span>
+    <input id="searchByCourseId" type="text" placeholder="Search by CourseId..." />
+</div>
 <button class="btn btn-block btn-lg btn-gradient-primary mt-4"> @Html.ActionLink("+ Add Unit", "Unit_Create", "Unit", null, new { @class = "text-btn-admin" })</button>
 <div class="card">
     <div class="card-body">
@@ -54,3 +73,40 @@
         </table>
     </div>
 </div>
+
+<script>
+    function filterTable() {
+        var input, filter, table, tr, td, i, txtValue, courseInput, courseFilter;
+
+        // Search by UnitId
+        input = document.getElementById('searchInput');
+        filter = input.value.toUpperCase();
+
+        // Search by CourseId
+        courseInput = document.getElementById('searchByCourseId');
+        courseFilter = courseInput.value.toUpperCase();
+
+        table = document.querySelector('.table tbody');
+        tr = table.getElementsByTagName('tr');
+
+        for (i = 0; i < tr.length; i++) {
+            tdUnit = tr[i].getElementsByTagName('td')[2]; // UnitId column
+            tdCourse = tr[i].getElementsByTagName('td')[1]; // CourseId column
+
+            if (tdUnit && tdCourse) {
+                txtValueUnit = tdUnit.textContent || tdUnit.innerText;
+                txtValueCourse = tdCourse.textContent || tdCourse.innerText;
+
+                if ((txtValueUnit.toUpperCase().indexOf(filter) > -1 || filter === "") &&
+                    (txtValueCourse.toUpperCase().indexOf(courseFilter) > -1 || courseFilter === "")) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    }
+
+    document.getElementById('searchInput').addEventListener('keyup', filterTable);
+    document.getElementById('searchByCourseId').addEventListener('keyup', filterTable);
+</script>

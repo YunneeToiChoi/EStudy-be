@@ -13,9 +13,34 @@
         color: white;
     }
 
+    .search__input {
+        width: 100%;
+        padding: 10px;
+    }
+
+    .adSearch__container {
+        display: flex;
+        margin: 20px 0px;
+    }
+
+    #searchByContainerTitle, #searchByUnitTitle, #searchByCourseTitle, #searchByTagID{
+        margin: 0px 10px;
+    }
+
 </style>
 
 <h2 style="text-align:center">LIST LESSONS</h2>
+<input id="searchInput" class="search__input col-11" type="text" placeholder="Search anything you want..." />
+<div class="adSearch__container">
+    <span>ContainerTitle: </span>
+    <input id="searchByContainerTitle" type="text" placeholder="Search by ContainerTitle..." />
+    <span>	Unit Title: </span>
+    <input id="searchByUnitTitle" type="text" placeholder="Search by UnitTitle..." />
+    <span>	CourseTitle: </span>
+    <input id="searchByCourseTitle" type="text" placeholder="Search by CourseTitle..." />
+    <span>Tag ID: </span>
+    <input id="searchByTagID" type="text" placeholder="Search by CourseTitle..." />
+</div>
 <button class="btn btn-block btn-lg btn-gradient-primary mt-4"> @Html.ActionLink("+ Add Lesson", "Lesson_Create", "Lesson", null, new { @class = "text-btn-admin" })</button>
 <div class="card">
     <div class="card-body">
@@ -70,3 +95,50 @@
         </table>
     </div>
 </div>
+
+<script>
+    function filterTable() {
+        var searchInput = document.getElementById('searchInput').value.toUpperCase();
+        var searchByContainerTitle = document.getElementById('searchByContainerTitle').value.toUpperCase();
+        var searchByUnitTitle = document.getElementById('searchByUnitTitle').value.toUpperCase();
+        var searchByCourseTitle = document.getElementById('searchByCourseTitle').value.toUpperCase();
+        var searchByTagID = document.getElementById('searchByTagID').value.toUpperCase();
+
+        var table = document.querySelector('.table tbody');
+        var tr = table.getElementsByTagName('tr');
+
+        for (var i = 0; i < tr.length; i++) {
+            var tdLessonTitle = tr[i].getElementsByTagName('td')[2];
+            var tdContainerTitle = tr[i].getElementsByTagName('td')[3];
+            var tdUnitTitle = tr[i].getElementsByTagName('td')[4];
+            var tdCourseTitle = tr[i].getElementsByTagName('td')[5];
+            var tdTagID = tr[i].getElementsByTagName('td')[6];
+
+            if (tdLessonTitle || tdContainerTitle || tdUnitTitle || tdCourseTitle || tdTagID) {
+                var txtValueLessonTitle = tdLessonTitle.textContent || tdLessonTitle.innerText;
+                var txtValueContainerTitle = tdContainerTitle.textContent || tdContainerTitle.innerText;
+                var txtValueUnitTitle = tdUnitTitle.textContent || tdUnitTitle.innerText;
+                var txtValueCourseTitle = tdCourseTitle.textContent || tdCourseTitle.innerText;
+                var txtValueTagID = tdTagID.textContent || tdTagID.innerText;
+
+                if (
+                    (txtValueLessonTitle.toUpperCase().indexOf(searchInput) > -1 || !searchInput) &&
+                    (txtValueContainerTitle.toUpperCase().indexOf(searchByContainerTitle) > -1 || !searchByContainerTitle) &&
+                    (txtValueUnitTitle.toUpperCase().indexOf(searchByUnitTitle) > -1 || !searchByUnitTitle) &&
+                    (txtValueCourseTitle.toUpperCase().indexOf(searchByCourseTitle) > -1 || !searchByCourseTitle) &&
+                    (txtValueTagID.toUpperCase().indexOf(searchByTagID) > -1 || !searchByTagID)
+                ) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    }
+
+    document.getElementById('searchInput').addEventListener('keyup', filterTable);
+    document.getElementById('searchByContainerTitle').addEventListener('keyup', filterTable);
+    document.getElementById('searchByUnitTitle').addEventListener('keyup', filterTable);
+    document.getElementById('searchByCourseTitle').addEventListener('keyup', filterTable);
+    document.getElementById('searchByTagID').addEventListener('keyup', filterTable);
+</script>
