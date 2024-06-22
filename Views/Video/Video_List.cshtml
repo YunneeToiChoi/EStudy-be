@@ -13,9 +13,15 @@
         color: white;
     }
 
+    .search__input {
+        width: 100%;
+        padding: 10px;
+    }
+
 </style>
 
 <h2 style="text-align:center">LIST VIDEOS</h2>
+<input id="searchInput" class="search__input col-11" type="text" placeholder="Search anything you want..." />
 <button class="btn btn-block btn-lg btn-gradient-primary mt-4"> @Html.ActionLink("+ Add Video", "Video_Create", "Video", null, new { @class = "text-btn-admin" })</button>
 <div class="card">
     <div class="card-body">
@@ -58,3 +64,25 @@
         </table>
     </div>
 </div>
+
+<script>
+    document.getElementById('searchInput').addEventListener('keyup', function () {
+        var input, filter, table, tr, td, i, txtValue;
+        input = document.getElementById('searchInput');
+        filter = input.value.toUpperCase();
+        table = document.querySelector('.table tbody');
+        tr = table.getElementsByTagName('tr');
+
+        for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName('td')[0];
+            if (td) {
+                txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    });
+</script>
