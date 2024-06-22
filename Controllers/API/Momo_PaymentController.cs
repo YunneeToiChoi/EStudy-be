@@ -278,25 +278,21 @@ public class Momo_PaymentController : ControllerBase
     {
         try
         {
-            if(userEmail == null)
-            {
-                BadRequest("user Email is null");
-            }
+            var existOrder = await _context.Orders.FirstOrDefaultAsync(o => o.OrderId == orderId);
             var codeActiveCourse = _smtpServices.GenerateCode(12);
-            var subject = "Code Active Course";
-            var plainTextContent = $"Your activation code for the course is: {codeActiveCourse}";
-            var htmlContent = $"<strong>Your activation code for the course is: <a href='#'>{codeActiveCourse}</a></strong>";
+            var subject = "[EStudy] - Thông tin đơn hàng và mã kích hoạt khóa học";
+            var userName =  await  _context.Users.Where(u=> u.UserId == existOrder.UserId).Select(u=> u.UserName).FirstOrDefaultAsync();
+            var courseName = await _context.Courses.Where(u => u.CourseId == existOrder.CourseId).Select(u => u.CourseName).FirstOrDefaultAsync();
             try
             {
-                await _smtpServices.SendEmailAsync(userEmail, subject, plainTextContent, htmlContent);
-                var existOrder = await _context.Orders.FirstOrDefaultAsync(o => o.OrderId == orderId);
-                if(existOrder != null)
+                var emailContent = GenerateEmailContent(userName, existOrder.OrderDate.ToString(), orderId, courseName, codeActiveCourse);
+                await _smtpServices.SendEmailAsync(userEmail, subject, emailContent, emailContent);
+
+                if (existOrder != null || existOrder.State == true)
                 {
                     existOrder.Code = codeActiveCourse;
                     await _context.SaveChangesAsync();
                 }
-                BadRequest("Order Not exist");
-
             }
             catch (Exception ex)
             {
@@ -308,5 +304,34 @@ public class Momo_PaymentController : ControllerBase
         {
             return StatusCode(500, $"An error occurred: {ex.Message}");
         }
+    }
+    private string GenerateEmailContent(string username, string orderDate, string orderId, string nameCourse, string codeActiveCourse)
+    {
+        var sb = new StringBuilder();
+        sb.AppendLine("<html>");
+        sb.AppendLine("<body>");
+        sb.AppendLine("<div style='text-align: center;'>");
+        sb.AppendLine("<img src='https://firebasestorage.googleapis.com/v0/b/estudy-426108.appspot.com/o/IMGe06a0654-1045-451f-adf7-750506d52b91.jpg?alt=media' alt='Logo' width='150'/>"); 
+        sb.AppendLine("</div>");
+        sb.AppendLine($"<p>Xin chào {username}, đơn hàng của bạn đã đặt thành công vào ngày {orderDate}</p>");
+        sb.AppendLine("<h3>Thông tin đơn hàng:</h3>");
+        sb.AppendLine("<ul>");
+        sb.AppendLine($"<li>Mã đơn hàng: {orderId}</li>");
+        sb.AppendLine($"<li>Tên khoá học: {nameCourse}</li>");
+        sb.AppendLine("</ul>");
+        sb.AppendLine("<div style='border: 1px solid #ccc; padding: 10px; width: 200px; margin: 0 auto;'>");
+        sb.AppendLine($"<p style='text-align: center;'>{codeActiveCourse}</p>");
+        sb.AppendLine("</div>");
+        sb.AppendLine("<p>Xin chân thành cảm ơn và chúc quý học viên có một khoá học thành công và hiệu quả.</p>");
+        sb.AppendLine("<p>Trân trọng,</p>");
+        sb.AppendLine("<p>Đội ngũ EStudy</p>");
+        sb.AppendLine("<h4>Liên hệ hỗ trợ:</h4>");
+        sb.AppendLine("<ul>");
+        sb.AppendLine("<li>Email: contact.nangphanvan@gmail.com</li>"); 
+        sb.AppendLine("<li>Số điện thoại: (+84) 902250149 </li>"); 
+        sb.AppendLine("</ul>");
+        sb.AppendLine("</body>");
+        sb.AppendLine("</html>");
+        return sb.ToString();
     }
 }
