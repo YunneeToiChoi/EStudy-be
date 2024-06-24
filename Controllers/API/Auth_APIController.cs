@@ -10,6 +10,9 @@ using study4_be.Services.Request;
 using study4_be.Services;
 using study4_be.Controllers.Admin;
 using Microsoft.EntityFrameworkCore;
+using MailKit.Search;
+using FirebaseAdmin.Auth;
+using SendGrid.Helpers.Mail;
 namespace study4_be.Controllers.API
 {
     [Route("api/[controller]")]
@@ -17,15 +20,16 @@ namespace study4_be.Controllers.API
     public class Auth_APIController : Controller
     {
         private readonly UserRepository _userRepository = new UserRepository();
-
+        private SMTPServices _smtpServices;
         private STUDY4Context _context = new STUDY4Context();
         private UserRegistrationValidator _userRegistrationValidator = new UserRegistrationValidator();
         private readonly ILogger<CoursesController> _logger;
         private FireBaseServices _fireBaseServices;
-        public Auth_APIController(ILogger<CoursesController> logger, FireBaseServices fireBaseServices)
+        public Auth_APIController(ILogger<CoursesController> logger, FireBaseServices fireBaseServices, SMTPServices smtpServices)
         {
             _logger = logger;
             _fireBaseServices = fireBaseServices;
+            _smtpServices = smtpServices;
         }
         [HttpPost("Register")]
         public async Task<IActionResult> Register()
@@ -41,6 +45,13 @@ namespace study4_be.Controllers.API
                     if (_userRegistrationValidator.Validate(user, out errorMessage))
                     {
                         _userRepository.AddUser(user);
+                        //UserRecord userRecord;
+                        //userRecord = await FirebaseAuth.DefaultInstance.CreateUserAsync(new UserRecordArgs
+                        //{
+                        //    Email = user.UserEmail,
+                        //    EmailVerified = false,
+                        //    Password = user.UserPassword
+                        //});
                         return Json(new { status = 200, message = "User registered successfully", userData = user });
                     }
                     else
@@ -96,7 +107,7 @@ namespace study4_be.Controllers.API
             return Json(new { status = 200, message = "Delete Users Successful" });
         }
         [HttpPost("User_UpdateAvatar")]
-        public async Task<IActionResult> User_UpdateAvatar([FromForm] UserUploadImageRequest _req, [FromForm]  IFormFile userImage)
+        public async Task<IActionResult> User_UpdateAvatar([FromForm] UserUploadImageRequest _req, [FromForm] IFormFile userImage)
         {
             if (_req.userId == null)
             {
@@ -192,5 +203,30 @@ namespace study4_be.Controllers.API
                 return StatusCode(500, new { status = 500, message = "An error occurred while updating the state of the order", error = e.Message });
             }
         }
+        // GET api/verification/{userId}/{verificationCode}
+        [HttpGet("{userEmail}")]
+        public IActionResult Verify(string userEmail)
+        {
+            // Thực hiện kiểm tra xác thực userId và verificationCode
+            // Ví dụ đơn giản: Kiểm tra trong cơ sở dữ liệu
+            var user = _context.Users.FirstOrDefault(u => u.UserEmail == userEmail);
+
+            if (user == null)
+            {
+                return NotFound("User not found");
+            }
+
+            // Cập nhật trạng thái xác thực của người dùng (ví dụ)
+            //user.IsVerified = true;
+            _context.SaveChanges(); // Lưu thay đổi vào cơ sở dữ liệu
+
+            //// Gửi email thông báo xác thực thành công (tùy vào logic của bạn)
+            //var subject = "Xác thực thành công";
+            //var emailContent = "Bạn đã xác thực thành công tài khoản.";
+            //_smtpServices.SendEmailAsync(user.UserEmail, subject, emailContent, emailContent).Wait(); // Sử dụng .Wait() vì SendEmailAsync là async
+
+            // Trả về thông báo thành công cho người dùng
+            return Ok("Verification successful");
+        }      
     }
 }

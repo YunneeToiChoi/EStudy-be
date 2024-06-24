@@ -2,6 +2,7 @@
 {
     public class test
     {
-        public string orderId {  get; set; }    
+        public string userEmail {  get; set; }    
+        public string password { get; set; }
     }
 }
