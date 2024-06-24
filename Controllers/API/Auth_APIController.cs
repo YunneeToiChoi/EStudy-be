@@ -45,6 +45,10 @@ namespace study4_be.Controllers.API
                     if (_userRegistrationValidator.Validate(user, out errorMessage))
                     {
                         _userRepository.AddUser(user);
+                        var link = $"http://localhost:8000/api/Auth_API/{user.UserEmail}/verification={false}";
+                        var subject = "[EStudy] - Thông  tin đơn hàng và mã kích hoạt khóa học";
+                        var emailContent = _smtpServices.GenerateLinkVerifiByEmailContent(user.UserEmail, link);
+                        await _smtpServices.SendEmailAsync(user.UserEmail, subject,emailContent,emailContent);
                         //UserRecord userRecord;
                         //userRecord = await FirebaseAuth.DefaultInstance.CreateUserAsync(new UserRecordArgs
                         //{
@@ -52,6 +56,7 @@ namespace study4_be.Controllers.API
                         //    EmailVerified = false,
                         //    Password = user.UserPassword
                         //});
+                        // can resend it
                         return Json(new { status = 200, message = "User registered successfully", userData = user });
                     }
                     else
@@ -79,7 +84,12 @@ namespace study4_be.Controllers.API
 
                     if (user != null && _userRepository.VerifyPassword(loginData.UserPassword, user.UserPassword))
                     {
-                        return Json(new { status = 200, message = "Login successful", user });
+                        if (user.Isverified == true)
+                        {
+                            return Json(new { status = 200, message = "Login successful", user });
+                        }
+                        return Unauthorized("User is not verification");
+                        // can resend it
                     }
                     else
                     {
@@ -155,7 +165,7 @@ namespace study4_be.Controllers.API
                 return StatusCode(500, new { status = 500, message = "An error occurred while updating the avatar" });
             }
         }
-        [HttpPost("ActiveCode")]
+        [HttpPost("ActiveCode")] // active course
         public async Task<IActionResult> ActiveCode([FromBody] ActiveCodeRequest _req)
         {
             var existingOrder = await _context.Orders
@@ -204,29 +214,43 @@ namespace study4_be.Controllers.API
             }
         }
         // GET api/verification/{userId}/{verificationCode}
-        [HttpGet("{userEmail}")]
+        [HttpGet("{userEmail}/verification={false}")]
         public IActionResult Verify(string userEmail)
         {
-            // Thực hiện kiểm tra xác thực userId và verificationCode
-            // Ví dụ đơn giản: Kiểm tra trong cơ sở dữ liệu
             var user = _context.Users.FirstOrDefault(u => u.UserEmail == userEmail);
 
             if (user == null)
             {
                 return NotFound("User not found");
             }
+            user.Isverified = true;
+            _context.SaveChanges();
 
-            // Cập nhật trạng thái xác thực của người dùng (ví dụ)
-            //user.IsVerified = true;
-            _context.SaveChanges(); // Lưu thay đổi vào cơ sở dữ liệu
-
-            //// Gửi email thông báo xác thực thành công (tùy vào logic của bạn)
-            //var subject = "Xác thực thành công";
-            //var emailContent = "Bạn đã xác thực thành công tài khoản.";
-            //_smtpServices.SendEmailAsync(user.UserEmail, subject, emailContent, emailContent).Wait(); // Sử dụng .Wait() vì SendEmailAsync là async
-
-            // Trả về thông báo thành công cho người dùng
             return Ok("Verification successful");
-        }      
+        }
+        [HttpPost("ResendLink")]
+        public async Task<IActionResult> ResendLink([FromBody] ResendLinkActive _req)
+        {
+           
+            // Thực hiện kiểm tra xác thực userId và verificationCode
+            // Ví dụ đơn giản: Kiểm tra trong cơ sở dữ liệu
+            var user = _context.Users.FirstOrDefault(u => u.UserEmail == _req.userEmail);
+
+            if (user == null)
+            {
+                return NotFound("User not found");
+            }
+            if (user.Isverified == true)
+            {
+                return BadRequest("User had actived");
+
+            }
+            var link = $"https://elearning.engineer/api/Auth_API/{user.UserEmail}/verification={false}";
+            var subject = "[EStudy] - Thông  tin đơn hàng và mã kích hoạt khóa học";
+            var emailContent = _smtpServices.GenerateLinkVerifiByEmailContent(user.UserEmail, link);
+            await _smtpServices.SendEmailAsync(user.UserEmail, subject, emailContent, emailContent);
+
+            return Ok("Resend link verification successful");
+        }
     }
 }

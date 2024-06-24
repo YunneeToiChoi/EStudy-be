@@ -14,6 +14,7 @@ namespace study4_be.Models
         public int? CourseId { get; set; }
         public string? UnitTittle { get; set; }
         public int? Process { get; set; }
+        public string? ExamId { get; set; }
 
         public virtual Course? Course { get; set; }
         public virtual ICollection<Container> Containers { get; set; }

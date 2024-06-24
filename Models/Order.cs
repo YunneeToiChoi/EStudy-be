@@ -5,11 +5,6 @@ namespace study4_be.Models
 {
     public partial class Order
     {
-        public Order()
-        {
-            Reports = new HashSet<Report>();
-        }
-
         public string OrderId { get; set; } = null!;
         public string? UserId { get; set; }
         public int? CourseId { get; set; }
@@ -22,6 +17,5 @@ namespace study4_be.Models
 
         public virtual Course? Course { get; set; }
         public virtual User? User { get; set; }
-        public virtual ICollection<Report> Reports { get; set; }
     }
 }

@@ -19,17 +19,18 @@ namespace study4_be.Models
         public virtual DbSet<Container> Containers { get; set; } = null!;
         public virtual DbSet<Course> Courses { get; set; } = null!;
         public virtual DbSet<Department> Departments { get; set; } = null!;
+        public virtual DbSet<Exam> Exams { get; set; } = null!;
         public virtual DbSet<Lesson> Lessons { get; set; } = null!;
         public virtual DbSet<Order> Orders { get; set; } = null!;
         public virtual DbSet<Question> Questions { get; set; } = null!;
         public virtual DbSet<Rating> Ratings { get; set; } = null!;
-        public virtual DbSet<Report> Reports { get; set; } = null!;
         public virtual DbSet<Role> Roles { get; set; } = null!;
         public virtual DbSet<Staff> Staff { get; set; } = null!;
         public virtual DbSet<Tag> Tags { get; set; } = null!;
         public virtual DbSet<Unit> Units { get; set; } = null!;
         public virtual DbSet<User> Users { get; set; } = null!;
         public virtual DbSet<UserCourse> UserCourses { get; set; } = null!;
+        public virtual DbSet<UsersExam> UsersExams { get; set; } = null!;
         public virtual DbSet<Video> Videos { get; set; } = null!;
         public virtual DbSet<Vocabulary> Vocabularies { get; set; } = null!;
 
@@ -38,8 +39,7 @@ namespace study4_be.Models
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                //optionsBuilder.UseSqlServer("Data Source=LAPTOP-62MKG1UJ;Initial Catalog=STUDY4;Integrated Security=True;Trust Server Certificate=True");
-                optionsBuilder.UseSqlServer("Data Source=GBAONEEE;Initial Catalog=STUDY4;Integrated Security=True;Trust Server Certificate=True");
+                optionsBuilder.UseSqlServer("Data Source=LAPTOP-62MKG1UJ;Initial Catalog=STUDY4;Integrated Security=True;Trust Server Certificate=True");
             }
         }
 
@@ -97,6 +97,20 @@ namespace study4_be.Models
                 entity.Property(e => e.DepartmentName)
                     .HasMaxLength(100)
                     .HasColumnName("DEPARTMENT_NAME");
+            });
+
+            modelBuilder.Entity<Exam>(entity =>
+            {
+                entity.ToTable("Exam");
+
+                entity.Property(e => e.ExamId)
+                    .HasMaxLength(100)
+                    .IsUnicode(false)
+                    .HasColumnName("Exam_Id");
+
+                entity.Property(e => e.ExamName)
+                    .HasMaxLength(100)
+                    .HasColumnName("Exam_Name");
             });
 
             modelBuilder.Entity<Lesson>(entity =>
@@ -211,10 +225,31 @@ namespace study4_be.Models
 
                 entity.Property(e => e.QuestionTranslate).HasColumnName("QUESTION_TRANSLATE");
 
+                entity.Property(e => e.QuestionType)
+                    .HasMaxLength(100)
+                    .HasColumnName("QUESTION_TYPE");
+
                 entity.HasOne(d => d.Lesson)
                     .WithMany(p => p.Questions)
                     .HasForeignKey(d => d.LessonId)
                     .HasConstraintName("FK_QUESTION_LESSON");
+
+                entity.HasMany(d => d.Exams)
+                    .WithMany(p => p.Questions)
+                    .UsingEntity<Dictionary<string, object>>(
+                        "QuestionExam",
+                        l => l.HasOne<Exam>().WithMany().HasForeignKey("ExamId").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK_QUESTION_EXAM_Exam"),
+                        r => r.HasOne<Question>().WithMany().HasForeignKey("QuestionId").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK_QUESTION_EXAM_QUESTION"),
+                        j =>
+                        {
+                            j.HasKey("QuestionId", "ExamId");
+
+                            j.ToTable("QUESTION_EXAM");
+
+                            j.IndexerProperty<int>("QuestionId").HasColumnName("QUESTION_ID");
+
+                            j.IndexerProperty<string>("ExamId").HasMaxLength(100).IsUnicode(false).HasColumnName("EXAM_ID");
+                        });
             });
 
             modelBuilder.Entity<Rating>(entity =>
@@ -238,56 +273,10 @@ namespace study4_be.Models
                     .IsUnicode(false)
                     .HasColumnName("USER_ID");
 
-                entity.HasOne(d => d.Course)
+                entity.HasOne(d => d.UserCourse)
                     .WithMany(p => p.Ratings)
-                    .HasForeignKey(d => d.CourseId)
-                    .HasConstraintName("FK_RATING_COURSES");
-
-                entity.HasOne(d => d.User)
-                    .WithMany(p => p.Ratings)
-                    .HasForeignKey(d => d.UserId)
-                    .HasConstraintName("FK_RATING_USERS");
-            });
-
-            modelBuilder.Entity<Report>(entity =>
-            {
-                entity.ToTable("REPORT");
-
-                entity.Property(e => e.ReportId)
-                    .ValueGeneratedNever()
-                    .HasColumnName("REPORT_ID");
-
-                entity.Property(e => e.Amount)
-                    .HasColumnType("decimal(10, 2)")
-                    .HasColumnName("AMOUNT");
-
-                entity.Property(e => e.DateTime)
-                    .HasColumnType("datetime")
-                    .HasColumnName("DATE_TIME");
-
-                entity.Property(e => e.Description)
-                    .HasMaxLength(100)
-                    .HasColumnName("DESCRIPTION");
-
-                entity.Property(e => e.OrderId)
-                    .HasMaxLength(255)
-                    .HasColumnName("ORDER_ID");
-
-                entity.Property(e => e.ReportType)
-                    .HasMaxLength(100)
-                    .HasColumnName("REPORT_TYPE");
-
-                entity.Property(e => e.StaffId).HasColumnName("STAFF_ID");
-
-                entity.HasOne(d => d.Order)
-                    .WithMany(p => p.Reports)
-                    .HasForeignKey(d => d.OrderId)
-                    .HasConstraintName("FK_REPORT_Orders");
-
-                entity.HasOne(d => d.Staff)
-                    .WithMany(p => p.Reports)
-                    .HasForeignKey(d => d.StaffId)
-                    .HasConstraintName("FK_REPORT_STAFF");
+                    .HasForeignKey(d => new { d.UserId, d.CourseId })
+                    .HasConstraintName("FK_RATING_RATING1");
             });
 
             modelBuilder.Entity<Role>(entity =>
@@ -351,6 +340,11 @@ namespace study4_be.Models
 
                 entity.Property(e => e.CourseId).HasColumnName("COURSE_ID");
 
+                entity.Property(e => e.ExamId)
+                    .HasMaxLength(100)
+                    .IsUnicode(false)
+                    .HasColumnName("Exam_Id");
+
                 entity.Property(e => e.Process).HasColumnName("PROCESS");
 
                 entity.Property(e => e.UnitTittle)
@@ -371,6 +365,8 @@ namespace study4_be.Models
                     .HasMaxLength(100)
                     .IsUnicode(false)
                     .HasColumnName("USER_ID");
+
+                entity.Property(e => e.Isverified).HasColumnName("ISVERIFIED");
 
                 entity.Property(e => e.PhoneNumber)
                     .HasMaxLength(20)
@@ -434,6 +430,39 @@ namespace study4_be.Models
                     .HasConstraintName("FK_USER_COURSE_USERS");
             });
 
+            modelBuilder.Entity<UsersExam>(entity =>
+            {
+                entity.HasKey(e => new { e.UserId, e.ExamId });
+
+                entity.ToTable("USERS_EXAM");
+
+                entity.Property(e => e.UserId)
+                    .HasMaxLength(100)
+                    .IsUnicode(false)
+                    .HasColumnName("User_Id");
+
+                entity.Property(e => e.ExamId)
+                    .HasMaxLength(100)
+                    .IsUnicode(false)
+                    .HasColumnName("Exam_Id");
+
+                entity.Property(e => e.DateTime)
+                    .HasColumnType("datetime")
+                    .HasColumnName("Date_Time");
+
+                entity.HasOne(d => d.Exam)
+                    .WithMany(p => p.UsersExams)
+                    .HasForeignKey(d => d.ExamId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_USERS_EXAM_Exam");
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.UsersExams)
+                    .HasForeignKey(d => d.UserId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_USERS_EXAM_USERS");
+            });
+
             modelBuilder.Entity<Video>(entity =>
             {
                 entity.ToTable("VIDEO");
@@ -462,13 +491,9 @@ namespace study4_be.Models
 
                 entity.Property(e => e.AudioUrlUs).HasColumnName("AUDIO_URL_US");
 
-                entity.Property(e => e.Example)
-                    .IsUnicode(false)
-                    .HasColumnName("EXAMPLE");
+                entity.Property(e => e.Example).HasColumnName("EXAMPLE");
 
-                entity.Property(e => e.Explanation)
-                    .IsUnicode(false)
-                    .HasColumnName("EXPLANATION");
+                entity.Property(e => e.Explanation).HasColumnName("EXPLANATION");
 
                 entity.Property(e => e.LessonId).HasColumnName("LESSON_ID");
 

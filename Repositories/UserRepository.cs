@@ -32,6 +32,7 @@ namespace study4_be.Repositories
             user.UserId = Guid.NewGuid().ToString();
             HashPassword(user);
             _context.Users.Add(user);
+            user.Isverified = false;
             _context.SaveChanges();
         }
         public bool CheckEmailExists(string email)
