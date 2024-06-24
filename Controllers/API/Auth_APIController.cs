@@ -195,7 +195,7 @@ namespace study4_be.Controllers.API
                         CourseId = (int)existingOrder.CourseId,
                         Date = DateTime.Now,
                         Process = 0,
-                        // thieu state == true
+                        State = true
                     };
 
                     await _context.UserCourses.AddAsync(newUserCourse);
