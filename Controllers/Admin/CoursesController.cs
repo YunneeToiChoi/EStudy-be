@@ -183,9 +183,5 @@ namespace study4_be.Controllers.Admin
         {
             return View(_context.Courses.FirstOrDefault(c => c.CourseId == id));
         }
-        public IActionResult BuyCourse()
-        {
-            return View("test");
-        }
     }
 }

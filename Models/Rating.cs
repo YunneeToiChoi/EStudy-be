@@ -12,7 +12,6 @@ namespace study4_be.Models
         public short? RatingValue { get; set; }
         public string? Review { get; set; }
 
-        public virtual Course? Course { get; set; }
-        public virtual User? User { get; set; }
+        public virtual UserCourse? UserCourse { get; set; }
     }
 }

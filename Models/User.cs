@@ -8,8 +8,8 @@ namespace study4_be.Models
         public User()
         {
             Orders = new HashSet<Order>();
-            Ratings = new HashSet<Rating>();
             UserCourses = new HashSet<UserCourse>();
+            UsersExams = new HashSet<UsersExam>();
         }
 
         public string UserId { get; set; } = null!;
@@ -20,9 +20,10 @@ namespace study4_be.Models
         public string? UserImage { get; set; }
         public string? UserBanner { get; set; }
         public string? PhoneNumber { get; set; }
+        public bool? Isverified { get; set; }
 
         public virtual ICollection<Order> Orders { get; set; }
-        public virtual ICollection<Rating> Ratings { get; set; }
         public virtual ICollection<UserCourse> UserCourses { get; set; }
+        public virtual ICollection<UsersExam> UsersExams { get; set; }
     }
 }

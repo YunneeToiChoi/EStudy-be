@@ -1,9 +1,4 @@
-﻿using FirebaseAdmin.Auth;
-using FirebaseAdmin;
-using MediatR;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using study4_be.Helper;
 using study4_be.Models;
@@ -13,14 +8,15 @@ using study4_be.services.Request;
 using study4_be.Services.Request;
 using study4_be.Validation;
 using System;
+
 using System.Net.Http;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using study4_be.Services;
-using SendGrid.Helpers.Mail;
-using SendGrid;
+using Microsoft.EntityFrameworkCore;
+using study4_be.Services.Response;
 [Route("api/[controller]")]
 [ApiController]
 public class Momo_PaymentController : ControllerBase
@@ -147,16 +143,103 @@ public class Momo_PaymentController : ControllerBase
         {
             var content = new StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(dataRequest), Encoding.UTF8, "application/json");
             var response = await client.PostAsync(aa, content);
-
+            var responseContent = await response.Content.ReadAsStringAsync();
+            var existOrder = await _context.Orders.Where(o => o.OrderId == req.orderId).SingleOrDefaultAsync();
             if (response.IsSuccessStatusCode)
             {
-                return await Buy_Success(req.orderId);
+                var responseData = Newtonsoft.Json.JsonConvert.DeserializeObject<TrackingMomoResponse>(responseContent);
+
+                // Assuming TrackingResponse has a property named resultCode to capture the MoMo API response code
+                if (responseData.resultCode == 0)
+                {
+                    return await Buy_Success(req.orderId);
+                }
+                else
+                {
+                    return HandleMoMoErrorResponse(responseData.resultCode);
+                }
             }
             else
             {
                 // Handle unsuccessful response with error message from MoMo API
                 return StatusCode((int)response.StatusCode, await response.Content.ReadAsStringAsync());
             }
+        }
+    }
+    private IActionResult HandleMoMoErrorResponse(int resultCode)
+    {
+        switch (resultCode)
+        {
+            case 0:
+                return Ok(new { status = 200, message = "Successful" });
+            case 10:
+                return StatusCode(503, new { status = 503, message = "System is under maintenance. Please retry later." });
+            case 11:
+                return StatusCode(403, new { status = 403, message = "Access denied. Please check your settings in M4B portal, or contact MoMo for configurations." });
+            case 12:
+                return StatusCode(400, new { status = 400, message = "Unsupported API version. Please upgrade to the latest version of payment gateway." });
+            case 13:
+                return StatusCode(401, new { status = 401, message = "Merchant authentication failed. Please check your credentials." });
+            case 20:
+                return BadRequest(new { status = 400, message = "Bad format request. Please check the request format or any missing parameters." });
+            case 21:
+                return BadRequest(new { status = 400, message = "Invalid transaction amount. Please check the amount and retry." });
+            case 22:
+                return BadRequest(new { status = 400, message = "Transaction amount is out of range. Please check the allowed range of each payment method." });
+            case 40:
+                return BadRequest(new { status = 400, message = "Duplicated requestId. Please retry with a different requestId." });
+            case 41:
+                return BadRequest(new { status = 400, message = "Duplicated orderId. Please inquiry the orderId's transaction status, or retry with a different orderId." });
+            case 42:
+                return BadRequest(new { status = 400, message = "Invalid orderId or orderId not found. Please retry with a different orderId." });
+            case 43:
+                return BadRequest(new { status = 400, message = "Analogous transaction is being processed. Please check if another analogous transaction is being processed." });
+            case 45:
+                return BadRequest(new { status = 400, message = "Duplicated ItemId. Please retry with a unique ItemId." });
+            case 47:
+                return BadRequest(new { status = 400, message = "Inapplicable information in the given set of valuable data. Please review and retry with another request." });
+            case 98:
+                return StatusCode(503, new { status = 503, message = "This QR Code has not been generated successfully. Please retry later." });
+            case 99:
+                return StatusCode(500, new { status = 500, message = "Unknown error. Please contact MoMo for more details." });
+            case 1000:
+                return Ok(new { status = 200, message = "Transaction is initiated, waiting for user confirmation." });
+            case 1001:
+                return BadRequest(new { status = 400, message = "Transaction failed due to insufficient funds." });
+            case 1002:
+                return BadRequest(new { status = 400, message = "Transaction rejected by the issuers of the payment methods. Please choose other payment methods." });
+            case 1003:
+                return BadRequest(new { status = 400, message = "Transaction cancelled after successfully authorized." });
+            case 1004:
+                return BadRequest(new { status = 400, message = "Transaction failed because the amount exceeds daily/monthly payment limit. Please retry another day." });
+            case 1005:
+                return BadRequest(new { status = 400, message = "Transaction failed because the url or QR code expired. Please send another payment request." });
+            case 1006:
+                return BadRequest(new { status = 400, message = "Transaction failed because user has denied to confirm the payment. Please send another payment request." });
+            case 1007:
+                return BadRequest(new { status = 400, message = "Transaction rejected due to inactive or nonexistent user's account. Please ensure the account status should be active/verified before retrying." });
+            case 1017:
+                return BadRequest(new { status = 400, message = "Transaction cancelled by merchant." });
+            case 1026:
+                return BadRequest(new { status = 400, message = "Transaction restricted due to promotion rules. Please contact MoMo for details." });
+            case 1080:
+                return BadRequest(new { status = 400, message = "Refund attempt failed during processing. Please retry later." });
+            case 1081:
+                return BadRequest(new { status = 400, message = "Refund rejected. The original transaction might have been refunded or exceeds refundable amount." });
+            case 2019:
+                return BadRequest(new { status = 400, message = "Invalid orderGroupId. Please contact MoMo for details." });
+            case 4001:
+                return BadRequest(new { status = 400, message = "Transaction restricted due to incomplete KYCs. Please contact MoMo for details." });
+            case 4100:
+                return BadRequest(new { status = 400, message = "Transaction failed because user failed to login." });
+            case 7000:
+                return Ok(new { status = 200, message = "Transaction is being processed. Please wait for it to be fully processed." });
+            case 7002:
+                return Ok(new { status = 200, message = "Transaction is being processed by the provider of the selected payment instrument." });
+            case 9000:
+                return Ok(new { status = 200, message = "Transaction is authorized successfully. Please proceed with either capture or cancel request." });
+            default:
+                return StatusCode(500, new { status = 500, message = "Unhandled response code from MoMo. Please contact support." });
         }
     }
     public async Task<IActionResult> Buy_Success(string orderId)
@@ -166,16 +249,16 @@ public class Momo_PaymentController : ControllerBase
         {
             if (existingOrder != null &&  existingOrder.State==false)
             {
-                existingOrder.State = true;
-                var queryNewUserCourses = new UserCourse
+                try
                 {
-                    UserId = existingOrder.UserId,
-                    CourseId = (int)existingOrder.CourseId,
-                    Date = DateTime.Now,
-                };
-                await _context.UserCourses.AddAsync(queryNewUserCourses);
+                    await SendCodeActiveByEmail(existingOrder.Email, existingOrder.OrderId);
+
+                }catch(Exception ex) { 
+                   return BadRequest(ex.Message);
+                }
+                existingOrder.State = true;
                 await _context.SaveChangesAsync();
-                return Ok(new { status = 200, order = existingOrder, message = "Update Order State Successful" });
+                return Ok(new { status = 200, order = existingOrder, message = "Update Order State Successful and send email success" });
             }
             else if (existingOrder != null && existingOrder.State==true)
             {
@@ -191,26 +274,37 @@ public class Momo_PaymentController : ControllerBase
             return BadRequest("Has error when Update State of Order" + e);
         }
     }
-    [HttpPost("SendVerificationEmail")]
-    public async Task<IActionResult> SendVerificationEmail([FromBody] SendEmailUserRequest _req)
+    public async Task<IActionResult> SendCodeActiveByEmail(string userEmail, string orderId)
     {
         try
         {
-            //// Generate email verification link using Firebase
-            //var emailLink = await _fireBaseServices.GenerateEmailVerificationLinkAsync(_req.userEmail);
-            var email = "hoangphongcuade@gmail.com";
-            // Send email using SMTP
-            var subject = "Email Verification Link";
-            var emailLink = "https://developers.momo.vn/v3/docs/payment/api/result-handling/resultcode";
-            var plainTextContent = $"Please verify your email by clicking on this link: {emailLink}";
-            var htmlContent = $"<strong>Please verify your email by clicking on this link: <a href='{emailLink}'>Verify Email</a></strong>";
-            await _smtpServices.SendEmailAsync(email, subject, plainTextContent, htmlContent);
+            var existOrder = await _context.Orders.FirstOrDefaultAsync(o => o.OrderId == orderId);
+            var codeActiveCourse = _smtpServices.GenerateCode(12);
+            var subject = "[EStudy] - Thông  tin đơn hàng và mã kích hoạt khóa học";
+            var userName =  await  _context.Users.Where(u=> u.UserId == existOrder.UserId).Select(u=> u.UserName).FirstOrDefaultAsync();
+            var courseName = await _context.Courses.Where(u => u.CourseId == existOrder.CourseId).Select(u => u.CourseName).FirstOrDefaultAsync();
+            try
+            {
+                var emailContent = _smtpServices.GenerateCodeByEmailContent(userName, existOrder.OrderDate.ToString(), orderId, courseName, codeActiveCourse);
+                await _smtpServices.SendEmailAsync(userEmail, subject, emailContent, emailContent);
 
+                if (existOrder != null || existOrder.State == true)
+                {
+                    existOrder.Code = codeActiveCourse;
+                    await _context.SaveChangesAsync();
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { error = $"An error occurred while sending the email or email not exist : {ex.Message}" });
+            }
             return Ok("Email sent successfully");
         }
         catch (Exception ex)
         {
             return StatusCode(500, $"An error occurred: {ex.Message}");
         }
-    }
+    }    
+  
+  
 }

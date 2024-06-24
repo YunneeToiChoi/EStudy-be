@@ -172,8 +172,8 @@ namespace study4_be.Controllers.API
                 return StatusCode(500, new { status = 500, message = "An error occurred while processing your request." });
             }
         }
-        [HttpPost("Get_AllQuestionDoulbeChoice")]
-        public async Task<IActionResult> Get_AllQuestionDoulbeChoice(OfLessonRequest _req)
+        [HttpPost("Get_AllQuestionDoubleChoice")]
+        public async Task<IActionResult> Get_AllQuestionDoubleChoice(OfLessonRequest _req)
         {
             if (_req.lessonId == null)
             {

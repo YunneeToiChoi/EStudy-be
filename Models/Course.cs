@@ -8,7 +8,6 @@ namespace study4_be.Models
         public Course()
         {
             Orders = new HashSet<Order>();
-            Ratings = new HashSet<Rating>();
             Units = new HashSet<Unit>();
             UserCourses = new HashSet<UserCourse>();
         }
@@ -22,7 +21,6 @@ namespace study4_be.Models
         public int? CourseSale { get; set; }
 
         public virtual ICollection<Order> Orders { get; set; }
-        public virtual ICollection<Rating> Ratings { get; set; }
         public virtual ICollection<Unit> Units { get; set; }
         public virtual ICollection<UserCourse> UserCourses { get; set; }
     }
