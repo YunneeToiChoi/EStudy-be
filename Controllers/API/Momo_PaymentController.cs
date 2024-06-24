@@ -35,7 +35,7 @@ public class Momo_PaymentController : ControllerBase
         _fireBaseServices= fireBaseServices;
         _smtpServices = sMTPServices;
     }
-    [HttpPost]
+    [HttpPost("MakePayment")]
     public async Task<IActionResult> MakePayment([FromBody] MomoPaymentRequest request)
     {
         try
@@ -242,7 +242,7 @@ public class Momo_PaymentController : ControllerBase
                 return StatusCode(500, new { status = 500, message = "Unhandled response code from MoMo. Please contact support." });
         }
     }
-    public async Task<IActionResult> Buy_Success(string orderId)
+    private async Task<IActionResult> Buy_Success(string orderId)
     {
         var existingOrder = await _context.Orders.FirstOrDefaultAsync(o => o.OrderId == orderId);
         try
@@ -274,7 +274,7 @@ public class Momo_PaymentController : ControllerBase
             return BadRequest("Has error when Update State of Order" + e);
         }
     }
-    public async Task<IActionResult> SendCodeActiveByEmail(string userEmail, string orderId)
+    private async Task<IActionResult> SendCodeActiveByEmail(string userEmail, string orderId)
     {
         try
         {
