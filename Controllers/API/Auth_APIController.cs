@@ -172,6 +172,39 @@ namespace study4_be.Controllers.API
                 return StatusCode(500, new { error = $"An error occurred while updating the user profile: {e.Message}" });
             }
         }
+        [HttpPost("EditPassword")]
+        public async Task<IActionResult> EditPassword([FromBody] EditPasswordRequest request)
+        {
+            try
+            {
+                var user = await _context.Users.Where(u => u.UserId == request.userId).FirstOrDefaultAsync();
+
+                if (user == null)
+                {
+                    return NotFound(new { status = 404, message = "User not found" });
+                }
+
+                if (_userRepository.VerifyPassword(request.oldPassword, user.UserPassword))
+                {
+                    if (request.newPassword != request.confirmPassword)
+                    {
+                        return BadRequest(new { status = 400, message = "New password and confirm password do not match" });
+                    }
+                    user.UserPassword = request.newPassword;
+                    _context.Users.Update(user);
+                    await _context.SaveChangesAsync();
+                    return Ok(new { status = 200, message = "Password updated successfully" });
+                }
+                else
+                {
+                    return BadRequest(new { status = 400, message = "Old password is incorrect" });
+                }
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, new { error = $"An error occurred while updating the password: {e.Message}" });
+            }
+        }
 
         //development enviroment
         [HttpDelete("Delete_AllUsers")]
