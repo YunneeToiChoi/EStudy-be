@@ -133,6 +133,45 @@ namespace study4_be.Controllers.API
                 return BadRequest(e.Message);
             }
         }
+        [HttpPost("EditUserProfile")]
+        public async Task<IActionResult> EditUserProfile([FromBody] EditUserProfileRequest request)
+        {
+            try
+            {
+                var user = await _context.Users.Where(u => u.UserId == request.userId).FirstOrDefaultAsync();
+
+                if (user == null)
+                {
+                    return NotFound(new { status = 404, message = "User not found " });
+                }
+                    if (!string.IsNullOrEmpty(request.userName))
+                    {
+                        user.UserName = request.userName;
+                    }
+
+                    if (!string.IsNullOrEmpty(request.userEmail))
+                    {
+                        user.UserEmail = request.userEmail;
+                    }
+
+                    if (!string.IsNullOrEmpty(request.userDescription))
+                    {
+                        user.UserDescription = request.userDescription;
+                    }
+
+                    if (!string.IsNullOrEmpty(request.phoneNumber))
+                    {
+                        user.PhoneNumber = request.phoneNumber;
+                    }
+                    _context.Users.Update(user);
+                    await _context.SaveChangesAsync();
+                return Ok(new { status = 200, message = "User profile updated successfully" });
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, new { error = $"An error occurred while updating the user profile: {e.Message}" });
+            }
+        }
 
         //development enviroment
         [HttpDelete("Delete_AllUsers")]
@@ -141,8 +180,8 @@ namespace study4_be.Controllers.API
             await _userRepository.DeleteAllUsersAsync();
             return Json(new { status = 200, message = "Delete Users Successful" });
         }
-        [HttpPost("User_UpdateAvatar")]
-        public async Task<IActionResult> User_UpdateAvatar([FromForm] UserUploadImageRequest _req, [FromForm] IFormFile userImage)
+        [HttpPost("User_UpdateImage")]
+        public async Task<IActionResult> User_UpdateImage([FromForm] UserUploadImageRequest _req, [FromForm] IFormFile userAvatar, [FromForm] IFormFile userBanner)
         {
             if (_req.userId == null)
             {
@@ -155,30 +194,40 @@ namespace study4_be.Controllers.API
             {
                 return NotFound(new { status = 404, message = "User not found" });
             }
-
-            if (userImage == null || userImage.Length == 0)
-            {
-                return BadRequest(new { status = 400, message = "Invalid image file" });
-            }
-
             var firebaseBucketName = _fireBaseServices.GetFirebaseBucketName();
 
-            // Delete the old avatar image from Firebase Storage if it exists
-            if (!string.IsNullOrEmpty(userExist.UserImage))
-            {
-                // Extract the file name from the URL
-                var oldFileName = Path.GetFileName(new Uri(userExist.UserImage).LocalPath);
-                await _fireBaseServices.DeleteFileFromFirebaseStorageAsync(oldFileName, firebaseBucketName);
-            }
-
-            // Upload the new avatar image to Firebase Storage
-            var uniqueId = Guid.NewGuid().ToString();
-            var imgFilePath = $"IMG{uniqueId}.jpg";
-            string firebaseUrl = await _fireBaseServices.UploadFileToFirebaseStorageAsync(userImage, imgFilePath, firebaseBucketName);
 
             // Update the user's avatar URL in the database
-            userExist.UserImage = firebaseUrl;
-
+            if (!(userAvatar == null || userAvatar.Length == 0))
+            {
+                // Delete the old avatar image from Firebase Storage if it exists
+                if (!string.IsNullOrEmpty(userExist.UserImage))
+                {
+                    // Upload the new avatar image to Firebase Storage
+                    var uniqueId = Guid.NewGuid().ToString();
+                    var imgFilePath = $"IMG{uniqueId}.jpg";
+                    string firebaseUrl = await _fireBaseServices.UploadFileToFirebaseStorageAsync(userAvatar, imgFilePath, firebaseBucketName);
+                    // Extract the file name from the URL
+                    var oldFileName = Path.GetFileName(new Uri(userExist.UserImage).LocalPath);
+                    await _fireBaseServices.DeleteFileFromFirebaseStorageAsync(oldFileName, firebaseBucketName);
+                    userExist.UserImage = firebaseUrl;
+                }
+            }
+            if (!(userBanner == null || userBanner.Length == 0))
+            {
+                // Delete the old avatar image from Firebase Storage if it exists
+                if (!string.IsNullOrEmpty(userExist.UserBanner))
+                {
+                    // Upload the new avatar image to Firebase Storage
+                    var uniqueId = Guid.NewGuid().ToString();
+                    var imgFilePath = $"IMG{uniqueId}.jpg";
+                    string firebaseUrl = await _fireBaseServices.UploadFileToFirebaseStorageAsync(userBanner, imgFilePath, firebaseBucketName);
+                    // Extract the file name from the URL
+                    var oldFileName = Path.GetFileName(new Uri(userExist.UserBanner).LocalPath);
+                    await _fireBaseServices.DeleteFileFromFirebaseStorageAsync(oldFileName, firebaseBucketName);
+                    userExist.UserBanner = firebaseUrl;
+                }
+            }
             try
             {
                 _context.SaveChanges();
