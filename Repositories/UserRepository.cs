@@ -32,6 +32,8 @@ namespace study4_be.Repositories
             user.UserId = Guid.NewGuid().ToString();
             HashPassword(user);
             _context.Users.Add(user);
+            user.UserBanner = null;
+            user.UserImage = "https://firebasestorage.googleapis.com/v0/b/estudy-426108.appspot.com/o/IMGe06a0654-1045-451f-adf7-750506d52b91.jpg?alt=media";
             user.Isverified = false;
             _context.SaveChanges();
         }

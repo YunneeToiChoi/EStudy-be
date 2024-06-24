@@ -109,6 +109,31 @@ namespace study4_be.Controllers.API
             return Json(new { status = 200, message = "Get Users Successful", users });
 
         }
+        [HttpPost("Get_UserProfile")]
+        public async Task<ActionResult<IEnumerable<User>>> Get_UserProfile([FromBody] OfUserIdRequest _req)
+        {
+            try
+            {
+                var user = await _context.Users.Where(u => u.UserId == _req.userId).FirstOrDefaultAsync();
+                var response = new
+                {
+                    userId = user.UserId,
+                    userName = user.UserName,
+                    userEmail = user.UserEmail,
+                    userDescription = user.UserDescription,
+                    PhoneNumber = user.PhoneNumber,
+                    UserBanner = user.UserBanner,
+                    UserImage = user.UserImage,
+                };
+                return Json(new { status = 200, message = "Get User Profile Successful", user = response });
+
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
         //development enviroment
         [HttpDelete("Delete_AllUsers")]
         public async Task<IActionResult> Delete_AllUsers()
@@ -165,7 +190,7 @@ namespace study4_be.Controllers.API
                 return StatusCode(500, new { status = 500, message = "An error occurred while updating the avatar" });
             }
         }
-        [HttpPost("ActiveCode")] // active course
+        [HttpPost("ActiveCode")] // active course // nam o user course
         public async Task<IActionResult> ActiveCode([FromBody] ActiveCodeRequest _req)
         {
             var existingOrder = await _context.Orders

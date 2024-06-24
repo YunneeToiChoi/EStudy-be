@@ -99,7 +99,7 @@ namespace study4_be.Services
             sb.AppendLine($"<li>Tên khoá học: {nameCourse}</li>");
             sb.AppendLine("</ul>");
             sb.AppendLine("<div style='border: 1px solid #ccc; padding: 10px; width: 200px; margin: 0 auto;'>");
-            sb.AppendLine($"<p style='text-align: center;'>{codeActiveCourse}</p>");
+            sb.AppendLine($"<p style='text-align: center;'>    <link href=\"{{codeActiveCourse}}\">\r\n </p>");
             sb.AppendLine("</div>");
             sb.AppendLine("<p>Xin chân thành cảm ơn và chúc quý học viên có một khoá học thành công và hiệu quả.</p>");
             sb.AppendLine("<p>Trân trọng,</p>");
