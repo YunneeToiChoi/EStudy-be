@@ -36,7 +36,9 @@
 <input id="searchInput" class="search__input col-11" type="text" placeholder="Search anything you want..." />
 <div class="adSearch__container">
     <span>Unit: </span>
-    <input id="searchByUnit" type="text" placeholder="Search by Unit..." />
+    <select id="searchByUnit">
+        <option value="">All</option>
+    </select>
 </div>
 <button class="btn btn-block btn-lg btn-gradient-primary mt-4"> @Html.ActionLink("+ Add Container", "Container_Create", "Container", null, new { @class = "text-btn-admin" })</button>
 <div class="card">
@@ -84,14 +86,45 @@
 </div>
 
 <script>
+    function getUniqueValues(columnIndex) {
+        var values = [];
+        var table = document.querySelector('.table tbody');
+        var tr = table.getElementsByTagName('tr');
+
+        for (var i = 0; i < tr.length; i++) {
+            var td = tr[i].getElementsByTagName('td')[columnIndex];
+            if (td) {
+                var txtValue = td.textContent || td.innerText;
+                if (values.indexOf(txtValue) === -1) {
+                    values.push(txtValue);
+                }
+            }
+        }
+        return values.sort();
+    }
+
+    function populateSelect(id, values) {
+        var select = document.getElementById(id);
+        values.forEach(function (value) {
+            var option = document.createElement('option');
+            option.text = value;
+            option.value = value;
+            select.add(option);
+        });
+    }
+
+    function populateUnitSelect() {
+        populateSelect('searchByUnit', getUniqueValues(2));
+    }
+
     function filterTable() {
-        var input, filter, table, tr, td, i, txtValue, unitInput, unitFilter;
+        var input, filter, table, tr, td, i, txtValue, unitSelect, unitFilter;
 
         input = document.getElementById('searchInput');
         filter = input.value.toUpperCase();
 
-        unitInput = document.getElementById('searchByUnit');
-        unitFilter = unitInput.value.toUpperCase();
+        unitSelect = document.getElementById('searchByUnit');
+        unitFilter = unitSelect.value.toUpperCase();
 
         table = document.querySelector('.table tbody');
         tr = table.getElementsByTagName('tr');
@@ -115,5 +148,7 @@
     }
 
     document.getElementById('searchInput').addEventListener('keyup', filterTable);
-    document.getElementById('searchByUnit').addEventListener('keyup', filterTable);
+    document.getElementById('searchByUnit').addEventListener('change', filterTable);
+
+    window.onload = populateUnitSelect;
 </script>

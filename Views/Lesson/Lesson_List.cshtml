@@ -32,14 +32,22 @@
 <h2 style="text-align:center">LIST LESSONS</h2>
 <input id="searchInput" class="search__input col-11" type="text" placeholder="Search anything you want..." />
 <div class="adSearch__container">
-    <span>ContainerTitle: </span>
-    <input id="searchByContainerTitle" type="text" placeholder="Search by ContainerTitle..." />
-    <span>	Unit Title: </span>
-    <input id="searchByUnitTitle" type="text" placeholder="Search by UnitTitle..." />
-    <span>	CourseTitle: </span>
-    <input id="searchByCourseTitle" type="text" placeholder="Search by CourseTitle..." />
+    <span>Container Title: </span>
+    <select id="searchByContainerTitle">
+        <option value="">All</option>
+    </select>
+    <span>Unit Title: </span>
+    <select id="searchByUnitTitle">
+        <option value="">All</option>
+    </select>
+    <span>Course Title: </span>
+    <select id="searchByCourseTitle">
+        <option value="">All</option>
+    </select>
     <span>Tag ID: </span>
-    <input id="searchByTagID" type="text" placeholder="Search by CourseTitle..." />
+    <select id="searchByTagID">
+        <option value="">All</option>
+    </select>
 </div>
 <button class="btn btn-block btn-lg btn-gradient-primary mt-4"> @Html.ActionLink("+ Add Lesson", "Lesson_Create", "Lesson", null, new { @class = "text-btn-admin" })</button>
 <div class="card">
@@ -97,6 +105,40 @@
 </div>
 
 <script>
+    function getUniqueValues(columnIndex) {
+        var values = [];
+        var table = document.querySelector('.table tbody');
+        var tr = table.getElementsByTagName('tr');
+
+        for (var i = 0; i < tr.length; i++) {
+            var td = tr[i].getElementsByTagName('td')[columnIndex];
+            if (td) {
+                var txtValue = td.textContent || td.innerText;
+                if (values.indexOf(txtValue) === -1) {
+                    values.push(txtValue);
+                }
+            }
+        }
+        return values.sort();
+    }
+
+    function populateSelect(id, values) {
+        var select = document.getElementById(id);
+        values.forEach(function (value) {
+            var option = document.createElement('option');
+            option.text = value;
+            option.value = value;
+            select.add(option);
+        });
+    }
+
+    function populateDropdowns() {
+        populateSelect('searchByContainerTitle', getUniqueValues(3));
+        populateSelect('searchByUnitTitle', getUniqueValues(4));
+        populateSelect('searchByCourseTitle', getUniqueValues(5));
+        populateSelect('searchByTagID', getUniqueValues(6));
+    }
+
     function filterTable() {
         var searchInput = document.getElementById('searchInput').value.toUpperCase();
         var searchByContainerTitle = document.getElementById('searchByContainerTitle').value.toUpperCase();
@@ -137,8 +179,10 @@
     }
 
     document.getElementById('searchInput').addEventListener('keyup', filterTable);
-    document.getElementById('searchByContainerTitle').addEventListener('keyup', filterTable);
-    document.getElementById('searchByUnitTitle').addEventListener('keyup', filterTable);
-    document.getElementById('searchByCourseTitle').addEventListener('keyup', filterTable);
-    document.getElementById('searchByTagID').addEventListener('keyup', filterTable);
+    document.getElementById('searchByContainerTitle').addEventListener('change', filterTable);
+    document.getElementById('searchByUnitTitle').addEventListener('change', filterTable);
+    document.getElementById('searchByCourseTitle').addEventListener('change', filterTable);
+    document.getElementById('searchByTagID').addEventListener('change', filterTable);
+
+    window.onload = populateDropdowns;
 </script>

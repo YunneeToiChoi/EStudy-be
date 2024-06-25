@@ -32,10 +32,14 @@
 <h2 style="text-align:center">LIST VIDEOS</h2>
 <input id="searchInput" class="search__input col-11" type="text" placeholder="Search anything you want..." />
 <div class="adSearch__container">
-    <span>	Lesson Title: </span>
-    <input id="searchByLessonTitle" type="text" placeholder="Search by LessonTitle..." />
-    <span>	Course Name: </span>
-    <input id="searchByCourseName" type="text" placeholder="Search by CourseName..." />
+    <span>Lesson Title: </span>
+    <select id="searchByLessonTitle">
+        <option value="">All</option>
+    </select>
+    <span>Course Name: </span>
+    <select id="searchByCourseName">
+        <option value="">All</option>
+    </select>
 </div>
 <button class="btn btn-block btn-lg btn-gradient-primary mt-4"> @Html.ActionLink("+ Add Video", "Video_Create", "Video", null, new { @class = "text-btn-admin" })</button>
 <div class="card">
@@ -81,6 +85,38 @@
 </div>
 
 <script>
+    function getUniqueValues(columnIndex) {
+        var values = [];
+        var table = document.querySelector('.table tbody');
+        var tr = table.getElementsByTagName('tr');
+
+        for (var i = 0; i < tr.length; i++) {
+            var td = tr[i].getElementsByTagName('td')[columnIndex];
+            if (td) {
+                var txtValue = td.textContent || td.innerText;
+                if (values.indexOf(txtValue) === -1) {
+                    values.push(txtValue);
+                }
+            }
+        }
+        return values.sort();
+    }
+
+    function populateSelect(id, values) {
+        var select = document.getElementById(id);
+        values.forEach(function (value) {
+            var option = document.createElement('option');
+            option.text = value;
+            option.value = value;
+            select.add(option);
+        });
+    }
+
+    function populateDropdowns() {
+        populateSelect('searchByLessonTitle', getUniqueValues(2));
+        populateSelect('searchByCourseName', getUniqueValues(3));
+    }
+
     function filterTable() {
         var searchInput = document.getElementById('searchInput').value.toUpperCase();
         var searchByLessonTitle = document.getElementById('searchByLessonTitle').value.toUpperCase();
@@ -113,6 +149,8 @@
     }
 
     document.getElementById('searchInput').addEventListener('keyup', filterTable);
-    document.getElementById('searchByLessonTitle').addEventListener('keyup', filterTable);
-    document.getElementById('searchByCourseName').addEventListener('keyup', filterTable);
+    document.getElementById('searchByLessonTitle').addEventListener('change', filterTable);
+    document.getElementById('searchByCourseName').addEventListener('change', filterTable);
+
+    document.addEventListener('DOMContentLoaded', populateDropdowns);
 </script>

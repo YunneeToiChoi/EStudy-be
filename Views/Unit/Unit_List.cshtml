@@ -33,7 +33,9 @@
 <input id="searchInput" class="search__input col-11" type="text" placeholder="Search anything you want..." />
 <div class="adSearch__container">
     <span>CourseId: </span>
-    <input id="searchByCourseId" type="text" placeholder="Search by CourseId..." />
+    <select id="searchByCourseId">
+        <option value="">All</option>
+    </select>
 </div>
 <button class="btn btn-block btn-lg btn-gradient-primary mt-4"> @Html.ActionLink("+ Add Unit", "Unit_Create", "Unit", null, new { @class = "text-btn-admin" })</button>
 <div class="card">
@@ -75,23 +77,52 @@
 </div>
 
 <script>
-    function filterTable() {
-        var input, filter, table, tr, td, i, txtValue, courseInput, courseFilter;
+    function getUniqueValues(columnIndex) {
+        var values = [];
+        var table = document.querySelector('.table tbody');
+        var tr = table.getElementsByTagName('tr');
 
-        // Search by UnitId
+        for (var i = 0; i < tr.length; i++) {
+            var td = tr[i].getElementsByTagName('td')[columnIndex];
+            if (td) {
+                var txtValue = td.textContent || td.innerText;
+                if (values.indexOf(txtValue) === -1) {
+                    values.push(txtValue);
+                }
+            }
+        }
+        return values.sort();
+    }
+
+    function populateSelect(id, values) {
+        var select = document.getElementById(id);
+        values.forEach(function (value) {
+            var option = document.createElement('option');
+            option.text = value;
+            option.value = value;
+            select.add(option);
+        });
+    }
+
+    function populateCourseIdSelect() {
+        populateSelect('searchByCourseId', getUniqueValues(1));
+    }
+
+    function filterTable() {
+        var input, filter, table, tr, td, i, txtValue, courseSelect, courseFilter;
+
         input = document.getElementById('searchInput');
         filter = input.value.toUpperCase();
 
-        // Search by CourseId
-        courseInput = document.getElementById('searchByCourseId');
-        courseFilter = courseInput.value.toUpperCase();
+        courseSelect = document.getElementById('searchByCourseId');
+        courseFilter = courseSelect.value.toUpperCase();
 
         table = document.querySelector('.table tbody');
         tr = table.getElementsByTagName('tr');
 
         for (i = 0; i < tr.length; i++) {
-            tdUnit = tr[i].getElementsByTagName('td')[2]; // UnitId column
-            tdCourse = tr[i].getElementsByTagName('td')[1]; // CourseId column
+            tdUnit = tr[i].getElementsByTagName('td')[2]; 
+            tdCourse = tr[i].getElementsByTagName('td')[1]; 
 
             if (tdUnit && tdCourse) {
                 txtValueUnit = tdUnit.textContent || tdUnit.innerText;
@@ -108,5 +139,7 @@
     }
 
     document.getElementById('searchInput').addEventListener('keyup', filterTable);
-    document.getElementById('searchByCourseId').addEventListener('keyup', filterTable);
+    document.getElementById('searchByCourseId').addEventListener('change', filterTable);
+
+    window.onload = populateCourseIdSelect;
 </script>
