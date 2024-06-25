@@ -123,7 +123,7 @@ namespace study4_be.Services
             sb.AppendLine("</div>");
             sb.AppendLine($"<p>Xin chào {userEmail}, Link xác nhận của bạn là</p>");
             sb.AppendLine("<div style='border: 1px solid #ccc; padding: 10px; width: 200px; margin: 0 auto;'>");
-            sb.AppendLine($"<p style='text-align: center;'> <link href=\"{{link}}\">\r\n</p>");
+            sb.AppendLine($"<p style='text-align: center;'>{link}</p>");
             sb.AppendLine("</div>");
             sb.AppendLine("<p>Xin chân thành cảm ơn và chúc quý học viên có một trải nghiệm và học tập thật hiệu quả.</p>");
             sb.AppendLine("<p>Trân trọng,</p>");
@@ -147,7 +147,7 @@ namespace study4_be.Services
             sb.AppendLine("</div>");
             sb.AppendLine($"<p>Xin chào {userEmail}, Link thay đổi mật khẩu của bạn là</p>");
             sb.AppendLine("<div style='border: 1px solid #ccc; padding: 10px; width: 200px; margin: 0 auto;'>");
-            sb.AppendLine($"<p style='text-align: center;'> <link href=\"{{link}}\">\r\n Link</p>");
+            sb.AppendLine($"<p style='text-align: center;'>{link}</p>");
             sb.AppendLine("</div>");
             sb.AppendLine("<p>Xin chân thành cảm ơn và chúc quý học viên có một trải nghiệm và học tập thật hiệu quả.</p>");
             sb.AppendLine("<p>Trân trọng,</p>");

@@ -13,6 +13,7 @@ using Microsoft.EntityFrameworkCore;
 using MailKit.Search;
 using FirebaseAdmin.Auth;
 using SendGrid.Helpers.Mail;
+using study4_be.Models.ViewModel;
 namespace study4_be.Controllers.API
 {
     [Route("api/[controller]")]
@@ -45,7 +46,7 @@ namespace study4_be.Controllers.API
                     if (_userRegistrationValidator.Validate(user, out errorMessage))
                     {
                         _userRepository.AddUser(user);
-                        var link = $"http://localhost:8000/api/Auth_API/{user.UserEmail}/verification={false}";
+                        var link = $"http://localhost:8000/api/Auth_API/userEmail={user.UserEmail}/verification={false}";
                         var subject = "[EStudy] - Yêu cầu xác thực tài khoản của bạn";
                         var emailContent = _smtpServices.GenerateLinkVerifiByEmailContent(user.UserEmail, link);
                         await _smtpServices.SendEmailAsync(user.UserEmail, subject,emailContent,emailContent);
@@ -70,35 +71,6 @@ namespace study4_be.Controllers.API
                 }
             }
         }
-
-        [HttpPost("ForgotPassword")]
-        public async Task<IActionResult> ForgotPassword(OfUserEmailRequest _req)
-        {
-            if(_req.userEmail== null)
-            {
-                return BadRequest("User Enail is not null");
-            }
-            try
-            {
-                var userExist = await _context.Users.Where(u => u.UserEmail == _req.userEmail).FirstOrDefaultAsync();
-                if(userExist != null)
-                {
-                    return BadRequest("User is not exist");
-                }
-                var currentTime = DateTime.Now.ToString("yyyyMMddHHmmss");
-                var link = $"http://localhost:8000/api/Auth_API/{userExist.UserEmail}/verification={false}/time={currentTime}";
-                var subject = "[EStudy] - Yêu cầu đặt lại mật khẩu của bạn";
-                var emailContent = _smtpServices.GenerateLinkVerifiByEmailContent(userExist.UserEmail, link);
-                _smtpServices.GenerateLinkToResetPassword(_req.userEmail, link);
-                 await _smtpServices.SendEmailAsync(userExist.UserEmail, subject, emailContent, emailContent);
-                return Json(new { status = 200, message = "Send link to reset password successful" });
-            }
-            catch (Exception e)
-            {
-                return BadRequest($"{e.Message}");
-            }
-        }
-
         [HttpPost("Login")]
         public async Task<IActionResult> Login()
         {
@@ -257,8 +229,6 @@ namespace study4_be.Controllers.API
                 return NotFound(new { status = 404, message = "User not found" });
             }
             var firebaseBucketName = _fireBaseServices.GetFirebaseBucketName();
-
-
             // Update the user's avatar URL in the database
             if (!(userAvatar == null || userAvatar.Length == 0))
             {
@@ -349,8 +319,34 @@ namespace study4_be.Controllers.API
                 return StatusCode(500, new { status = 500, message = "An error occurred while updating the state of the order", error = e.Message });
             }
         }
-        // GET api/verification/{userId}/{verificationCode}
-        [HttpGet("{userEmail}/verification={false}")]
+        [HttpPost("RequestForgotPassword")]
+        public async Task<IActionResult> RequestForgotPassword(OfUserEmailRequest _req)
+        {
+            if (_req.userEmail == null)
+            {
+                return BadRequest("User Enail is not null");
+            }
+            try
+            {
+                var userExist = await _context.Users.Where(u => u.UserEmail == _req.userEmail).FirstOrDefaultAsync();
+                if (userExist == null)
+                {
+                    return BadRequest("User is not exist");
+                }
+                var currentTime = DateTime.Now.ToString("yyyyMMddHHmmss");
+                var link = $"http://localhost:8000/api/Auth_API/userEmail={userExist.UserEmail}/verification={false}/time={currentTime}";
+                var subject = "[EStudy] - Yêu cầu đặt lại mật khẩu của bạn";
+                var emailContent = _smtpServices.GenerateLinkVerifiByEmailContent(userExist.UserEmail, link);
+                _smtpServices.GenerateLinkToResetPassword(_req.userEmail, link);
+                await _smtpServices.SendEmailAsync(userExist.UserEmail, subject, emailContent, emailContent);
+                return Json(new { status = 200, message = "Send link to reset password successful" });
+            }
+            catch (Exception e)
+            {
+                return BadRequest($"{e.Message}");
+            }
+        }
+        [HttpGet("userEmail={userEmail}/verification={false}")]
         public IActionResult Verify(string userEmail)
         {
             var user = _context.Users.FirstOrDefault(u => u.UserEmail == userEmail);
@@ -364,7 +360,7 @@ namespace study4_be.Controllers.API
 
             return Ok("Verification successful");
         }
-        [HttpGet("{userEmail}/verification={false}/time={currentTime}")]
+        [HttpGet("userEmail={userEmail}/verification={false}/time={currentTime}")]
         public IActionResult GetDataResetPassword(string userEmail, string currentTime)
         {
             try
@@ -396,15 +392,49 @@ namespace study4_be.Controllers.API
                         return NotFound("User not found");
                     }
                     user.Isverified = true;
-                    
                     _context.SaveChanges();
                     // thieu view model reset and thieu save dâta
-                    return Ok("Verification successful");
+                    var model = new ResetPasswordViewModel { userEmail = userEmail };
+                    return View("ResetPassword", model);
                 }
             }
             catch (Exception e)
             {
                 return BadRequest($"{e.Message}");
+            }
+        }
+        [HttpPost("ResetPassword")]
+        public IActionResult ResetPassword([FromBody] ResetPasswordViewModel model)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    if (model.newPassword != model.confirmPassword)
+                    {
+                        ModelState.AddModelError("", "Passwords do not match.");
+                        return BadRequest("Passwords do not match");
+                    }
+
+                    var user = _context.Users.FirstOrDefault(u => u.UserEmail == model.userEmail);
+
+                    if (user == null)
+                    {
+                        return NotFound("User not found");
+                    }
+
+                    // Đặt lại mật khẩu mới (cần hash mật khẩu trước khi lưu)
+                    user.UserPassword = model.newPassword; // Thay bằng hashing password trước khi lưu
+                    _context.SaveChanges();
+
+                    return Ok("Password has been reset successfully");
+                }
+
+                return View(model);
+            }
+            catch(Exception e)
+            {
+                return BadRequest(e.Message);
             }
         }
 
@@ -425,7 +455,7 @@ namespace study4_be.Controllers.API
                 return BadRequest("User had actived");
 
             }
-            var link = $"https://elearning.engineer/api/Auth_API/{user.UserEmail}/verification={false}";
+            var link = $"https://elearning.engineer/api/Auth_API/userEmail={user.UserEmail}/verification={false}";
             var subject = "[EStudy] - Thông  tin đơn hàng và mã kích hoạt khóa học";
             var emailContent = _smtpServices.GenerateLinkVerifiByEmailContent(user.UserEmail, link);
             await _smtpServices.SendEmailAsync(user.UserEmail, subject, emailContent, emailContent);
