@@ -46,7 +46,7 @@ namespace study4_be.Controllers.API
                     {
                         _userRepository.AddUser(user);
                         var link = $"http://localhost:8000/api/Auth_API/{user.UserEmail}/verification={false}";
-                        var subject = "[EStudy] - Thông  tin đơn hàng và mã kích hoạt khóa học";
+                        var subject = "[EStudy] - Yêu cầu xác thực tài khoản của bạn";
                         var emailContent = _smtpServices.GenerateLinkVerifiByEmailContent(user.UserEmail, link);
                         await _smtpServices.SendEmailAsync(user.UserEmail, subject,emailContent,emailContent);
                         //UserRecord userRecord;
@@ -70,6 +70,35 @@ namespace study4_be.Controllers.API
                 }
             }
         }
+
+        [HttpPost("ForgotPassword")]
+        public async Task<IActionResult> ForgotPassword(OfUserEmailRequest _req)
+        {
+            if(_req.userEmail== null)
+            {
+                return BadRequest("User Enail is not null");
+            }
+            try
+            {
+                var userExist = await _context.Users.Where(u => u.UserEmail == _req.userEmail).FirstOrDefaultAsync();
+                if(userExist != null)
+                {
+                    return BadRequest("User is not exist");
+                }
+                var currentTime = DateTime.Now.ToString("yyyyMMddHHmmss");
+                var link = $"http://localhost:8000/api/Auth_API/{userExist.UserEmail}/verification={false}/time={currentTime}";
+                var subject = "[EStudy] - Yêu cầu đặt lại mật khẩu của bạn";
+                var emailContent = _smtpServices.GenerateLinkVerifiByEmailContent(userExist.UserEmail, link);
+                _smtpServices.GenerateLinkToResetPassword(_req.userEmail, link);
+                 await _smtpServices.SendEmailAsync(userExist.UserEmail, subject, emailContent, emailContent);
+                return Json(new { status = 200, message = "Send link to reset password successful" });
+            }
+            catch (Exception e)
+            {
+                return BadRequest($"{e.Message}");
+            }
+        }
+
         [HttpPost("Login")]
         public async Task<IActionResult> Login()
         {
@@ -335,6 +364,50 @@ namespace study4_be.Controllers.API
 
             return Ok("Verification successful");
         }
+        [HttpGet("{userEmail}/verification={false}/time={currentTime}")]
+        public IActionResult GetDataResetPassword(string userEmail, string currentTime)
+        {
+            try
+            {
+                // Chuyển đổi currentTime từ chuỗi sang DateTime
+                if (!DateTime.TryParseExact(currentTime, "yyyyMMddHHmmss", null, System.Globalization.DateTimeStyles.None, out DateTime queryTime))
+                {
+                    return BadRequest("Invalid time format");
+                }
+
+                // Lấy thời gian hiện tại
+                DateTime currentTimeNow = DateTime.Now;
+
+                // Tính toán sự chênh lệch thời gian
+                TimeSpan timeDifference = currentTimeNow - queryTime;
+
+                // Kiểm tra nếu sự chênh lệch lớn hơn 10 phút
+                if (timeDifference.TotalMinutes > 10)
+                {
+                    return BadRequest("Reset password link expired");
+                }
+                else
+                {
+                    // Tìm kiếm người dùng bằng email
+                    var user = _context.Users.FirstOrDefault(u => u.UserEmail == userEmail);
+
+                    if (user == null)
+                    {
+                        return NotFound("User not found");
+                    }
+                    user.Isverified = true;
+                    
+                    _context.SaveChanges();
+                    // thieu view model reset and thieu save dâta
+                    return Ok("Verification successful");
+                }
+            }
+            catch (Exception e)
+            {
+                return BadRequest($"{e.Message}");
+            }
+        }
+
         [HttpPost("ResendLink")]
         public async Task<IActionResult> ResendLink([FromBody] ResendLinkActive _req)
         {
