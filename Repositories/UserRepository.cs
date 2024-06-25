@@ -39,7 +39,7 @@ namespace study4_be.Repositories
         }
         public bool CheckEmailExists(string email)
         {
-            return _context.Users.Any(u => u.UserEmail == email);
+            return _context.Users.AsNoTracking().Any(u => u.UserEmail == email);
         }
         public void HashPassword(User user)
         {
