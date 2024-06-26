@@ -272,10 +272,10 @@ namespace study4_be.Controllers.API
             }
         }
         [HttpPost("ActiveCode")] // active course // nam o user course
-        public async Task<IActionResult> ActiveCode([FromBody] ActiveCodeRequest _req)
+        public async Task<IActionResult> ActiveCode(ActiveCodeRequest req)
         {
             var existingOrder = await _context.Orders
-                                              .Where(o => o.UserId == _req.userId && o.Code == _req.code)
+                                              .Where(o => o.UserId == req.userId && o.Code == req.code)
                                               .FirstOrDefaultAsync();
 
             if (existingOrder == null)
@@ -422,9 +422,8 @@ namespace study4_be.Controllers.API
                     {
                         return NotFound("User not found");
                     }
-
-                    // Đặt lại mật khẩu mới (cần hash mật khẩu trước khi lưu)
-                    user.UserPassword = model.newPassword; // Thay bằng hashing password trước khi lưu
+                    user.UserPassword = model.newPassword; 
+                    _userRepository.HashPassword(user);
                     _context.SaveChanges();
 
                     return Ok("Password has been reset successfully");
