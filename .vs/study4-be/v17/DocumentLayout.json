@@ -5,10 +5,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|d:\\downloads\\estudy-be\\views\\auth_api\\resetpassword.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|solutionrelative:views\\auth_api\\resetpassword.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|d:\\downloads\\estudy-be\\views\\unit\\unit_list.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|solutionrelative:views\\unit\\unit_list.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     }
   ],
   "DocumentGroupContainers": [
@@ -36,22 +32,9 @@
               "RelativeDocumentMoniker": "Views\\Auth_API\\ResetPassword.cshtml",
               "ToolTip": "D:\\Downloads\\EStudy-be\\Views\\Auth_API\\ResetPassword.cshtml",
               "RelativeToolTip": "Views\\Auth_API\\ResetPassword.cshtml",
-              "ViewState": "AQIAACkAAAAAAAAAAAAAwE8AAAAjAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABoAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-06-25T13:16:16.029Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "Unit_List.cshtml",
-              "DocumentMoniker": "D:\\Downloads\\EStudy-be\\Views\\Unit\\Unit_List.cshtml",
-              "RelativeDocumentMoniker": "Views\\Unit\\Unit_List.cshtml",
-              "ToolTip": "D:\\Downloads\\EStudy-be\\Views\\Unit\\Unit_List.cshtml",
-              "RelativeToolTip": "Views\\Unit\\Unit_List.cshtml",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAABoAAAAZAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-06-25T12:58:13.531Z",
+              "WhenOpened": "2024-06-27T12:52:57.332Z",
               "EditorCaption": ""
             }
           ]
