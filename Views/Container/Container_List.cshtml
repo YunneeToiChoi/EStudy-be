@@ -39,6 +39,10 @@
     <select id="searchByUnit">
         <option value="">All</option>
     </select>
+    <span>Course Name: </span>
+    <select id="searchByCourseName">
+        <option value="">All</option>
+    </select>
 </div>
 <button class="btn btn-block btn-lg btn-gradient-primary mt-4"> @Html.ActionLink("+ Add Container", "Container_Create", "Container", null, new { @class = "text-btn-admin" })</button>
 <div class="card">
@@ -113,12 +117,13 @@
         });
     }
 
-    function populateUnitSelect() {
+    function populateDropdowns() {
         populateSelect('searchByUnit', getUniqueValues(2));
+        populateSelect('searchByCourseName', getUniqueValues(3));
     }
 
     function filterTable() {
-        var input, filter, table, tr, td, i, txtValue, unitSelect, unitFilter;
+        var input, filter, table, tr, td, i, txtValue, unitSelect, unitFilter, courseSelect, courseFilter;
 
         input = document.getElementById('searchInput');
         filter = input.value.toUpperCase();
@@ -126,19 +131,25 @@
         unitSelect = document.getElementById('searchByUnit');
         unitFilter = unitSelect.value.toUpperCase();
 
+        courseSelect = document.getElementById('searchByCourseName');
+        courseFilter = courseSelect.value.toUpperCase();
+
         table = document.querySelector('.table tbody');
         tr = table.getElementsByTagName('tr');
 
         for (i = 0; i < tr.length; i++) {
             tdTitle = tr[i].getElementsByTagName('td')[1];
             tdUnit = tr[i].getElementsByTagName('td')[2];
+            tdCourse = tr[i].getElementsByTagName('td')[3];
 
-            if (tdTitle && tdUnit) {
+            if (tdTitle && tdUnit && tdCourse) {
                 txtValueTitle = tdTitle.textContent || tdTitle.innerText;
                 txtValueUnit = tdUnit.textContent || tdUnit.innerText;
+                txtValueCourse = tdCourse.textContent || tdCourse.innerText;
 
                 if ((txtValueTitle.toUpperCase().indexOf(filter) > -1 || filter === "") &&
-                    (txtValueUnit.toUpperCase().indexOf(unitFilter) > -1 || unitFilter === "")) {
+                    (txtValueUnit.toUpperCase().indexOf(unitFilter) > -1 || unitFilter === "") &&
+                    (txtValueCourse.toUpperCase().indexOf(courseFilter) > -1 || courseFilter === "")) {
                     tr[i].style.display = "";
                 } else {
                     tr[i].style.display = "none";
@@ -149,6 +160,7 @@
 
     document.getElementById('searchInput').addEventListener('keyup', filterTable);
     document.getElementById('searchByUnit').addEventListener('change', filterTable);
+    document.getElementById('searchByCourseName').addEventListener('change', filterTable);
 
-    window.onload = populateUnitSelect;
+    window.onload = populateDropdowns;
 </script>

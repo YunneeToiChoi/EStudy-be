@@ -3,20 +3,12 @@
   "WorkspaceRootPath": "D:\\Downloads\\EStudy-be\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|d:\\downloads\\estudy-be\\models\\study4context.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|solutionrelative:models\\study4context.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|d:\\downloads\\estudy-be\\views\\container\\container_list.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|solutionrelative:views\\container\\container_list.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|d:\\downloads\\estudy-be\\controllers\\admin\\departmentcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|solutionrelative:controllers\\admin\\departmentcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|d:\\downloads\\estudy-be\\views\\department\\department_edit.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|solutionrelative:views\\department\\department_edit.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|d:\\downloads\\estudy-be\\controllers\\admin\\coursescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|solutionrelative:controllers\\admin\\coursescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|d:\\downloads\\estudy-be\\views\\question\\question_list.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|solutionrelative:views\\question\\question_list.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     }
   ],
   "DocumentGroupContainers": [
@@ -26,7 +18,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 5,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Bookmark",
@@ -38,52 +30,28 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "CoursesController.cs",
-              "DocumentMoniker": "D:\\Downloads\\EStudy-be\\Controllers\\Admin\\CoursesController.cs",
-              "RelativeDocumentMoniker": "Controllers\\Admin\\CoursesController.cs",
-              "ToolTip": "D:\\Downloads\\EStudy-be\\Controllers\\Admin\\CoursesController.cs",
-              "RelativeToolTip": "Controllers\\Admin\\CoursesController.cs",
-              "ViewState": "AQIAAF0AAAAAAAAAAAAmwAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-28T02:41:11.584Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "Department_Edit.cshtml",
-              "DocumentMoniker": "D:\\Downloads\\EStudy-be\\Views\\Department\\Department_Edit.cshtml",
-              "RelativeDocumentMoniker": "Views\\Department\\Department_Edit.cshtml",
-              "ToolTip": "D:\\Downloads\\EStudy-be\\Views\\Department\\Department_Edit.cshtml",
-              "RelativeToolTip": "Views\\Department\\Department_Edit.cshtml",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "DocumentIndex": 0,
+              "Title": "Container_List.cshtml",
+              "DocumentMoniker": "D:\\Downloads\\EStudy-be\\Views\\Container\\Container_List.cshtml",
+              "RelativeDocumentMoniker": "Views\\Container\\Container_List.cshtml",
+              "ToolTip": "D:\\Downloads\\EStudy-be\\Views\\Container\\Container_List.cshtml",
+              "RelativeToolTip": "Views\\Container\\Container_List.cshtml",
+              "ViewState": "AQIAAEwAAAAAAAAAAAAAwFkAAAAGAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-06-28T02:40:59.46Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "DepartmentController.cs",
-              "DocumentMoniker": "D:\\Downloads\\EStudy-be\\Controllers\\Admin\\DepartmentController.cs",
-              "RelativeDocumentMoniker": "Controllers\\Admin\\DepartmentController.cs",
-              "ToolTip": "D:\\Downloads\\EStudy-be\\Controllers\\Admin\\DepartmentController.cs",
-              "RelativeToolTip": "Controllers\\Admin\\DepartmentController.cs",
-              "ViewState": "AQIAAEkAAAAAAAAAAAAcwFoAAABFAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-28T02:40:05.179Z",
+              "WhenOpened": "2024-06-28T13:41:44.675Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "STUDY4Context.cs",
-              "DocumentMoniker": "D:\\Downloads\\EStudy-be\\Models\\STUDY4Context.cs",
-              "RelativeDocumentMoniker": "Models\\STUDY4Context.cs",
-              "ToolTip": "D:\\Downloads\\EStudy-be\\Models\\STUDY4Context.cs",
-              "RelativeToolTip": "Models\\STUDY4Context.cs",
-              "ViewState": "AQIAAB0AAAAAAAAAAAA7wCUAAAAJAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-28T02:16:38.947Z",
+              "DocumentIndex": 1,
+              "Title": "Question_List.cshtml",
+              "DocumentMoniker": "D:\\Downloads\\EStudy-be\\Views\\Question\\Question_List.cshtml",
+              "RelativeDocumentMoniker": "Views\\Question\\Question_List.cshtml",
+              "ToolTip": "D:\\Downloads\\EStudy-be\\Views\\Question\\Question_List.cshtml",
+              "RelativeToolTip": "Views\\Question\\Question_List.cshtml",
+              "ViewState": "AQIAABIAAAAAAAAAAAAAAAgAAAAYAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-06-28T13:41:36.402Z",
               "EditorCaption": ""
             }
           ]
