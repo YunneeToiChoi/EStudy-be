@@ -192,6 +192,7 @@ namespace study4_be.Controllers.API
                         return BadRequest(new { status = 400, message = "New password and confirm password do not match" });
                     }
                     user.UserPassword = request.newPassword;
+                    _userRepository.HashPassword(user);
                     _context.Users.Update(user);
                     await _context.SaveChangesAsync();
                     return Ok(new { status = 200, message = "Password updated successfully" });
