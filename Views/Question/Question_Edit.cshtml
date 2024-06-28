@@ -26,11 +26,6 @@
                 <span asp-validation-for="QuestionParagraph" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label for="QuestionImage">QuestionImage</label>
-                <input asp-for="QuestionImage" class="form-control" />
-                <span asp-validation-for="QuestionImage" class="text-danger"></span>
-            </div>
-            <div class="form-group">
                 <label for="QuestionTranslate">QuestionTranslate</label>
                 <input asp-for="QuestionTranslate" class="form-control" />
                 <span asp-validation-for="QuestionTranslate" class="text-danger"></span>
@@ -60,6 +55,11 @@
                 <input asp-for="CorrectAnswer" class="form-control" />
                 <span asp-validation-for="CorrectAnswer" class="text-danger"></span>
             </div>
+            <div class="form-group">
+                <label>File upload</label>
+                <img src="@Model.QuestionImage" height="150" width="150" id="previewImg" />
+                <input asp-for="QuestionImage" type="file" name="QuestionImage" onchange="ChangeImage(this, document.getElementById('previewImg'))" />
+            </div>
             <div class="flex">
                 <button type="submit" class="btn btn-gradient-primary me-2">Submit</button>
                 @Html.ActionLink("Cancel", "Question_List", "Question", null, new { @class = "btn btn-light" })
@@ -67,3 +67,13 @@
         </form>
     </div>
 </div>
+
+<script>
+    function ChangeImage(input, previewImg) {
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            previewImg.src = e.target.result;
+        };
+        reader.readAsDataURL(input.files[0]);
+    }
+</script>
