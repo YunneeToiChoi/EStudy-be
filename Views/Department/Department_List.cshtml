@@ -1,5 +1,81 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model IEnumerable<study4_be.Models.Department>
 @{
+    ViewData["Title"] = "Department List";
 }
+<style>
+    .item {
+        overflow: hidden;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+        max-width: 200px
+    }
+
+    .text-btn-admin {
+        text-decoration: none;
+        color: white;
+    }
+
+    .search__input {
+        width: 100%;
+        padding: 10px;
+    }
+</style>
+
+<h2 style="text-align:center">LIST Course</h2>
+<input id="searchInput" class="search__input col-11" type="text" placeholder="Search anything you want..." />
+<button class="btn btn-block btn-lg btn-gradient-primary mt-4"> @Html.ActionLink("+ Add Department", "Department_Create", "Department", null, new { @class = "text-btn-admin" })</button>
+<div class="card">
+    <div class="card-body">
+        <table class="table">
+            <thead class="table-info">
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var course in Model)
+                {
+                    <tr>
+                        <td>
+                            @course.DepartmentId
+                        </td>
+                        <td class="item">
+                            @course.DepartmentName
+                        </td>
+                        <td>
+                            <a href="@Url.Action("Department_Edit", "Department", new { id = course.DepartmentId })" class="text-link-action">Sửa</a>
+                            <span style="padding:0 8px">|</span>
+                            <a href="@Url.Action("Department_Delete", "Department", new { id = course.DepartmentId })" class="text-link-action">Xóa</a>
+                            <span style="padding:0 8px">|</span>
+                            <a href="@Url.Action("Department_Details", "Department", new { id = course.DepartmentId })" class="text-link-action">Chi tiết</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    document.getElementById('searchInput').addEventListener('keyup', function () {
+        var input, filter, table, tr, td, i, txtValue;
+        input = document.getElementById('searchInput');
+        filter = input.value.toUpperCase();
+        table = document.querySelector('.table tbody');
+        tr = table.getElementsByTagName('tr');
+
+        for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName('td')[2];
+            if (td) {
+                txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    });
+</script>

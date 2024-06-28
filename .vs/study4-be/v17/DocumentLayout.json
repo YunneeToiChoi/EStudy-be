@@ -11,12 +11,12 @@
       "RelativeMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|solutionrelative:controllers\\admin\\departmentcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|d:\\downloads\\estudy-be\\controllers\\admin\\hrcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|solutionrelative:controllers\\admin\\hrcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|d:\\downloads\\estudy-be\\views\\department\\department_edit.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|solutionrelative:views\\department\\department_edit.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|d:\\downloads\\estudy-be\\views\\hr\\hrhome.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|solutionrelative:views\\hr\\hrhome.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|d:\\downloads\\estudy-be\\controllers\\admin\\coursescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|solutionrelative:controllers\\admin\\coursescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -26,7 +26,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 4,
+          "SelectedChildIndex": 5,
           "Children": [
             {
               "$type": "Bookmark",
@@ -38,28 +38,39 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "CoursesController.cs",
+              "DocumentMoniker": "D:\\Downloads\\EStudy-be\\Controllers\\Admin\\CoursesController.cs",
+              "RelativeDocumentMoniker": "Controllers\\Admin\\CoursesController.cs",
+              "ToolTip": "D:\\Downloads\\EStudy-be\\Controllers\\Admin\\CoursesController.cs",
+              "RelativeToolTip": "Controllers\\Admin\\CoursesController.cs",
+              "ViewState": "AQIAAF0AAAAAAAAAAAAmwAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-28T02:41:11.584Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Department_Edit.cshtml",
+              "DocumentMoniker": "D:\\Downloads\\EStudy-be\\Views\\Department\\Department_Edit.cshtml",
+              "RelativeDocumentMoniker": "Views\\Department\\Department_Edit.cshtml",
+              "ToolTip": "D:\\Downloads\\EStudy-be\\Views\\Department\\Department_Edit.cshtml",
+              "RelativeToolTip": "Views\\Department\\Department_Edit.cshtml",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-06-28T02:40:59.46Z"
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 1,
               "Title": "DepartmentController.cs",
               "DocumentMoniker": "D:\\Downloads\\EStudy-be\\Controllers\\Admin\\DepartmentController.cs",
               "RelativeDocumentMoniker": "Controllers\\Admin\\DepartmentController.cs",
               "ToolTip": "D:\\Downloads\\EStudy-be\\Controllers\\Admin\\DepartmentController.cs",
               "RelativeToolTip": "Controllers\\Admin\\DepartmentController.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "ViewState": "AQIAAEkAAAAAAAAAAAAcwFoAAABFAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-28T02:16:53.465Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "HRController.cs",
-              "DocumentMoniker": "D:\\Downloads\\EStudy-be\\Controllers\\Admin\\HRController.cs",
-              "RelativeDocumentMoniker": "Controllers\\Admin\\HRController.cs",
-              "ToolTip": "D:\\Downloads\\EStudy-be\\Controllers\\Admin\\HRController.cs",
-              "RelativeToolTip": "Controllers\\Admin\\HRController.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-28T02:16:49.243Z",
+              "WhenOpened": "2024-06-28T02:40:05.179Z",
               "EditorCaption": ""
             },
             {
@@ -70,22 +81,9 @@
               "RelativeDocumentMoniker": "Models\\STUDY4Context.cs",
               "ToolTip": "D:\\Downloads\\EStudy-be\\Models\\STUDY4Context.cs",
               "RelativeToolTip": "Models\\STUDY4Context.cs",
-              "ViewState": "AQIAABUAAAAAAAAAAAA4wCQAAABVAAAA",
+              "ViewState": "AQIAAB0AAAAAAAAAAAA7wCUAAAAJAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-06-28T02:16:38.947Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "HRHome.cshtml",
-              "DocumentMoniker": "D:\\Downloads\\EStudy-be\\Views\\HR\\HRHome.cshtml",
-              "RelativeDocumentMoniker": "Views\\HR\\HRHome.cshtml",
-              "ToolTip": "D:\\Downloads\\EStudy-be\\Views\\HR\\HRHome.cshtml",
-              "RelativeToolTip": "Views\\HR\\HRHome.cshtml",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA0AAAAGAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-06-27T13:13:32.478Z",
               "EditorCaption": ""
             }
           ]
