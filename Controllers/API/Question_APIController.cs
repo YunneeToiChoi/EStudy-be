@@ -75,12 +75,17 @@ namespace study4_be.Controllers.API
                     QuestionAudio = question.QuestionAudio,
                     QuestionImage = question.QuestionImage,
                     QuestionParagraph = question.QuestionParagraph,
+                    Paragraph_Mean = question.QuestionParagraphMean,
                     QuestionTranslate   = question.QuestionTranslate,
                     CorrectAnswer = question.CorrectAnswer,
                     OptionA = question.OptionA,
+                    A_Mean = question.OptionMeanA,
                     OptionB = question.OptionB,
+                    B_Mean = question.OptionMeanB,
                     OptionC = question.OptionC,
+                    C_Mean = question.OptionMeanD,
                     OptionD = question.OptionD,
+                    D_Mean = question.OptionMeanD,
                 });
                 return Json(new { status = 200, message = "Get All Question Of Lesson Successful", data = listenPictureResponse, lessonTag = lessonTagResponse });
             }
@@ -116,11 +121,16 @@ namespace study4_be.Controllers.API
                     QuestionAudio = question.QuestionAudio,
                     QuestionImage = question.QuestionImage,
                     QuestionParagraph = question.QuestionParagraph,
+                    Paragraph_Mean = question.QuestionParagraphMean,
                     QuestionTranslate = question.QuestionTranslate,
                     CorrectAnswer = question.CorrectAnswer,
                     OptionA = question.OptionA,
+                    A_Mean = question.OptionMeanA,
                     OptionB = question.OptionB,
+                    B_Mean = question.OptionMeanB,
                     OptionC = question.OptionC,
+                    C_Mean = question.OptionMeanC,
+
                 });
                 return Json(new { status = 200, message = "Get All Question Of Lesson Successful", data = listenPictureResponse, lessonTag = lessonTagResponse });
             }
@@ -160,9 +170,13 @@ namespace study4_be.Controllers.API
                     QuestionTranslate = question.QuestionTranslate,
                     CorrectAnswer = question.CorrectAnswer,
                     OptionA = question.OptionA,
+                    A_Mean = question.OptionMeanA,
                     OptionB = question.OptionB,
+                    B_Mean = question.OptionMeanB,
                     OptionC = question.OptionC,
+                    C_Mean = question.OptionMeanC,
                     OptionD = question.OptionD,
+                    D_Mean = question.OptionMeanD,
                 });
                 return Json(new { status = 200, message = "Get All Question Of Lesson Successful", data = listenPictureResponse, lessonTag = lessonTagResponse });
             }
@@ -196,10 +210,13 @@ namespace study4_be.Controllers.API
                 {
                     QuestionId = question.QuestionId,
                     QuestionTitle = question.QuestionText,
+                    Title_Mean = question.QuestionTextMean,
                     QuestionTranslate = question.QuestionTranslate,
                     CorrectAnswer = question.CorrectAnswer,
                     OptionA = question.OptionA,
+                    A_Mean = question.OptionMeanA,
                     OptionB = question.OptionB,
+                    B_Mean = question.OptionMeanB
                 });
                 return Json(new { status = 200, message = "Get All Question Of Lesson Successful", data = listenDoubleChoiceResponse, lessonTag = lessonTagResponse });
             }
@@ -233,13 +250,20 @@ namespace study4_be.Controllers.API
                 {
                     QuestionId = question.QuestionId,
                     QuestionText = question.QuestionText,
+                    Text_Mean = question.QuestionTextMean,
                     QuestionParagraph = question.QuestionParagraph, 
+                    Paragraph_Mean = question.QuestionParagraphMean,
                     QuestionTranslate = question.QuestionTranslate,
                     CorrectAnswer = question.CorrectAnswer,
                     OptionA = question.OptionA,
+                    A_Mean = question.OptionMeanA,
                     OptionB = question.OptionB,
+                    B_Mean = question.OptionMeanB,
                     OptionC = question.OptionC,
+                    C_Mean = question.OptionMeanC,
                     OptionD = question.OptionD,
+                    D_Mean = question.OptionMeanD,
+
                 });
                 return Json(new { status = 200, message = "Get All Question Of Lesson Successful", data = listenDoubleChoiceResponse, lessonTag = lessonTagResponse });
             }

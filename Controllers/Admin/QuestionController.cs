@@ -112,7 +112,9 @@ namespace study4_be.Controllers.Admin
                 {
                     QuestionId = questionViewModel.question.QuestionId,
                     QuestionText = questionViewModel.question.QuestionText,
+                    QuestionTextMean = questionViewModel.question.QuestionTextMean,
                     QuestionParagraph = questionViewModel.question.QuestionParagraph,
+                    QuestionParagraphMean = questionViewModel.question.QuestionParagraphMean,
                     QuestionAudio = audioUrl,
                     QuestionTranslate = questionViewModel.question.QuestionTranslate,
                     QuestionImage = firebaseUrl,
@@ -121,6 +123,10 @@ namespace study4_be.Controllers.Admin
                     OptionB = questionViewModel.question.OptionB,
                     OptionC = questionViewModel.question.OptionC,
                     OptionD = questionViewModel.question.OptionD,
+                    OptionMeanA = questionViewModel.question.OptionMeanA,
+                    OptionMeanB = questionViewModel.question.OptionMeanB,
+                    OptionMeanC = questionViewModel.question.OptionMeanC,
+                    OptionMeanD = questionViewModel.question.OptionMeanD,
                     LessonId = questionViewModel.question.LessonId,
                 };
 
@@ -224,11 +230,18 @@ namespace study4_be.Controllers.Admin
                         string firebaseUrl = await _firebaseServices.UploadFileToFirebaseStorageAsync(QuestionImage, imgFilePath, firebaseBucketName);
                         courseToUpdate.QuestionImage = firebaseUrl;
                         courseToUpdate.QuestionText = question.QuestionText;
+                        courseToUpdate.QuestionTextMean = question.QuestionText;
                         courseToUpdate.QuestionParagraph = question.QuestionParagraph;
+                        courseToUpdate.QuestionParagraphMean = question.QuestionParagraphMean;
                         courseToUpdate.OptionA = question.OptionA;
+                        courseToUpdate.OptionMeanA = question.OptionMeanA;
                         courseToUpdate.OptionB = question.OptionB;
+                        courseToUpdate.OptionMeanB = question.OptionMeanB;
                         courseToUpdate.OptionC = question.OptionC;
+                        courseToUpdate.OptionMeanC = question.OptionMeanC;
                         courseToUpdate.OptionD = question.OptionD;
+                        courseToUpdate.OptionMeanD = question.OptionMeanD;
+
                         courseToUpdate.CorrectAnswer = question.CorrectAnswer;
                         _context.SaveChanges();
                         return RedirectToAction("Question_List");
