@@ -90,9 +90,7 @@ namespace study4_be.Models
             {
                 entity.ToTable("DEPARTMENT");
 
-                entity.Property(e => e.DepartmentId)
-                    .ValueGeneratedNever()
-                    .HasColumnName("DEPARTMENT_ID");
+                entity.Property(e => e.DepartmentId).HasColumnName("DEPARTMENT_ID");
 
                 entity.Property(e => e.DepartmentName)
                     .HasMaxLength(100)
@@ -303,9 +301,7 @@ namespace study4_be.Models
             {
                 entity.ToTable("ROLE");
 
-                entity.Property(e => e.RoleId)
-                    .ValueGeneratedNever()
-                    .HasColumnName("ROLE_ID");
+                entity.Property(e => e.RoleId).HasColumnName("ROLE_ID");
 
                 entity.Property(e => e.RoleName)
                     .HasMaxLength(60)
@@ -318,7 +314,9 @@ namespace study4_be.Models
 
                 entity.ToTable("STAFF");
 
-                entity.Property(e => e.StaffId).HasColumnName("STAFF_ID");
+                entity.Property(e => e.StaffId)
+                    .ValueGeneratedOnAdd()
+                    .HasColumnName("STAFF_ID");
 
                 entity.Property(e => e.StaffCmnd)
                     .HasMaxLength(50)
