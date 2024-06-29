@@ -5,7 +5,7 @@
         overflow: hidden;
         -webkit-box-orient: vertical;
         -webkit-line-clamp: 2;
-        max-width: 200px
+        max-width: 100px
     }
 
     .text-btn-admin {
@@ -53,10 +53,10 @@
                 @foreach (var unit in Model)
                 {
                     <tr>
-                        <td>
+                        <td class="item">
                             <p>@unit.UnitId</p>
                         </td>
-                        <td>
+                        <td class="item">
                             <p>@unit.CourseId</p>
                         </td>
                         <td class="item">
