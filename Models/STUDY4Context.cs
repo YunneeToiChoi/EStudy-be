@@ -40,7 +40,6 @@ namespace study4_be.Models
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
                 optionsBuilder.UseSqlServer("Data Source=LAPTOP-62MKG1UJ;Initial Catalog=STUDY4;Integrated Security=True;Trust Server Certificate=True");
-                //optionsBuilder.UseSqlServer("Data Source=GBAONEEE;Initial Catalog=STUDY4;Integrated Security=True;Trust Server Certificate=True");
             }
         }
 
@@ -216,13 +215,33 @@ namespace study4_be.Models
                     .HasMaxLength(200)
                     .HasColumnName("OPTION_D");
 
+                entity.Property(e => e.OptionMeanA)
+                    .HasMaxLength(200)
+                    .HasColumnName("OPTION_MEAN_A");
+
+                entity.Property(e => e.OptionMeanB)
+                    .HasMaxLength(200)
+                    .HasColumnName("OPTION_MEAN_B");
+
+                entity.Property(e => e.OptionMeanC)
+                    .HasMaxLength(200)
+                    .HasColumnName("OPTION_MEAN_C");
+
+                entity.Property(e => e.OptionMeanD)
+                    .HasMaxLength(200)
+                    .HasColumnName("OPTION_MEAN_D");
+
                 entity.Property(e => e.QuestionAudio).HasColumnName("QUESTION_AUDIO");
 
                 entity.Property(e => e.QuestionImage).HasColumnName("QUESTION_IMAGE");
 
                 entity.Property(e => e.QuestionParagraph).HasColumnName("QUESTION_PARAGRAPH");
 
+                entity.Property(e => e.QuestionParagraphMean).HasColumnName("QUESTION_PARAGRAPH_MEAN");
+
                 entity.Property(e => e.QuestionText).HasColumnName("QUESTION_TEXT");
+
+                entity.Property(e => e.QuestionTextMean).HasColumnName("QUESTION_TEXT_MEAN");
 
                 entity.Property(e => e.QuestionTranslate).HasColumnName("QUESTION_TRANSLATE");
 
@@ -295,15 +314,25 @@ namespace study4_be.Models
 
             modelBuilder.Entity<Staff>(entity =>
             {
+                entity.HasKey(e => new { e.StaffId, e.StaffCmnd });
+
                 entity.ToTable("STAFF");
 
-                entity.Property(e => e.StaffId)
-                    .ValueGeneratedNever()
-                    .HasColumnName("STAFF_ID");
+                entity.Property(e => e.StaffId).HasColumnName("STAFF_ID");
+
+                entity.Property(e => e.StaffCmnd)
+                    .HasMaxLength(50)
+                    .IsUnicode(false)
+                    .HasColumnName("STAFF_CMND");
 
                 entity.Property(e => e.DepartmentId).HasColumnName("DEPARTMENT_ID");
 
                 entity.Property(e => e.RoleId).HasColumnName("ROLE_ID");
+
+                entity.Property(e => e.StaffEmail)
+                    .HasMaxLength(50)
+                    .IsUnicode(false)
+                    .HasColumnName("STAFF_EMAIL");
 
                 entity.Property(e => e.StaffName)
                     .HasMaxLength(100)
@@ -316,7 +345,7 @@ namespace study4_be.Models
                 entity.HasOne(d => d.Department)
                     .WithMany(p => p.Staff)
                     .HasForeignKey(d => d.DepartmentId)
-                    .HasConstraintName("FK_STAFF_STAFF");
+                    .HasConstraintName("FK_STAFF_DEPARTMENT");
 
                 entity.HasOne(d => d.Role)
                     .WithMany(p => p.Staff)
