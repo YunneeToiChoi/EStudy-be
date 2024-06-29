@@ -5,7 +5,7 @@
         overflow: hidden;
         -webkit-box-orient: vertical;
         -webkit-line-clamp: 2;
-        max-width: 200px
+        max-width: 100px
     }
 
     .text-btn-admin {
@@ -73,16 +73,16 @@
                 @foreach (var vocab in Model)
                 {
                     <tr>
-                        <td>
+                        <td class="item">
                             <p>@vocab.vocab.VocabId</p>
                         </td>
                         <td class="item">
                             <p>@vocab.vocab.VocabTitle</p>
                         </td>
-                        <td>
+                        <td class="item">
                             <p>@vocab.vocab.VocabType</p>
                         </td>
-                        <td>
+                        <td class="item">
                             <p>@vocab.vocab.Mean</p>
                         </td>
                         <td class="item">
@@ -94,7 +94,7 @@
                         <td class="item">
                             <p>@vocab.vocab.AudioUrlUk</p>
                         </td>
-                        <td>
+                        <td class="item">
                             <p>@vocab.vocab.Lesson.TagId</p>
                         </td>
                         <td class="item">

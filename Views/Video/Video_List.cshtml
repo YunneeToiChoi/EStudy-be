@@ -5,7 +5,7 @@
         overflow: hidden;
         -webkit-box-orient: vertical;
         -webkit-line-clamp: 2;
-        max-width: 200px
+        max-width: 100px
     }
 
     .text-btn-admin {
@@ -58,13 +58,13 @@
                 @foreach (var video in Model)
                 {
                     <tr>
-                        <td>
+                        <td class="item">
                             <p>@video.video.VideoId</p>
                         </td>
                         <td class="item">
                             <p>@video.video.VideoUrl</p>
                         </td>
-                        <td>
+                        <td class="item">
                             <p>@video.lessonTittle</p>
                         </td>
                         <td class="item">
