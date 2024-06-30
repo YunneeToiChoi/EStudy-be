@@ -1,0 +1,49 @@
+﻿@model study4_be.Models.Staff
+<style>
+    .flex {
+        margin-top: 20px;
+        display: flex;
+        align-items: center;
+    }
+</style>
+
+
+<div class="form-horizontal">
+    <h4>Unit</h4>
+    <hr />
+    <div class="card-body">
+        <p class="card-description"> Edit</p>
+        <form asp-action="Staff_Edit" method="post" enctype="multipart/form-data" class="forms-sample">
+            <input type="hidden" asp-for="StaffId" />
+            <div class="form-group">
+                <label for="StaffName">StaffName</label>
+                <input asp-for="StaffName" class="form-control" />
+                <span asp-validation-for="StaffName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label for="StaffType">StaffType</label>
+                <input asp-for="StaffType" class="form-control" />
+                <span asp-validation-for="StaffType" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label for="StaffEmail">StaffEmail</label>
+                <input asp-for="StaffEmail" class="form-control" />
+                <span asp-validation-for="StaffEmail" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label for="StaffCmnd">StaffCmnd</label>
+                <input asp-for="StaffCmnd" class="form-control" />
+                <span asp-validation-for="StaffCmnd" class="text-danger"></span>
+            </div>
+@*             <div class="form-group">
+                <label for="Department">Department</label>
+                <select asp-for="Department" class="form-control" asp-items="Model.DepartmentId"></select>
+                <span asp-validation-for="Department" class="text-danger"></span>
+            </div> *@
+            <div class="flex">
+                <button type="submit" class="btn btn-gradient-primary me-2">Submit</button>
+                @Html.ActionLink("Cancel", "Unit_List", "Unit", null, new { @class = "btn btn-light" })
+            </div>
+        </form>
+    </div>
+</div>

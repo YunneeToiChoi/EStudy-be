@@ -1,0 +1,157 @@
+﻿@model IEnumerable<study4_be.Models.Staff>
+
+<style>
+    .item {
+        overflow: hidden;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+        max-width: 100px
+    }
+
+    .text-btn-admin {
+        text-decoration: none;
+        color: white;
+    }
+
+    .search__input {
+        width: 100%;
+        padding: 10px;
+    }
+
+    .adSearch__container {
+        display: flex;
+        margin: 10px 0px;
+    }
+
+    #searchByCourseId {
+        margin: 0px 10px;
+    }
+
+</style>
+
+<h2 style="text-align:center">LIST UNITS</h2>
+<input id="searchInput" class="search__input col-11" type="text" placeholder="Search anything you want..." />
+<div class="adSearch__container">
+    <span>DepartmentId: </span>
+    <select id="searchByCourseId">
+        <option value="">All</option>
+    </select>
+</div>
+<button class="btn btn-block btn-lg btn-gradient-primary mt-4"> @Html.ActionLink("+ Add Staff", "Staff_Create", "Staff", null, new { @class = "text-btn-admin" })</button>
+<div class="card">
+    <div class="card-body">
+        <table class="table">
+            <thead class="table-info">
+                <tr>
+                    <th>StaffId</th>
+                    <th>StaffName</th>
+                    <th>StaffType</th>
+                    <th>StaffEmail</th>
+                    <th>StaffCmnd</th>
+                    <th>DepartmentId</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var staff in Model)
+                {
+                    <tr>
+                        <td class="item">
+                            <p>@staff.StaffId</p>
+                        </td>
+                        <td class="item">
+                            <p>@staff.StaffName</p>
+                        </td>
+                        <td class="item">
+                            <p>@staff.StaffType</p>
+                        </td>
+                        <td class="item">
+                            <p>@staff.StaffEmail</p>
+                        </td>
+                        <td class="item">
+                            <p>@staff.StaffCmnd</p>
+                        </td>
+                        <td class="item">
+                            <p>@staff.DepartmentId</p>
+                        </td>
+                        <td>
+                            <a href="@Url.ActionLink("Staff_Edit","Staff",new { id = staff.StaffId })" class="text-link-action">Sửa</a>
+                            <span style="padding:0 8px">|</span>
+                            <a href="@Url.ActionLink("Staff_Delete","Staff",new { id = staff.StaffId })" class="text-link-action">Xóa</a>
+                            <span style="padding:0 8px">|</span>
+                            <a href="@Url.ActionLink("Staff_Details","Staff",new { id = staff.StaffId })" class="text-link-action">Chi tiết</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    function getUniqueValues(columnIndex) {
+        var values = [];
+        var table = document.querySelector('.table tbody');
+        var tr = table.getElementsByTagName('tr');
+
+        for (var i = 0; i < tr.length; i++) {
+            var td = tr[i].getElementsByTagName('td')[columnIndex];
+            if (td) {
+                var txtValue = td.textContent || td.innerText;
+                if (values.indexOf(txtValue) === -1) {
+                    values.push(txtValue);
+                }
+            }
+        }
+        return values.sort();
+    }
+
+    function populateSelect(id, values) {
+        var select = document.getElementById(id);
+        values.forEach(function (value) {
+            var option = document.createElement('option');
+            option.text = value;
+            option.value = value;
+            select.add(option);
+        });
+    }
+
+    function populateCourseIdSelect() {
+        populateSelect('searchByCourseId', getUniqueValues(5));
+    }
+
+    function filterTable() {
+        var input, filter, table, tr, td, i, txtValue, courseSelect, courseFilter;
+
+        input = document.getElementById('searchInput');
+        filter = input.value.toUpperCase();
+
+        courseSelect = document.getElementById('searchByCourseId');
+        courseFilter = courseSelect.value.toUpperCase();
+
+        table = document.querySelector('.table tbody');
+        tr = table.getElementsByTagName('tr');
+
+        for (i = 0; i < tr.length; i++) {
+            tdUnit = tr[i].getElementsByTagName('td')[1];
+            tdCourse = tr[i].getElementsByTagName('td')[5];
+
+            if (tdUnit && tdCourse) {
+                txtValueUnit = tdUnit.textContent || tdUnit.innerText;
+                txtValueCourse = tdCourse.textContent || tdCourse.innerText;
+
+                if ((txtValueUnit.toUpperCase().indexOf(filter) > -1 || filter === "") &&
+                    (txtValueCourse.toUpperCase().indexOf(courseFilter) > -1 || courseFilter === "")) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    }
+
+    document.getElementById('searchInput').addEventListener('keyup', filterTable);
+    document.getElementById('searchByCourseId').addEventListener('change', filterTable);
+
+    window.onload = populateCourseIdSelect;
+</script>
