@@ -1,0 +1,27 @@
+﻿@model study4_be.Models.Department
+
+@{
+    ViewData["Title"] = "Create Department";
+}
+
+<h2>Department Create</h2>
+
+<div class="form-horizontal">
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="card">
+        <div class="card-body">
+            <p class="card-description">Create</p>
+            <form asp-action="Department_Create" method="post" enctype="multipart/form-data" class="forms-sample">
+                <div class="form-group">
+                    <label for="DepartmentName">DepartmentName</label>
+                    <input asp-for="DepartmentName" class="form-control" />
+                    <span asp-validation-for="DepartmentName" class="text-danger"></span>
+                </div>
+                <div class="flex">
+                    <button type="submit" class="btn btn-gradient-primary me-2">Submit</button>
+                    @Html.ActionLink("Cancel", "Department_List", "Department", null, new { @class = "btn btn-light" })
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

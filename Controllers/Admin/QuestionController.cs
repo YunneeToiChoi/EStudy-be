@@ -84,38 +84,49 @@ namespace study4_be.Controllers.Admin
             return View(model);
         }
         [HttpPost]
-        public async Task<IActionResult> Question_Create(QuestionCreateViewModel questionViewModel)
+        public async Task<IActionResult> Question_Create(QuestionCreateViewModel questionViewModel, IFormFile QuestionImage)
         {
             try
             {
                 var firebaseBucketName = _firebaseServices.GetFirebaseBucketName();
-                // Generate and upload audio to Firebase Storage
-                var uniqueId = Guid.NewGuid().ToString(); // Tạo một UUID ngẫu nhiên
+                var uniqueId = Guid.NewGuid().ToString(); 
+                var uniqueIdForQuestionImage = Guid.NewGuid().ToString();
+
                 var audioFilePath = Path.Combine(Path.GetTempPath(), $"QUESTION({uniqueId}).wav");
+                var imgFilePath = ($"IMG{uniqueIdForQuestionImage}.jpg");
+
                 if (questionViewModel.question.QuestionParagraph == null)
                 {
                     _logger.LogError("Cannot generate AI question because there is no Paragraph.");
                     ModelState.AddModelError("", "Cannot generate AI question because there is no Paragraph.");
                 }
                 _generalAiAudioServices.GenerateAudio(questionViewModel.question.QuestionParagraph, audioFilePath);
-
                 var audioBytes = System.IO.File.ReadAllBytes(audioFilePath);
+
+                string firebaseUrl = await _firebaseServices.UploadFileToFirebaseStorageAsync(QuestionImage, imgFilePath, firebaseBucketName);
                 var audioUrl = await _generalAiAudioServices.UploadFileToFirebaseStorageAsync(audioBytes, $"QUESTION({uniqueId}).wav", firebaseBucketName);
+              
                 // Delete the temporary file after uploading
                 System.IO.File.Delete(audioFilePath);
                 var question = new Question
                 {
                     QuestionId = questionViewModel.question.QuestionId,
                     QuestionText = questionViewModel.question.QuestionText,
+                    QuestionTextMean = questionViewModel.question.QuestionTextMean,
                     QuestionParagraph = questionViewModel.question.QuestionParagraph,
+                    QuestionParagraphMean = questionViewModel.question.QuestionParagraphMean,
                     QuestionAudio = audioUrl,
                     QuestionTranslate = questionViewModel.question.QuestionTranslate,
-                    QuestionImage = questionViewModel.question.QuestionImage,
+                    QuestionImage = firebaseUrl,
                     CorrectAnswer = questionViewModel.question.CorrectAnswer,
                     OptionA = questionViewModel.question.OptionA,
                     OptionB = questionViewModel.question.OptionB,
                     OptionC = questionViewModel.question.OptionC,
                     OptionD = questionViewModel.question.OptionD,
+                    OptionMeanA = questionViewModel.question.OptionMeanA,
+                    OptionMeanB = questionViewModel.question.OptionMeanB,
+                    OptionMeanC = questionViewModel.question.OptionMeanC,
+                    OptionMeanD = questionViewModel.question.OptionMeanD,
                     LessonId = questionViewModel.question.LessonId,
                 };
 
@@ -197,24 +208,50 @@ namespace study4_be.Controllers.Admin
         }
 
         [HttpPost]
-        public async Task<IActionResult> Question_Edit(Question question)
+        public async Task<IActionResult> Question_Edit(Question question, IFormFile QuestionImage)
         {
             if (ModelState.IsValid)
             {
-                var courseToUpdate = _context.Questions.FirstOrDefault(c => c.QuestionId == question.QuestionId);
-                courseToUpdate.QuestionText = question.QuestionText;
-                courseToUpdate.QuestionParagraph = question.QuestionParagraph;
-                courseToUpdate.QuestionImage = question.QuestionImage;
-                courseToUpdate.OptionA = question.OptionA;
-                courseToUpdate.OptionB = question.OptionB;
-                courseToUpdate.OptionC = question.OptionC;
-                courseToUpdate.OptionD = question.OptionD;
-                courseToUpdate.CorrectAnswer = question.CorrectAnswer;
                 try
                 {
-                    _context.SaveChanges();
-                    return RedirectToAction("Question_List");
+                    var courseToUpdate = _context.Questions.FirstOrDefault(c => c.QuestionId == question.QuestionId);
+                    if (QuestionImage != null && QuestionImage.Length > 0)
+                    {
+                        var firebaseBucketName = _firebaseServices.GetFirebaseBucketName();
+                        // Delete the old image from Firebase Storage
+                        if (!string.IsNullOrEmpty(courseToUpdate.QuestionImage))
+                        {
+                            // Extract the file name from the URL
+                            var oldFileName = Path.GetFileName(new Uri(courseToUpdate.QuestionImage).LocalPath);
+                            await _firebaseServices.DeleteFileFromFirebaseStorageAsync(oldFileName, firebaseBucketName);
+                        }
+                        var uniqueId = Guid.NewGuid().ToString();
+                        var imgFilePath = ($"IMG{uniqueId}.jpg");
+                        string firebaseUrl = await _firebaseServices.UploadFileToFirebaseStorageAsync(QuestionImage, imgFilePath, firebaseBucketName);
+                        courseToUpdate.QuestionImage = firebaseUrl;
+                        courseToUpdate.QuestionText = question.QuestionText;
+                        courseToUpdate.QuestionTextMean = question.QuestionText;
+                        courseToUpdate.QuestionParagraph = question.QuestionParagraph;
+                        courseToUpdate.QuestionParagraphMean = question.QuestionParagraphMean;
+                        courseToUpdate.OptionA = question.OptionA;
+                        courseToUpdate.OptionMeanA = question.OptionMeanA;
+                        courseToUpdate.OptionB = question.OptionB;
+                        courseToUpdate.OptionMeanB = question.OptionMeanB;
+                        courseToUpdate.OptionC = question.OptionC;
+                        courseToUpdate.OptionMeanC = question.OptionMeanC;
+                        courseToUpdate.OptionD = question.OptionD;
+                        courseToUpdate.OptionMeanD = question.OptionMeanD;
+
+                        courseToUpdate.CorrectAnswer = question.CorrectAnswer;
+                        _context.SaveChanges();
+                        return RedirectToAction("Question_List");
+                    }
+                    else
+                    {
+                        return View(question);
+                    }
                 }
+
                 catch (Exception ex)
                 {
                     _logger.LogError($"Error updating course with ID {question.QuestionId}: {ex.Message}");

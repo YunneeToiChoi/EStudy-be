@@ -7,12 +7,32 @@
     <nav aria-label="breadcrumb">
         <ul class="breadcrumb">
             <li class="breadcrumb-item active" aria-current="page">
-                <span></span>Overview <i class="mdi mdi-alert-circle-outline icon-sm text-primary align-middle"></i>
+                <span>Overview</span> <i class="mdi mdi-alert-circle-outline icon-sm text-primary align-middle"></i>
             </li>
         </ul>
     </nav>
 </div>
 <div class="row">
+    <a href="@Url.ActionLink("Department_List", "Department")" class="col-md-6 stretch-card grid-margin">
+        <div class="card bg-gradient-danger card-img-holder text-white">
+            <div class="card-body">
+                <img src="~/LayoutAdmin/assets/images/dashboard/circle.svg" class="card-img-absolute" alt="circle-image" />
+                <h4 class="font-weight-normal mb-3">
+                    List Department
+                </h4>
+            </div>
+        </div>
+    </a>
+    <a href="@Url.ActionLink("Staff_List", "Staff")" class="col-md-6 stretch-card grid-margin">
+        <div class="card bg-gradient-danger card-img-holder text-white">
+            <div class="card-body">
+                <img src="~/LayoutAdmin/assets/images/dashboard/circle.svg" class="card-img-absolute" alt="circle-image" />
+                <h4 class="font-weight-normal mb-3">
+                    List Emloyees
+                </h4>
+            </div>
+        </div>
+    </a>
     <div class="col-md-4 stretch-card grid-margin">
         <div class="card bg-gradient-danger card-img-holder text-white">
             <div class="card-body">

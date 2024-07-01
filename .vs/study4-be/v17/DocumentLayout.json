@@ -1,16 +1,7 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "D:\\EStudy-be\\",
-  "Documents": [
-    {
-      "AbsoluteMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|d:\\estudy-be\\views\\hr\\hrhome.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|solutionrelative:views\\hr\\hrhome.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|d:\\estudy-be\\views\\marketing\\marketinghome.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|solutionrelative:views\\marketing\\marketinghome.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    }
-  ],
+  "WorkspaceRootPath": "D:\\Downloads\\EStudy-be\\",
+  "Documents": [],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -18,7 +9,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": -1,
           "Children": [
             {
               "$type": "Bookmark",
@@ -27,32 +18,6 @@
             {
               "$type": "Bookmark",
               "Name": "ST:128:0:{75188d03-9892-4ae2-abf1-207126247ce5}"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "MarketingHome.cshtml",
-              "DocumentMoniker": "D:\\EStudy-be\\Views\\Marketing\\MarketingHome.cshtml",
-              "RelativeDocumentMoniker": "Views\\Marketing\\MarketingHome.cshtml",
-              "ToolTip": "D:\\EStudy-be\\Views\\Marketing\\MarketingHome.cshtml",
-              "RelativeToolTip": "Views\\Marketing\\MarketingHome.cshtml",
-              "ViewState": "AQIAACQAAAAAAAAAAADwvzMAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-06-23T04:47:07.252Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "HRHome.cshtml",
-              "DocumentMoniker": "D:\\EStudy-be\\Views\\HR\\HRHome.cshtml",
-              "RelativeDocumentMoniker": "Views\\HR\\HRHome.cshtml",
-              "ToolTip": "D:\\EStudy-be\\Views\\HR\\HRHome.cshtml",
-              "RelativeToolTip": "Views\\HR\\HRHome.cshtml",
-              "ViewState": "AQIAACMAAAAAAAAAAADwvzkAAABKAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-06-23T04:25:45.056Z",
-              "EditorCaption": ""
             }
           ]
         }

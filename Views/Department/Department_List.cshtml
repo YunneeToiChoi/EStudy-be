@@ -1,8 +1,7 @@
-﻿@model IEnumerable<study4_be.Models.Tag>
+﻿@model IEnumerable<study4_be.Models.Department>
 @{
-    ViewData["Title"] = "Tag List";
+    ViewData["Title"] = "Department List";
 }
-
 <style>
     .item {
         overflow: hidden;
@@ -20,34 +19,37 @@
         width: 100%;
         padding: 10px;
     }
-
 </style>
 
-<h2 style="text-align:center">LIST TAGS</h2>
+<h2 style="text-align:center">LIST Department</h2>
 <input id="searchInput" class="search__input col-11" type="text" placeholder="Search anything you want..." />
-<button class="btn btn-block btn-lg btn-gradient-primary mt-4"> @Html.ActionLink("+ Add Tags", "Tag_Create", "Tags", null, new { @class = "text-btn-admin" })</button>
+<button class="btn btn-block btn-lg btn-gradient-primary mt-4"> @Html.ActionLink("+ Add Department", "Department_Create", "Department", null, new { @class = "text-btn-admin" })</button>
 <div class="card">
     <div class="card-body">
         <table class="table">
             <thead class="table-info">
                 <tr>
-                    <th>Tag Id</th>
-                    <th>Options</th>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
-                @foreach (var item in Model)
+                @foreach (var course in Model)
                 {
                     <tr>
+                        <td>
+                            @course.DepartmentId
+                        </td>
                         <td class="item">
-                            <p>@item.TagId</p>
+                            @course.DepartmentName
                         </td>
                         <td>
-                            <a href="@Url.Action("Tag_Edit", "Tags", new { id = item.TagId})" class="text-link-action">Sửa</a>
+                            <a href="@Url.Action("Department_Edit", "Department", new { id = course.DepartmentId })" class="text-link-action">Sửa</a>
                             <span style="padding:0 8px">|</span>
-                            <a href="@Url.Action("Tag_Delete", "Tags", new { id =  item.TagId })" class="text-link-action">Xóa</a>
+                            <a href="@Url.Action("Department_Delete", "Department", new { id = course.DepartmentId })" class="text-link-action">Xóa</a>
                             <span style="padding:0 8px">|</span>
-                            <a href="@Url.Action("Tag_Details", "Tags", new { id =  item.TagId })" class="text-link-action">Chi tiết</a>
+                            <a href="@Url.Action("Department_Details", "Department", new { id = course.DepartmentId })" class="text-link-action">Chi tiết</a>
                         </td>
                     </tr>
                 }
@@ -65,7 +67,7 @@
         tr = table.getElementsByTagName('tr');
 
         for (i = 0; i < tr.length; i++) {
-            td = tr[i].getElementsByTagName('td')[0];
+            td = tr[i].getElementsByTagName('td')[2];
             if (td) {
                 txtValue = td.textContent || td.innerText;
                 if (txtValue.toUpperCase().indexOf(filter) > -1) {

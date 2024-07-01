@@ -1,6 +1,6 @@
-﻿@model study4_be.Models.Tag
+﻿@model study4_be.Models.Department
 <style>
-    .mb-5{
+    .mb-5 {
         color: black;
     }
 
@@ -12,29 +12,28 @@
 </style>
 
 
-<h2>Tag Detail</h2>
+<h2>Department Detail</h2>
 <div>
     <hr />
     <dl class="dl-horizontal">
         <div class="card bg-gradient-danger card-img-holder text-white" style="overflow:hidden!important">
             <div class="card-body" style="text-align:center">
-                <div style="padding:20px"></div>
                 <h4 class="font-weight-normal mb-3" style="display:flex;align-items:center;justify-content:center">
                     Id<i style="padding-left:10px" class="mdi mdi-account-card-details"></i>
                 </h4>
-                <p class="mb-5">@Html.DisplayFor(model => model.TagId)</p>
+                <p class="mb-5">@Html.DisplayFor(model => model.DepartmentId)</p>
                 <div style="padding:20px"></div>
                 <h4 class="font-weight-normal mb-3" style="display:flex;align-items:center;justify-content:center">
-                    Lesson<i style="padding-left:10px" class="mdi mdi-account-card-details"></i>
+                    Name<i style="padding-left:10px" class="mdi mdi-account-card-details"></i>
                 </h4>
-                <p class="mb-5">@Html.DisplayFor(model => model.Lessons)</p>
+                <p class="mb-5">@Html.DisplayFor(model => model.DepartmentName)</p>
                 <div style="padding:20px"></div>
             </div>
         </div>
         <div style="padding:20px"></div>
         <div class="form-actions no-color">
-            <a href="@Url.Action("Tag_Edit", "Tags", new { id = Model.TagId})" class="text-link-action">Sửa</a>
-            @Html.ActionLink("Cancel", "Tag_List", "Tags", null, new { @class = "btn btn-light course__details-btn" })
+            <a href="@Url.Action("Department_Edit", "Department", new { id = Model.DepartmentId})" class="text-link-action">Sửa</a>
+            @Html.ActionLink("Cancel", "Department_List", "Department", null, new { @class = "btn btn-light course__details-btn" })
         </div>
     </dl>
 </div>

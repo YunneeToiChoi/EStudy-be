@@ -249,16 +249,10 @@ public class Momo_PaymentController : ControllerBase
         {
             if (existingOrder != null &&  existingOrder.State==false)
             {
-                try
-                {
                     await SendCodeActiveByEmail(existingOrder.Email, existingOrder.OrderId);
-
-                }catch(Exception ex) { 
-                   return BadRequest(ex.Message);
-                }
-                existingOrder.State = true;
-                await _context.SaveChangesAsync();
-                return Ok(new { status = 200, order = existingOrder, message = "Update Order State Successful and send email success" });
+                    existingOrder.State = true;
+                    await _context.SaveChangesAsync();
+                    return Ok(new { status = 200, order = existingOrder, message = "Update Order State Successful and send email success" });
             }
             else if (existingOrder != null && existingOrder.State==true)
             {

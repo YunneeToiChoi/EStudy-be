@@ -1,4 +1,4 @@
-﻿@model IEnumerable<study4_be.Models.Unit>
+﻿@model IEnumerable<study4_be.Models.Staff>
 
 <style>
     .item {
@@ -32,42 +32,54 @@
 <h2 style="text-align:center">LIST UNITS</h2>
 <input id="searchInput" class="search__input col-11" type="text" placeholder="Search anything you want..." />
 <div class="adSearch__container">
-    <span>CourseId: </span>
+    <span>DepartmentId: </span>
     <select id="searchByCourseId">
         <option value="">All</option>
     </select>
 </div>
-<button class="btn btn-block btn-lg btn-gradient-primary mt-4"> @Html.ActionLink("+ Add Unit", "Unit_Create", "Unit", null, new { @class = "text-btn-admin" })</button>
+<button class="btn btn-block btn-lg btn-gradient-primary mt-4"> @Html.ActionLink("+ Add Staff", "Staff_Create", "Staff", null, new { @class = "text-btn-admin" })</button>
 <div class="card">
     <div class="card-body">
         <table class="table">
             <thead class="table-info">
                 <tr>
-                    <th>UnitId</th>
-                    <th>CourseId</th>
-                    <th>UnitTittle</th>
+                    <th>StaffId</th>
+                    <th>StaffName</th>
+                    <th>StaffType</th>
+                    <th>StaffEmail</th>
+                    <th>StaffCmnd</th>
+                    <th>DepartmentId</th>
                     <th></th>
                 </tr>
             </thead>
             <tbody>
-                @foreach (var unit in Model)
+                @foreach (var staff in Model)
                 {
                     <tr>
                         <td class="item">
-                            <p>@unit.UnitId</p>
+                            <p>@staff.StaffId</p>
                         </td>
                         <td class="item">
-                            <p>@unit.CourseId</p>
+                            <p>@staff.StaffName</p>
                         </td>
                         <td class="item">
-                            <p>@unit.UnitTittle</p>
+                            <p>@staff.StaffType</p>
+                        </td>
+                        <td class="item">
+                            <p>@staff.StaffEmail</p>
+                        </td>
+                        <td class="item">
+                            <p>@staff.StaffCmnd</p>
+                        </td>
+                        <td class="item">
+                            <p>@staff.DepartmentId</p>
                         </td>
                         <td>
-                            <a href="@Url.ActionLink("Unit_Edit","Unit",new { id = unit.UnitId })" class="text-link-action">Sửa</a>
+                            <a href="@Url.ActionLink("Staff_Edit","Staff",new { id = staff.StaffId })" class="text-link-action">Sửa</a>
                             <span style="padding:0 8px">|</span>
-                            <a href="@Url.ActionLink("Unit_Delete","Unit",new { id = unit.UnitId })" class="text-link-action">Xóa</a>
+                            <a href="@Url.ActionLink("Staff_Delete","Staff",new { id = staff.StaffId })" class="text-link-action">Xóa</a>
                             <span style="padding:0 8px">|</span>
-                            <a href="@Url.ActionLink("Unit_Details","Unit",new { id = unit.UnitId })" class="text-link-action">Chi tiết</a>
+                            <a href="@Url.ActionLink("Staff_Details","Staff",new { id = staff.StaffId })" class="text-link-action">Chi tiết</a>
                         </td>
                     </tr>
                 }
@@ -105,7 +117,7 @@
     }
 
     function populateCourseIdSelect() {
-        populateSelect('searchByCourseId', getUniqueValues(1));
+        populateSelect('searchByCourseId', getUniqueValues(5));
     }
 
     function filterTable() {
@@ -121,8 +133,8 @@
         tr = table.getElementsByTagName('tr');
 
         for (i = 0; i < tr.length; i++) {
-            tdUnit = tr[i].getElementsByTagName('td')[2]; 
-            tdCourse = tr[i].getElementsByTagName('td')[1]; 
+            tdUnit = tr[i].getElementsByTagName('td')[1];
+            tdCourse = tr[i].getElementsByTagName('td')[5];
 
             if (tdUnit && tdCourse) {
                 txtValueUnit = tdUnit.textContent || tdUnit.innerText;

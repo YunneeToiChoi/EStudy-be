@@ -20,21 +20,26 @@
                     <label for="question.QuestionText">QuestionText</label>
                     <input asp-for="question.QuestionText" class="form-control" />
                     <span asp-validation-for="question.QuestionText" class="text-danger"></span>
+                </div>  
+                <div class="form-group">
+                    <label for="question.QuestionTextMean">Question Text Mean</label>
+                    <input asp-for="question.QuestionTextMean" class="form-control" />
+                    <span asp-validation-for="question.QuestionTextMean" class="text-danger"></span>
                 </div>    
                 <div class="form-group">
                     <label for="question.QuestionParagraph">Question Paragraph</label>
                     <input asp-for="question.QuestionParagraph" class="form-control" />
                     <span asp-validation-for="question.QuestionParagraph" class="text-danger"></span>
+                </div>   
+                <div class="form-group">
+                    <label for="question.QuestionParagraphMean">Question Paragraph Mean</label>
+                    <input asp-for="question.QuestionParagraphMean" class="form-control" />
+                    <span asp-validation-for="question.QuestionParagraphMean" class="text-danger"></span>
                 </div>  
                 <div class="form-group">
                     <label for="question.QuestionTranslate">Question Translate</label>
                     <input asp-for="question.QuestionTranslate" class="form-control" />
                     <span asp-validation-for="question.QuestionTranslate" class="text-danger"></span>
-                </div>  
-                <div class="form-group">
-                    <label for="question.QuestionImage">Question Image</label>
-                    <input asp-for="question.QuestionImage" class="form-control" />
-                    <span asp-validation-for="question.QuestionImage" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label for="question.OptionA">OptionA</label>
@@ -42,32 +47,55 @@
                     <span asp-validation-for="question.OptionA" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label for="question.OptionB">OptionB</label>
+                    <label for="question.OptionMeanA">A Mean</label>
+                    <input asp-for="question.OptionMeanA" class="form-control" />
+                    <span asp-validation-for="question.OptionMeanA" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label for="question.OptionB">Option B</label>
                     <input asp-for="question.OptionB" class="form-control" />
                     <span asp-validation-for="question.OptionB" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label for="question.OptionMeanB">B Mean</label>
+                    <input asp-for="question.OptionMeanB" class="form-control" />
+                    <span asp-validation-for="question.OptionMeanB" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label for="question.OptionC">OptionC</label>
                     <input asp-for="question.OptionC" class="form-control" />
                     <span asp-validation-for="question.OptionC" class="text-danger"></span>
+                </div> 
+                <div class="form-group">
+                    <label for="question.OptionMeanC">C Mean</label>
+                    <input asp-for="question.OptionMeanC" class="form-control" />
+                    <span asp-validation-for="question.OptionMeanC" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label for="question.OptionD">OptionD</label>
                     <input asp-for="question.OptionD" class="form-control" />
                     <span asp-validation-for="question.OptionD" class="text-danger"></span>
+                </div> 
+                <div class="form-group">
+                    <label for="question.OptionMeanD">D Mean</label>
+                    <input asp-for="question.OptionMeanD" class="form-control" />
+                    <span asp-validation-for="question.OptionMeanD" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label for="question.CorrectAnswer">CorrectAnswer Input ( A B C D )</label>
                     <input asp-for="question.CorrectAnswer" class="form-control" />
                     <span asp-validation-for="question.CorrectAnswer" class="text-danger"></span>
                 </div>
-
                 <div class="form-group">
                     <label asp-for="question.LessonId">Lesson</label>
                     <select asp-for="question.LessonId" class="form-control" asp-items="Model.lesson"></select>
                     <span asp-validation-for="question.LessonId" class="text-danger"></span>
                 </div>
-
+                <div class="form-group">
+                    <label>File upload</label>
+                    <img src="https://thesavvyimg.co.uk/wp-content/uploads/2022/08/the-savvy-img-online-courses-masterclass-shortcut-plab-gmc-registration.png" height="150" width="150" id="previewImg" />
+                    <input asp-for="question.QuestionImage" type="file" name="QuestionImage" onchange="ChangeImage(this, document.getElementById('previewImg'))" />
+                </div>
                 <div class="flex">
                     <button type="submit" class="btn btn-gradient-primary me-2">Submit</button>
                     @Html.ActionLink("Cancel", "Question_List", "Question", null, new { @class = "btn btn-light" })
@@ -76,3 +104,15 @@
         </div>
     </div>
 </div>
+
+<script>
+    function ChangeImage(UploadImage, previewImg) {
+        if (UploadImage.files && UploadImage.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                document.getElementById('previewImg').setAttribute('src', e.target.result);
+            }
+            reader.readAsDataURL(UploadImage.files[0])
+        }
+    }
+</script>
