@@ -23,11 +23,19 @@ namespace study4_be.Controllers.API
         [HttpGet("Get_AllExams")]
         public async Task<ActionResult<IEnumerable<Course>>> Get_AllExams()
         {
-            var exams = await _context.Courses.ToListAsync();
-            return Json(new { status = 200, message = "Get Exams Successful", exams });
+            try
+            {
+                var exams = await _context.Courses.ToListAsync();
+                return Json(new { status = 200, message = "Get Exams Successful", exams });
+            }
+            catch(Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        
         }
 
-        [HttpPost("Get_ExamDetailById")] // thieu user course and score
+        [HttpPost("Get_ExamDetailById")]
         public async Task<ActionResult<IEnumerable<Course>>> Get_ExamDetailById(OfExamIdRequest _req)
         {
             try
@@ -49,6 +57,20 @@ namespace study4_be.Controllers.API
             }
          
         }
+        [HttpPost("Get_AudioExam")]
+        public async Task<ActionResult<IEnumerable<Course>>> Get_AudioExam(OfExamIdRequest _req)
+        {
+            try
+            {
+                var examAudio = await _context.Exams.Where(u => u.ExamId == _req.examId).Select(a=>a.ExamAudio).FirstOrDefaultAsync();
+                return Json(new { status = 200, message = "Get Exam Detail By Id ", examAudio });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+        }
         [HttpPost("Get_ExamPart1")]
         public async Task<ActionResult> Get_ExamPart1(Part2Request _req)
         {
@@ -60,11 +82,10 @@ namespace study4_be.Controllers.API
                                        .FirstOrDefaultAsync();
                 if (lessonTag == _req.tagName)
                 {
-                    var questionPart2 = await _context.Questions
+                    var questionPart1 = await _context.Questions
                                                       .Where(q => q.LessonId == _req.lessonId)
                                                       .ToListAsync();
-
-                    var Part1Response = questionPart2.Select(p => new Part1Response
+                    var Part1Response = questionPart1.Select(p => new Part1Response
                     {
                         questionImage = p.QuestionImage,
                         correctAnswear = p.CorrectAnswer,
