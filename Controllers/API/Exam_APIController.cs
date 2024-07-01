@@ -27,13 +27,29 @@ namespace study4_be.Controllers.API
             return Json(new { status = 200, message = "Get Exams Successful", exams });
         }
 
-        [HttpPost("Get_ExamDetailById")] // thieu user course 
+        [HttpPost("Get_ExamDetailById")] // thieu user course and score
         public async Task<ActionResult<IEnumerable<Course>>> Get_ExamDetailById(OfExamIdRequest _req)
         {
-            var exams = await _context.Exams.Where(u => u.ExamId == _req.examId).FirstOrDefaultAsync();
-                return Json(new { status = 200, message = "Get Exam Detail By Id ", exams });
+            try
+            {
+                var exams = await _context.Exams.Where(u => u.ExamId == _req.examId).FirstOrDefaultAsync();
+                var userExam = await _context.UsersExams.Where(u => u.UserId == _req.userId && u.ExamId == _req.examId).ToListAsync();
+                if (userExam != null)
+                {
+                    return Json(new { status = 200, message = "Get Exam Detail By Id ", exams, userExam });
+                }
+                else
+                {
+                    return Json(new { status = 200, message = "Get Exam Detail By Id ", exams, userExam = "User hadn't learn this exam before " });
+                }
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+         
         }
-        [HttpGet("Get_ExamPart1")]
+        [HttpPost("Get_ExamPart1")]
         public async Task<ActionResult> Get_ExamPart1(Part2Request _req)
         {
             try
@@ -69,7 +85,7 @@ namespace study4_be.Controllers.API
             }
          
         }
-        [HttpGet("Get_ExamPart2")]
+        [HttpPost("Get_ExamPart2")]
         public async Task<ActionResult> Get_ExamPart2(Part2Request _req)
         {
             try
@@ -105,7 +121,7 @@ namespace study4_be.Controllers.API
             }
 
         }
-        [HttpGet("Get_ExamPart3")]
+        [HttpPost("Get_ExamPart3")]
         public async Task<ActionResult> Get_ExamPart3(Part2Request _req)
         {
             try
@@ -143,7 +159,7 @@ namespace study4_be.Controllers.API
             }
 
         }
-        [HttpGet("Get_ExamPart4")] // create question group 
+        [HttpPost("Get_ExamPart4")] // create question group 
         public async Task<ActionResult> Get_ExamPart4(Part2Request _req)
         {
             try
@@ -182,7 +198,7 @@ namespace study4_be.Controllers.API
 
         }
 
-        [HttpGet("SubmitExam")] 
+        [HttpPost("SubmitExam")] 
         public async Task<ActionResult> SubmitExam(SubmitExamRequest _req)
         {
             try
@@ -192,11 +208,11 @@ namespace study4_be.Controllers.API
                 {
                     ExamId = _req.examId,
                     DateTime = DateTime.Now,
-                    Process = 100,
+                    State = true,
                     Score = _req.score,
                     UserId = _req.userId,
-                    // thieu user exan id
-                };
+                    UserExamId = Guid.NewGuid().ToString(),
+            };
                 return Json(new { status = 200, message = "Submit Exam Successfull ", userExam = newUserExam });
             }
             catch (Exception ex)
@@ -204,7 +220,51 @@ namespace study4_be.Controllers.API
                 return BadRequest(ex);
             }
 
+        } 
+        [HttpPost("StopExam")] 
+        public async Task<ActionResult> StopExam(SubmitExamRequest _req)
+        {
+            try
+            {
+                var existExam = _context.Exams.Where(e => e.ExamId == _req.examId).FirstOrDefaultAsync();
+                var newUserExam = new UsersExam
+                {
+                    ExamId = _req.examId,
+                    DateTime = DateTime.Now,
+                    State = false,
+                    Score = _req.score,
+                    UserId = _req.userId,
+                    UserExamId = Guid.NewGuid().ToString(),
+            };
+                return Json(new { status = 200, message = "Submit Exam Successfull ", userExam = newUserExam });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
         }
+        //[HttpPost("LearnAgain")]
+        //public async Task<ActionResult> LearnAgain(LearnAgainRequest _req)
+        //{
+        //    try
+        //    {
+        //        var userExam = _context.UsersExams.Where(e => e.UserExamId == _req.userExamId).FirstOrDefaultAsync();
+        //        var newUserExam = new UsersExam
+        //        {
+        //            ExamId = _req.examId,
+        //            DateTime = DateTime.Now,
+        //            State = false,
+        //            Score = _req.score,
+        //            UserId = _req.userId,
+        //            UserExamId = Guid.NewGuid().ToString(),
+        //        };
+        //        return Json(new { status = 200, message = "Submit Exam Successfull ", userExam = newUserExam });
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return BadRequest(ex);
+        //    }
+        //}
         public IActionResult Index()
         {
             return View();

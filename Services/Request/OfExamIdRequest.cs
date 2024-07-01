@@ -3,5 +3,7 @@
     public class OfExamIdRequest
     {
         public string? examId { get;set; }
+        public string? userId { get; set; }
+
     }
 }
