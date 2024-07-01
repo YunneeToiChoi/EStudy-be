@@ -1,0 +1,90 @@
+﻿@model IEnumerable<study4_be.Models.Exam>
+@{
+    ViewData["Title"] = "Exam List";
+}
+<style>
+    .item {
+        overflow: hidden;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+        max-width: 100px
+    }
+
+    .text-btn-admin {
+        text-decoration: none;
+        color: white;
+    }
+
+    .search__input {
+        width: 100%;
+        padding: 10px;
+    }
+</style>
+
+<h2 style="text-align:center">LIST Exam</h2>
+<input id="searchInput" class="search__input col-11" type="text" placeholder="Search anything you want..." />
+<button class="btn btn-block btn-lg btn-gradient-primary mt-4"> @Html.ActionLink("+ Add Exam", "Exam_Create", "Exam", null, new { @class = "text-btn-admin" })</button>
+<div class="card">
+    <div class="card-body">
+        <table class="table">
+            <thead class="table-info">
+                <tr>
+                    <th>Image</th>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Options</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var course in Model)
+                {
+                    <tr>
+                        <td>
+                            <img style="border-radius:0%!important" src="@Url.Content(course.ExamImage)" height="150" width="150" id="previewImg" />
+                        </td>
+                        <td>
+                            @course.ExamId
+                        </td>
+                        <td class="item">
+                            @course.ExamName
+                        </td>
+                        <td class="item">
+                            <label class="badge badge-danger">
+                                @course.ExamAudio
+                            </label>
+                        </td>
+                        <td>
+                            <a href="@Url.Action("Exam_Edit", "Exam", new { id = course.ExamId })" class="text-link-action">Sửa</a>
+                            <span style="padding:0 8px">|</span>
+                            <a href="@Url.Action("Exam_Delete", "Exam", new { id = course.ExamId })" class="text-link-action">Xóa</a>
+                            <span style="padding:0 8px">|</span>
+                            <a href="@Url.Action("Exam_Details", "Exam", new { id = course.ExamId })" class="text-link-action">Chi tiết</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    document.getElementById('searchInput').addEventListener('keyup', function () {
+        var input, filter, table, tr, td, i, txtValue;
+        input = document.getElementById('searchInput');
+        filter = input.value.toUpperCase();
+        table = document.querySelector('.table tbody');
+        tr = table.getElementsByTagName('tr');
+
+        for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName('td')[2];
+            if (td) {
+                txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    });
+</script>
