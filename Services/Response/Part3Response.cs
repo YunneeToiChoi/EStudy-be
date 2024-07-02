@@ -2,6 +2,7 @@
 {
     public class Part3Response
     {
+        public int? questionId { get; set; }
         public string questionText { get; set; }
         public string optionA { get; set; }
         public string optionB { get; set; }

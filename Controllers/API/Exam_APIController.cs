@@ -87,6 +87,7 @@ namespace study4_be.Controllers.API
                                                       .ToListAsync();
                     var Part1Response = questionPart1.Select(p => new Part1Response
                     {
+                        questionId = p.QuestionId,
                         questionImage = p.QuestionImage,
                         correctAnswear = p.CorrectAnswer,
                         optionA = p.OptionA,
@@ -123,6 +124,7 @@ namespace study4_be.Controllers.API
 
                     var Part2Response = questionPart2.Select(p => new Part2Response
                     {
+                        questionId = p.QuestionId,
                         correctAnswear = p.CorrectAnswer,
                         optionA = p.OptionA,
                         optionB = p.OptionB,
@@ -159,6 +161,7 @@ namespace study4_be.Controllers.API
 
                     var Part3Response = questionPart2.Select(p => new Part3Response
                     {
+                        questionId = p.QuestionId,
                         questionText = p.QuestionText,
                         correctAnswear = p.CorrectAnswer,
                         optionA = p.OptionA,
@@ -195,8 +198,49 @@ namespace study4_be.Controllers.API
                                                       .Where(q => q.LessonId == _req.lessonId)
                                                       .ToListAsync();
 
-                    var Part3Response = questionPart2.Select(p => new Part3Response
+                    var Part4Response = questionPart2.Select(p => new Part4Response
                     {
+                        questionId = p.QuestionId,
+                        questionText = p.QuestionText,
+                        questionImage = p.QuestionImage,
+                        correctAnswear = p.CorrectAnswer,
+                        optionA = p.OptionA,
+                        optionB = p.OptionB,
+                        optionC = p.OptionC,
+                        optionD = p.OptionD,
+                    });
+
+                    return Json(new { status = 200, message = "Get_ExamPart4 successful", Part4Response });
+                }
+                else
+                {
+                    return BadRequest(new { status = 404, message = "Tag không khớp hoặc không tìm thấy." });
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
+
+        }   
+        [HttpPost("Get_ExamPart5")]
+        public async Task<ActionResult> Get_ExamPart5(Part2Request _req)
+        {
+            try
+            {
+                var lessonTag = await _context.Lessons
+                                       .Where(q => q.LessonId == _req.lessonId)
+                                       .Select(t => t.TagId)
+                                       .FirstOrDefaultAsync();
+                if (lessonTag == _req.tagName)
+                {
+                    var questionPart2 = await _context.Questions
+                                                      .Where(q => q.LessonId == _req.lessonId)
+                                                      .ToListAsync();
+
+                    var Part5Response = questionPart2.Select(p => new Part5Response
+                    {
+                        questionId = p.QuestionId,
                         questionText = p.QuestionText,
                         correctAnswear = p.CorrectAnswer,
                         optionA = p.OptionA,
@@ -205,7 +249,86 @@ namespace study4_be.Controllers.API
                         optionD = p.OptionD,
                     });
 
-                    return Json(new { status = 200, message = "Get_ExamPart3 successful", Part3Response });
+                    return Json(new { status = 200, message = "Get_ExamPart5 successful", Part5Response });
+                }
+                else
+                {
+                    return BadRequest(new { status = 404, message = "Tag không khớp hoặc không tìm thấy." });
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
+
+        }
+        [HttpPost("Get_ExamPart6")]
+        public async Task<ActionResult> Get_ExamPart6(Part2Request _req)
+        {
+            try
+            {
+                var lessonTag = await _context.Lessons
+                                       .Where(q => q.LessonId == _req.lessonId)
+                                       .Select(t => t.TagId)
+                                       .FirstOrDefaultAsync();
+                if (lessonTag == _req.tagName)
+                {
+                    var questionPart2 = await _context.Questions
+                                                      .Where(q => q.LessonId == _req.lessonId)
+                                                      .ToListAsync();
+
+                    var Part6Response = questionPart2.Select(p => new Part6Response
+                    {
+                        questionId = p.QuestionId,
+                        questionImage = p.QuestionImage,
+                        correctAnswear = p.CorrectAnswer,
+                        optionA = p.OptionA,
+                        optionB = p.OptionB,
+                        optionC = p.OptionC,
+                        optionD = p.OptionD,
+                    });
+
+                    return Json(new { status = 200, message = "Get_ExamPart6 successful", Part6Response });
+                }
+                else
+                {
+                    return BadRequest(new { status = 404, message = "Tag không khớp hoặc không tìm thấy." });
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
+
+        }
+        [HttpPost("Get_ExamPart7")]
+        public async Task<ActionResult> Get_ExamPart7(Part2Request _req)
+        {
+            try
+            {
+                var lessonTag = await _context.Lessons
+                                       .Where(q => q.LessonId == _req.lessonId)
+                                       .Select(t => t.TagId)
+                                       .FirstOrDefaultAsync();
+                if (lessonTag == _req.tagName)
+                {
+                    var questionPart2 = await _context.Questions
+                                                      .Where(q => q.LessonId == _req.lessonId)
+                                                      .ToListAsync();
+
+                    var Part7Response = questionPart2.Select(p => new Part7Response
+                    {
+                        questionId = p.QuestionId,
+                        questionText = p.QuestionText,
+                        questionImage = p.QuestionImage,
+                        correctAnswear = p.CorrectAnswer,
+                        optionA = p.OptionA,
+                        optionB = p.OptionB,
+                        optionC = p.OptionC,
+                        optionD = p.OptionD,
+                    });
+
+                    return Json(new { status = 200, message = "Get_ExamPart7 successful", Part7Response });
                 }
                 else
                 {
