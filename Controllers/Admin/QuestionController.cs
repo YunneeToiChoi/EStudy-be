@@ -90,10 +90,8 @@ namespace study4_be.Controllers.Admin
             {
                 var firebaseBucketName = _firebaseServices.GetFirebaseBucketName();
                 var uniqueId = Guid.NewGuid().ToString(); 
-                var uniqueIdForQuestionImage = Guid.NewGuid().ToString();
 
                 var audioFilePath = Path.Combine(Path.GetTempPath(), $"QUESTION({uniqueId}).wav");
-                var imgFilePath = ($"IMG{uniqueIdForQuestionImage}.jpg");
 
                 if (questionViewModel.question.QuestionParagraph == null)
                 {
@@ -102,10 +100,15 @@ namespace study4_be.Controllers.Admin
                 }
                 _generalAiAudioServices.GenerateAudio(questionViewModel.question.QuestionParagraph, audioFilePath);
                 var audioBytes = System.IO.File.ReadAllBytes(audioFilePath);
-
-                string firebaseUrl = await _firebaseServices.UploadFileToFirebaseStorageAsync(QuestionImage, imgFilePath, firebaseBucketName);
                 var audioUrl = await _generalAiAudioServices.UploadFileToFirebaseStorageAsync(audioBytes, $"QUESTION({uniqueId}).wav", firebaseBucketName);
-              
+                string firebaseUrl = null;
+                if(QuestionImage!=null)
+                {
+                    var uniqueIdForQuestionImage = Guid.NewGuid().ToString();
+                    var imgFilePath = ($"IMG{uniqueIdForQuestionImage}.jpg");
+                    firebaseUrl = await _firebaseServices.UploadFileToFirebaseStorageAsync(QuestionImage, imgFilePath, firebaseBucketName);
+                }
+
                 // Delete the temporary file after uploading
                 System.IO.File.Delete(audioFilePath);
                 var question = new Question
@@ -117,7 +120,7 @@ namespace study4_be.Controllers.Admin
                     QuestionParagraphMean = questionViewModel.question.QuestionParagraphMean,
                     QuestionAudio = audioUrl,
                     QuestionTranslate = questionViewModel.question.QuestionTranslate,
-                    QuestionImage = firebaseUrl,
+                    QuestionImage = !string.IsNullOrEmpty(firebaseUrl) ? firebaseUrl : (string)null,
                     CorrectAnswer = questionViewModel.question.CorrectAnswer,
                     OptionA = questionViewModel.question.OptionA,
                     OptionB = questionViewModel.question.OptionB,

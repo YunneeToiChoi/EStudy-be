@@ -44,11 +44,6 @@ namespace study4_be.Controllers.Admin
         [HttpPost]
         public async Task<IActionResult> Exam_Create(Exam exam, IFormFile ExamImage)
         {
-            if (!ModelState.IsValid)
-            {
-
-                return View(exam);    //show form with value input and show errors
-            }
             try
             {
                 // Handle file upload to Firebase Storage
@@ -62,6 +57,7 @@ namespace study4_be.Controllers.Admin
                     // Save firebaseUrl to your course object or database
                     exam.ExamImage = firebaseUrl;
                 }
+                exam.ExamId = Guid.NewGuid().ToString();
                 await _context.AddAsync(exam);
                 await _context.SaveChangesAsync();
                 CreatedAtAction(nameof(GetExamById), new { id = exam.ExamId }, exam);
