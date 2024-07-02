@@ -10,6 +10,8 @@ using study4_be.Validation;
 
 namespace study4_be.Controllers.API
 {
+    [Route("api/[controller]")]
+    [ApiController]
     public class Exam_APIController : Controller
     {
         private STUDY4Context _context = new STUDY4Context();
@@ -21,11 +23,11 @@ namespace study4_be.Controllers.API
             _fireBaseServices = fireBaseServices;
         }
         [HttpGet("Get_AllExams")]
-        public async Task<ActionResult<IEnumerable<Course>>> Get_AllExams()
+        public async Task<ActionResult<IEnumerable<Exam>>> Get_AllExams()
         {
             try
             {
-                var exams = await _context.Courses.ToListAsync();
+                var exams = await _context.Exams.ToListAsync();
                 return Json(new { status = 200, message = "Get Exams Successful", exams });
             }
             catch(Exception e)
@@ -36,7 +38,7 @@ namespace study4_be.Controllers.API
         }
 
         [HttpPost("Get_ExamDetailById")]
-        public async Task<ActionResult<IEnumerable<Course>>> Get_ExamDetailById(OfExamIdRequest _req)
+        public async Task<ActionResult<IEnumerable<Exam>>> Get_ExamDetailById(OfExamUserIdRequest _req)
         {
             try
             {
@@ -58,7 +60,7 @@ namespace study4_be.Controllers.API
          
         }
         [HttpPost("Get_AudioExam")]
-        public async Task<ActionResult<IEnumerable<Course>>> Get_AudioExam(OfExamIdRequest _req)
+        public async Task<ActionResult<IEnumerable<Exam>>> Get_AudioExam(OfExamIdRequest _req)
         {
             try
             {
