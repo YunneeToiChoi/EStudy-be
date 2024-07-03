@@ -46,7 +46,7 @@ namespace study4_be.Controllers.API
                     if (_userRegistrationValidator.Validate(user, out errorMessage))
                     {
                         _userRepository.AddUser(user);
-                        var link = $"http://localhost:8000/api/Auth_API/userEmail={user.UserEmail}/verification={false}";
+                        var link = $"https://elearning.engineer/api/Auth_API/userEmail={user.UserEmail}/verification={false}";
                         var subject = "[EStudy] - Yêu cầu xác thực tài khoản của bạn";
                         var emailContent = _smtpServices.GenerateLinkVerifiByEmailContent(user.UserEmail, link);
                         await _smtpServices.SendEmailAsync(user.UserEmail, subject,emailContent,emailContent);
@@ -335,7 +335,7 @@ namespace study4_be.Controllers.API
                     return BadRequest("User is not exist");
                 }
                 var currentTime = DateTime.Now.ToString("yyyyMMddHHmmss");
-                var link = $"http://localhost:8000/api/Auth_API/userEmail={userExist.UserEmail}/verification={false}/time={currentTime}";
+                var link = $"https://elearning.engineer/api/Auth_API/userEmail={userExist.UserEmail}/verification={false}/time={currentTime}";
                 var subject = "[EStudy] - Yêu cầu đặt lại mật khẩu của bạn";
                 var emailContent = _smtpServices.GenerateLinkVerifiByEmailContent(userExist.UserEmail, link);
                 _smtpServices.GenerateLinkToResetPassword(_req.userEmail, link);
