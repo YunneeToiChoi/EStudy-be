@@ -33,7 +33,7 @@ namespace study4_be.Repositories
             HashPassword(user);
             _context.Users.Add(user);
             user.UserBanner = null;
-            user.UserImage = "https://firebasestorage.googleapis.com/v0/b/estudy-426108.appspot.com/o/IMGe06a0654-1045-451f-adf7-750506d52b91.jpg?alt=media";
+            user.UserImage = "https://firebasestorage.googleapis.com/v0/b/estudy-426108.appspot.com/o/avtDefaultUser.jfif?alt=media&token=8dabba5f-cccb-4a4c-9ab4-69049c769bdf";
             user.Isverified = false;
             _context.SaveChanges();
         }

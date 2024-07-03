@@ -1,0 +1,49 @@
+﻿@model study4_be.Models.Exam
+
+@{
+    ViewData["Title"] = "Create Exam";
+}
+
+<h2>Exam Create</h2>
+
+<div class="form-horizontal">
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="card">
+        <div class="card-body">
+            <p class="card-description">Create</p>
+            <form asp-action="Exam_Create" method="post" enctype="multipart/form-data" class="forms-sample">
+                <div class="form-group">
+                    <label for="ExamName">ExamName</label>
+                    <input asp-for="ExamName" class="form-control" />
+                    <span asp-validation-for="ExamName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label for="ExamAudio">ExamAudio</label>
+                    <input asp-for="ExamAudio" class="form-control" />
+                    <span asp-validation-for="ExamAudio" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label>File upload</label>
+                    <img src="https://thesavvyimg.co.uk/wp-content/uploads/2022/08/the-savvy-img-online-courses-masterclass-shortcut-plab-gmc-registration.png" height="150" width="150" id="previewImg" />
+                    <input asp-for="ExamImage" type="file" name="ExamImage" onchange="ChangeImage(this, document.getElementById('previewImg'))" />
+                </div>
+                <div class="flex">
+                    <button type="submit" class="btn btn-gradient-primary me-2">Submit</button>
+                    @Html.ActionLink("Cancel", "Exam_List", "Exam", null, new { @class = "btn btn-light" })
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    function ChangeImage(UploadImage, previewImg) {
+        if (UploadImage.files && UploadImage.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                document.getElementById('previewImg').setAttribute('src', e.target.result);
+            }
+            reader.readAsDataURL(UploadImage.files[0])
+        }
+    }
+</script>

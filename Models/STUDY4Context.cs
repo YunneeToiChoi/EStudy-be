@@ -107,6 +107,14 @@ namespace study4_be.Models
                     .IsUnicode(false)
                     .HasColumnName("Exam_Id");
 
+                entity.Property(e => e.ExamAudio)
+                    .HasMaxLength(255)
+                    .HasColumnName("Exam_Audio");
+
+                entity.Property(e => e.ExamImage)
+                    .HasMaxLength(255)
+                    .HasColumnName("Exam_Image");
+
                 entity.Property(e => e.ExamName)
                     .HasMaxLength(100)
                     .HasColumnName("Exam_Name");
@@ -369,11 +377,6 @@ namespace study4_be.Models
 
                 entity.Property(e => e.CourseId).HasColumnName("COURSE_ID");
 
-                entity.Property(e => e.ExamId)
-                    .HasMaxLength(100)
-                    .IsUnicode(false)
-                    .HasColumnName("Exam_Id");
-
                 entity.Property(e => e.Process).HasColumnName("PROCESS");
 
                 entity.Property(e => e.UnitTittle)
@@ -402,6 +405,8 @@ namespace study4_be.Models
                     .IsUnicode(false)
                     .HasColumnName("PHONE_NUMBER");
 
+                entity.Property(e => e.RoleId).HasColumnName("ROLE_ID");
+
                 entity.Property(e => e.UserBanner)
                     .IsUnicode(false)
                     .HasColumnName("USER_BANNER");
@@ -427,6 +432,11 @@ namespace study4_be.Models
                     .HasMaxLength(100)
                     .IsUnicode(false)
                     .HasColumnName("USER_PASSWORD");
+
+                entity.HasOne(d => d.Role)
+                    .WithMany(p => p.Users)
+                    .HasForeignKey(d => d.RoleId)
+                    .HasConstraintName("FK_USERS_ROLE");
             });
 
             modelBuilder.Entity<UserCourse>(entity =>
@@ -461,23 +471,27 @@ namespace study4_be.Models
 
             modelBuilder.Entity<UsersExam>(entity =>
             {
-                entity.HasKey(e => new { e.UserId, e.ExamId });
+                entity.HasKey(e => e.UserExamId);
 
                 entity.ToTable("USERS_EXAM");
 
-                entity.Property(e => e.UserId)
+                entity.Property(e => e.UserExamId)
                     .HasMaxLength(100)
-                    .IsUnicode(false)
-                    .HasColumnName("User_Id");
+                    .HasColumnName("UserExam_Id");
+
+                entity.Property(e => e.DateTime)
+                    .HasColumnType("datetime")
+                    .HasColumnName("Date_Time");
 
                 entity.Property(e => e.ExamId)
                     .HasMaxLength(100)
                     .IsUnicode(false)
                     .HasColumnName("Exam_Id");
 
-                entity.Property(e => e.DateTime)
-                    .HasColumnType("datetime")
-                    .HasColumnName("Date_Time");
+                entity.Property(e => e.UserId)
+                    .HasMaxLength(100)
+                    .IsUnicode(false)
+                    .HasColumnName("User_Id");
 
                 entity.HasOne(d => d.Exam)
                     .WithMany(p => p.UsersExams)

@@ -1,0 +1,50 @@
+﻿@model study4_be.Models.Exam
+
+<style>
+    .flex {
+        margin-top: 20px;
+        display: flex;
+        align-items: center;
+    }
+</style>
+
+<div class="form-horizontal">
+    <h4>Exam</h4>
+    <hr />
+    <div class="card-body">
+        <p class="card-description">Edit</p>
+        <form asp-action="Course_Edit" method="post" enctype="multipart/form-data" class="forms-sample">
+            <input type="hidden" asp-for="ExamId" />
+            <div class="form-group">
+                <label for="ExamName">ExamName</label>
+                <input asp-for="ExamName" class="form-control" />
+                <span asp-validation-for="ExamName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label for="ExamAudio">ExamAudio</label>
+                <input asp-for="ExamAudio" class="form-control" />
+                <span asp-validation-for="ExamAudio" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label>File upload</label>
+                <img src="@Model.ExamImage" height="150" width="150" id="previewImg" />
+                <input asp-for="ExamImage" type="file" name="ExamImage" onchange="ChangeImage(this, document.getElementById('previewImg'))" />
+            </div>
+            <div class="flex">
+                <button type="submit" class="btn btn-gradient-primary me-2">Submit</button>
+                @Html.ActionLink("Cancel", "Exam_List", "Exam", null, new { @class = "btn btn-light" })
+            </div>
+            <div asp-validation-summary="All" class="text-danger"></div>
+        </form>
+    </div>
+</div>
+
+<script>
+    function ChangeImage(input, previewImg) {
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            previewImg.src = e.target.result;
+        };
+        reader.readAsDataURL(input.files[0]);
+    }
+</script>

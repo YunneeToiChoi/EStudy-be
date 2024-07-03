@@ -90,7 +90,7 @@ namespace study4_be.Services
             sb.AppendLine("<html>");
             sb.AppendLine("<body>");
             sb.AppendLine("<div style='text-align: center;'>");
-            sb.AppendLine("<img src='https://firebasestorage.googleapis.com/v0/b/estudy-426108.appspot.com/o/IMGe06a0654-1045-451f-adf7-750506d52b91.jpg?alt=media' alt='Logo' width='150'/>");
+            sb.AppendLine("<img src='https://firebasestorage.googleapis.com/v0/b/estudy-426108.appspot.com/o/logoEStudy.jfif?alt=media&token=497b6ac6-154b-4cdc-ab9f-c46b24500518' alt='Logo' width='150'/>");
             sb.AppendLine("</div>");
             sb.AppendLine($"<p>Xin chào {username}, đơn hàng của bạn đã đặt thành công vào ngày {orderDate}</p>");
             sb.AppendLine("<h3>Thông tin đơn hàng:</h3>");
@@ -119,7 +119,7 @@ namespace study4_be.Services
             sb.AppendLine("<html>");
             sb.AppendLine("<body>");
             sb.AppendLine("<div style='text-align: center;'>");
-            sb.AppendLine("<img src='https://firebasestorage.googleapis.com/v0/b/estudy-426108.appspot.com/o/IMGe06a0654-1045-451f-adf7-750506d52b91.jpg?alt=media' alt='Logo' width='150'/>");
+            sb.AppendLine("<img src='https://firebasestorage.googleapis.com/v0/b/estudy-426108.appspot.com/o/logoEStudy.jfif?alt=media&token=497b6ac6-154b-4cdc-ab9f-c46b24500518' alt='Logo' width='150'/>");
             sb.AppendLine("</div>");
             sb.AppendLine($"<p>Xin chào {userEmail}, Link xác nhận của bạn là</p>");
             sb.AppendLine("<div style='border: 1px solid #ccc; padding: 10px; width: 200px; margin: 0 auto;'>");
@@ -143,7 +143,7 @@ namespace study4_be.Services
             sb.AppendLine("<html>");
             sb.AppendLine("<body>");
             sb.AppendLine("<div style='text-align: center;'>");
-            sb.AppendLine("<img src='https://firebasestorage.googleapis.com/v0/b/estudy-426108.appspot.com/o/IMGe06a0654-1045-451f-adf7-750506d52b91.jpg?alt=media' alt='Logo' width='150'/>");
+            sb.AppendLine("<img src='https://firebasestorage.googleapis.com/v0/b/estudy-426108.appspot.com/o/logoEStudy.jfif?alt=media&token=497b6ac6-154b-4cdc-ab9f-c46b24500518' alt='Logo' width='150'/>");
             sb.AppendLine("</div>");
             sb.AppendLine($"<p>Xin chào {userEmail}, Link thay đổi mật khẩu của bạn là</p>");
             sb.AppendLine("<div style='border: 1px solid #ccc; padding: 10px; width: 200px; margin: 0 auto;'>");

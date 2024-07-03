@@ -6,9 +6,10 @@ namespace study4_be.Models
     public partial class UsersExam
     {
         public string UserId { get; set; } = null!;
+        public string UserExamId { get; set; } = null!;
         public string ExamId { get; set; } = null!;
         public DateTime? DateTime { get; set; }
-        public int? Process { get; set; }
+        public bool? State { get; set; }
         public int? Score { get; set; }
 
         public virtual Exam Exam { get; set; } = null!;
