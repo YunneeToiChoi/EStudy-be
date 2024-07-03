@@ -21,7 +21,9 @@ namespace study4_be.Models
         public string? UserBanner { get; set; }
         public string? PhoneNumber { get; set; }
         public bool? Isverified { get; set; }
+        public int? RoleId { get; set; }
 
+        public virtual Role? Role { get; set; }
         public virtual ICollection<Order> Orders { get; set; }
         public virtual ICollection<UserCourse> UserCourses { get; set; }
         public virtual ICollection<UsersExam> UsersExams { get; set; }

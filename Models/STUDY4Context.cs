@@ -376,11 +376,6 @@ namespace study4_be.Models
 
                 entity.Property(e => e.CourseId).HasColumnName("COURSE_ID");
 
-                entity.Property(e => e.ExamId)
-                    .HasMaxLength(100)
-                    .IsUnicode(false)
-                    .HasColumnName("Exam_Id");
-
                 entity.Property(e => e.Process).HasColumnName("PROCESS");
 
                 entity.Property(e => e.UnitTittle)
@@ -409,6 +404,8 @@ namespace study4_be.Models
                     .IsUnicode(false)
                     .HasColumnName("PHONE_NUMBER");
 
+                entity.Property(e => e.RoleId).HasColumnName("ROLE_ID");
+
                 entity.Property(e => e.UserBanner)
                     .IsUnicode(false)
                     .HasColumnName("USER_BANNER");
@@ -434,6 +431,11 @@ namespace study4_be.Models
                     .HasMaxLength(100)
                     .IsUnicode(false)
                     .HasColumnName("USER_PASSWORD");
+
+                entity.HasOne(d => d.Role)
+                    .WithMany(p => p.Users)
+                    .HasForeignKey(d => d.RoleId)
+                    .HasConstraintName("FK_USERS_ROLE");
             });
 
             modelBuilder.Entity<UserCourse>(entity =>
