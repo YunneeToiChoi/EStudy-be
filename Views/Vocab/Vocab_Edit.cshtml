@@ -16,6 +16,11 @@
         <form asp-action="Vocab_Edit" method="post" enctype="multipart/form-data" class="forms-sample">
             <input type="hidden" asp-for="VocabId" />
             <div class="form-group">
+                <label for="VocabTitle">VocabTitle</label>
+                <input asp-for="VocabTitle" class="form-control" />
+                <span asp-validation-for="VocabTitle" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <label for="VocabType">VocabType</label>
                 <input asp-for="VocabType" class="form-control" />
                 <span asp-validation-for="VocabType" class="text-danger"></span>
