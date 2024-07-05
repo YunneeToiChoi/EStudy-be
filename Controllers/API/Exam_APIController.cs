@@ -78,16 +78,12 @@ namespace study4_be.Controllers.API
         {
             try
             {
-                var lessonTag = await _context.Lessons
-                                       .Where(q => q.LessonId == _req.lessonId)
-                                       .Select(t => t.TagId)
-                                       .FirstOrDefaultAsync();
-                if (lessonTag == _req.tagName)
+                var questionPart= await _context.Questions
+                                       .Where(q => q.ExamId == _req.examId && q.QuestionTag == _req.tagName)
+                                       .ToListAsync();
+                if (questionPart != null)
                 {
-                    var questionPart1 = await _context.Questions
-                                                      .Where(q => q.LessonId == _req.lessonId)
-                                                      .ToListAsync();
-                    var Part1Response = questionPart1.Select(p => new Part1Response
+                    var part1Response = questionPart.Select(p => new Part1Response
                     {
                         questionId = p.QuestionId,
                         questionImage = p.QuestionImage,
@@ -96,13 +92,12 @@ namespace study4_be.Controllers.API
                         optionB = p.OptionB,
                         optionC = p.OptionC,
                         optionD = p.OptionD,
-                    });
-
-                    return Json(new { status = 200, message = "Get_ExamPart1 successful", Part1Response });
+                    }).ToList();
+                    return Json(new { status = 200, message = "Get_ExamPart1 successful", part1Response });
                 }
                 else
                 {
-                    return BadRequest(new { status = 404, message = "Tag không khớp hoặc không tìm thấy." });
+                    return BadRequest(new { status = 404, message = $"Tag không khớp hoặc Không có Exam không có {_req.tagName}." });
                 }
             }catch(Exception ex) {
                 return BadRequest(ex);
@@ -114,30 +109,25 @@ namespace study4_be.Controllers.API
         {
             try
             {
-                var lessonTag = await _context.Lessons
-                                       .Where(q => q.LessonId == _req.lessonId)
-                                       .Select(t => t.TagId)
-                                       .FirstOrDefaultAsync();
-                if (lessonTag == _req.tagName)
+                var questionPart = await _context.Questions
+                                       .Where(q => q.ExamId == _req.examId && q.QuestionTag == _req.tagName)
+                                       .ToListAsync();
+                if (questionPart != null)
                 {
-                    var questionPart2 = await _context.Questions
-                                                      .Where(q => q.LessonId == _req.lessonId)
-                                                      .ToListAsync();
-
-                    var Part2Response = questionPart2.Select(p => new Part2Response
+                    var part2Response = questionPart.Select(p => new Part2Response
                     {
                         questionId = p.QuestionId,
                         correctAnswear = p.CorrectAnswer,
                         optionA = p.OptionA,
                         optionB = p.OptionB,
                         optionC = p.OptionC,
-                    });
 
-                    return Json(new { status = 200, message = "Get_ExamPart2 successful", Part2Response });
+                    }).ToList();
+                    return Json(new { status = 200, message = "Get_ExamPart2 successful", part2Response });
                 }
                 else
                 {
-                    return BadRequest(new { status = 404, message = "Tag không khớp hoặc không tìm thấy." });
+                    return BadRequest(new { status = 404, message = $"Tag không khớp hoặc Không có Exam không có {_req.tagName}." });
                 }
             }
             catch (Exception ex)
@@ -151,17 +141,12 @@ namespace study4_be.Controllers.API
         {
             try
             {
-                var lessonTag = await _context.Lessons
-                                       .Where(q => q.LessonId == _req.lessonId)
-                                       .Select(t => t.TagId)
-                                       .FirstOrDefaultAsync();
-                if (lessonTag == _req.tagName)
+                var questionPart = await _context.Questions
+                                       .Where(q => q.ExamId == _req.examId && q.QuestionTag == _req.tagName)
+                                       .ToListAsync();
+                if (questionPart != null)
                 {
-                    var questionPart2 = await _context.Questions
-                                                      .Where(q => q.LessonId == _req.lessonId)
-                                                      .ToListAsync();
-
-                    var Part3Response = questionPart2.Select(p => new Part3Response
+                    var part3Response = questionPart.Select(p => new Part3Response
                     {
                         questionId = p.QuestionId,
                         questionText = p.QuestionText,
@@ -169,14 +154,14 @@ namespace study4_be.Controllers.API
                         optionA = p.OptionA,
                         optionB = p.OptionB,
                         optionC = p.OptionC,
-                        optionD =p.OptionD,
-                    });
-
-                    return Json(new { status = 200, message = "Get_ExamPart3 successful", Part3Response });
+                        optionD = p.OptionD,
+                        
+                    }).ToList();
+                    return Json(new { status = 200, message = "Get_ExamPart3 successful", part3Response });
                 }
                 else
                 {
-                    return BadRequest(new { status = 404, message = "Tag không khớp hoặc không tìm thấy." });
+                    return BadRequest(new { status = 404, message = $"Tag không khớp hoặc Không có Exam không có {_req.tagName}." });
                 }
             }
             catch (Exception ex)
@@ -190,17 +175,12 @@ namespace study4_be.Controllers.API
         {
             try
             {
-                var lessonTag = await _context.Lessons
-                                       .Where(q => q.LessonId == _req.lessonId)
-                                       .Select(t => t.TagId)
-                                       .FirstOrDefaultAsync();
-                if (lessonTag == _req.tagName)
+                var questionPart = await _context.Questions
+                                       .Where(q => q.ExamId == _req.examId && q.QuestionTag == _req.tagName)
+                                       .ToListAsync();
+                if (questionPart != null)
                 {
-                    var questionPart2 = await _context.Questions
-                                                      .Where(q => q.LessonId == _req.lessonId)
-                                                      .ToListAsync();
-
-                    var Part4Response = questionPart2.Select(p => new Part4Response
+                    var part4Response = questionPart.Select(p => new Part4Response
                     {
                         questionId = p.QuestionId,
                         questionText = p.QuestionText,
@@ -210,13 +190,13 @@ namespace study4_be.Controllers.API
                         optionB = p.OptionB,
                         optionC = p.OptionC,
                         optionD = p.OptionD,
-                    });
 
-                    return Json(new { status = 200, message = "Get_ExamPart4 successful", Part4Response });
+                    }).ToList();
+                    return Json(new { status = 200, message = "Get_ExamPart4 successful", part4Response });
                 }
                 else
                 {
-                    return BadRequest(new { status = 404, message = "Tag không khớp hoặc không tìm thấy." });
+                    return BadRequest(new { status = 404, message = $"Tag không khớp hoặc Không có Exam không có {_req.tagName}." });
                 }
             }
             catch (Exception ex)
@@ -230,17 +210,12 @@ namespace study4_be.Controllers.API
         {
             try
             {
-                var lessonTag = await _context.Lessons
-                                       .Where(q => q.LessonId == _req.lessonId)
-                                       .Select(t => t.TagId)
-                                       .FirstOrDefaultAsync();
-                if (lessonTag == _req.tagName)
+                var questionPart = await _context.Questions
+                                       .Where(q => q.ExamId == _req.examId && q.QuestionTag == _req.tagName)
+                                       .ToListAsync();
+                if (questionPart != null)
                 {
-                    var questionPart2 = await _context.Questions
-                                                      .Where(q => q.LessonId == _req.lessonId)
-                                                      .ToListAsync();
-
-                    var Part5Response = questionPart2.Select(p => new Part5Response
+                    var part5Response = questionPart.Select(p => new Part5Response
                     {
                         questionId = p.QuestionId,
                         questionText = p.QuestionText,
@@ -249,13 +224,12 @@ namespace study4_be.Controllers.API
                         optionB = p.OptionB,
                         optionC = p.OptionC,
                         optionD = p.OptionD,
-                    });
-
-                    return Json(new { status = 200, message = "Get_ExamPart5 successful", Part5Response });
+                    }).ToList();
+                    return Json(new { status = 200, message = "Get_ExamPart5 successful", part5Response });
                 }
                 else
                 {
-                    return BadRequest(new { status = 404, message = "Tag không khớp hoặc không tìm thấy." });
+                    return BadRequest(new { status = 404, message = $"Tag không khớp hoặc Không có Exam không có {_req.tagName}." });
                 }
             }
             catch (Exception ex)
@@ -269,17 +243,12 @@ namespace study4_be.Controllers.API
         {
             try
             {
-                var lessonTag = await _context.Lessons
-                                       .Where(q => q.LessonId == _req.lessonId)
-                                       .Select(t => t.TagId)
-                                       .FirstOrDefaultAsync();
-                if (lessonTag == _req.tagName)
+                var questionPart = await _context.Questions
+                                       .Where(q => q.ExamId == _req.examId && q.QuestionTag == _req.tagName)
+                                       .ToListAsync();
+                if (questionPart != null && questionPart.Any())
                 {
-                    var questionPart2 = await _context.Questions
-                                                      .Where(q => q.LessonId == _req.lessonId)
-                                                      .ToListAsync();
-
-                    var Part6Response = questionPart2.Select(p => new Part6Response
+                    var part6Responses = questionPart.Select(p => new Part6Response
                     {
                         questionId = p.QuestionId,
                         questionImage = p.QuestionImage,
@@ -288,13 +257,13 @@ namespace study4_be.Controllers.API
                         optionB = p.OptionB,
                         optionC = p.OptionC,
                         optionD = p.OptionD,
-                    });
+                    }).ToList();
 
-                    return Json(new { status = 200, message = "Get_ExamPart6 successful", Part6Response });
+                    return Json(new { status = 200, message = "Get_ExamPart6 successful", part6Responses });
                 }
                 else
                 {
-                    return BadRequest(new { status = 404, message = "Tag không khớp hoặc không tìm thấy." });
+                    return BadRequest(new { status = 404, message = $"Tag không khớp hoặc Không có Exam không có {_req.tagName}." });
                 }
             }
             catch (Exception ex)
@@ -308,40 +277,33 @@ namespace study4_be.Controllers.API
         {
             try
             {
-                var lessonTag = await _context.Lessons
-                                       .Where(q => q.LessonId == _req.lessonId)
-                                       .Select(t => t.TagId)
+                var questionPart = await _context.Questions
+                                       .Where(q => q.ExamId == _req.examId && q.QuestionTag == _req.tagName)
                                        .FirstOrDefaultAsync();
-                if (lessonTag == _req.tagName)
+                if (questionPart != null)
                 {
-                    var questionPart2 = await _context.Questions
-                                                      .Where(q => q.LessonId == _req.lessonId)
-                                                      .ToListAsync();
-
-                    var Part7Response = questionPart2.Select(p => new Part7Response
+                    var part7Response = new Part7Response
                     {
-                        questionId = p.QuestionId,
-                        questionText = p.QuestionText,
-                        questionImage = p.QuestionImage,
-                        correctAnswear = p.CorrectAnswer,
-                        optionA = p.OptionA,
-                        optionB = p.OptionB,
-                        optionC = p.OptionC,
-                        optionD = p.OptionD,
-                    });
-
-                    return Json(new { status = 200, message = "Get_ExamPart7 successful", Part7Response });
+                        questionId = questionPart.QuestionId,
+                        questionText = questionPart.QuestionText,
+                        questionImage = questionPart.QuestionImage,
+                        correctAnswear = questionPart.CorrectAnswer,
+                        optionA = questionPart.OptionA,
+                        optionB = questionPart.OptionB,
+                        optionC = questionPart.OptionC,
+                        optionD = questionPart.OptionD,
+                    };
+                    return Json(new { status = 200, message = "Get_ExamPart7 successful", part7Response });
                 }
                 else
                 {
-                    return BadRequest(new { status = 404, message = "Tag không khớp hoặc không tìm thấy." });
+                    return BadRequest(new { status = 404, message = $"Tag không khớp hoặc Không có Exam không có {_req.tagName}." });
                 }
             }
             catch (Exception ex)
             {
                 return BadRequest(ex);
             }
-
         }
 
         [HttpPost("SubmitExam")] 
