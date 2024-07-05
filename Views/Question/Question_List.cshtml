@@ -56,12 +56,12 @@
         <table class="table">
             <thead class="table-info">
                 <tr>
+                    <th>Question Image</th>
                     <th>Question Id</th>
                     <th>Question Text</th>
                     <th>Question Paragraph</th>
                     <th>Question AUDIO</th>
                     <th>Question Translate</th>
-                    <th>Question Image</th>
                     <th>Answer</th>
                     <th>A</th>
                     <th>B</th>
@@ -79,6 +79,9 @@
                 @foreach (var item in Model)
                 {
                     <tr>
+                        <td>
+                            <img style="border-radius:0%!important" src="@Url.Content(@item.question.QuestionImage)" height="150" width="150" id="previewImg" />
+                        </td>
                         <td>
                             <p>@item.question.QuestionId</p>
                         </td>

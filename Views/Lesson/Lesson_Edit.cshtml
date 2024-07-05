@@ -1,4 +1,5 @@
-﻿@model study4_be.Models.Lesson
+﻿@model study4_be.Models.ViewModel.LessonEditViewModel
+
 <style>
     .flex {
         margin-top: 20px;
@@ -7,23 +8,27 @@
     }
 </style>
 
-
 <div class="form-horizontal">
     <h4>Lesson</h4>
     <hr />
     <div class="card-body">
         <p class="card-description"> Edit</p>
         <form asp-action="Lesson_Edit" method="post" enctype="multipart/form-data" class="forms-sample">
-            <input type="hidden" asp-for="LessonId" />
+            <input type="hidden" asp-for="lesson.LessonId" />
             <div class="form-group">
                 <label for="LessonType">LessonType</label>
-                <input asp-for="LessonType" class="form-control" />
-                <span asp-validation-for="LessonType" class="text-danger"></span>
+                <input asp-for="lesson.LessonType" class="form-control" />
+                <span asp-validation-for="lesson.LessonType" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label for="LessonTitle">LessonTitle</label>
-                <input asp-for="LessonTitle" class="form-control" />
-                <span asp-validation-for="LessonTitle" class="text-danger"></span>
+                <input asp-for="lesson.LessonTitle" class="form-control" />
+                <span asp-validation-for="lesson.LessonTitle" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="lesson.TagId">Tag Tittle</label>
+                <select asp-for="lesson.TagId" class="form-control" asp-items="Model.tags"></select>
+                <span asp-validation-for="lesson.TagId" class="text-danger"></span>
             </div>
             <div class="flex">
                 <button type="submit" class="btn btn-gradient-primary me-2">Submit</button>

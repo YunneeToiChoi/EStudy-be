@@ -88,8 +88,6 @@ namespace study4_be.Controllers.Admin
                     LessonTitle = lessonViewModel.lesson.LessonTitle,
                     ContainerId = lessonViewModel.lesson.ContainerId,
                     TagId = lessonViewModel.lesson.TagId,
-
-                    // map other properties if needed
                 };
 
                 await _context.AddAsync(lesson);
@@ -167,17 +165,31 @@ namespace study4_be.Controllers.Admin
             {
                 return NotFound();
             }
-            return View(lesson);
+
+            var tags = _context.Tags.ToList();
+            var selectListTags = tags.Select(tag => new SelectListItem
+            {
+                Value = tag.TagId.ToString(),
+                Text = tag.TagId
+            }).ToList();
+
+            var viewModel = new LessonEditViewModel
+            {
+                lesson = lesson,
+                tags = selectListTags
+            };
+
+            return View(viewModel);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Lesson_Edit(Lesson lesson)
+        public async Task<IActionResult> Lesson_Edit(LessonEditViewModel lessonViewModel)
         {
-            if (ModelState.IsValid)
-            {
-                var courseToUpdate = _context.Lessons.FirstOrDefault(c => c.LessonId == lesson.LessonId);
-                courseToUpdate.LessonTitle = lesson.LessonTitle;
-                courseToUpdate.LessonType = lesson.LessonType;
+     
+                var lessonToUpdate = _context.Lessons.FirstOrDefault(c => c.LessonId == lessonViewModel.lesson.LessonId);
+                lessonToUpdate.LessonTitle = lessonViewModel.lesson.LessonTitle;
+                lessonToUpdate.LessonType = lessonViewModel.lesson.LessonType;
+                lessonToUpdate.TagId = lessonViewModel.lesson.TagId;
                 try
                 {
                     _context.SaveChanges();
@@ -185,11 +197,10 @@ namespace study4_be.Controllers.Admin
                 }
                 catch (Exception ex)
                 {
-                    _logger.LogError($"Error updating course with ID {lesson.LessonId}: {ex.Message}");
+                    _logger.LogError($"Error updating course with ID {lessonViewModel.lesson.LessonId}: {ex.Message}");
                     ModelState.AddModelError(string.Empty, "An error occurred while updating the course.");
                 }
-            }
-            return View(lesson);
+            return View(lessonViewModel);
         }
         public IActionResult Lesson_Details(int id)
         {

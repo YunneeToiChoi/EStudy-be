@@ -2,7 +2,7 @@
 {
     public class Part2Request
     {
-        public int lessonId {  get; set; }   
+        public string examId { get; set; }  
         public string tagName { get; set; } 
     }
 }
