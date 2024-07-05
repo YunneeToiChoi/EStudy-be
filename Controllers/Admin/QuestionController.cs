@@ -34,6 +34,7 @@ namespace study4_be.Controllers.Admin
             try
             {
                 var questions = await _context.Questions
+                        .Where(q => q.ExamId == null)
                     .Include(v => v.Lesson)
                     .ThenInclude(l => l.Container)
                         .ThenInclude(c => c.Unit)
