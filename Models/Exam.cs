@@ -7,8 +7,8 @@ namespace study4_be.Models
     {
         public Exam()
         {
-            UsersExams = new HashSet<UsersExam>();
             Questions = new HashSet<Question>();
+            UsersExams = new HashSet<UsersExam>();
         }
 
         public string ExamId { get; set; } = null!;
@@ -16,8 +16,7 @@ namespace study4_be.Models
         public string? ExamImage { get; set; }
         public string? ExamName { get; set; }
 
-        public virtual ICollection<UsersExam> UsersExams { get; set; }
-
         public virtual ICollection<Question> Questions { get; set; }
+        public virtual ICollection<UsersExam> UsersExams { get; set; }
     }
 }

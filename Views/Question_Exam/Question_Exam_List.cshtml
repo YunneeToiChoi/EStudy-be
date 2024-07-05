@@ -1,0 +1,98 @@
+﻿@model IEnumerable<study4_be.Models.ViewModel.QuestionExamListVIewModel>
+
+
+<style>
+    .item {
+        overflow: hidden;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+        max-width: 100px
+    }
+
+    .text-btn-admin {
+        text-decoration: none;
+        color: white;
+    }
+
+    .search__input {
+        width: 100%;
+        padding: 10px;
+    }
+
+    .adSearch__container {
+        display: flex;
+        margin: 20px 0px;
+    }
+
+    #searchByContainerTitle, #searchByUnitTitle, #searchByCourseTitle, #searchByLessonTitle {
+        margin: 0px 10px;
+    }
+
+</style>
+
+<h2 style="text-align:center">LIST QUESTIONS EXAM</h2>
+<button class="btn btn-block btn-lg btn-gradient-primary mt-4"> @Html.ActionLink("+ Add Question", "Question_Exam_Create", "Question_Exam", null, new { @class = "text-btn-admin" })</button>
+<div class="card">
+    <div class="card-body">
+        <table class="table">
+            <thead class="table-info">
+                <tr>
+                    <th>Question Id</th>
+                    <th>Question Text</th>
+                    <th>Question Paragraph</th>
+                    <th>Question Image</th>
+                    <th>Answer</th>
+                    <th>A</th>
+                    <th>B</th>
+                    <th>C</th>
+                    <th>D</th>
+                    <th>Tag</th>
+                    <th>Options</th>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            <p>@item.question.QuestionId</p>
+                        </td>
+                        <td class="item">
+                            <p>@item.question.QuestionText</p>
+                        </td>
+                        <td class="item">
+                            <p>@item.question.QuestionParagraph</p>
+                        </td>
+                        <td>
+                            <p>@item.question.QuestionImage</p>
+                        </td>
+                        <td class="item">
+                            <p>@item.question.CorrectAnswer</p>
+                        </td>
+                        <td class="item">
+                            <p>@item.question.OptionA</p>
+                        </td>
+                        <td class="item">
+                            <p>@item.question.OptionB</p>
+                        </td>
+                        <td class="item">
+                            <p>@item.question.OptionC</p>
+                        </td>
+                        <td class="item">
+                            <p>@item.question.OptionD</p>
+                        </td> 
+                        <td class="item">
+                            <p>@item.question.QuestionTag</p>
+                        </td> 
+                        <td>
+                            <a href="@Url.ActionLink("Question_Exam_Edit","Question_Exam",new { id = item.question.QuestionId })" class="text-link-action">Sửa</a>
+                            <span style="padding:0 8px">|</span>
+                            <a href="@Url.ActionLink("Question_Exam_Delete","Question_Exam",new { id = item.question.QuestionId })" class="text-link-action">Xóa</a>
+                            <span style="padding:0 8px">|</span>
+                            <a href="@Url.ActionLink("Question_Exam_Details","Question_Exam",new { id = item.question.QuestionId })" class="text-link-action">Chi tiết</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

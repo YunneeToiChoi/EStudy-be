@@ -39,8 +39,7 @@ namespace study4_be.Models
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                //optionsBuilder.UseSqlServer("Data Source=LAPTOP-62MKG1UJ;Initial Catalog=STUDY4;Integrated Security=True;Trust Server Certificate=True");
-                optionsBuilder.UseSqlServer("Server=tcp:eu-az-sql-serv1.database.windows.net,1433;Initial Catalog=dhg7j87tg1pusg4;Persist Security Info=False;User ID=uwgdxq29hpow6g5;Password=IbDMPbfFDSqhd4kWlRk0W3cz*;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30; ");
+                optionsBuilder.UseSqlServer("Data Source=LAPTOP-62MKG1UJ;Initial Catalog=STUDY4;Integrated Security=True;Trust Server Certificate=True");
             }
         }
 
@@ -204,6 +203,11 @@ namespace study4_be.Models
                     .HasMaxLength(100)
                     .HasColumnName("CORRECT_ANSWER");
 
+                entity.Property(e => e.ExamId)
+                    .HasMaxLength(100)
+                    .IsUnicode(false)
+                    .HasColumnName("Exam_Id");
+
                 entity.Property(e => e.LessonId).HasColumnName("LESSON_ID");
 
                 entity.Property(e => e.OptionA)
@@ -246,37 +250,25 @@ namespace study4_be.Models
 
                 entity.Property(e => e.QuestionParagraphMean).HasColumnName("QUESTION_PARAGRAPH_MEAN");
 
+                entity.Property(e => e.QuestionTag)
+                    .HasMaxLength(100)
+                    .HasColumnName("QUESTION_TAG");
+
                 entity.Property(e => e.QuestionText).HasColumnName("QUESTION_TEXT");
 
                 entity.Property(e => e.QuestionTextMean).HasColumnName("QUESTION_TEXT_MEAN");
 
                 entity.Property(e => e.QuestionTranslate).HasColumnName("QUESTION_TRANSLATE");
 
-                entity.Property(e => e.QuestionType)
-                    .HasMaxLength(100)
-                    .HasColumnName("QUESTION_TYPE");
+                entity.HasOne(d => d.Exam)
+                    .WithMany(p => p.Questions)
+                    .HasForeignKey(d => d.ExamId)
+                    .HasConstraintName("FK_QUESTION_EXAM");
 
                 entity.HasOne(d => d.Lesson)
                     .WithMany(p => p.Questions)
                     .HasForeignKey(d => d.LessonId)
                     .HasConstraintName("FK_QUESTION_LESSON");
-
-                entity.HasMany(d => d.Exams)
-                    .WithMany(p => p.Questions)
-                    .UsingEntity<Dictionary<string, object>>(
-                        "QuestionExam",
-                        l => l.HasOne<Exam>().WithMany().HasForeignKey("ExamId").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK_QUESTION_EXAM_Exam"),
-                        r => r.HasOne<Question>().WithMany().HasForeignKey("QuestionId").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK_QUESTION_EXAM_QUESTION"),
-                        j =>
-                        {
-                            j.HasKey("QuestionId", "ExamId");
-
-                            j.ToTable("QUESTION_EXAM");
-
-                            j.IndexerProperty<int>("QuestionId").HasColumnName("QUESTION_ID");
-
-                            j.IndexerProperty<string>("ExamId").HasMaxLength(100).IsUnicode(false).HasColumnName("EXAM_ID");
-                        });
             });
 
             modelBuilder.Entity<Rating>(entity =>
