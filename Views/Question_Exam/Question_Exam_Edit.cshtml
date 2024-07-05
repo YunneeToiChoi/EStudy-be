@@ -1,4 +1,4 @@
-﻿@model study4_be.Models.Question
+﻿@model study4_be.Models.ViewModel.QuestionExamEditViewModel
 <style>
     .flex {
         margin-top: 20px;
@@ -14,52 +14,52 @@
     <div class="card-body">
         <p class="card-description"> Edit</p>
         <form asp-action="Question_Exam_Edit" method="post" enctype="multipart/form-data" class="forms-sample">
-            <input type="hidden" asp-for="QuestionId" />
+            <input type="hidden" asp-for="question.QuestionId" />
             <div class="form-group">
-                <label for="QuestionText">QuestionText</label>
-                <input asp-for="QuestionText" class="form-control" />
-                <span asp-validation-for="QuestionText" class="text-danger"></span>
+                <label for="question.QuestionText">QuestionText</label>
+                <input asp-for="question.QuestionText" class="form-control" />
+                <span asp-validation-for="question.QuestionText" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label for="QuestionParagraph">QuestionParagraph</label>
-                <input asp-for="QuestionParagraph" class="form-control" />
-                <span asp-validation-for="QuestionParagraph" class="text-danger"></span>
+                <input asp-for="question.QuestionParagraph" class="form-control" />
+                <span asp-validation-for="question.QuestionParagraph" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label for="OptionA">OptionA</label>
-                <input asp-for="OptionA" class="form-control" />
-                <span asp-validation-for="OptionA" class="text-danger"></span>
+                <input asp-for="question.OptionA" class="form-control" />
+                <span asp-validation-for="question.OptionA" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label for="OptionB">OptionB</label>
-                <input asp-for="OptionB" class="form-control" />
-                <span asp-validation-for="OptionB" class="text-danger"></span>
+                <input asp-for="question.OptionB" class="form-control" />
+                <span asp-validation-for="question.OptionB" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label for="OptionC">OptionC</label>
-                <input asp-for="OptionC" class="form-control" />
-                <span asp-validation-for="OptionC" class="text-danger"></span>
+                <input asp-for="question.OptionC" class="form-control" />
+                <span asp-validation-for="question.OptionC" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label for="OptionD">OptionD</label>
-                <input asp-for="OptionD" class="form-control" />
-                <span asp-validation-for="OptionD" class="text-danger"></span>
+                <input asp-for="question.OptionD" class="form-control" />
+                <span asp-validation-for="question.OptionD" class="text-danger"></span>
             </div>
 
             <div class="form-group">
                 <label for="CorrectAnswer">Select Answer:</label>
-                <select asp-for="CorrectAnswer" class="form-control">
+                <select asp-for="question.CorrectAnswer" class="form-control">
                     <option value="A">A</option>
                     <option value="B">B</option>
                     <option value="C">C</option>
                     <option value="D">D</option>
                 </select>
-                <span asp-validation-for="CorrectAnswer" class="text-danger"></span>
+                <span asp-validation-for="question.CorrectAnswer" class="text-danger"></span>
             </div>
 
             <div class="form-group">
                 <label for="QuestionTag">Select Part:</label>
-                <select asp-for="QuestionTag" class="form-control">
+                <select asp-for="question.QuestionTag" class="form-control">
                     <option value="Part 1">Part 1</option>
                     <option value="Part 2">Part 2</option>
                     <option value="Part 3">Part 3</option>
@@ -68,12 +68,17 @@
                     <option value="Part 6">Part 6</option>
                     <option value="Part 7">Part 7</option>
                 </select>
-                <span asp-validation-for="QuestionTag" class="text-danger"></span>
+                <span asp-validation-for="question.QuestionTag" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label>File upload</label>
-                <img src="@Model.QuestionImage" height="150" width="150" id="previewImg" />
-                <input asp-for="QuestionImage" type="file" name="QuestionImage" onchange="ChangeImage(this, document.getElementById('previewImg'))" />
+                <img src="question.QuestionImage" height="150" width="150" id="previewImg" />
+                <input asp-for="question.QuestionImage" type="file" name="QuestionImage" onchange="ChangeImage(this, document.getElementById('previewImg'))" />
+            </div>
+            <div class="form-group">
+                <label asp-for="question.ExamId">Exam</label>
+                <select asp-for="question.ExamId" class="form-control" asp-items="Model.exam"></select>
+                <span asp-validation-for="question.ExamId" class="text-danger"></span>
             </div>
             <div class="flex">
                 <button type="submit" class="btn btn-gradient-primary me-2">Submit</button>
