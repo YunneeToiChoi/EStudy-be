@@ -5,11 +5,6 @@ namespace study4_be.Models
 {
     public partial class Question
     {
-        public Question()
-        {
-            Exams = new HashSet<Exam>();
-        }
-
         public int QuestionId { get; set; }
         public int? LessonId { get; set; }
         public string? QuestionText { get; set; }
@@ -28,10 +23,10 @@ namespace study4_be.Models
         public string? OptionMeanB { get; set; }
         public string? OptionMeanC { get; set; }
         public string? OptionMeanD { get; set; }
-        public string? QuestionType { get; set; }
+        public string? QuestionTag { get; set; }
+        public string? ExamId { get; set; }
 
+        public virtual Exam? Exam { get; set; }
         public virtual Lesson? Lesson { get; set; }
-
-        public virtual ICollection<Exam> Exams { get; set; }
     }
 }

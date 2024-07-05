@@ -106,8 +106,6 @@ namespace study4_be.Controllers.Admin
         [HttpPost]
         public async Task<IActionResult> Course_Edit(Course course, IFormFile CourseImage)
         {
-            if (ModelState.IsValid)
-            {
                 var courseToUpdate = _context.Courses.FirstOrDefault(c => c.CourseId == course.CourseId);
                 if (CourseImage != null && CourseImage.Length > 0)
                 {
@@ -122,13 +120,20 @@ namespace study4_be.Controllers.Admin
                     var uniqueId = Guid.NewGuid().ToString();
                     var imgFilePath = ($"IMG{uniqueId}.jpg");
                     string firebaseUrl = await _fireBaseServices.UploadFileToFirebaseStorageAsync(CourseImage, imgFilePath, firebaseBucketName);
-                    course.CourseImage = firebaseUrl;
+                    courseToUpdate.CourseName = course.CourseName;
+                    courseToUpdate.CourseDescription = course.CourseDescription;
+                    courseToUpdate.CoursePrice = course.CoursePrice;
+                    courseToUpdate.CourseTag = course.CourseTag;
+                    courseToUpdate.CourseImage = firebaseUrl;
                 }
-                courseToUpdate.CourseName = course.CourseName;
-                courseToUpdate.CourseDescription = course.CourseDescription;
-                courseToUpdate.CoursePrice = course.CoursePrice;
-                courseToUpdate.CourseTag = course.CourseTag;
-                courseToUpdate.CourseImage = course.CourseImage;
+                else
+                {
+                    courseToUpdate.CourseName = course.CourseName;
+                    courseToUpdate.CourseDescription = course.CourseDescription;
+                    courseToUpdate.CoursePrice = course.CoursePrice;
+                    courseToUpdate.CourseTag = course.CourseTag;
+                    courseToUpdate.CourseImage = courseToUpdate.CourseImage;
+                }
                 try
                 {
                     _context.SaveChanges();
@@ -139,7 +144,6 @@ namespace study4_be.Controllers.Admin
                     _logger.LogError($"Error updating course with ID {course.CourseId}: {ex.Message}");
                     ModelState.AddModelError(string.Empty, "An error occurred while updating the course.");
                 }
-            }
             return View(course);
         }
         [HttpGet]

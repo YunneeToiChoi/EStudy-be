@@ -204,6 +204,11 @@ namespace study4_be.Models
                     .HasMaxLength(100)
                     .HasColumnName("CORRECT_ANSWER");
 
+                entity.Property(e => e.ExamId)
+                    .HasMaxLength(100)
+                    .IsUnicode(false)
+                    .HasColumnName("Exam_Id");
+
                 entity.Property(e => e.LessonId).HasColumnName("LESSON_ID");
 
                 entity.Property(e => e.OptionA)
@@ -246,37 +251,25 @@ namespace study4_be.Models
 
                 entity.Property(e => e.QuestionParagraphMean).HasColumnName("QUESTION_PARAGRAPH_MEAN");
 
+                entity.Property(e => e.QuestionTag)
+                    .HasMaxLength(100)
+                    .HasColumnName("QUESTION_TAG");
+
                 entity.Property(e => e.QuestionText).HasColumnName("QUESTION_TEXT");
 
                 entity.Property(e => e.QuestionTextMean).HasColumnName("QUESTION_TEXT_MEAN");
 
                 entity.Property(e => e.QuestionTranslate).HasColumnName("QUESTION_TRANSLATE");
 
-                entity.Property(e => e.QuestionType)
-                    .HasMaxLength(100)
-                    .HasColumnName("QUESTION_TYPE");
+                entity.HasOne(d => d.Exam)
+                    .WithMany(p => p.Questions)
+                    .HasForeignKey(d => d.ExamId)
+                    .HasConstraintName("FK_QUESTION_EXAM");
 
                 entity.HasOne(d => d.Lesson)
                     .WithMany(p => p.Questions)
                     .HasForeignKey(d => d.LessonId)
                     .HasConstraintName("FK_QUESTION_LESSON");
-
-                entity.HasMany(d => d.Exams)
-                    .WithMany(p => p.Questions)
-                    .UsingEntity<Dictionary<string, object>>(
-                        "QuestionExam",
-                        l => l.HasOne<Exam>().WithMany().HasForeignKey("ExamId").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK_QUESTION_EXAM_Exam"),
-                        r => r.HasOne<Question>().WithMany().HasForeignKey("QuestionId").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK_QUESTION_EXAM_QUESTION"),
-                        j =>
-                        {
-                            j.HasKey("QuestionId", "ExamId");
-
-                            j.ToTable("QUESTION_EXAM");
-
-                            j.IndexerProperty<int>("QuestionId").HasColumnName("QUESTION_ID");
-
-                            j.IndexerProperty<string>("ExamId").HasMaxLength(100).IsUnicode(false).HasColumnName("EXAM_ID");
-                        });
             });
 
             modelBuilder.Entity<Rating>(entity =>

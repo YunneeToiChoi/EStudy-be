@@ -22,15 +22,25 @@
                 </h4>
                 <p class="mb-5">@Html.DisplayFor(model => model.QuestionId)</p>
                 <div style="padding:20px"></div>
+
+
+                <h4 class="font-weight-normal mb-3" style="display:flex;align-items:center;justify-content:center">
+                    ExamId<i style="padding-left:10px" class="mdi mdi-account-card-details"></i>
+                </h4>
+                <p class="mb-5">@Html.DisplayFor(model => model.ExamId)</p>
+                <div style="padding:20px"></div> 
+
+                <h4 class="font-weight-normal mb-3" style="display:flex;align-items:center;justify-content:center">
+                    PART <i style="padding-left:10px" class="mdi mdi-account-card-details"></i>
+                </h4>
+                <p class="mb-5">@Html.DisplayFor(model => model.QuestionTag)</p>
+                <div style="padding:20px"></div>
+
+
                 <h4 class="font-weight-normal mb-3" style="display:flex;align-items:center;justify-content:center">
                     QUESTION_TEXT<i style="padding-left:10px" class="mdi mdi-account-card-details"></i>
                 </h4>
                 <p class="mb-5">@Html.DisplayFor(model => model.QuestionText)</p>
-                <div style="padding:20px"></div>    
-                <h4 class="font-weight-normal mb-3" style="display:flex;align-items:center;justify-content:center">
-                    QuestionTextMean<i style="padding-left:10px" class="mdi mdi-account-card-details"></i>
-                </h4>
-                <p class="mb-5">@Html.DisplayFor(model => model.QuestionTextMean)</p>
                 <div style="padding:20px"></div>
                 <h4 class="font-weight-normal mb-3" style="display:flex;align-items:center;justify-content:center">
                     QuestionImage<i style="padding-left:10px" class="mdi mdi-account-card-details"></i>
@@ -40,17 +50,7 @@
                 <h4 class="font-weight-normal mb-3" style="display:flex;align-items:center;justify-content:center">
                     QuestionParagraph<i style="padding-left:10px" class="mdi mdi-account-card-details"></i>
                 </h4>
-                <p class="mb-5">@Html.DisplayFor(model => model.QuestionParagraph)</p>  
-                <div style="padding:20px"></div>
-                <h4 class="font-weight-normal mb-3" style="display:flex;align-items:center;justify-content:center">
-                    QuestionParagraphMean<i style="padding-left:10px" class="mdi mdi-account-card-details"></i>
-                </h4>
-                <p class="mb-5">@Html.DisplayFor(model => model.QuestionParagraphMean)</p>
-                <div style="padding:20px"></div>
-                <h4 class="font-weight-normal mb-3" style="display:flex;align-items:center;justify-content:center">
-                    QuestionTranslate<i style="padding-left:10px" class="mdi mdi-account-card-details"></i>
-                </h4>
-                <p class="mb-5">@Html.DisplayFor(model => model.QuestionTranslate)</p>
+                <p class="mb-5">@Html.DisplayFor(model => model.QuestionParagraph)</p>
                 <div style="padding:20px"></div>
                 <h4 class="font-weight-normal mb-3" style="display:flex;align-items:center;justify-content:center">
                     CORRECT_ANSWER<i style="padding-left:10px" class="mdi mdi-account-card-details"></i>
@@ -59,41 +59,25 @@
                 <h4 class="font-weight-normal mb-3" style="display:flex;align-items:center;justify-content:center">
                     OPTION_A<i style="padding-left:10px" class="mdi mdi-account-card-details"></i>
                 </h4>
-                <p class="mb-5">@Html.DisplayFor(model => model.OptionA)</p>   
-                <h4 class="font-weight-normal mb-3" style="display:flex;align-items:center;justify-content:center">
-                    OPTION_A_Mean<i style="padding-left:10px" class="mdi mdi-account-card-details"></i>
-                </h4>
-                <p class="mb-5">@Html.DisplayFor(model => model.OptionMeanA)</p>
+                <p class="mb-5">@Html.DisplayFor(model => model.OptionA)</p>
                 <h4 class="font-weight-normal mb-3" style="display:flex;align-items:center;justify-content:center">
                     OPTION_B<i style="padding-left:10px" class="mdi mdi-account-card-details"></i>
                 </h4>
-                <p class="mb-5">@Html.DisplayFor(model => model.OptionB)</p>    
-                <h4 class="font-weight-normal mb-3" style="display:flex;align-items:center;justify-content:center">
-                    OptionMeanB<i style="padding-left:10px" class="mdi mdi-account-card-details"></i>
-                </h4>
-                <p class="mb-5">@Html.DisplayFor(model => model.OptionMeanB)</p>
+                <p class="mb-5">@Html.DisplayFor(model => model.OptionB)</p>
                 <h4 class="font-weight-normal mb-3" style="display:flex;align-items:center;justify-content:center">
                     OPTION_C<i style="padding-left:10px" class="mdi mdi-account-card-details"></i>
                 </h4>
                 <p class="mb-5">@Html.DisplayFor(model => model.OptionC)</p>
                 <h4 class="font-weight-normal mb-3" style="display:flex;align-items:center;justify-content:center">
-                    OptionMeanC<i style="padding-left:10px" class="mdi mdi-account-card-details"></i>
-                </h4>
-                <p class="mb-5">@Html.DisplayFor(model => model.OptionMeanC)</p>
-                <h4 class="font-weight-normal mb-3" style="display:flex;align-items:center;justify-content:center">
                     OPTION_D<i style="padding-left:10px" class="mdi mdi-account-card-details"></i>
                 </h4>
                 <p class="mb-5">@Html.DisplayFor(model => model.OptionD)</p>
-                <h4 class="font-weight-normal mb-3" style="display:flex;align-items:center;justify-content:center">
-                    OptionMeanD<i style="padding-left:10px" class="mdi mdi-account-card-details"></i>
-                </h4>
-                <p class="mb-5">@Html.DisplayFor(model => model.OptionMeanD)</p>
             </div>
         </div>
         <div style="padding:20px"></div>
         <div class="form-actions no-color">
-            @Html.ActionLink("Edit", "Question_Edit", "Question", new { id = Model.QuestionId }, new { @class = "btn btn-light me-2 course__details-btn" })
-            @Html.ActionLink("Cancel", "Question_List", "Question", null, new { @class = "btn btn-light course__details-btn" })
+            @Html.ActionLink("Edit", "Question_Exam_Edit", "Question_Exam", new { id = Model.QuestionId }, new { @class = "btn btn-light me-2 course__details-btn" })
+            @Html.ActionLink("Cancel", "Question_Exam_List", "Question_Exam", null, new { @class = "btn btn-light course__details-btn" })
         </div>
     </dl>
 </div>

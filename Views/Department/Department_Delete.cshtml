@@ -7,7 +7,7 @@
     <div>
         <h4>@Model.DepartmentName</h4>
     </div>
-    <form asp-action="Course_Delete">
+    <form asp-action="Department_Delete">
         <input type="hidden" asp-for="DepartmentId" />
         <button type="submit" class="btn btn-danger">Delete</button>
         @Html.ActionLink("Cancel", "Department_List", null, new { @class = "btn btn-light" })
