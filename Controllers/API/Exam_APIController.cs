@@ -44,13 +44,13 @@ namespace study4_be.Controllers.API
             {
                 var exams = await _context.Exams.Where(u => u.ExamId == _req.examId).FirstOrDefaultAsync();
                 var userExam = await _context.UsersExams.Where(u => u.UserId == _req.userId && u.ExamId == _req.examId).ToListAsync();
-                if (userExam != null)
+                if (userExam != null && userExam.Count()>0)
                 {
-                    return Json(new { status = 200, message = "Get Exam Detail By Id ", exams, userExam });
+                    return Json(new { status = 200, message = "Get Exam Detail By Id ", exams });
                 }
                 else
                 {
-                    return Json(new { status = 200, message = "Get Exam Detail By Id ", exams, userExam = "User hadn't learn this exam before " });
+                    return Json(new { status = 200, message = "Get Exam Detail By Id ", exams, userExam = "" });
                 }
             }
             catch(Exception ex)
@@ -325,17 +325,27 @@ namespace study4_be.Controllers.API
         {
             try
             {
-                var existExam = _context.Exams.Where(e => e.ExamId == _req.examId).FirstOrDefaultAsync();
-                var newUserExam = new UsersExam
+                var existExam = await _context.Exams.Where(e => e.ExamId == _req.examId).FirstOrDefaultAsync();
+                if(existExam != null)
                 {
-                    ExamId = _req.examId,
-                    DateTime = DateTime.Now,
-                    State = true,
-                    Score = _req.score,
-                    UserId = _req.userId,
-                    UserExamId = Guid.NewGuid().ToString(),
-            };
-                return Json(new { status = 200, message = "Submit Exam Successfull ", userExam = newUserExam });
+                    var newUserExam = new UsersExam
+                    {
+                        ExamId = _req.examId,
+                        DateTime = DateTime.Now,
+                        State = true,
+                        Score = _req.score,
+                        UserId = _req.userId,
+                        UserExamId = Guid.NewGuid().ToString(),
+                    };
+                    await _context.UsersExams.AddAsync(newUserExam);
+                    await _context.SaveChangesAsync();
+                    return Json(new { status = 200, message = "Submit Exam Successfull ", newUserExam });
+                }
+                else
+                {
+                    return BadRequest("can not find exam id");
+                }
+               
             }
             catch (Exception ex)
             {
@@ -343,28 +353,6 @@ namespace study4_be.Controllers.API
             }
 
         } 
-        [HttpPost("StopExam")] 
-        public async Task<ActionResult> StopExam(SubmitExamRequest _req)
-        {
-            try
-            {
-                var existExam = _context.Exams.Where(e => e.ExamId == _req.examId).FirstOrDefaultAsync();
-                var newUserExam = new UsersExam
-                {
-                    ExamId = _req.examId,
-                    DateTime = DateTime.Now,
-                    State = false,
-                    Score = _req.score,
-                    UserId = _req.userId,
-                    UserExamId = Guid.NewGuid().ToString(),
-            };
-                return Json(new { status = 200, message = "Submit Exam Successfull ", userExam = newUserExam });
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex);
-            }
-        }
         //[HttpPost("LearnAgain")]
         //public async Task<ActionResult> LearnAgain(LearnAgainRequest _req)
         //{

@@ -122,16 +122,29 @@ namespace study4_be.Controllers.Admin
             {
                 return NotFound();
             }
-            return View(video);
+            var lessons = _context.Lessons.ToList();
+            var selectListLessons = lessons.Select(lesson => new SelectListItem
+            {
+                Value = lesson.LessonId.ToString(),
+                Text = lesson.LessonId.ToString()
+            }).ToList();
+
+            var viewModel = new VideoEditViewModel
+            {
+                video = video,
+                lesson = selectListLessons
+            };
+            return View(viewModel);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Video_Edit(Video video)
+        public async Task<IActionResult> Video_Edit(VideoEditViewModel videoViewModel)
         {
             if (ModelState.IsValid)
             {
-                var courseToUpdate = _context.Videos.FirstOrDefault(c => c.VideoId == video.VideoId);
-                courseToUpdate.VideoUrl = video.VideoUrl;
+                var courseToUpdate = _context.Videos.FirstOrDefault(c => c.VideoId == videoViewModel.video.VideoId);
+                courseToUpdate.VideoUrl = videoViewModel.video.VideoUrl;
+                courseToUpdate.LessonId = videoViewModel.video.LessonId;
                 try
                 {
                     _context.SaveChanges();
@@ -139,11 +152,11 @@ namespace study4_be.Controllers.Admin
                 }
                 catch (Exception ex)
                 {
-                    _logger.LogError($"Error updating course with ID {video.VideoId}: {ex.Message}");
+                    _logger.LogError($"Error updating course with ID {videoViewModel.video.VideoId}: {ex.Message}");
                     ModelState.AddModelError(string.Empty, "An error occurred while updating the course.");
                 }
             }
-            return View(video);
+            return View(videoViewModel);
         }
 
         [HttpGet]
