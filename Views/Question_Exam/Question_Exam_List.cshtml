@@ -31,16 +31,17 @@
 </style>
 
 <h2 style="text-align:center">LIST QUESTIONS EXAM</h2>
+<input id="searchInput" class="search__input col-11" type="text" placeholder="Search anything you want..." />
 <button class="btn btn-block btn-lg btn-gradient-primary mt-4"> @Html.ActionLink("+ Add Question", "Question_Exam_Create", "Question_Exam", null, new { @class = "text-btn-admin" })</button>
 <div class="card">
     <div class="card-body">
         <table class="table">
             <thead class="table-info">
                 <tr>
+                    <th>Question Image</th>
                     <th>Question Id</th>
                     <th>Question Text</th>
                     <th>Question Paragraph</th>
-                    <th>Question Image</th>
                     <th>Answer</th>
                     <th>A</th>
                     <th>B</th>
@@ -63,7 +64,7 @@
                             <p>@item.question.QuestionParagraph</p>
                         </td>
                         <td>
-                            <p>@item.question.QuestionImage</p>
+                            <img style="border-radius:0%!important" src="@Url.Content(@item.question.QuestionImage)" height="150" width="150" id="previewImg" />
                         </td>
                         <td class="item">
                             <p>@item.question.CorrectAnswer</p>
@@ -96,3 +97,29 @@
         </table>
     </div>
 </div>
+
+<script>
+    function filterTable() {
+        var input, filter, table, tr, td, i, txtValue;
+        input = document.getElementById('searchInput');
+        filter = input.value.toUpperCase();
+        table = document.querySelector('.table tbody');
+        tr = table.getElementsByTagName('tr');
+
+        for (i = 0; i < tr.length; i++) {
+            tdQuestionId = tr[i].getElementsByTagName('td')[1];
+
+            if (tdQuestionId) {
+                txtValue = tdQuestionId.textContent || tdQuestionId.innerText;
+
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    }
+
+    document.getElementById('searchInput').addEventListener('keyup', filterTable);
+</script>
