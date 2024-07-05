@@ -83,8 +83,10 @@ namespace study4_be.Controllers.API
                                        .ToListAsync();
                 if (questionPart != null)
                 {
+                    int number = 0;
                     var part1Response = questionPart.Select(p => new Part1Response
                     {
+                        number = number++,
                         questionId = p.QuestionId,
                         questionImage = p.QuestionImage,
                         correctAnswear = p.CorrectAnswer,
@@ -114,8 +116,10 @@ namespace study4_be.Controllers.API
                                        .ToListAsync();
                 if (questionPart != null)
                 {
+                    int number = 7;
                     var part2Response = questionPart.Select(p => new Part2Response
                     {
+                        number = number++,
                         questionId = p.QuestionId,
                         correctAnswear = p.CorrectAnswer,
                         optionA = p.OptionA,
@@ -146,8 +150,10 @@ namespace study4_be.Controllers.API
                                        .ToListAsync();
                 if (questionPart != null)
                 {
+                     int number = 32;
                     var part3Response = questionPart.Select(p => new Part3Response
                     {
+                        number = number++,
                         questionId = p.QuestionId,
                         questionText = p.QuestionText,
                         correctAnswear = p.CorrectAnswer,
@@ -180,8 +186,10 @@ namespace study4_be.Controllers.API
                                        .ToListAsync();
                 if (questionPart != null)
                 {
+                    int number = 71;
                     var part4Response = questionPart.Select(p => new Part4Response
                     {
+                        number = number++,
                         questionId = p.QuestionId,
                         questionText = p.QuestionText,
                         questionImage = p.QuestionImage,
@@ -215,8 +223,10 @@ namespace study4_be.Controllers.API
                                        .ToListAsync();
                 if (questionPart != null)
                 {
+                    int number = 101;
                     var part5Response = questionPart.Select(p => new Part5Response
                     {
+                        number = number++,
                         questionId = p.QuestionId,
                         questionText = p.QuestionText,
                         correctAnswear = p.CorrectAnswer,
@@ -248,8 +258,10 @@ namespace study4_be.Controllers.API
                                        .ToListAsync();
                 if (questionPart != null && questionPart.Any())
                 {
+                    int number = 131;
                     var part6Responses = questionPart.Select(p => new Part6Response
                     {
+                        number = number++,
                         questionId = p.QuestionId,
                         questionImage = p.QuestionImage,
                         correctAnswear = p.CorrectAnswer,
@@ -279,20 +291,22 @@ namespace study4_be.Controllers.API
             {
                 var questionPart = await _context.Questions
                                        .Where(q => q.ExamId == _req.examId && q.QuestionTag == _req.tagName)
-                                       .FirstOrDefaultAsync();
+                                       .ToListAsync();
                 if (questionPart != null)
                 {
-                    var part7Response = new Part7Response
+                    int number = 147;
+                    var part7Response = questionPart.Select(p => new Part7Response
                     {
-                        questionId = questionPart.QuestionId,
-                        questionText = questionPart.QuestionText,
-                        questionImage = questionPart.QuestionImage,
-                        correctAnswear = questionPart.CorrectAnswer,
-                        optionA = questionPart.OptionA,
-                        optionB = questionPart.OptionB,
-                        optionC = questionPart.OptionC,
-                        optionD = questionPart.OptionD,
-                    };
+                        number = number++,
+                        questionId = p.QuestionId,
+                        questionText = p.QuestionText,
+                        questionImage = p.QuestionImage,
+                        correctAnswear = p.CorrectAnswer,
+                        optionA = p.OptionA,
+                        optionB = p.OptionB,
+                        optionC = p.OptionC,
+                        optionD = p.OptionD,
+                    }).ToList();
                     return Json(new { status = 200, message = "Get_ExamPart7 successful", part7Response });
                 }
                 else

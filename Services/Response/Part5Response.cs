@@ -3,6 +3,7 @@
     public class Part5Response
     {
         public int? questionId { get; set; }
+        public int number { get; set; }
         public string questionText { get; set; }
         public string optionA { get; set; }
         public string optionB { get; set; }
