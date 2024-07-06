@@ -75,11 +75,11 @@ namespace study4_be.Controllers.Admin
                     var imgFilePath = ($"IMG{uniqueIdForQuestionImage}.jpg");
                     firebaseUrl = await _firebaseServices.UploadFileToFirebaseStorageAsync(QuestionImage, imgFilePath, firebaseBucketName);
                 }
-                if(selectedPart == null)
+                if (selectedPart == null)
                 {
                     selectedPart = "Part 1";
                 }
-                if(selectedCorrect == null)
+                if (selectedCorrect == null)
                 {
                     selectedCorrect = "A";
                 }
@@ -172,65 +172,80 @@ namespace study4_be.Controllers.Admin
             {
                 return NotFound();
             }
-            return View(question);
+            var exams = _context.Exams.ToList();
+            var selectListTags = exams.Select(exams => new SelectListItem
+            {
+                Value = exams.ExamId.ToString(),
+                Text = exams.ExamId
+            }).ToList();
+
+            var viewModel = new QuestionExamEditViewModel
+            {
+                question = question,
+                exam = selectListTags
+            };
+
+            return View(viewModel);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Question_Exam_Edit(Question question, IFormFile QuestionImage)
+        public async Task<IActionResult> Question_Exam_Edit(QuestionExamEditViewModel questionViewModel, IFormFile QuestionImage)
         {
-           
-                try
-                {
-                    var courseToUpdate = _context.Questions.FirstOrDefault(c => c.QuestionId == question.QuestionId);
-                    if (QuestionImage != null && QuestionImage.Length > 0)
-                    {
-                        var firebaseBucketName = _firebaseServices.GetFirebaseBucketName();
-                        // Delete the old image from Firebase Storage
-                        if (!string.IsNullOrEmpty(courseToUpdate.QuestionImage))
-                        {
-                            // Extract the file name from the URL
-                            var oldFileName = Path.GetFileName(new Uri(courseToUpdate.QuestionImage).LocalPath);
-                            await _firebaseServices.DeleteFileFromFirebaseStorageAsync(oldFileName, firebaseBucketName);
-                        }
-                        var uniqueId = Guid.NewGuid().ToString();
-                        var imgFilePath = ($"IMG{uniqueId}.jpg");
-                        string firebaseUrl = await _firebaseServices.UploadFileToFirebaseStorageAsync(QuestionImage, imgFilePath, firebaseBucketName);
-                        courseToUpdate.QuestionImage = firebaseUrl;
-                        courseToUpdate.QuestionText = question.QuestionText;
-                        courseToUpdate.QuestionTextMean = question.QuestionText;
-                        courseToUpdate.QuestionParagraph = question.QuestionParagraph;
-                        courseToUpdate.OptionA = question.OptionA;
-                        courseToUpdate.OptionB = question.OptionB;
-                        courseToUpdate.OptionC = question.OptionC;
-                        courseToUpdate.OptionD = question.OptionD;
-                        courseToUpdate.QuestionTag = question.QuestionTag;
-                        courseToUpdate.CorrectAnswer = question.CorrectAnswer;
-                        _context.SaveChanges();
-                        return RedirectToAction("Question_Exam_List");
-                    }
-                    else
-                    {
-                        courseToUpdate.QuestionImage = courseToUpdate.QuestionImage;
-                        courseToUpdate.QuestionText = question.QuestionText;
-                        courseToUpdate.QuestionTextMean = question.QuestionText;
-                        courseToUpdate.QuestionParagraph = question.QuestionParagraph;
-                        courseToUpdate.OptionA = question.OptionA;
-                        courseToUpdate.OptionB = question.OptionB;
-                        courseToUpdate.OptionC = question.OptionC;
-                        courseToUpdate.OptionD = question.OptionD;
-                        courseToUpdate.QuestionTag = question.QuestionTag;
-                        courseToUpdate.CorrectAnswer = question.CorrectAnswer;
-                        _context.SaveChanges();
-                        return RedirectToAction("Question_Exam_List");
-                }
-                }
 
-                catch (Exception ex)
+            try
+            {
+                var courseToUpdate = _context.Questions.FirstOrDefault(c => c.QuestionId == questionViewModel.question.QuestionId);
+                if (QuestionImage != null && QuestionImage.Length > 0)
                 {
-                    _logger.LogError($"Error updating exam with ID {question.QuestionId}: {ex.Message}");
-                    ModelState.AddModelError(string.Empty, "An error occurred while updating the exam.");
+                    var firebaseBucketName = _firebaseServices.GetFirebaseBucketName();
+                    // Delete the old image from Firebase Storage
+                    if (!string.IsNullOrEmpty(courseToUpdate.QuestionImage))
+                    {
+                        // Extract the file name from the URL
+                        var oldFileName = Path.GetFileName(new Uri(courseToUpdate.QuestionImage).LocalPath);
+                        await _firebaseServices.DeleteFileFromFirebaseStorageAsync(oldFileName, firebaseBucketName);
+                    }
+                    var uniqueId = Guid.NewGuid().ToString();
+                    var imgFilePath = ($"IMG{uniqueId}.jpg");
+                    string firebaseUrl = await _firebaseServices.UploadFileToFirebaseStorageAsync(QuestionImage, imgFilePath, firebaseBucketName);
+                    courseToUpdate.QuestionImage = firebaseUrl;
+                    courseToUpdate.QuestionText = questionViewModel.question.QuestionText;
+                    courseToUpdate.QuestionTextMean = questionViewModel.question.QuestionText;
+                    courseToUpdate.QuestionParagraph = questionViewModel.question.QuestionParagraph;
+                    courseToUpdate.OptionA = questionViewModel.question.OptionA;
+                    courseToUpdate.OptionB = questionViewModel.question.OptionB;
+                    courseToUpdate.OptionC = questionViewModel.question.OptionC;
+                    courseToUpdate.OptionD = questionViewModel.question.OptionD;
+                    courseToUpdate.QuestionTag = questionViewModel.question.QuestionTag;
+                    courseToUpdate.CorrectAnswer = questionViewModel.question.CorrectAnswer;
+                    courseToUpdate.LessonId = questionViewModel.question.LessonId;
+                    _context.SaveChanges();
+                    return RedirectToAction("Question_Exam_List");
                 }
-            return View(question);
+                else
+                {
+                    courseToUpdate.QuestionImage = questionViewModel.question.QuestionImage;
+                    courseToUpdate.QuestionText = questionViewModel.question.QuestionText;
+                    courseToUpdate.QuestionTextMean = questionViewModel.question.QuestionText;
+                    courseToUpdate.QuestionParagraph = questionViewModel.question.QuestionParagraph;
+                    courseToUpdate.OptionA = questionViewModel.question.OptionA;
+                    courseToUpdate.OptionB = questionViewModel.question.OptionB;
+                    courseToUpdate.OptionC = questionViewModel.question.OptionC;
+                    courseToUpdate.OptionD = questionViewModel.question.OptionD;
+                    courseToUpdate.QuestionTag = questionViewModel.question.QuestionTag;
+                    courseToUpdate.CorrectAnswer = questionViewModel.question.CorrectAnswer;
+                    courseToUpdate.LessonId = questionViewModel.question.LessonId;
+                    _context.SaveChanges();
+                    return RedirectToAction("Question_Exam_List");
+                }
+            }
+
+            catch (Exception ex)
+            {
+                _logger.LogError($"Error updating exam with ID {questionViewModel.question.QuestionId}: {ex.Message}");
+                ModelState.AddModelError(string.Empty, "An error occurred while updating the exam.");
+            }
+            return View(questionViewModel);
         }
         public IActionResult Question_Exam_Details(int id)
         {

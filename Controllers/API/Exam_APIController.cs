@@ -44,21 +44,67 @@ namespace study4_be.Controllers.API
             {
                 var exams = await _context.Exams.Where(u => u.ExamId == _req.examId).FirstOrDefaultAsync();
                 var userExam = await _context.UsersExams.Where(u => u.UserId == _req.userId && u.ExamId == _req.examId).ToListAsync();
+                var distinctUserCount = _context.UsersExams
+                       .Where(e => e.ExamId == _req.examId)
+                       .Select(ue => ue.UserId).Distinct().Count();
+
+                var amountTest = _context.UsersExams.Where(e => e.ExamId == _req.examId).Count();
                 if (userExam != null && userExam.Count()>0)
                 {
-                    return Json(new { status = 200, message = "Get Exam Detail By Id ", exams });
+                    var userExamResponse = userExam.Select(ue => new
+                    {
+                        userId = ue.UserId,
+                        userExamId = ue.UserExamId,
+                        examId = ue.ExamId,
+                        dateTime = ue.DateTime,
+                        state = ue.State,
+                        score = ue.Score
+                    });
+                    return Json(new
+                    {
+                        status = 200,
+                        message = "Get Exam Detail By Id",
+                        exams,
+                        userExamResponse,
+                        totalUsers = distinctUserCount,
+                        totalAmountTest = amountTest
+                    });
                 }
                 else
                 {
-                    return Json(new { status = 200, message = "Get Exam Detail By Id ", exams, userExam = "" });
+                    return Json(new
+                    {
+                        status = 200,
+                        message = "Get Exam Detail By Id",
+                        exams,
+                        userExamResponse = "",
+                        totalUsers = distinctUserCount,
+                        totalAmountTest = amountTest
+                    });
                 }
             }
             catch(Exception ex)
             {
                 return BadRequest(ex.Message);
             }
-         
         }
+        [HttpPost("OutstandingExamsUserNotTest")]
+        public async Task<ActionResult<IEnumerable<Exam>>> OutstandingExamsUserNotTest(OfUserIdRequest _req)
+        {
+            try
+            {
+                var outstandingExams = await _context.Exams
+                    .Where(e => !_context.UsersExams.Any(ue => ue.UserId == _req.userId && ue.ExamId == e.ExamId))
+                    .ToListAsync();
+
+                return Json(new { status = 200, message = "Get Outstanding Exams Success", outstandingExams });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
         [HttpPost("Get_AudioExam")]
         public async Task<ActionResult<IEnumerable<Exam>>> Get_AudioExam(OfExamIdRequest _req)
         {
@@ -83,7 +129,7 @@ namespace study4_be.Controllers.API
                                        .ToListAsync();
                 if (questionPart != null)
                 {
-                    int number = 0;
+                    int number = 1;
                     var part1Response = questionPart.Select(p => new Part1Response
                     {
                         number = number++,
@@ -320,61 +366,126 @@ namespace study4_be.Controllers.API
             }
         }
 
-        [HttpPost("SubmitExam")] 
+        [HttpPost("SubmitExam")]
         public async Task<ActionResult> SubmitExam(SubmitExamRequest _req)
         {
             try
             {
-                var existExam = await _context.Exams.Where(e => e.ExamId == _req.examId).FirstOrDefaultAsync();
-                if(existExam != null)
+                if (string.IsNullOrEmpty(_req.examId) || string.IsNullOrEmpty(_req.userId) || _req.answer == null || !_req.answer.Any())
                 {
-                    var newUserExam = new UsersExam
-                    {
-                        ExamId = _req.examId,
-                        DateTime = DateTime.Now,
-                        State = true,
-                        Score = _req.score,
-                        UserId = _req.userId,
-                        UserExamId = Guid.NewGuid().ToString(),
-                    };
-                    await _context.UsersExams.AddAsync(newUserExam);
-                    await _context.SaveChangesAsync();
-                    return Json(new { status = 200, message = "Submit Exam Successfull ", newUserExam });
+                    return BadRequest("Invalid input data");
                 }
-                else
+
+                var existExam = await _context.Exams.FirstOrDefaultAsync(e => e.ExamId == _req.examId);
+                if (existExam == null)
                 {
-                    return BadRequest("can not find exam id");
+                    return BadRequest("Exam not found");
                 }
-               
+
+                var userExamId = Guid.NewGuid().ToString();
+                var newUserExam = new UsersExam
+                {
+                    ExamId = _req.examId,
+                    DateTime = DateTime.Now,
+                    State = true,
+                    Score = _req.score,
+                    UserId = _req.userId,
+                    UserExamId = userExamId,
+                };
+
+                await _context.UsersExams.AddAsync(newUserExam);
+                var userAnswers = _req.answer.Select(answer => new UserAnswer
+                {
+                    UserExamId = userExamId,
+                    QuestionId = answer.QuestionId,
+                    Answer = answer.Answer
+                }).ToList();
+
+                await _context.UserAnswers.AddRangeAsync(userAnswers);
+                await _context.SaveChangesAsync();
+                var responseUserExam = new
+                {
+                    examId = newUserExam.ExamId,
+                    dateTime = newUserExam.DateTime,
+                    state = newUserExam.State,
+                    score = newUserExam.Score,
+                    userId = newUserExam.UserId,
+                    userExamId = newUserExam.UserExamId,
+                };
+                return Json(new { status = 200, message = "Submit Exam Successful", responseUserExam });
             }
             catch (Exception ex)
             {
-                return BadRequest(ex);
+                return BadRequest(ex.Message);
             }
+        }
+        [HttpGet("ReviewQuestions/userExamId={userExamId}")]
+        public async Task<ActionResult> ReviewQuestions(string userExamId)
+        {
+            try
+            {
+                // Lấy thông tin của UserExam và câu trả lời của người dùng
+                var userExam = await _context.UsersExams
+                    .Include(ue => ue.Exam) // dư
+                    .Include(ue => ue.User) // dư
+                    .FirstOrDefaultAsync(ue => ue.UserExamId == userExamId);
 
-        } 
-        //[HttpPost("LearnAgain")]
-        //public async Task<ActionResult> LearnAgain(LearnAgainRequest _req)
-        //{
-        //    try
-        //    {
-        //        var userExam = _context.UsersExams.Where(e => e.UserExamId == _req.userExamId).FirstOrDefaultAsync();
-        //        var newUserExam = new UsersExam
-        //        {
-        //            ExamId = _req.examId,
-        //            DateTime = DateTime.Now,
-        //            State = false,
-        //            Score = _req.score,
-        //            UserId = _req.userId,
-        //            UserExamId = Guid.NewGuid().ToString(),
-        //        };
-        //        return Json(new { status = 200, message = "Submit Exam Successfull ", userExam = newUserExam });
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return BadRequest(ex);
-        //    }
-        //}
+                if (userExam == null)
+                {
+                    return NotFound("Không tìm thấy thông tin bài thi của người dùng.");
+                }
+
+                // Lấy danh sách câu hỏi và câu trả lời của người dùng
+                var userAnswers = await _context.UserAnswers
+                    .Where(ua => ua.UserExamId == userExamId)
+                    .ToListAsync();
+
+                // Lấy danh sách các câu hỏi từ bài thi
+                var questionIds = userAnswers.Select(ua => ua.QuestionId).ToList();
+                var questions = await _context.Questions
+                    .Where(q => questionIds.Contains(q.QuestionId))
+                    .ToListAsync();
+
+                // Chuẩn bị dữ liệu để trả về
+                var reviewData = new
+                {
+                    UserExam = new
+                    {
+                        userExam.UserExamId,
+                        userExam.UserId,
+                        userExam.ExamId,
+                        userExam.DateTime,
+                        userExam.Score
+                    },
+                    ExamInfo = new
+                    {
+                        userExam.Exam.ExamId,
+                        userExam.Exam.ExamName,
+                        userExam.Exam.ExamAudio,
+                        userExam.Exam.ExamImage
+                    },      
+                    Questions = questions.Select(q => new
+                    {
+                       questionId =  q.QuestionId,
+                       questionText =  q.QuestionText,
+                       questionParagraph =  q.QuestionParagraph,
+                       questionImage =  q.QuestionImage,
+                       optionA =  q.OptionA,
+                       optionB =  q.OptionB,
+                       optionC =  q.OptionC,
+                       optionD =  q.OptionD,
+                       correctAnswer = q.CorrectAnswer,
+                       userAnswer = userAnswers.FirstOrDefault(ua => ua.QuestionId == q.QuestionId)?.Answer,
+                       state = userAnswers.FirstOrDefault(ua => ua.QuestionId == q.QuestionId)?.Answer == q.CorrectAnswer
+                    }).ToList()
+                };
+                return Ok(reviewData);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"Đã xảy ra lỗi: {ex.Message}");
+            }
+        }
         public IActionResult Index()
         {
             return View();

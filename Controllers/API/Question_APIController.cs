@@ -165,8 +165,10 @@ namespace study4_be.Controllers.API
                 {
                     QuestionId = question.QuestionId,
                     QuestionTitle = question.QuestionText,
+                    Title_Mean = question.QuestionTextMean,
                     QuestionAudio = question.QuestionAudio,
                     QuestionParagraph = question.QuestionParagraph,
+                    Paragraph_Mean = question.QuestionParagraphMean,
                     QuestionTranslate = question.QuestionTranslate,
                     CorrectAnswer = question.CorrectAnswer,
                     OptionA = question.OptionA,
