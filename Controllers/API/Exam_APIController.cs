@@ -44,6 +44,11 @@ namespace study4_be.Controllers.API
             {
                 var exams = await _context.Exams.Where(u => u.ExamId == _req.examId).FirstOrDefaultAsync();
                 var userExam = await _context.UsersExams.Where(u => u.UserId == _req.userId && u.ExamId == _req.examId).ToListAsync();
+                var distinctUserCount = _context.UsersExams
+                       .Where(e => e.ExamId == _req.examId)
+                       .Select(ue => ue.UserId).Distinct().Count();
+
+                var amountTest = _context.UsersExams.Where(e => e.ExamId == _req.examId).Count();
                 if (userExam != null && userExam.Count()>0)
                 {
                     var userExamResponse = userExam.Select(ue => new
@@ -55,11 +60,27 @@ namespace study4_be.Controllers.API
                         state = ue.State,
                         score = ue.Score
                     });
-                    return Json(new { status = 200, message = "Get Exam Detail By Id ", exams });
+                    return Json(new
+                    {
+                        status = 200,
+                        message = "Get Exam Detail By Id",
+                        exams,
+                        userExamResponse,
+                        totalUsers = distinctUserCount,
+                        totalAmountTest = amountTest
+                    });
                 }
                 else
                 {
-                    return Json(new { status = 200, message = "Get Exam Detail By Id ", exams, userExamResponse = "" });
+                    return Json(new
+                    {
+                        status = 200,
+                        message = "Get Exam Detail By Id",
+                        exams,
+                        userExamResponse = "",
+                        totalUsers = distinctUserCount,
+                        totalAmountTest = amountTest
+                    });
                 }
             }
             catch(Exception ex)
@@ -67,6 +88,23 @@ namespace study4_be.Controllers.API
                 return BadRequest(ex.Message);
             }
         }
+        [HttpPost("OutstandingExamsUserNotTest")]
+        public async Task<ActionResult<IEnumerable<Exam>>> OutstandingExamsUserNotTest(OfUserIdRequest _req)
+        {
+            try
+            {
+                var outstandingExams = await _context.Exams
+                    .Where(e => !_context.UsersExams.Any(ue => ue.UserId == _req.userId && ue.ExamId == e.ExamId))
+                    .ToListAsync();
+
+                return Json(new { status = 200, message = "Get Outstanding Exams Success", outstandingExams });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
         [HttpPost("Get_AudioExam")]
         public async Task<ActionResult<IEnumerable<Exam>>> Get_AudioExam(OfExamIdRequest _req)
         {
