@@ -381,15 +381,15 @@ namespace study4_be.Controllers.API
                 return BadRequest(ex.Message);
             }
         }
-        [HttpGet("ReviewQuestions/{userExamId}")]
+        [HttpGet("ReviewQuestions/userExamId={userExamId}")]
         public async Task<ActionResult> ReviewQuestions(string userExamId)
         {
             try
             {
                 // Lấy thông tin của UserExam và câu trả lời của người dùng
                 var userExam = await _context.UsersExams
-                    //.Include(ue => ue.Exam) // dư
-                    //.Include(ue => ue.User) // dư
+                    .Include(ue => ue.Exam) // dư
+                    .Include(ue => ue.User) // dư
                     .FirstOrDefaultAsync(ue => ue.UserExamId == userExamId);
 
                 if (userExam == null)
