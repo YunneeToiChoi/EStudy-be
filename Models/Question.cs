@@ -5,6 +5,11 @@ namespace study4_be.Models
 {
     public partial class Question
     {
+        public Question()
+        {
+            UserAnswers = new HashSet<UserAnswer>();
+        }
+
         public int QuestionId { get; set; }
         public int? LessonId { get; set; }
         public string? QuestionText { get; set; }
@@ -28,5 +33,6 @@ namespace study4_be.Models
 
         public virtual Exam? Exam { get; set; }
         public virtual Lesson? Lesson { get; set; }
+        public virtual ICollection<UserAnswer> UserAnswers { get; set; }
     }
 }

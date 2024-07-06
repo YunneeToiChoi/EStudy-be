@@ -29,6 +29,7 @@ namespace study4_be.Models
         public virtual DbSet<Tag> Tags { get; set; } = null!;
         public virtual DbSet<Unit> Units { get; set; } = null!;
         public virtual DbSet<User> Users { get; set; } = null!;
+        public virtual DbSet<UserAnswer> UserAnswers { get; set; } = null!;
         public virtual DbSet<UserCourse> UserCourses { get; set; } = null!;
         public virtual DbSet<UsersExam> UsersExams { get; set; } = null!;
         public virtual DbSet<Video> Videos { get; set; } = null!;
@@ -429,6 +430,29 @@ namespace study4_be.Models
                     .WithMany(p => p.Users)
                     .HasForeignKey(d => d.RoleId)
                     .HasConstraintName("FK_USERS_ROLE");
+            });
+
+            modelBuilder.Entity<UserAnswer>(entity =>
+            {
+                entity.Property(e => e.Answer).HasMaxLength(5);
+
+                entity.Property(e => e.QuestionId).HasColumnName("QUESTION_ID");
+
+                entity.Property(e => e.UserExamId)
+                    .HasMaxLength(100)
+                    .HasColumnName("UserExam_Id");
+
+                entity.HasOne(d => d.Question)
+                    .WithMany(p => p.UserAnswers)
+                    .HasForeignKey(d => d.QuestionId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_UserAnswers_QUESTION");
+
+                entity.HasOne(d => d.UserExam)
+                    .WithMany(p => p.UserAnswers)
+                    .HasForeignKey(d => d.UserExamId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_UserAnswers_USERS_EXAM");
             });
 
             modelBuilder.Entity<UserCourse>(entity =>
