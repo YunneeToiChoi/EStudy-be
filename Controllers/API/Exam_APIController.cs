@@ -437,7 +437,8 @@ namespace study4_be.Controllers.API
                        optionC =  q.OptionC,
                        optionD =  q.OptionD,
                        correctAnswer = q.CorrectAnswer,
-                       userAnswer = userAnswers.FirstOrDefault(ua => ua.QuestionId == q.QuestionId)?.Answer
+                       userAnswer = userAnswers.FirstOrDefault(ua => ua.QuestionId == q.QuestionId)?.Answer,
+                       state = userAnswers.FirstOrDefault(ua => ua.QuestionId == q.QuestionId)?.Answer == q.CorrectAnswer
                     }).ToList()
                 };
                 return Ok(reviewData);
