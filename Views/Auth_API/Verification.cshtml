@@ -1,0 +1,59 @@
+﻿@model study4_be.Models.ViewModel.ResetPasswordViewModel
+
+@{
+    Layout = "~/Views/Shared/SupportLayout.cshtml";
+}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    />
+    <title>Verification</title>
+  </head>
+  <body>
+    <style>
+      body {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+      }
+      .center {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        border: 1px solid #0f67b1;
+        padding: 250px;
+        border-radius: 20px;
+      }
+      .doneicon {
+        font-size: 50px;
+        color: #96c9f4;
+      }
+      .text {
+        font-size: 26px;
+        color: #3fa2f6;
+      }
+      .btnback {
+        font-size: 20px;
+        padding: 20px 80px;
+        margin-top: 20px;
+        background-color: #96c9f4;
+        text-decoration: none;
+        color: white;
+        border-radius: 10px;
+      }
+    </style>
+
+    <div class="center">
+      <i class="doneicon fa-regular fa-circle-check"></i>
+      <p class="text">Verification Successful!</p>
+      <a href="#" class="btnback">Back to Login</a>
+    </div>
+  </body>
+</html>

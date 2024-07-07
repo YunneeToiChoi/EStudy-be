@@ -1,4 +1,6 @@
-﻿namespace study4_be.Services.Request
+﻿using System.Drawing.Text;
+
+namespace study4_be.Services.Request
 {
     public class SubmitExamRequest
     {
@@ -12,5 +14,6 @@
     {
         public int QuestionId { get; set; }
         public string Answer { get; set; }
+        public bool State { get; set; }
     }
 }
