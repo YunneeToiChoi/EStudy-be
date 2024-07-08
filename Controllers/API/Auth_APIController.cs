@@ -359,7 +359,7 @@ namespace study4_be.Controllers.API
             user.Isverified = true;
             _context.SaveChanges();
 
-            return Ok("Verification successful");
+            return View("Verification");
         }
         [HttpGet("userEmail={userEmail}/verification={false}/time={currentTime}")]
         public IActionResult GetDataResetPassword(string userEmail, string currentTime)
