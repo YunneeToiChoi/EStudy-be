@@ -16,6 +16,7 @@ namespace study4_be.Models
         public DateTime? DateTime { get; set; }
         public bool? State { get; set; }
         public int? Score { get; set; }
+        public int? UserTime { get; set; }
 
         public virtual Exam Exam { get; set; } = null!;
         public virtual User User { get; set; } = null!;

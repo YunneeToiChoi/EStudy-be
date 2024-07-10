@@ -7,6 +7,7 @@ namespace study4_be.Services.Request
         public string examId { get;set; }
         public string userId { get;set; }
         public int? score { get;set; }
+        public int userTime { get; set; }
         public List<AnswerDto> answer { get; set; }
 
     }
