@@ -509,6 +509,8 @@ namespace study4_be.Models
                     .IsUnicode(false)
                     .HasColumnName("User_Id");
 
+                entity.Property(e => e.UserTime).HasColumnName("userTime");
+
                 entity.HasOne(d => d.Exam)
                     .WithMany(p => p.UsersExams)
                     .HasForeignKey(d => d.ExamId)

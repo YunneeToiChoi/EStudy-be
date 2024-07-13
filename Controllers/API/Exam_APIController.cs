@@ -51,12 +51,13 @@ namespace study4_be.Controllers.API
                 var amountTest = _context.UsersExams.Where(e => e.ExamId == _req.examId).Count();
                 if (userExam != null && userExam.Count()>0)
                 {
-                    var userExamResponse = userExam.Select(ue => new
+
+                    var userExamResponse = userExam.Select(ue => new UserExamResponse
                     {
                         userId = ue.UserId,
-                        userExamId = ue.UserExamId,
+                        userTime = ue.UserTime.HasValue ? ConvertSecondsToHMS(ue.UserTime.Value) : "N/A",
                         examId = ue.ExamId,
-                        dateTime = ue.DateTime,
+                        dateTime = ue.DateTime.HasValue ? ue.DateTime.Value.ToString("yyyy-MM-dd") : "N/A",
                         state = ue.State,
                         score = ue.Score
                     });
@@ -391,6 +392,8 @@ namespace study4_be.Controllers.API
                     Score = _req.score,
                     UserId = _req.userId,
                     UserExamId = userExamId,
+                    UserTime = 7200 - _req.userTime
+                    
                 };
 
                 await _context.UsersExams.AddAsync(newUserExam);
@@ -422,6 +425,7 @@ namespace study4_be.Controllers.API
                     score = newUserExam.Score,
                     userId = newUserExam.UserId,
                     userExamId = newUserExam.UserExamId,
+                    userTime = newUserExam.UserTime
                 };
                 return Json(new { status = 200, message = "Submit Exam Successful", responseUserExam });
             }
@@ -497,9 +501,13 @@ namespace study4_be.Controllers.API
                 return BadRequest($"Đã xảy ra lỗi: {ex.Message}");
             }
         }
-        public IActionResult Index()
+        private string ConvertSecondsToHMS(int totalSeconds)
         {
-            return View();
+            int hours = totalSeconds / 3600;
+            int minutes = (totalSeconds % 3600) / 60;
+            int seconds = totalSeconds % 60;
+
+            return $"{hours} giờ {minutes} phút {seconds} giây";
         }
     }
 }
