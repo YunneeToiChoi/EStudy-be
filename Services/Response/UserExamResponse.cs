@@ -5,6 +5,7 @@ namespace study4_be.Services.Response
     public class UserExamResponse
     {
         public string userId { get; set; }
+        public string userExamId { get; set; }
         public string userTime { get; set; }
         public string examId { get; set; }
         public string dateTime { get; set; }
