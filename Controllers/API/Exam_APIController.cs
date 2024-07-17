@@ -367,6 +367,37 @@ namespace study4_be.Controllers.API
                 return BadRequest(ex);
             }
         }
+        [HttpPost("Get_ExamPart8")]
+        public async Task<ActionResult> Get_ExamPart8(Part2Request _req)
+        {
+            try
+            {
+                var questionPart = await _context.Questions
+                                       .Where(q => q.ExamId == _req.examId && q.QuestionTag == _req.tagName)
+                                       .ToListAsync();
+                if (questionPart != null)
+                {
+                    int number = 201;
+                    var part8Response = questionPart.Select(p => new Part8Response
+                    {
+                        number = number++,
+                        questionId = p.QuestionId,
+                        questionText = p.QuestionParagraph,
+                        questionImage = p.QuestionImage,
+                    }).ToList();
+                    return Json(new { status = 200, message = "Get_ExamPart8 successful", part8Response });
+                }
+                else
+                {
+                    return BadRequest(new { status = 404, message = $"Tag không khớp hoặc Không có Exam không có {_req.tagName}." });
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
+        }
+
 
         [HttpPost("SubmitExam")]
         public async Task<ActionResult> SubmitExam(SubmitExamRequest _req)
@@ -396,7 +427,6 @@ namespace study4_be.Controllers.API
                     UserTime = 7200 - _req.userTime
                     
                 };
-
                 await _context.UsersExams.AddAsync(newUserExam);
                 var userAnswers = _req.answer.Select(answer => new UserAnswer
                 {
@@ -415,7 +445,13 @@ namespace study4_be.Controllers.API
 
                 int score = (int)((double)correctAnswers / totalQuestions * 990);
 
-                newUserExam.Score = score;
+
+                var writingQuestions = userAnswers
+                .Where(ua => _context.Questions.Any(q => q.QuestionId == ua.QuestionId && q.QuestionTag == "Part 8"))
+                .ToList();
+                int writingScore = CalculateWritingScore(writingQuestions);
+
+                newUserExam.Score = score + writingScore;
                 await _context.SaveChangesAsync();
 
                 var responseUserExam = new
@@ -425,7 +461,7 @@ namespace study4_be.Controllers.API
                     state = newUserExam.State,
                     score = newUserExam.Score,
                     userId = newUserExam.UserId,
-                    userExamId = newUserExam.UserExamId,
+                    userExamId = newUserExam.UserExamId, 
                     userTime = newUserExam.UserTime
                 };
                 return Json(new { status = 200, message = "Submit Exam Successful", responseUserExam });
@@ -509,6 +545,60 @@ namespace study4_be.Controllers.API
             int seconds = totalSeconds % 60;
 
             return $"{hours} giờ {minutes} phút {seconds} giây";
+        }
+        private int CalculateWritingScore(List<UserAnswer> writingAnswers)
+        {
+            int totalWritingScore = 0;
+
+            foreach (var answer in writingAnswers)
+            {
+                // Tính điểm từng câu viết dựa trên các tiêu chí chấm điểm
+                int score = 0;
+
+                // Giả sử các tiêu chí chấm điểm có thể bao gồm độ dài câu trả lời, ngữ pháp, và sự chính xác của nội dung
+                int lengthScore = GetLengthScore(answer.Answer);
+                int grammarScore = GetGrammarScore(answer.Answer);
+                int contentScore = GetContentScore(answer.Answer);
+
+                score = lengthScore + grammarScore + contentScore;
+
+                totalWritingScore += score;
+            }
+
+            return totalWritingScore;
+        }
+
+        private int GetLengthScore(string answer)
+        {
+            // Ví dụ tính điểm dựa trên độ dài của câu trả lời
+            if (answer.Length > 200)
+            {
+                return 10;
+            }
+            else if (answer.Length > 100)
+            {
+                return 5;
+            }
+            else
+            {
+                return 2;
+            }
+        }
+
+        private int GetGrammarScore(string answer)
+        {
+            // Ví dụ tính điểm dựa trên ngữ pháp
+            // Đoạn này có thể được tích hợp với các thư viện kiểm tra ngữ pháp
+            // Tạm thời giả định tất cả các câu trả lời đều đạt điểm trung bình
+            return 5;
+        }
+
+        private int GetContentScore(string answer)
+        {
+            // Ví dụ tính điểm dựa trên sự chính xác của nội dung
+            // Đoạn này có thể sử dụng các thuật toán xử lý ngôn ngữ tự nhiên để kiểm tra
+            // Tạm thời giả định tất cả các câu trả lời đều đạt điểm trung bình
+            return 5;
         }
     }
 }

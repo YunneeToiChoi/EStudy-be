@@ -1,0 +1,75 @@
+﻿@model IEnumerable<study4_be.Models.ViewModel.QuestionExamListVIewModel>
+
+
+<style>
+    .item {
+        overflow: hidden;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+        max-width: 100px
+    }
+
+    .text-btn-admin {
+        text-decoration: none;
+        color: white;
+    }
+
+    .search__input {
+        width: 100%;
+        padding: 10px;
+    }
+
+    .adSearch__container {
+        display: flex;
+        margin: 20px 0px;
+    }
+
+    #searchByContainerTitle, #searchByUnitTitle, #searchByCourseTitle, #searchByLessonTitle {
+        margin: 0px 10px;
+    }
+
+</style>
+
+<h2 style="text-align:center">REPLY QUESTION</h2>
+<div class="card">
+    <div class="card-body">
+        <table class="table">
+            <thead class="table-info">
+                <tr>
+                    <th>Question Image</th>
+                    <th>Question Id</th>
+                    <th>Question Paragraph</th>
+                    <th>Answer</th>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            <img style="border-radius:0%!important" src="@Url.Content(@item.question.QuestionImage)" height="150" width="150" id="previewImg" />
+                        </td>
+                        <td>
+                            <p>@item.question.QuestionId</p>
+                        </td>
+                        <td class="item">
+                            <p>@item.question.QuestionText</p>
+                        </td>
+                        <td class="item">
+                            <p>@item.question.QuestionParagraph</p>
+                        </td>
+                        <td class="item">
+                            <p>@item.question.CorrectAnswer</p>
+                        </td>
+                        <td class="item">
+                            <p>@item.question.QuestionTag</p>
+                        </td> 
+                        <td>
+                            <a href="@Url.ActionLink("Question_Exam_RepInput","Question_Exam",new { id = item.question.QuestionId })" class="text-link-action">Reply</a>
+                            <span style="padding:0 8px">|</span>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
