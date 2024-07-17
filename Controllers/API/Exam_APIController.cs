@@ -366,6 +366,37 @@ namespace study4_be.Controllers.API
                 return BadRequest(ex);
             }
         }
+        [HttpPost("Get_ExamPart7")]
+        public async Task<ActionResult> Get_ExamPart8(Part2Request _req)
+        {
+            try
+            {
+                var questionPart = await _context.Questions
+                                       .Where(q => q.ExamId == _req.examId && q.QuestionTag == _req.tagName)
+                                       .ToListAsync();
+                if (questionPart != null)
+                {
+                    int number = 201;
+                    var part8Response = questionPart.Select(p => new Part8Response
+                    {
+                        number = number++,
+                        questionId = p.QuestionId,
+                        questionText = p.QuestionParagraph,
+                        questionImage = p.QuestionImage,
+                    }).ToList();
+                    return Json(new { status = 200, message = "Get_ExamPart8 successful", part8Response });
+                }
+                else
+                {
+                    return BadRequest(new { status = 404, message = $"Tag không khớp hoặc Không có Exam không có {_req.tagName}." });
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
+        }
+
 
         [HttpPost("SubmitExam")]
         public async Task<ActionResult> SubmitExam(SubmitExamRequest _req)
@@ -395,7 +426,6 @@ namespace study4_be.Controllers.API
                     UserTime = 7200 - _req.userTime
                     
                 };
-
                 await _context.UsersExams.AddAsync(newUserExam);
                 var userAnswers = _req.answer.Select(answer => new UserAnswer
                 {
