@@ -367,7 +367,7 @@ namespace study4_be.Controllers.API
                 return BadRequest(ex);
             }
         }
-        [HttpPost("Get_ExamPart7")]
+        [HttpPost("Get_ExamPart8")]
         public async Task<ActionResult> Get_ExamPart8(Part2Request _req)
         {
             try
