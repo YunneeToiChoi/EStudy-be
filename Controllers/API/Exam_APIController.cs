@@ -56,6 +56,7 @@ namespace study4_be.Controllers.API
                     {
                         userId = ue.UserId,
                         userTime = ue.UserTime.HasValue ? ConvertSecondsToHMS(ue.UserTime.Value) : "N/A",
+                        userExamId = ue.UserExamId,
                         examId = ue.ExamId,
                         dateTime = ue.DateTime.HasValue ? ue.DateTime.Value.ToString("yyyy-MM-dd") : "N/A",
                         state = ue.State,
