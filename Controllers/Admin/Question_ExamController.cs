@@ -44,7 +44,7 @@ namespace study4_be.Controllers.Admin
                 ModelState.AddModelError("", "An error occurred while processing your request. Please try again later.");
                 return View(new List<QuestionListViewModel>());
             }
-        }
+        }  
         public async Task<IActionResult> Question_Exam_Create()
         {
             var exam = await _context.Exams.ToListAsync();
