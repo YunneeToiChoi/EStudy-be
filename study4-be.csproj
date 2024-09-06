@@ -1,12 +1,10 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
-
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <RootNamespace>study4_be</RootNamespace>
   </PropertyGroup>
-
   <ItemGroup>
     <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
     <PackageReference Include="FirebaseAdmin" Version="3.0.0" />
@@ -15,15 +13,14 @@
     <PackageReference Include="MailKit" Version="4.6.0" />
     <PackageReference Include="MediatR" Version="11.1.0" />
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="11.1.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.0">
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.8">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.0" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.16" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.8" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.4" />
     <PackageReference Include="SendGrid" Version="9.29.3" />
   </ItemGroup>
-
   <ItemGroup>
     <None Include="wwwroot\LayoutAdmin\.github\CODE_OF_CONDUCT.md" />
     <None Include="wwwroot\LayoutAdmin\.github\CONTRIBUTING.md" />
@@ -33,5 +30,4 @@
     <None Include="wwwroot\LayoutAdmin\.github\ISSUE_TEMPLATE\feature_request.md" />
     <None Include="wwwroot\LayoutAdmin\.github\PULL_REQUEST_TEMPLATE.md" />
   </ItemGroup>
-
 </Project>
