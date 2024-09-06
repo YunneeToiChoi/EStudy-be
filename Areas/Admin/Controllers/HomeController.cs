@@ -2,8 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using study4_be.Models;
 
-namespace study4_be.Controllers.Admin;
-
+namespace study4_be.Areas.Admin.Controllers;
+[Area("Admin")]
 public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;

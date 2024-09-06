@@ -6,8 +6,9 @@ using study4_be.Models.ViewModel;
 using study4_be.Repositories;
 using study4_be.Services;
 
-namespace study4_be.Controllers.Admin
+namespace study4_be.Areas.Admin.Controllers
 {
+    [Area("Admin")]
     public class UnitController : Controller
     {
         private readonly ILogger<UnitController> _logger;

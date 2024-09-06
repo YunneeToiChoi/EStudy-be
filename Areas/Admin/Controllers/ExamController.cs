@@ -3,8 +3,9 @@ using study4_be.Models;
 using study4_be.Repositories;
 using study4_be.Services;
 
-namespace study4_be.Controllers.Admin
+namespace study4_be.Areas.Admin.Controllers
 {
+    [Area("Admin")]
     public class ExamController : Controller
     {
         private readonly ILogger<ExamController> _logger;
@@ -51,7 +52,7 @@ namespace study4_be.Controllers.Admin
                 {
                     var firebaseBucketName = _fireBaseServices.GetFirebaseBucketName();
                     var uniqueId = Guid.NewGuid().ToString(); // Tạo một UUID ngẫu nhiên
-                    var imgFilePath = ($"IMG{uniqueId}.jpg");
+                    var imgFilePath = $"IMG{uniqueId}.jpg";
                     // Upload file to Firebase Storage
                     string firebaseUrl = await _fireBaseServices.UploadFileToFirebaseStorageAsync(ExamImage, imgFilePath, firebaseBucketName);
                     // Save firebaseUrl to your course object or database
@@ -111,7 +112,7 @@ namespace study4_be.Controllers.Admin
                         await _fireBaseServices.DeleteFileFromFirebaseStorageAsync(oldFileName, firebaseBucketName);
                     }
                     var uniqueId = Guid.NewGuid().ToString();
-                    var imgFilePath = ($"IMG{uniqueId}.jpg");
+                    var imgFilePath = $"IMG{uniqueId}.jpg";
                     string firebaseUrl = await _fireBaseServices.UploadFileToFirebaseStorageAsync(ExamImage, imgFilePath, firebaseBucketName);
                     exam.ExamImage = firebaseUrl;
                 }

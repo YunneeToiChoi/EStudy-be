@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using study4_be.Controllers.Admin;
+using study4_be.Areas.Admin.Controllers;
 using study4_be.Models;
 using study4_be.Repositories;
 using study4_be.Services;

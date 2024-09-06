@@ -8,12 +8,12 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using study4_be.Services.Request;
 using study4_be.Services;
-using study4_be.Controllers.Admin;
 using Microsoft.EntityFrameworkCore;
 using MailKit.Search;
 using FirebaseAdmin.Auth;
 using SendGrid.Helpers.Mail;
 using study4_be.Models.ViewModel;
+using study4_be.Areas.Admin.Controllers;
 namespace study4_be.Controllers.API
 {
     [Route("api/[controller]")]

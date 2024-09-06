@@ -6,8 +6,9 @@ using study4_be.Models.ViewModel;
 using study4_be.Repositories;
 using study4_be.Services;
 
-namespace study4_be.Controllers.Admin
+namespace study4_be.Areas.Admin.Controllers
 {
+    [Area("Admin")]
     public class LessonController : Controller
     {
         private readonly ILogger<LessonController> _logger;
@@ -185,21 +186,21 @@ namespace study4_be.Controllers.Admin
         [HttpPost]
         public async Task<IActionResult> Lesson_Edit(LessonEditViewModel lessonViewModel)
         {
-     
-                var lessonToUpdate = _context.Lessons.FirstOrDefault(c => c.LessonId == lessonViewModel.lesson.LessonId);
-                lessonToUpdate.LessonTitle = lessonViewModel.lesson.LessonTitle;
-                lessonToUpdate.LessonType = lessonViewModel.lesson.LessonType;
-                lessonToUpdate.TagId = lessonViewModel.lesson.TagId;
-                try
-                {
-                    _context.SaveChanges();
-                    return RedirectToAction("Lesson_List");
-                }
-                catch (Exception ex)
-                {
-                    _logger.LogError($"Error updating course with ID {lessonViewModel.lesson.LessonId}: {ex.Message}");
-                    ModelState.AddModelError(string.Empty, "An error occurred while updating the course.");
-                }
+
+            var lessonToUpdate = _context.Lessons.FirstOrDefault(c => c.LessonId == lessonViewModel.lesson.LessonId);
+            lessonToUpdate.LessonTitle = lessonViewModel.lesson.LessonTitle;
+            lessonToUpdate.LessonType = lessonViewModel.lesson.LessonType;
+            lessonToUpdate.TagId = lessonViewModel.lesson.TagId;
+            try
+            {
+                _context.SaveChanges();
+                return RedirectToAction("Lesson_List");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Error updating course with ID {lessonViewModel.lesson.LessonId}: {ex.Message}");
+                ModelState.AddModelError(string.Empty, "An error occurred while updating the course.");
+            }
             return View(lessonViewModel);
         }
         public IActionResult Lesson_Details(int id)

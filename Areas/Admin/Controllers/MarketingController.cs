@@ -1,7 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace study4_be.Controllers.Admin
+namespace study4_be.Areas.Admin.Controllers
 {
+    [Area("Admin")]
     public class MarketingController : Controller
     {
         public IActionResult MarketingHome()

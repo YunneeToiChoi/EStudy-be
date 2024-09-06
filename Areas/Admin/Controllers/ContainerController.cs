@@ -7,8 +7,9 @@ using study4_be.Repositories;
 using study4_be.Services;
 using static Org.BouncyCastle.Crypto.Engines.SM2Engine;
 
-namespace study4_be.Controllers.Admin
+namespace study4_be.Areas.Admin.Controllers
 {
+    [Area("Admin")]
     public class ContainerController : Controller
     {
         private readonly ILogger<ContainerController> _logger;
@@ -78,7 +79,7 @@ namespace study4_be.Controllers.Admin
 
             try
             {
-                int? unitId = string.IsNullOrEmpty(containerViewModel.containers.UnitId.ToString()) ? (int?)null : containerViewModel.containers.UnitId;
+                int? unitId = string.IsNullOrEmpty(containerViewModel.containers.UnitId.ToString()) ? null : containerViewModel.containers.UnitId;
 
                 var container = new Container
                 {

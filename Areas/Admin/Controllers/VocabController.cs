@@ -10,8 +10,9 @@ using study4_be.Services.Response;
 using study4_be.Services;
 using System.Diagnostics;
 
-namespace study4_be.Controllers.Admin
+namespace study4_be.Areas.Admin.Controllers
 {
+    [Area("Admin")]
     public class VocabController : Controller
     {
         private readonly ILogger<VocabController> _logger;
@@ -78,7 +79,7 @@ namespace study4_be.Controllers.Admin
                 lesson = lessons.Select(c => new SelectListItem
                 {
                     Value = c.LessonId.ToString(),
-                    Text = $"{c.LessonTitle} - Container: {(c.Container?.ContainerTitle ?? "N/A")} - Unit: {(c.Container?.Unit?.UnitTittle ?? "N/A")} - Course: {(c.Container?.Unit?.Course?.CourseName ?? "N/A")} - TAG: {(c.TagId ?? "N/A")}"
+                    Text = $"{c.LessonTitle} - Container: {c.Container?.ContainerTitle ?? "N/A"} - Unit: {c.Container?.Unit?.UnitTittle ?? "N/A"} - Course: {c.Container?.Unit?.Course?.CourseName ?? "N/A"} - TAG: {c.TagId ?? "N/A"}"
                 }).ToList()
             };
 

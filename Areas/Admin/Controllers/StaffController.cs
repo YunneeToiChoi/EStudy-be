@@ -5,8 +5,9 @@ using study4_be.Models;
 using study4_be.Models.ViewModel;
 using study4_be.Repositories;
 
-namespace study4_be.Controllers.Admin
+namespace study4_be.Areas.Admin.Controllers
 {
+    [Area("Admin")]
     public class StaffController : Controller
     {
         private readonly ILogger<StaffController> _logger;

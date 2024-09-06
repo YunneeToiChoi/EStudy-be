@@ -1,6 +1,7 @@
 ﻿using FirebaseAdmin;
 using Google.Apis.Auth.OAuth2;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using study4_be.Interface;
 using study4_be.Models;
 using study4_be.Payment;
@@ -17,6 +18,8 @@ builder.Services.AddControllers()
         options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
         options.JsonSerializerOptions.DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull;
     });
+builder.Services.AddDbContext<STUDY4Context>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 //Đăng ký các dịch vụ
 builder.Services.AddDbContext<STUDY4Context>(); // Đăng ký STUDY4Context vào DI container
 builder.Services.AddScoped<UserCourseExpirationService>(); // Đăng ký dịch vụ UserCourseExpirationService với phạm vi Scoped
@@ -64,9 +67,16 @@ app.UseAuthorization();
 app.UseEndpoints(endpoints =>
 {
     endpoints.MapControllerRoute(
+        name: "areas",
+        pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
+
+    // Đặt route mặc định vào Admin Area
+    endpoints.MapControllerRoute(
         name: "default",
-        pattern: "{controller=Home}/{action=Index}/{id?}");
+        pattern: "{controller=Home}/{action=Index}/{id?}",
+        defaults: new { area = "Admin", controller = "Home", action = "Index" });
 });
+
 
 // Middleware để đọc dữ liệu từ yêu cầu và chuyển đổi thành đối tượng C#
 app.Use(async (context, next) =>

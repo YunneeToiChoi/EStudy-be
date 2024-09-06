@@ -6,8 +6,9 @@ using study4_be.Repositories;
 using study4_be.Services;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
-namespace study4_be.Controllers.Admin
+namespace study4_be.Areas.Admin.Controllers
 {
+    [Area("Admin")]
     public class Question_ExamController : Controller
     {
         private readonly ILogger<Question_ExamController> _logger;
@@ -44,7 +45,7 @@ namespace study4_be.Controllers.Admin
                 ModelState.AddModelError("", "An error occurred while processing your request. Please try again later.");
                 return View(new List<QuestionListViewModel>());
             }
-        }  
+        }
         public async Task<IActionResult> Question_Exam_Create()
         {
             var exam = await _context.Exams.ToListAsync();
@@ -72,7 +73,7 @@ namespace study4_be.Controllers.Admin
                 if (QuestionImage != null)
                 {
                     var uniqueIdForQuestionImage = Guid.NewGuid().ToString();
-                    var imgFilePath = ($"IMG{uniqueIdForQuestionImage}.jpg");
+                    var imgFilePath = $"IMG{uniqueIdForQuestionImage}.jpg";
                     firebaseUrl = await _firebaseServices.UploadFileToFirebaseStorageAsync(QuestionImage, imgFilePath, firebaseBucketName);
                 }
                 if (selectedPart == null)
@@ -88,7 +89,7 @@ namespace study4_be.Controllers.Admin
                     QuestionId = questionViewModel.question.QuestionId,
                     QuestionText = questionViewModel.question.QuestionText,
                     QuestionParagraph = questionViewModel.question.QuestionParagraph,
-                    QuestionImage = !string.IsNullOrEmpty(firebaseUrl) ? firebaseUrl : (string)null,
+                    QuestionImage = !string.IsNullOrEmpty(firebaseUrl) ? firebaseUrl : null,
                     CorrectAnswer = selectedCorrect,
                     OptionA = questionViewModel.question.OptionA,
                     OptionB = questionViewModel.question.OptionB,
@@ -206,7 +207,7 @@ namespace study4_be.Controllers.Admin
                         await _firebaseServices.DeleteFileFromFirebaseStorageAsync(oldFileName, firebaseBucketName);
                     }
                     var uniqueId = Guid.NewGuid().ToString();
-                    var imgFilePath = ($"IMG{uniqueId}.jpg");
+                    var imgFilePath = $"IMG{uniqueId}.jpg";
                     string firebaseUrl = await _firebaseServices.UploadFileToFirebaseStorageAsync(QuestionImage, imgFilePath, firebaseBucketName);
                     courseToUpdate.QuestionImage = firebaseUrl;
                     courseToUpdate.QuestionText = questionViewModel.question.QuestionText;

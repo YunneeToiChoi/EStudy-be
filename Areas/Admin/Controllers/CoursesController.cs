@@ -5,8 +5,9 @@ using study4_be.Repositories;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Hosting;
 using study4_be.Services;
-namespace study4_be.Controllers.Admin
+namespace study4_be.Areas.Admin.Controllers
 {
+    [Area("Admin")]
     public class CoursesController : Controller
     {
         private readonly ILogger<CoursesController> _logger;
@@ -61,7 +62,7 @@ namespace study4_be.Controllers.Admin
                 {
                     var firebaseBucketName = _fireBaseServices.GetFirebaseBucketName();
                     var uniqueId = Guid.NewGuid().ToString(); // Tạo một UUID ngẫu nhiên
-                    var imgFilePath = ($"IMG{uniqueId}.jpg");
+                    var imgFilePath = $"IMG{uniqueId}.jpg";
                     // Upload file to Firebase Storage
                     string firebaseUrl = await _fireBaseServices.UploadFileToFirebaseStorageAsync(CourseImage, imgFilePath, firebaseBucketName);
                     // Save firebaseUrl to your course object or database
@@ -106,44 +107,44 @@ namespace study4_be.Controllers.Admin
         [HttpPost]
         public async Task<IActionResult> Course_Edit(Course course, IFormFile CourseImage)
         {
-                var courseToUpdate = _context.Courses.FirstOrDefault(c => c.CourseId == course.CourseId);
-                if (CourseImage != null && CourseImage.Length > 0)
+            var courseToUpdate = _context.Courses.FirstOrDefault(c => c.CourseId == course.CourseId);
+            if (CourseImage != null && CourseImage.Length > 0)
+            {
+                var firebaseBucketName = _fireBaseServices.GetFirebaseBucketName();
+                // Delete the old image from Firebase Storage
+                if (!string.IsNullOrEmpty(courseToUpdate.CourseImage))
                 {
-                    var firebaseBucketName = _fireBaseServices.GetFirebaseBucketName();
-                    // Delete the old image from Firebase Storage
-                    if (!string.IsNullOrEmpty(courseToUpdate.CourseImage))
-                    {
-                        // Extract the file name from the URL
-                        var oldFileName = Path.GetFileName(new Uri(courseToUpdate.CourseImage).LocalPath);
-                        await _fireBaseServices.DeleteFileFromFirebaseStorageAsync(oldFileName, firebaseBucketName);
-                    }
-                    var uniqueId = Guid.NewGuid().ToString();
-                    var imgFilePath = ($"IMG{uniqueId}.jpg");
-                    string firebaseUrl = await _fireBaseServices.UploadFileToFirebaseStorageAsync(CourseImage, imgFilePath, firebaseBucketName);
-                    courseToUpdate.CourseName = course.CourseName;
-                    courseToUpdate.CourseDescription = course.CourseDescription;
-                    courseToUpdate.CoursePrice = course.CoursePrice;
-                    courseToUpdate.CourseTag = course.CourseTag;
-                    courseToUpdate.CourseImage = firebaseUrl;
+                    // Extract the file name from the URL
+                    var oldFileName = Path.GetFileName(new Uri(courseToUpdate.CourseImage).LocalPath);
+                    await _fireBaseServices.DeleteFileFromFirebaseStorageAsync(oldFileName, firebaseBucketName);
                 }
-                else
-                {
-                    courseToUpdate.CourseName = course.CourseName;
-                    courseToUpdate.CourseDescription = course.CourseDescription;
-                    courseToUpdate.CoursePrice = course.CoursePrice;
-                    courseToUpdate.CourseTag = course.CourseTag;
-                    courseToUpdate.CourseImage = courseToUpdate.CourseImage;
-                }
-                try
-                {
-                    _context.SaveChanges();
-                    return RedirectToAction("Course_List");
-                }
-                catch (Exception ex)
-                {
-                    _logger.LogError($"Error updating course with ID {course.CourseId}: {ex.Message}");
-                    ModelState.AddModelError(string.Empty, "An error occurred while updating the course.");
-                }
+                var uniqueId = Guid.NewGuid().ToString();
+                var imgFilePath = $"IMG{uniqueId}.jpg";
+                string firebaseUrl = await _fireBaseServices.UploadFileToFirebaseStorageAsync(CourseImage, imgFilePath, firebaseBucketName);
+                courseToUpdate.CourseName = course.CourseName;
+                courseToUpdate.CourseDescription = course.CourseDescription;
+                courseToUpdate.CoursePrice = course.CoursePrice;
+                courseToUpdate.CourseTag = course.CourseTag;
+                courseToUpdate.CourseImage = firebaseUrl;
+            }
+            else
+            {
+                courseToUpdate.CourseName = course.CourseName;
+                courseToUpdate.CourseDescription = course.CourseDescription;
+                courseToUpdate.CoursePrice = course.CoursePrice;
+                courseToUpdate.CourseTag = course.CourseTag;
+                courseToUpdate.CourseImage = courseToUpdate.CourseImage;
+            }
+            try
+            {
+                _context.SaveChanges();
+                return RedirectToAction("Course_List");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Error updating course with ID {course.CourseId}: {ex.Message}");
+                ModelState.AddModelError(string.Empty, "An error occurred while updating the course.");
+            }
             return View(course);
         }
         [HttpGet]
