@@ -5,6 +5,7 @@ using study4_be.Models;
 using study4_be.Models.ViewModel;
 using study4_be.Repositories;
 using study4_be.Services;
+using static Org.BouncyCastle.Crypto.Engines.SM2Engine;
 
 namespace study4_be.Controllers.Admin
 {
@@ -50,13 +51,40 @@ namespace study4_be.Controllers.Admin
         [HttpPost]
         public async Task<IActionResult> Container_Create(ContainerCreateViewModel containerViewModel)
         {
+            _logger.LogInformation("ContainerTitle: {ContainerTitle}", containerViewModel.containers.ContainerTitle);
+            _logger.LogInformation("UnitId: {UnitId}", containerViewModel.containers.UnitId);
+            //if (!ModelState.IsValid)
+            //{
+            //    // Debug: Kiểm tra các lỗi trong ModelState
+            //    foreach (var modelState in ModelState)
+            //    {
+            //        var key = modelState.Key;
+            //        var errors = modelState.Value.Errors;
+            //        foreach (var error in errors)
+            //        {
+            //            _logger.LogWarning($"Error in key '{key}': {error.ErrorMessage}");
+            //        }
+            //    }
+
+            //    // Nạp lại danh sách units nếu có lỗi
+            //    containerViewModel.units = _context.Units.Select(c => new SelectListItem
+            //    {
+            //        Value = c.UnitId.ToString(),
+            //        Text = c.UnitTittle + " : " + c.Course.CourseName
+            //    }).ToList();
+
+            //    return View(containerViewModel);
+            //}
+
             try
             {
+                int? unitId = string.IsNullOrEmpty(containerViewModel.containers.UnitId.ToString()) ? (int?)null : containerViewModel.containers.UnitId;
+
                 var container = new Container
                 {
                     ContainerId = containerViewModel.containers.ContainerId,
                     ContainerTitle = containerViewModel.containers.ContainerTitle,
-                    UnitId = containerViewModel.containers.UnitId,
+                    UnitId = unitId
                 };
 
                 await _context.AddAsync(container);
@@ -66,17 +94,20 @@ namespace study4_be.Controllers.Admin
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error occurred while creating new unit.");
+                _logger.LogError(ex, "Error occurred while creating new container.");
                 ModelState.AddModelError("", "An error occurred while processing your request. Please try again later.");
 
+                // Nạp lại danh sách units nếu có lỗi
                 containerViewModel.units = _context.Units.Select(c => new SelectListItem
                 {
                     Value = c.UnitId.ToString(),
                     Text = c.UnitTittle + " : " + c.Course.CourseName
                 }).ToList();
+
                 return View(containerViewModel);
             }
         }
+
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetContainerById(int id)

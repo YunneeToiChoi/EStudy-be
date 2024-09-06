@@ -13,16 +13,23 @@
             <p class="card-description">Create</p>
             <form asp-action="Container_Create" method="post" enctype="multipart/form-data" class="forms-sample">
                 <div class="form-group">
-                    <label for="Container Title">Container Title</label>
+                    <label asp-for="containers.ContainerTitle" class="form-control-label">Container Title</label>
                     <input asp-for="containers.ContainerTitle" class="form-control" />
                     <span asp-validation-for="containers.ContainerTitle" class="text-danger"></span>
                 </div>
 
                 <div class="form-group">
                     <label asp-for="containers.UnitId">Unit id</label>
-                    <select asp-for="containers.UnitId" class="form-control" asp-items="Model.units"></select>
+                    <select asp-for="containers.UnitId" class="form-control" asp-items="Model.units">
+                        <option value="">Please select</option>
+                        @foreach (var item in Model.units)
+                        {
+                            <option value="@item.Value">@item.Text</option>
+                        }
+                    </select>
                     <span asp-validation-for="containers.UnitId" class="text-danger"></span>
                 </div>
+
 
                 <div class="flex">
                     <button type="submit" class="btn btn-gradient-primary me-2">Submit</button>
@@ -32,4 +39,3 @@
         </div>
     </div>
 </div>
-

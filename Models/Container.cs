@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace study4_be.Models
 {
@@ -11,7 +12,10 @@ namespace study4_be.Models
         }
 
         public int ContainerId { get; set; }
+        [Required(ErrorMessage = "Container Title is required")]
         public string? ContainerTitle { get; set; }
+
+        [Required(ErrorMessage = "Unit selection is required")]
         public int? UnitId { get; set; }
 
         public virtual Unit? Unit { get; set; }

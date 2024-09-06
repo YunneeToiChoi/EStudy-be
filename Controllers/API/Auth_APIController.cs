@@ -325,7 +325,7 @@ namespace study4_be.Controllers.API
         {
             if (_req.userEmail == null)
             {
-                return BadRequest("User Enail is not null");
+                return BadRequest("User Email is not null");
             }
             try
             {
