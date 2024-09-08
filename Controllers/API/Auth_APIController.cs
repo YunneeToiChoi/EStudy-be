@@ -63,14 +63,6 @@ namespace study4_be.Controllers.API
                         var subject = "[EStudy] - Yêu cầu xác thực tài khoản của bạn";
                         var emailContent = _smtpServices.GenerateLinkVerifiByEmailContent(user.UserEmail, link);
                         await _smtpServices.SendEmailAsync(user.UserEmail, subject,emailContent,emailContent);
-                        //UserRecord userRecord;
-                        //userRecord = await FirebaseAuth.DefaultInstance.CreateUserAsync(new UserRecordArgs
-                        //{
-                        //    Email = user.UserEmail,
-                        //    EmailVerified = false,
-                        //    Password = user.UserPassword
-                        //});
-                        // can resend it
                         return Json(new { status = 200, message = "User registered successfully", userData = user });
                     }
                     else
@@ -149,35 +141,56 @@ namespace study4_be.Controllers.API
         [HttpPost("facebook-login")]
         public async Task<IActionResult> FacebookLogin([FromBody] FacebookLoginModel model)
         {
-            var accessToken = model.accessToken;
-
-            // Request to Facebook get token authoration and get data from user 
-            var httpClient = _httpClientFactory.CreateClient();
-            var response = await httpClient.GetStringAsync($"https://graph.facebook.com/me?access_token={accessToken}&fields=id,name,email,picture,gender,link,timezone");
-            var userInfo = JObject.Parse(response);
-            var userId = userInfo["id"].ToString();
-            var userName = userInfo["name"].ToString();
-            var userEmail = userInfo["email"]?.ToString() ?? "No email available";
-            var userAvatar = userInfo["picture"]?["data"]?["url"]?.ToString() ?? "No avatar available";
-            var userGender = userInfo["gender"]?.ToString() ?? "No gender available";
-            var userLink = userInfo["link"]?.ToString() ?? "No link available";
-            var userTimeZone = userInfo["timezone"]?.ToString() ?? "No time zone available";
-
-            // Create JWT Token
-            var token = _jwtServices.GenerateToken(userName, userEmail, userId,1);
-
-            // Return JWT Token and Data User 
-            return Ok(new
+            try
             {
-                UserId = userId,
-                UserName = userName,
-                UserEmail = userEmail,
-                Token = token,
-                UserAvatar = userAvatar,
-                UserGender = userGender,
-                UserLink = userLink,
-                UserTimeZone = userTimeZone
-            });
+                var accessToken = model.accessToken;
+
+                // Request to Facebook get token authoration and get data from user 
+                var httpClient = _httpClientFactory.CreateClient();
+                var response = await httpClient.GetStringAsync($"https://graph.facebook.com/me?access_token={accessToken}&fields=id,name,email,picture,gender,link,timezone");
+                var userInfo = JObject.Parse(response);
+                var userId = userInfo["id"].ToString();
+                var userName = userInfo["name"].ToString();
+                var userEmail = userInfo["email"]?.ToString() ?? "No email available";
+                var userAvatar = userInfo["picture"]?["data"]?["url"]?.ToString() ?? "No avatar available";
+                var userGender = userInfo["gender"]?.ToString() ?? "No gender available";
+                var userLink = userInfo["link"]?.ToString() ?? "No link available";
+                var userTimeZone = userInfo["timezone"]?.ToString() ?? "No time zone available";
+
+                if (userInfo != null)
+                {
+                    User user = new User
+                    {
+                        UserId = userId,
+                        UserName = userName,
+                        UserEmail = userEmail,
+                        UserImage = userAvatar,
+                    };
+                    _userRepository.AddUserWithServices(user);
+                }
+                else
+                {
+                    return BadRequest(new { status = 400, message = "Create new user not successful" });
+                }
+                // Create JWT Token
+                var token = _jwtServices.GenerateToken(userName, userEmail, userId, 1);
+
+                // Return JWT Token and Data User 
+                return Ok(new
+                {
+                    UserId = userId,
+                    UserName = userName,
+                    UserEmail = userEmail,
+                    Token = token,
+                    UserAvatar = userAvatar,
+                    UserGender = userGender,
+                    UserLink = userLink,
+                    UserTimeZone = userTimeZone
+                });
+            }
+            catch ( Exception ex) {
+                return BadRequest(ex.Message);
+            }
         }
         [HttpPost("Logout")]
         public IActionResult Logout()

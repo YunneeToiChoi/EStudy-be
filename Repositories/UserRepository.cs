@@ -37,6 +37,15 @@ namespace study4_be.Repositories
             user.Isverified = false;
             _context.SaveChanges();
         }
+        public void AddUserWithServices(User user)
+        {
+            user.UserId = user.UserId ?? Guid.NewGuid().ToString();
+            _context.Users.Add(user);
+            user.UserBanner = null;
+            user.UserImage = user.UserImage ?? "https://firebasestorage.googleapis.com/v0/b/estudy-426108.appspot.com/o/avtDefaultUser.jfif?alt=media&token=8dabba5f-cccb-4a4c-9ab4-69049c769bdf";
+            user.Isverified = true;
+            _context.SaveChanges();
+        }
         public bool CheckEmailExists(string email)
         {
             return _context.Users.AsNoTracking().Any(u => u.UserEmail == email);
