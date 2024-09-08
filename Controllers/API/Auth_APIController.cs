@@ -14,6 +14,14 @@ using MailKit.Search;
 using FirebaseAdmin.Auth;
 using SendGrid.Helpers.Mail;
 using study4_be.Models.ViewModel;
+using Microsoft.AspNetCore.Authentication.Google;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
+using Microsoft.AspNetCore.Authentication.Facebook;
+using Newtonsoft.Json.Linq;
 namespace study4_be.Controllers.API
 {
     [Route("api/[controller]")]
@@ -26,11 +34,16 @@ namespace study4_be.Controllers.API
         private UserRegistrationValidator _userRegistrationValidator = new UserRegistrationValidator();
         private readonly ILogger<CoursesController> _logger;
         private FireBaseServices _fireBaseServices;
-        public Auth_APIController(ILogger<CoursesController> logger, FireBaseServices fireBaseServices, SMTPServices smtpServices)
+        private JwtTokenGenerator _jwtServices;
+
+        private readonly IHttpClientFactory _httpClientFactory;
+        public Auth_APIController(ILogger<CoursesController> logger, FireBaseServices fireBaseServices, SMTPServices smtpServices, IHttpClientFactory httpClientFactory, JwtTokenGenerator jwtServices)
         {
             _logger = logger;
             _fireBaseServices = fireBaseServices;
             _smtpServices = smtpServices;
+            _httpClientFactory = httpClientFactory;
+            _jwtServices = jwtServices;
         }
         [HttpPost("Register")]
         public async Task<IActionResult> Register()
@@ -102,6 +115,75 @@ namespace study4_be.Controllers.API
                     return BadRequest("Invalid login data");
                 }
             }
+        }
+        //############ GOOGLE ############// 
+        [HttpGet("LoginGoogle")]
+        //public IActionResult LoginGoogle()
+        //{
+        //    var redirectUrl = Url.Action(nameof(HandleExternalLogin), "Account");
+        //    var properties = new AuthenticationProperties { RedirectUri = redirectUrl };
+        //    return Challenge(properties, GoogleDefaults.AuthenticationScheme);
+        //}
+        //[HttpGet("HandleExternalLogin")]
+        //public async Task<IActionResult> HandleExternalLogin()
+        //{
+        //    var authenticateResult = await HttpContext.AuthenticateAsync(GoogleDefaults.AuthenticationScheme);
+
+        //    if (!authenticateResult.Succeeded)
+        //        return BadRequest("Google login failed.");
+
+        //    var claims = new List<Claim>
+        //    {
+        //        new Claim(JwtRegisteredClaimNames.Sub, authenticateResult.Principal.FindFirst(ClaimTypes.Email)?.Value),
+        //        new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+        //    };
+
+        //    var token = GenerateJwtToken(claims);
+
+        //    // Redirect back to frontend with the JWT token
+        //    var frontEndUrl = "https://your-frontend-url"; // Replace with your frontend URL
+        //    return Redirect($"{frontEndUrl}?token={token}");
+        //}
+
+        //############ FACEBOOK ############// 
+        [HttpPost("facebook-login")]
+        public async Task<IActionResult> FacebookLogin([FromBody] FacebookLoginModel model)
+        {
+            var accessToken = model.accessToken;
+
+            // Request to Facebook get token authoration and get data from user 
+            var httpClient = _httpClientFactory.CreateClient();
+            var response = await httpClient.GetStringAsync($"https://graph.facebook.com/me?access_token={accessToken}&fields=id,name,email,picture,gender,link,timezone");
+            var userInfo = JObject.Parse(response);
+            var userId = userInfo["id"].ToString();
+            var userName = userInfo["name"].ToString();
+            var userEmail = userInfo["email"]?.ToString() ?? "No email available";
+            var userAvatar = userInfo["picture"]?["data"]?["url"]?.ToString() ?? "No avatar available";
+            var userGender = userInfo["gender"]?.ToString() ?? "No gender available";
+            var userLink = userInfo["link"]?.ToString() ?? "No link available";
+            var userTimeZone = userInfo["timezone"]?.ToString() ?? "No time zone available";
+
+            // Create JWT Token
+            var token = _jwtServices.GenerateToken(userName, userEmail, userId,1);
+
+            // Return JWT Token and Data User 
+            return Ok(new
+            {
+                UserId = userId,
+                UserName = userName,
+                UserEmail = userEmail,
+                Token = token,
+                UserAvatar = userAvatar,
+                UserGender = userGender,
+                UserLink = userLink,
+                UserTimeZone = userTimeZone
+            });
+        }
+        [HttpPost("Logout")]
+        public IActionResult Logout()
+        {
+            // Xóa token từ client (xóa token từ local storage hoặc cookie)
+            return Ok(new { message = "Logged out successfully" });
         }
         [HttpGet("Get_AllUsers")]
         public async Task<ActionResult<IEnumerable<User>>> Get_AllUsers()
