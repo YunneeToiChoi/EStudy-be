@@ -7,6 +7,10 @@
       "RelativeMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|solutionrelative:controllers\\api\\auth_apicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|d:\\be\\repositories\\userrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|solutionrelative:repositories\\userrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|d:\\be\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
       "RelativeMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|solutionrelative:appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     },
@@ -30,8 +34,21 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 6,
+          "SelectedChildIndex": 7,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "UserRepository.cs",
+              "DocumentMoniker": "D:\\be\\Repositories\\UserRepository.cs",
+              "RelativeDocumentMoniker": "Repositories\\UserRepository.cs",
+              "ToolTip": "D:\\be\\Repositories\\UserRepository.cs",
+              "RelativeToolTip": "Repositories\\UserRepository.cs",
+              "ViewState": "AgIAABsAAAAAAAAAAAAlwC8AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-10T10:26:38.062Z",
+              "EditorCaption": ""
+            },
             {
               "$type": "Bookmark",
               "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
@@ -42,7 +59,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "appsettings.json",
               "DocumentMoniker": "D:\\be\\appsettings.json",
               "RelativeDocumentMoniker": "appsettings.json",
@@ -50,12 +67,11 @@
               "RelativeToolTip": "appsettings.json",
               "ViewState": "AgIAACEAAAAAAAAAAAAAwD4AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2024-09-08T09:40:51.52Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-09-08T09:40:51.52Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 5,
               "Title": "SMTPServices.cs",
               "DocumentMoniker": "D:\\be\\Services\\SMTPServices.cs",
               "RelativeDocumentMoniker": "Services\\SMTPServices.cs",
@@ -63,12 +79,11 @@
               "RelativeToolTip": "Services\\SMTPServices.cs",
               "ViewState": "AgIAABkAAAAAAAAAAAAmwCkAAAAaAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-08T09:36:52.263Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-09-08T09:36:52.263Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "FacebookLoginModel.cs",
               "DocumentMoniker": "D:\\be\\Models\\FacebookLoginModel.cs",
               "RelativeDocumentMoniker": "Models\\FacebookLoginModel.cs",
@@ -76,12 +91,11 @@
               "RelativeToolTip": "Models\\FacebookLoginModel.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAOAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-08T09:34:15.174Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-09-08T09:34:15.174Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
               "Title": "JwtTokenGenerator.cs",
               "DocumentMoniker": "D:\\be\\Services\\JwtTokenGenerator.cs",
               "RelativeDocumentMoniker": "Services\\JwtTokenGenerator.cs",
@@ -89,8 +103,7 @@
               "RelativeToolTip": "Services\\JwtTokenGenerator.cs",
               "ViewState": "AgIAAAUAAAAAAAAAAAAAAAwAAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-08T09:25:25.395Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-09-08T09:25:25.395Z"
             },
             {
               "$type": "Document",
@@ -100,7 +113,7 @@
               "RelativeDocumentMoniker": "Controllers\\API\\Auth_APIController.cs",
               "ToolTip": "D:\\be\\Controllers\\API\\Auth_APIController.cs",
               "RelativeToolTip": "Controllers\\API\\Auth_APIController.cs",
-              "ViewState": "AgIAAJMAAAAAAAAAAAAswJsAAACSAAAAAAAAAA==",
+              "ViewState": "AgIAAKUAAAAAAAAAAAAcwLoAAAAiAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-09-07T15:22:08.034Z",
               "EditorCaption": ""

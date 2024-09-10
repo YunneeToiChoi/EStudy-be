@@ -156,21 +156,24 @@ namespace study4_be.Controllers.API
                 var userGender = userInfo["gender"]?.ToString() ?? "No gender available";
                 var userLink = userInfo["link"]?.ToString() ?? "No link available";
                 var userTimeZone = userInfo["timezone"]?.ToString() ?? "No time zone available";
-
                 if (userInfo != null)
                 {
-                    User user = new User
+                    var userExist = _context.Users.Where(u => u.UserId == userId);
+                    if (userExist == null)
                     {
-                        UserId = userId,
-                        UserName = userName,
-                        UserEmail = userEmail,
-                        UserImage = userAvatar,
-                    };
-                    _userRepository.AddUserWithServices(user);
+                        User user = new User
+                        {
+                            UserId = userId,
+                            UserName = userName,
+                            UserEmail = userEmail,
+                            UserImage = userAvatar,
+                        };
+                        _userRepository.AddUserWithServices(user);
+                    }
                 }
                 else
                 {
-                    return BadRequest(new { status = 400, message = "Create new user not successful" });
+                    return BadRequest(new { status = 400, message = "Get data user not successful" });
                 }
                 // Create JWT Token
                 var token = _jwtServices.GenerateToken(userName, userEmail, userId, 1);
