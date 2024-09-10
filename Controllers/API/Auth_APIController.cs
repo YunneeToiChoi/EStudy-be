@@ -152,31 +152,46 @@ namespace study4_be.Controllers.API
                 var userAvatar = userInfo["picture"]?.ToString();
 
                 // Kiểm tra người dùng có tồn tại trong cơ sở dữ liệu không
-                var userExist = await _context.Users.Where(u => u.UserId == userId && u.UserEmail == userEmail).FirstOrDefaultAsync();
+                var userExist = await _context.Users
+                    .Where(u => u.UserId == userId && u.UserEmail == userEmail).FirstOrDefaultAsync();
+
                 if (userExist == null)
                 {
-                    // Nếu người dùng không tồn tại, tạo người dùng mới
-                    User user = new User
+                    var newUser = new User
                     {
                         UserId = userId,
                         UserName = userName,
                         UserEmail = userEmail,
                         UserImage = userAvatar,
+                        Isverified = true, // Assuming new users are verified
                     };
-                    _userRepository.AddUserWithServices(user);
+                    _userRepository.AddUserWithServices(newUser);
+                    // Ensure changes are saved to the database
+                    userExist = newUser; // Update userExist to the newly created user
                 }
 
-                // Tạo JWT Token
                 var token = _jwtServices.GenerateToken(userName, userEmail, userId, 1);
 
-                // Trả về JWT Token và thông tin người dùng
+                var userDataResponse = new User
+                {
+                    UserId = userExist.UserId,
+                    UserName = userExist.UserName,
+                    UserEmail = userExist.UserEmail,
+                    UserImage = userExist.UserImage,
+                    Isverified = userExist.Isverified,
+                    PhoneNumber = userExist.PhoneNumber,
+                    RoleId = userExist.RoleId,
+                    UsersExams = userExist.UsersExams,
+                    Orders = userExist.Orders,
+                    UserBanner = userExist.UserBanner,
+                    UserCourses = userExist.UserCourses,
+                    UserDescription = userExist.UserDescription,
+                };
                 return Ok(new
                 {
-                    UserId = userId,
-                    UserName = userName,
-                    UserEmail = userEmail,
-                    Token = token,
-                    UserAvatar = userAvatar,
+                    status = 200,
+                    token,
+                    user = userDataResponse
                 });
             }
             catch (Exception ex)
@@ -190,59 +205,77 @@ namespace study4_be.Controllers.API
         [HttpPost("facebook-login")]
         public async Task<IActionResult> FacebookLogin([FromBody] FacebookLoginModel model)
         {
+            if (model == null || string.IsNullOrEmpty(model.accessToken))
+            {
+                return BadRequest(new { status = 400, message = "Access token is required" });
+            }
+
             try
             {
                 var accessToken = model.accessToken;
-
-                // Request to Facebook get token authoration and get data from user 
                 var httpClient = _httpClientFactory.CreateClient();
                 var response = await httpClient.GetStringAsync($"https://graph.facebook.com/me?access_token={accessToken}&fields=id,name,email,picture,gender,link,timezone");
+
                 var userInfo = JObject.Parse(response);
-                var userId = userInfo["id"].ToString();
-                var userName = userInfo["name"].ToString();
+                var userId = userInfo["id"]?.ToString();
+                var userName = userInfo["name"]?.ToString();
                 var userEmail = userInfo["email"]?.ToString() ?? "No email available";
                 var userAvatar = userInfo["picture"]?["data"]?["url"]?.ToString() ?? "No avatar available";
                 var userGender = userInfo["gender"]?.ToString() ?? "No gender available";
                 var userLink = userInfo["link"]?.ToString() ?? "No link available";
                 var userTimeZone = userInfo["timezone"]?.ToString() ?? "No time zone available";
-                if (userInfo != null)
+
+                if (string.IsNullOrEmpty(userId) || string.IsNullOrEmpty(userName))
                 {
-                    var userExist = await _context.Users.Where(u => u.UserId == userId && u.UserEmail == userEmail).FirstOrDefaultAsync();
-                    if (userExist == null)
-                    {
-                        User user = new User
-                        {
-                            UserId = userId,
-                            UserName = userName,
-                            UserEmail = userEmail,
-                            UserImage = userAvatar,
-                        };
-                        _userRepository.AddUserWithServices(user);
-                    }
-                }
-                else
-                {
-                    return BadRequest(new { status = 400, message = "Get data user not successful" });
+                    return BadRequest(new { status = 400, message = "Failed to retrieve user data from Facebook" });
                 }
 
-                // Create JWT Token
+                var userExist = await _context.Users
+                    .Where(u => u.UserId == userId && u.UserEmail == userEmail).FirstOrDefaultAsync();
+
+                if (userExist == null)
+                {
+                    var newUser = new User
+                    {
+                        UserId = userId,
+                        UserName = userName,
+                        UserEmail = userEmail,
+                        UserImage = userAvatar,
+                        Isverified = true, // Assuming new users are verified
+                    };
+                    _userRepository.AddUserWithServices(newUser);
+                     // Ensure changes are saved to the database
+                    userExist = newUser; // Update userExist to the newly created user
+                }
+
                 var token = _jwtServices.GenerateToken(userName, userEmail, userId, 1);
 
-                // Return JWT Token and Data User 
+                var userDataResponse = new User
+                {
+                    UserId = userExist.UserId,
+                    UserName = userExist.UserName,
+                    UserEmail = userExist.UserEmail,
+                    UserImage = userExist.UserImage,
+                    Isverified = userExist.Isverified,
+                    PhoneNumber = userExist.PhoneNumber,
+                    RoleId = userExist.RoleId,
+                    UsersExams = userExist.UsersExams,
+                    Orders = userExist.Orders,
+                    UserBanner = userExist.UserBanner,
+                    UserCourses = userExist.UserCourses,
+                    UserDescription = userExist.UserDescription,
+                };
                 return Ok(new
                 {
-                    UserId = userId,
-                    UserName = userName,
-                    UserEmail = userEmail,
-                    Token = token,
-                    UserAvatar = userAvatar,
-                    UserGender = userGender,
-                    UserLink = userLink,
-                    UserTimeZone = userTimeZone
+                    status = 200,
+                    token,
+                    user = userDataResponse
                 });
             }
-            catch ( Exception ex) {
-                return BadRequest(ex.Message);
+            catch (Exception ex)
+            {
+                // Log the exception if necessary
+                return StatusCode(StatusCodes.Status500InternalServerError, new { status = 500, message = ex.Message });
             }
         }
         [HttpPost("Logout")]

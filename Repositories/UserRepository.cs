@@ -26,7 +26,7 @@ namespace study4_be.Repositories
             return _context.Users.FirstOrDefault(u => u.UserEmail == email);
         }
 
-        public void AddUser(User user)
+        public async void AddUser(User user)
         {
             // Tạo ID ngẫu nhiên cho người dùng
             user.UserId = Guid.NewGuid().ToString();
@@ -35,7 +35,8 @@ namespace study4_be.Repositories
             user.UserBanner = null;
             user.UserImage = "https://firebasestorage.googleapis.com/v0/b/estudy-426108.appspot.com/o/avtDefaultUser.jfif?alt=media&token=8dabba5f-cccb-4a4c-9ab4-69049c769bdf";
             user.Isverified = false;
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
+
         }
         public async void  AddUserWithServices(User user)
         {
@@ -44,7 +45,7 @@ namespace study4_be.Repositories
             user.UserBanner = null;
             user.UserImage = user.UserImage ?? "https://firebasestorage.googleapis.com/v0/b/estudy-426108.appspot.com/o/avtDefaultUser.jfif?alt=media&token=8dabba5f-cccb-4a4c-9ab4-69049c769bdf";
             user.Isverified = true;
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
         public bool CheckEmailExists(string email)
         {
