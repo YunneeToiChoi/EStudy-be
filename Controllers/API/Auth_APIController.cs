@@ -22,6 +22,7 @@ using System.Security.Claims;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.Facebook;
 using Newtonsoft.Json.Linq;
+using Microsoft.AspNetCore.Authentication.Cookies;
 namespace study4_be.Controllers.API
 {
     [Route("api/[controller]")]
@@ -109,34 +110,31 @@ namespace study4_be.Controllers.API
             }
         }
         //############ GOOGLE ############// 
-        [HttpGet("LoginGoogle")]
-        //public IActionResult LoginGoogle()
-        //{
-        //    var redirectUrl = Url.Action(nameof(HandleExternalLogin), "Account");
-        //    var properties = new AuthenticationProperties { RedirectUri = redirectUrl };
-        //    return Challenge(properties, GoogleDefaults.AuthenticationScheme);
-        //}
-        //[HttpGet("HandleExternalLogin")]
-        //public async Task<IActionResult> HandleExternalLogin()
-        //{
-        //    var authenticateResult = await HttpContext.AuthenticateAsync(GoogleDefaults.AuthenticationScheme);
-
-        //    if (!authenticateResult.Succeeded)
-        //        return BadRequest("Google login failed.");
-
-        //    var claims = new List<Claim>
-        //    {
-        //        new Claim(JwtRegisteredClaimNames.Sub, authenticateResult.Principal.FindFirst(ClaimTypes.Email)?.Value),
-        //        new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
-        //    };
-
-        //    var token = GenerateJwtToken(claims);
-
-        //    // Redirect back to frontend with the JWT token
-        //    var frontEndUrl = "https://your-frontend-url"; // Replace with your frontend URL
-        //    return Redirect($"{frontEndUrl}?token={token}");
-        //}
-
+      
+        [HttpGet("signin-google")]
+        public async Task SignInGoogle()
+        {
+            await HttpContext.ChallengeAsync(GoogleDefaults.AuthenticationScheme, new AuthenticationProperties
+            {
+                RedirectUri = Url.Action("GoogleResponse", "Auth_API")
+            });
+            //var properties = new AuthenticationProperties
+            //{
+            //    RedirectUri = Url.Action("GoogleResponse", "Auth_API")
+            //};
+            //return Challenge(properties, GoogleDefaults.AuthenticationScheme);
+        }
+        [HttpGet("google-response")]
+        public async Task<IActionResult> GoogleResponse()
+        {
+            var result = await HttpContext.AuthenticateAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            if (result.Succeeded)
+            {
+                // Handle successful authentication here
+                return RedirectToAction("Index", "Home");
+            }
+            return RedirectToAction("Error", "Home");
+        }
         //############ FACEBOOK ############// 
         [HttpPost("facebook-login")]
         public async Task<IActionResult> FacebookLogin([FromBody] FacebookLoginModel model)
@@ -157,21 +155,21 @@ namespace study4_be.Controllers.API
                 var userLink = userInfo["link"]?.ToString() ?? "No link available";
                 var userTimeZone = userInfo["timezone"]?.ToString() ?? "No time zone available";
 
-                if (userInfo != null)
-                {
-                    User user = new User
-                    {
-                        UserId = userId,
-                        UserName = userName,
-                        UserEmail = userEmail,
-                        UserImage = userAvatar,
-                    };
-                    _userRepository.AddUserWithServices(user);
-                }
-                else
-                {
-                    return BadRequest(new { status = 400, message = "Create new user not successful" });
-                }
+                //if (userInfo != null)
+                //{
+                //    User user = new User
+                //    {
+                //        UserId = userId,
+                //        UserName = userName,
+                //        UserEmail = userEmail,
+                //        UserImage = userAvatar,
+                //    };
+                //    _userRepository.AddUserWithServices(user);
+                //}
+                //else
+                //{
+                //    return BadRequest(new { status = 400, message = "Create new user not successful" });
+                //}
                 // Create JWT Token
                 var token = _jwtServices.GenerateToken(userName, userEmail, userId, 1);
 
