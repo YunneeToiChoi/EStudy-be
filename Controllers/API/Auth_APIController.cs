@@ -23,6 +23,7 @@ using System.Text;
 using Microsoft.AspNetCore.Authentication.Facebook;
 using Newtonsoft.Json.Linq;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Google.Apis.Auth;
 namespace study4_be.Controllers.API
 {
     [Route("api/[controller]")]
@@ -110,31 +111,81 @@ namespace study4_be.Controllers.API
             }
         }
         //############ GOOGLE ############// 
-      
+
         [HttpGet("signin-google")]
-        public async Task SignInGoogle()
+        public IActionResult SignInGoogle()
         {
-            await HttpContext.ChallengeAsync(GoogleDefaults.AuthenticationScheme, new AuthenticationProperties
+            var properties = new AuthenticationProperties
             {
                 RedirectUri = Url.Action("GoogleResponse", "Auth_API")
-            });
-            //var properties = new AuthenticationProperties
-            //{
-            //    RedirectUri = Url.Action("GoogleResponse", "Auth_API")
-            //};
-            //return Challenge(properties, GoogleDefaults.AuthenticationScheme);
+            };
+            return Challenge(properties, GoogleDefaults.AuthenticationScheme);
         }
+
         [HttpGet("google-response")]
         public async Task<IActionResult> GoogleResponse()
         {
             var result = await HttpContext.AuthenticateAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            if (result.Succeeded)
+            if (!result.Succeeded)
             {
-                // Handle successful authentication here
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Error", "Home");
             }
-            return RedirectToAction("Error", "Home");
+
+            // Lấy access token từ kết quả xác thực
+            var accessToken = result.Properties.GetTokenValue("access_token");
+
+            if (string.IsNullOrEmpty(accessToken))
+            {
+                return BadRequest("No Access Token found.");
+            }
+
+            try
+            {
+                // Sử dụng access token để gọi API của Google
+                var httpClient = _httpClientFactory.CreateClient();
+                var response = await httpClient.GetStringAsync($"https://www.googleapis.com/oauth2/v2/userinfo?access_token={accessToken}");
+                var userInfo = JObject.Parse(response);
+
+                var userId = userInfo["id"].ToString();
+                var userName = userInfo["name"].ToString();
+                var userEmail = userInfo["email"].ToString();
+                var userAvatar = userInfo["picture"]?.ToString();
+
+                // Kiểm tra người dùng có tồn tại trong cơ sở dữ liệu không
+                var userExist = await _context.Users.Where(u => u.UserId == userId && u.UserEmail == userEmail).FirstOrDefaultAsync();
+                if (userExist == null)
+                {
+                    // Nếu người dùng không tồn tại, tạo người dùng mới
+                    User user = new User
+                    {
+                        UserId = userId,
+                        UserName = userName,
+                        UserEmail = userEmail,
+                        UserImage = userAvatar,
+                    };
+                    _userRepository.AddUserWithServices(user);
+                }
+
+                // Tạo JWT Token
+                var token = _jwtServices.GenerateToken(userName, userEmail, userId, 1);
+
+                // Trả về JWT Token và thông tin người dùng
+                return Ok(new
+                {
+                    UserId = userId,
+                    UserName = userName,
+                    UserEmail = userEmail,
+                    Token = token,
+                    UserAvatar = userAvatar,
+                });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"Error occurred: {ex.Message}");
+            }
         }
+
+
         //############ FACEBOOK ############// 
         [HttpPost("facebook-login")]
         public async Task<IActionResult> FacebookLogin([FromBody] FacebookLoginModel model)
@@ -156,7 +207,7 @@ namespace study4_be.Controllers.API
                 var userTimeZone = userInfo["timezone"]?.ToString() ?? "No time zone available";
                 if (userInfo != null)
                 {
-                    var userExist = _context.Users.Where(u => u.UserId == userId);
+                    var userExist = await _context.Users.Where(u => u.UserId == userId && u.UserEmail == userEmail).FirstOrDefaultAsync();
                     if (userExist == null)
                     {
                         User user = new User

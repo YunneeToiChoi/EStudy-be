@@ -37,7 +37,7 @@ namespace study4_be.Repositories
             user.Isverified = false;
             _context.SaveChanges();
         }
-        public void AddUserWithServices(User user)
+        public async void  AddUserWithServices(User user)
         {
             user.UserId = user.UserId ?? Guid.NewGuid().ToString();
             _context.Users.Add(user);
