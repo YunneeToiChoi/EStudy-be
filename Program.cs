@@ -20,7 +20,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Thêm dịch vụ MVC và các view
 builder.Services.AddControllersWithViews();
 
-// Add services to the container
+// Thêm dịch vụ Controllers với tùy chọn JSON
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
     {
@@ -28,60 +28,57 @@ builder.Services.AddControllers()
         options.JsonSerializerOptions.DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull;
     });
 
-// Register DbContext
-builder.Services.AddDbContext<STUDY4Context>();
+// Đăng ký DbContext
+builder.Services.AddDbContext<STUDY4Context>(options =>
+{
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+});
 
-// Add scoped, transient, singleton services
+// Đăng ký các dịch vụ
 builder.Services.AddScoped<UserCourseExpirationService>();
 builder.Services.AddTransient<ICurrentUserServices, CurrentUserServices>();
 builder.Services.AddTransient<IConnectionService, ConnectionService>();
 builder.Services.AddTransient<ISqlService, SqlService>();
-//builder.Services.AddMediatR(typeof(Program).Assembly);
 builder.Services.Configure<MomoConfig>(builder.Configuration.GetSection(MomoConfig.ConfigName));
 
-// Firebase and SMTP services
+// Dịch vụ Firebase và SMTP
 builder.Services.AddSingleton<FireBaseServices>();
 builder.Services.AddSingleton<SMTPServices>();
 
-// Add IHttpContextAccessor
+// Thêm IHttpContextAccessor
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
 // Cấu hình logging
 builder.Logging.ClearProviders(); // Xóa các provider logging mặc định
 builder.Logging.AddConsole(); // Thêm provider logging Console
 builder.Logging.AddDebug(); // Thêm provider logging Debug
-
-// Configure Google and Facebook Authentication
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
     options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+    options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
 })
 .AddCookie()
 .AddGoogle(options =>
 {
     options.ClientId = builder.Configuration["Authentication:Google:ClientId"];
     options.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"];
+    options.SaveTokens = true; // Ensure tokens are saved in the authentication properties
+    options.Scope.Add("openid"); // Add openid scope
+    options.Scope.Add("profile");
+    options.Scope.Add("email");
 })
 .AddFacebook(options =>
 {
     options.AppId = builder.Configuration["Authentication:Facebook:AppId"];
     options.AppSecret = builder.Configuration["Authentication:Facebook:AppSecret"];
-    options.CallbackPath = "/api/Auth_API/google-response";
-});
-
-// Configure JWT Authenticatior
-var jwtSettings = builder.Configuration.GetSection("Jwt");
-var secretKey = jwtSettings["SecretKey"];
-var key = Encoding.ASCII.GetBytes(secretKey);
-
-builder.Services.AddAuthentication(options =>
-{
-    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
 })
 .AddJwtBearer(options =>
 {
+    var jwtSettings = builder.Configuration.GetSection("Jwt");
+    var secretKey = jwtSettings["SecretKey"];
+    var key = Encoding.ASCII.GetBytes(secretKey);
+
     options.TokenValidationParameters = new TokenValidationParameters
     {
         ValidateIssuerSigningKey = true,
@@ -92,14 +89,14 @@ builder.Services.AddAuthentication(options =>
         ValidAudience = jwtSettings["Audience"]
     };
 });
-
+builder.Services.AddControllers();
 // Đăng ký JwtTokenGenerator
 builder.Services.AddSingleton<JwtTokenGenerator>();
 
-// Add HttpClient để thực hiện request đến Facebook
+// Thêm HttpClient
 builder.Services.AddHttpClient();
 
-// Add CORS policy
+// Cấu hình CORS
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAll", policy =>
@@ -112,7 +109,7 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline
+// Cấu hình HTTP request pipeline
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
@@ -124,11 +121,11 @@ app.UseRouting();
 
 app.UseCors("AllowAll");
 
-// Add authentication and authorization middleware
+// Thêm middleware xác thực và phân quyền
 app.UseAuthentication();
 app.UseAuthorization();
 
-// Map routes
+// Đăng ký các route
 app.UseEndpoints(endpoints =>
 {
     endpoints.MapControllerRoute(
@@ -136,7 +133,7 @@ app.UseEndpoints(endpoints =>
         pattern: "{controller=Home}/{action=Index}/{id?}");
 });
 
-// Middleware to read request body and store it in context
+// Middleware để đọc body của request và lưu vào context
 app.Use(async (context, next) =>
 {
     context.Request.EnableBuffering();

@@ -7,24 +7,24 @@
       "RelativeMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|solutionrelative:controllers\\api\\auth_apicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|d:\\be\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|d:\\be\\controllers\\admin\\videocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|solutionrelative:controllers\\admin\\videocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|d:\\be\\models\\study4context.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|solutionrelative:models\\study4context.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|d:\\be\\repositories\\userrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|solutionrelative:repositories\\userrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|d:\\be\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|solutionrelative:appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|d:\\be\\models\\facebookloginmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|solutionrelative:models\\facebookloginmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|d:\\be\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|solutionrelative:appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\phanv\\AppData\\Local\\SourceServer\\1700707e940233785a40b50af9d35a622307adb1b0460878d23bfd6041afb8d9\\Controllers\\API\\Auth_APIController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|d:\\be\\views\\home\\signingoogle.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|solutionrelative:views\\home\\signingoogle.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     }
   ],
   "DocumentGroupContainers": [
@@ -35,21 +35,7 @@
         {
           "DockedWidth": 200,
           "SelectedChildIndex": 7,
-
           "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "UserRepository.cs",
-              "DocumentMoniker": "D:\\be\\Repositories\\UserRepository.cs",
-              "RelativeDocumentMoniker": "Repositories\\UserRepository.cs",
-              "ToolTip": "D:\\be\\Repositories\\UserRepository.cs",
-              "RelativeToolTip": "Repositories\\UserRepository.cs",
-              "ViewState": "AgIAABsAAAAAAAAAAAAlwC8AAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-10T10:26:38.062Z",
-              "EditorCaption": ""
-            },
             {
               "$type": "Bookmark",
               "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
@@ -60,66 +46,54 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "appsettings.json",
-              "DocumentMoniker": "D:\\be\\appsettings.json",
-              "RelativeDocumentMoniker": "appsettings.json",
-              "ToolTip": "D:\\be\\appsettings.json",
-              "RelativeToolTip": "appsettings.json",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAA6AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2024-09-08T09:40:51.52Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "SMTPServices.cs",
-              "DocumentMoniker": "D:\\be\\Services\\SMTPServices.cs",
-              "RelativeDocumentMoniker": "Services\\SMTPServices.cs",
-              "ToolTip": "D:\\be\\Services\\SMTPServices.cs",
-              "RelativeToolTip": "Services\\SMTPServices.cs",
-              "ViewState": "AgIAABkAAAAAAAAAAAAmwCkAAAAaAAAAAAAAAA==",
+              "DocumentIndex": 4,
+              "Title": "UserRepository.cs",
+              "DocumentMoniker": "D:\\be\\Repositories\\UserRepository.cs",
+              "RelativeDocumentMoniker": "Repositories\\UserRepository.cs",
+              "ToolTip": "D:\\be\\Repositories\\UserRepository.cs",
+              "RelativeToolTip": "Repositories\\UserRepository.cs",
+              "ViewState": "AgIAABsAAAAAAAAAAAAIwCwAAAApAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-08T09:36:52.263Z"
+              "WhenOpened": "2024-09-10T13:10:25.971Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 3,
-              "Title": "FacebookLoginModel.cs",
-              "DocumentMoniker": "D:\\be\\Models\\FacebookLoginModel.cs",
-              "RelativeDocumentMoniker": "Models\\FacebookLoginModel.cs",
-              "ToolTip": "D:\\be\\Models\\FacebookLoginModel.cs",
-              "RelativeToolTip": "Models\\FacebookLoginModel.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAOAAAAAAAAAA==",
+              "Title": "STUDY4Context.cs",
+              "DocumentMoniker": "D:\\be\\Models\\STUDY4Context.cs",
+              "RelativeDocumentMoniker": "Models\\STUDY4Context.cs",
+              "ToolTip": "D:\\be\\Models\\STUDY4Context.cs",
+              "RelativeToolTip": "Models\\STUDY4Context.cs",
+              "ViewState": "AgIAACIAAAAAAAAAAAAcwCkAAACZAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-08T09:34:15.174Z"
+              "WhenOpened": "2024-09-10T13:09:19.228Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "JwtTokenGenerator.cs",
-              "DocumentMoniker": "D:\\be\\Services\\JwtTokenGenerator.cs",
-              "RelativeDocumentMoniker": "Services\\JwtTokenGenerator.cs",
-              "ToolTip": "D:\\be\\Services\\JwtTokenGenerator.cs",
-              "RelativeToolTip": "Services\\JwtTokenGenerator.cs",
-              "ViewState": "AgIAAAUAAAAAAAAAAAAAAAwAAAAJAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-08T09:25:25.395Z"
-
+              "DocumentIndex": 5,
+              "Title": "SignInGoogle.cshtml",
+              "DocumentMoniker": "D:\\be\\Views\\Home\\SignInGoogle.cshtml",
+              "RelativeDocumentMoniker": "Views\\Home\\SignInGoogle.cshtml",
+              "ToolTip": "D:\\be\\Views\\Home\\SignInGoogle.cshtml",
+              "RelativeToolTip": "Views\\Home\\SignInGoogle.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-09-10T12:13:47.194Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "Auth_APIController.cs",
-              "DocumentMoniker": "D:\\be\\Controllers\\API\\Auth_APIController.cs",
-              "RelativeDocumentMoniker": "Controllers\\API\\Auth_APIController.cs",
-              "ToolTip": "D:\\be\\Controllers\\API\\Auth_APIController.cs",
-              "RelativeToolTip": "Controllers\\API\\Auth_APIController.cs",
-
-              "ViewState": "AgIAAKUAAAAAAAAAAAAcwLoAAAAiAAAAAAAAAA==",
-
+              "DocumentIndex": 2,
+              "Title": "VideoController.cs",
+              "DocumentMoniker": "D:\\be\\Controllers\\Admin\\VideoController.cs",
+              "RelativeDocumentMoniker": "Controllers\\Admin\\VideoController.cs",
+              "ToolTip": "D:\\be\\Controllers\\Admin\\VideoController.cs",
+              "RelativeToolTip": "Controllers\\Admin\\VideoController.cs",
+              "ViewState": "AgIAAIkAAAAAAAAAAAAowMsAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-08T11:07:07.772Z",
+              "WhenOpened": "2024-09-10T12:07:54.018Z",
               "EditorCaption": ""
             },
             {
@@ -130,9 +104,23 @@
               "RelativeDocumentMoniker": "Program.cs",
               "ToolTip": "D:\\be\\Program.cs",
               "RelativeToolTip": "Program.cs",
-              "ViewState": "AgIAADwAAAAAAAAAAAAAAEUAAAA7AAAAAAAAAA==",
+              "ViewState": "AgIAAEsAAAAAAAAAAAAwwE4AAAAtAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-08T11:05:19.752Z"
+              "WhenOpened": "2024-09-10T11:30:24.743Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Auth_APIController.cs",
+              "DocumentMoniker": "D:\\be\\Controllers\\API\\Auth_APIController.cs",
+              "RelativeDocumentMoniker": "Controllers\\API\\Auth_APIController.cs",
+              "ToolTip": "D:\\be\\Controllers\\API\\Auth_APIController.cs",
+              "RelativeToolTip": "Controllers\\API\\Auth_APIController.cs",
+              "ViewState": "AgIAALAAAAAAAAAAAAAIwL8AAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-10T11:22:14.701Z",
+              "EditorCaption": ""
             }
           ]
         }
