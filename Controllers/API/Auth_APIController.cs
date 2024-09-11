@@ -110,6 +110,33 @@ namespace study4_be.Controllers.API
                 }
             }
         }
+        private async Task<User> GetOrCreateUser(string userId, string userName, string userEmail, string userAvatar)
+        {
+            // Kiểm tra người dùng có tồn tại không
+            var userExist = await _context.Users
+                .Where(u => u.UserId == userId && u.UserEmail == userEmail).FirstOrDefaultAsync();
+
+            if (userExist == null)
+            {
+                // Nếu người dùng chưa tồn tại, tạo mới
+                var newUser = new User
+                {
+                    UserId = userId,
+                    UserName = userName,
+                    UserEmail = userEmail,
+                    UserImage = userAvatar,
+                    Isverified = true // Assuming new users are verified
+                };
+
+                // Thêm người dùng vào cơ sở dữ liệu và lưu thay đổi
+                _userRepository.AddUserWithServices(newUser);
+                await _context.SaveChangesAsync();
+                return newUser;
+            }
+
+            return userExist; // Trả về người dùng nếu đã tồn tại
+        }
+
         //############ GOOGLE ############// 
 
         [HttpGet("signin-google")]
@@ -131,9 +158,7 @@ namespace study4_be.Controllers.API
                 return RedirectToAction("Error", "Home");
             }
 
-            // Lấy access token từ kết quả xác thực
             var accessToken = result.Properties.GetTokenValue("access_token");
-
             if (string.IsNullOrEmpty(accessToken))
             {
                 return BadRequest("No Access Token found.");
@@ -141,7 +166,6 @@ namespace study4_be.Controllers.API
 
             try
             {
-                // Sử dụng access token để gọi API của Google
                 var httpClient = _httpClientFactory.CreateClient();
                 var response = await httpClient.GetStringAsync($"https://www.googleapis.com/oauth2/v2/userinfo?access_token={accessToken}");
                 var userInfo = JObject.Parse(response);
@@ -151,47 +175,17 @@ namespace study4_be.Controllers.API
                 var userEmail = userInfo["email"].ToString();
                 var userAvatar = userInfo["picture"]?.ToString();
 
-                // Kiểm tra người dùng có tồn tại trong cơ sở dữ liệu không
-                var userExist = await _context.Users
-                    .Where(u => u.UserId == userId && u.UserEmail == userEmail).FirstOrDefaultAsync();
+                // Sử dụng hàm chung để lấy hoặc tạo người dùng
+                var user = await GetOrCreateUser(userId, userName, userEmail, userAvatar);
 
-                if (userExist == null)
-                {
-                    var newUser = new User
-                    {
-                        UserId = userId,
-                        UserName = userName,
-                        UserEmail = userEmail,
-                        UserImage = userAvatar,
-                        Isverified = true, // Assuming new users are verified
-                    };
-                    _userRepository.AddUserWithServices(newUser);
-                    // Ensure changes are saved to the database
-                    userExist = newUser; // Update userExist to the newly created user
-                }
+                // Tạo JWT token
+                var token = _jwtServices.GenerateToken(user.UserName,user.UserEmail,userId,1);
 
-                var token = _jwtServices.GenerateToken(userName, userEmail, userId, 1);
-
-                var userDataResponse = new User
-                {
-                    UserId = userExist.UserId,
-                    UserName = userExist.UserName,
-                    UserEmail = userExist.UserEmail,
-                    UserImage = userExist.UserImage,
-                    Isverified = userExist.Isverified,
-                    PhoneNumber = userExist.PhoneNumber,
-                    RoleId = userExist.RoleId,
-                    UsersExams = userExist.UsersExams,
-                    Orders = userExist.Orders,
-                    UserBanner = userExist.UserBanner,
-                    UserCourses = userExist.UserCourses,
-                    UserDescription = userExist.UserDescription,
-                };
                 return Ok(new
                 {
                     status = 200,
                     token,
-                    user = userDataResponse
+                    user
                 });
             }
             catch (Exception ex)
@@ -214,70 +208,34 @@ namespace study4_be.Controllers.API
             {
                 var accessToken = model.accessToken;
                 var httpClient = _httpClientFactory.CreateClient();
-                var response = await httpClient.GetStringAsync($"https://graph.facebook.com/me?access_token={accessToken}&fields=id,name,email,picture,gender,link,timezone");
-
+                var response = await httpClient.GetStringAsync($"https://graph.facebook.com/me?access_token={accessToken}&fields=id,name,email,picture");
                 var userInfo = JObject.Parse(response);
+
                 var userId = userInfo["id"]?.ToString();
                 var userName = userInfo["name"]?.ToString();
                 var userEmail = userInfo["email"]?.ToString() ?? "No email available";
                 var userAvatar = userInfo["picture"]?["data"]?["url"]?.ToString() ?? "No avatar available";
-                var userGender = userInfo["gender"]?.ToString() ?? "No gender available";
-                var userLink = userInfo["link"]?.ToString() ?? "No link available";
-                var userTimeZone = userInfo["timezone"]?.ToString() ?? "No time zone available";
 
-                if (string.IsNullOrEmpty(userId) || string.IsNullOrEmpty(userName))
-                {
-                    return BadRequest(new { status = 400, message = "Failed to retrieve user data from Facebook" });
-                }
+                // Sử dụng hàm chung để lấy hoặc tạo người dùng
+                var user = await GetOrCreateUser(userId, userName, userEmail, userAvatar);
 
-                var userExist = await _context.Users
-                    .Where(u => u.UserId == userId && u.UserEmail == userEmail).FirstOrDefaultAsync();
+                // Tạo JWT token
+                var token = _jwtServices.GenerateToken(user.UserName, user.UserEmail, userId, 1);
 
-                if (userExist == null)
-                {
-                    var newUser = new User
-                    {
-                        UserId = userId,
-                        UserName = userName,
-                        UserEmail = userEmail,
-                        UserImage = userAvatar,
-                        Isverified = true, // Assuming new users are verified
-                    };
-                    _userRepository.AddUserWithServices(newUser);
-                     // Ensure changes are saved to the database
-                    userExist = newUser; // Update userExist to the newly created user
-                }
 
-                var token = _jwtServices.GenerateToken(userName, userEmail, userId, 1);
-
-                var userDataResponse = new User
-                {
-                    UserId = userExist.UserId,
-                    UserName = userExist.UserName,
-                    UserEmail = userExist.UserEmail,
-                    UserImage = userExist.UserImage,
-                    Isverified = userExist.Isverified,
-                    PhoneNumber = userExist.PhoneNumber,
-                    RoleId = userExist.RoleId,
-                    UsersExams = userExist.UsersExams,
-                    Orders = userExist.Orders,
-                    UserBanner = userExist.UserBanner,
-                    UserCourses = userExist.UserCourses,
-                    UserDescription = userExist.UserDescription,
-                };
                 return Ok(new
                 {
                     status = 200,
                     token,
-                    user = userDataResponse
+                    user
                 });
             }
             catch (Exception ex)
             {
-                // Log the exception if necessary
                 return StatusCode(StatusCodes.Status500InternalServerError, new { status = 500, message = ex.Message });
             }
         }
+
         [HttpPost("Logout")]
         public IActionResult Logout()
         {
