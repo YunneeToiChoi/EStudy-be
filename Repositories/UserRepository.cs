@@ -26,7 +26,7 @@ namespace study4_be.Repositories
             return _context.Users.FirstOrDefault(u => u.UserEmail == email);
         }
 
-        public async void AddUser(User user)
+        public async Task AddUser(User user)
         {
             // Tạo ID ngẫu nhiên cho người dùng
             user.UserId = Guid.NewGuid().ToString();
@@ -38,7 +38,7 @@ namespace study4_be.Repositories
             await _context.SaveChangesAsync();
 
         }
-        public async void  AddUserWithServices(User user)
+        public async Task AddUserWithServices(User user)
         {
             user.UserId = user.UserId ?? Guid.NewGuid().ToString();
             _context.Users.Add(user);
