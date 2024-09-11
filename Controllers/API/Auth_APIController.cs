@@ -181,12 +181,13 @@ namespace study4_be.Controllers.API
                 // Tạo JWT token
                 var token = _jwtServices.GenerateToken(user.UserName,user.UserEmail,userId,1);
 
-                return Ok(new
-                {
-                    status = 200,
-                    token,
-                    user
-                });
+                //return Ok(new
+                //{
+                //    status = 200,
+                //    token,
+                //    user
+                //});
+                return Redirect($"https://estudy.engineer/sigin-google?token={token}?userId={userId}?userEmail={userEmail}?userImg={userAvatar}?{DateTime.UtcNow}");
             }
             catch (Exception ex)
             {
