@@ -88,7 +88,7 @@ builder.Services.AddAuthentication(options =>
         ValidateAudience = true,
         ValidAudience = jwtSettings["Audience"]
     };
-});
+}); 
 builder.Services.AddControllers();
 // Đăng ký JwtTokenGenerator
 builder.Services.AddSingleton<JwtTokenGenerator>();
