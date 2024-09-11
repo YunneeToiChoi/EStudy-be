@@ -36,7 +36,7 @@ namespace study4_be.Controllers.API
         private UserRegistrationValidator _userRegistrationValidator = new UserRegistrationValidator();
         private readonly ILogger<Auth_APIController> _logger;
         private FireBaseServices _fireBaseServices;
-        private JwtTokenGenerator _jwtServices;
+        private readonly JwtTokenGenerator _jwtServices;
 
         private readonly IHttpClientFactory _httpClientFactory;
         public Auth_APIController(ILogger<Auth_APIController> logger, FireBaseServices fireBaseServices, SMTPServices smtpServices, IHttpClientFactory httpClientFactory, JwtTokenGenerator jwtServices)
