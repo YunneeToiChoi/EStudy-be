@@ -19,10 +19,6 @@ namespace study4_be.Controllers.API
             _logger = logger;
         }
         public STUDY4Context _context = new STUDY4Context();
-        public IActionResult Index()
-        {
-            return View();
-        }
         [HttpPost("Get_AllContainerAndLessonByUnit")]
         public async Task<ActionResult<UnitDetailResponse>> Get_AllContainerAndLessonByUnit(GetAllContainerAndLessionRequestcs unit)
         {

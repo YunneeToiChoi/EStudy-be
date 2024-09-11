@@ -34,12 +34,12 @@ namespace study4_be.Controllers.API
         private SMTPServices _smtpServices;
         private STUDY4Context _context = new STUDY4Context();
         private UserRegistrationValidator _userRegistrationValidator = new UserRegistrationValidator();
-        private readonly ILogger<CoursesController> _logger;
+        private readonly ILogger<Auth_APIController> _logger;
         private FireBaseServices _fireBaseServices;
         private JwtTokenGenerator _jwtServices;
 
         private readonly IHttpClientFactory _httpClientFactory;
-        public Auth_APIController(ILogger<CoursesController> logger, FireBaseServices fireBaseServices, SMTPServices smtpServices, IHttpClientFactory httpClientFactory, JwtTokenGenerator jwtServices)
+        public Auth_APIController(ILogger<Auth_APIController> logger, FireBaseServices fireBaseServices, SMTPServices smtpServices, IHttpClientFactory httpClientFactory, JwtTokenGenerator jwtServices)
         {
             _logger = logger;
             _fireBaseServices = fireBaseServices;
@@ -505,12 +505,13 @@ namespace study4_be.Controllers.API
         {
             try
             {
-                // Chuyển đổi currentTime từ chuỗi sang DateTime
-                if (!DateTime.TryParseExact(currentTime, "yyyyMMddHHmmss", null, System.Globalization.DateTimeStyles.None, out DateTime queryTime))
+                if (!DateTime.TryParseExact(currentTime, "yyyyMMddHHmmss",
+                                      System.Globalization.CultureInfo.InvariantCulture,
+                                      System.Globalization.DateTimeStyles.None,
+                                      out DateTime queryTime))
                 {
                     return BadRequest("Invalid time format");
                 }
-
                 // Lấy thời gian hiện tại
                 DateTime currentTimeNow = DateTime.Now;
 
