@@ -40,7 +40,6 @@ namespace study4_be.Models
             if (!optionsBuilder.IsConfigured)
             {
                 optionsBuilder.UseSqlServer("Data Source=LAPTOP-62MKG1UJ;Initial Catalog=STUDY4;Integrated Security=True;Trust Server Certificate=True");
-                //optionsBuilder.UseSqlServer("Server=tcp:eu-az-sql-serv1.database.windows.net,1433;Initial Catalog=dhg7j87tg1pusg4;Persist Security Info=False;User ID=uwgdxq29hpow6g5;Password=IbDMPbfFDSqhd4kWlRk0W3cz*;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30; ");
             }
         }
 
