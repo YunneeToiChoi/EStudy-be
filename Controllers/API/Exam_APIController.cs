@@ -439,10 +439,7 @@ namespace study4_be.Controllers.API
 
                 int totalQuestions = 200;
                 int answeredQuestions = _req.answer.Count;
-                //int correctAnswers = _req.answer.Count(a => a.State == true);
                 int correctAnswers = _req.answer.Count(a => a.State);
-
-                //int incorrectAnswers = totalQuestions - answeredQuestions + _req.answer.Count(a => a.State == false);
                 int incorrectAnswers = totalQuestions - answeredQuestions + _req.answer.Count(a => !a.State);
 
                 int score = (int)((double)correctAnswers / totalQuestions * 990);
