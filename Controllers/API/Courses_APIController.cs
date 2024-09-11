@@ -122,6 +122,7 @@ namespace study4_be.Controllers.API
             }).ToList();
             return Ok(new { status = 200, message = "Get Outstanding Courses User Hadn't Bought Successful", outstandingCourses = detailedOutstandingCoursesResponse });
         }
+        [HttpPost]
         public async Task<List<int>> GetCoursesUserHasPurchasedAsync(string userId)
         {
                 var userPurchaseBought = await _context.UserCourses

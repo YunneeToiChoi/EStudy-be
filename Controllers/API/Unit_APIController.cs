@@ -12,16 +12,12 @@ namespace study4_be.Controllers.API
     public class Unit_APIController : Controller
     {
         private readonly ILogger<Unit_APIController> _logger;
-        public UnitRepository _unitRepo = new UnitRepository();
-        public Unit_APIController(ILogger<Unit_APIController> logger)
+        private UnitRepository _unitRepo = new UnitRepository();
+        private Unit_APIController(ILogger<Unit_APIController> logger)
         {
             _logger = logger;
         }
-        public STUDY4Context _context = new STUDY4Context();
-        public IActionResult Index()
-        {
-            return View();
-        }
+        private STUDY4Context _context = new STUDY4Context();
         [HttpPost("Get_AllUnitsByCourse")]
         public async Task<ActionResult> Get_AllUnitsByCourse(GetAllUnitsByCourses courses)
         {

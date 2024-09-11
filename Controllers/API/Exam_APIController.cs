@@ -15,9 +15,9 @@ namespace study4_be.Controllers.API
     public class Exam_APIController : Controller
     {
         private STUDY4Context _context = new STUDY4Context();
-        private readonly ILogger<CoursesController> _logger;
+        private readonly ILogger<Exam_APIController> _logger;
         private FireBaseServices _fireBaseServices;
-        public Exam_APIController(ILogger<CoursesController> logger, FireBaseServices fireBaseServices)
+        public Exam_APIController(ILogger<Exam_APIController> logger, FireBaseServices fireBaseServices)
         {
             _logger = logger;
             _fireBaseServices = fireBaseServices;
@@ -439,12 +439,13 @@ namespace study4_be.Controllers.API
 
                 int totalQuestions = 200;
                 int answeredQuestions = _req.answer.Count;
-                int correctAnswers = _req.answer.Count(a => a.State == true);
+                //int correctAnswers = _req.answer.Count(a => a.State == true);
+                int correctAnswers = _req.answer.Count(a => a.State);
 
-                int incorrectAnswers = totalQuestions - answeredQuestions + _req.answer.Count(a => a.State == false);
+                //int incorrectAnswers = totalQuestions - answeredQuestions + _req.answer.Count(a => a.State == false);
+                int incorrectAnswers = totalQuestions - answeredQuestions + _req.answer.Count(a => !a.State);
 
                 int score = (int)((double)correctAnswers / totalQuestions * 990);
-
 
                 var writingQuestions = userAnswers
                 .Where(ua => _context.Questions.Any(q => q.QuestionId == ua.QuestionId && q.QuestionTag == "Part 8"))

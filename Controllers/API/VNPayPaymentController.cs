@@ -12,11 +12,11 @@ public class VNPayPaymentController : ControllerBase
     private readonly ILogger<VNPayPaymentController> _logger;
 
     // VNPay Configuration
-    private readonly string vnp_TmnCode = "69SE26E8";
-    private readonly string vnp_HashSecret = "1S367O9YJR1UUB2L1TFCFGGHMF8GCGQJ";
-    private readonly string vnp_PaymentUrl = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
-    private readonly string vnp_ReturnUrl = "http://127.0.0.1:5500/html.html"; // URL trả về cho FE
-    private readonly string vnp_IpnUrl = "http://localhost:8000/api/VNPayPayment/PaymentIpn"; // URL IPN cho BE
+    private readonly string vnp_TmnCode = "";
+    private readonly string vnp_HashSecret = "";
+    private readonly string vnp_PaymentUrl = "";
+    private readonly string vnp_ReturnUrl = ""; // URL trả về cho FE
+    private readonly string vnp_IpnUrl = ""; // URL IPN cho BE  
 
     public VNPayPaymentController(ILogger<VNPayPaymentController> logger)
     {

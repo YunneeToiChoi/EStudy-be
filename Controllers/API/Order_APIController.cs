@@ -14,14 +14,14 @@ namespace study4_be.Controllers.API
 	public class Order_APIController : Controller
 	{
 		private readonly ILogger<Order_APIController> _logger;
-		public OrderRepository ordRepo = new OrderRepository();
-		public Order_APIController(ILogger<Order_APIController> logger)
+		private OrderRepository ordRepo = new OrderRepository();
+		private Order_APIController(ILogger<Order_APIController> logger)
 		{
 			_logger = logger;
 		}
-		public STUDY4Context _context = new STUDY4Context();
-
-        public string GenerateOrderId(string userId, int courseId)
+		private STUDY4Context _context = new STUDY4Context();
+		[HttpGet]
+        private string GenerateOrderId(string userId, int courseId)
         {
             using (var sha256 = SHA256.Create())
             {
@@ -30,6 +30,7 @@ namespace study4_be.Controllers.API
                 return ToBase32String(hashBytes).Substring(0, 32); // Increase length to 32 characters
             }
         }
+        [HttpGet]
         private string ToBase32String(byte[] bytes)
         {
             const string alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567";
