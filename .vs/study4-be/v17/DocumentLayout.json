@@ -7,6 +7,10 @@
       "RelativeMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|solutionrelative:controllers\\api\\auth_apicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|d:\\be\\services\\firebaseservices.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|solutionrelative:services\\firebaseservices.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|d:\\be\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
@@ -18,8 +22,21 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 4,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "FireBaseServices.cs",
+              "DocumentMoniker": "D:\\be\\Services\\FireBaseServices.cs",
+              "RelativeDocumentMoniker": "Services\\FireBaseServices.cs",
+              "ToolTip": "D:\\be\\Services\\FireBaseServices.cs",
+              "RelativeToolTip": "Services\\FireBaseServices.cs",
+              "ViewState": "AgIAACEAAAAAAAAAAAAowEwAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-13T04:05:19.785Z",
+              "EditorCaption": ""
+            },
             {
               "$type": "Bookmark",
               "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
@@ -30,7 +47,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "Program.cs",
               "DocumentMoniker": "D:\\be\\Program.cs",
               "RelativeDocumentMoniker": "Program.cs",
@@ -48,7 +65,7 @@
               "RelativeDocumentMoniker": "Controllers\\API\\Auth_APIController.cs",
               "ToolTip": "D:\\be\\Controllers\\API\\Auth_APIController.cs",
               "RelativeToolTip": "Controllers\\API\\Auth_APIController.cs",
-              "ViewState": "AgIAAOUAAAAAAAAAAAAhwP8AAAAlAAAAAAAAAA==",
+              "ViewState": "AgIAAHIAAAAAAAAAAIAwwHEAAAAhAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-09-11T09:41:56.498Z",
               "EditorCaption": ""

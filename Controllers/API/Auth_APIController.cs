@@ -36,7 +36,7 @@ namespace study4_be.Controllers.API
         private STUDY4Context _context = new STUDY4Context();
         private UserRegistrationValidator _userRegistrationValidator = new UserRegistrationValidator();
         private readonly ILogger<Auth_APIController> _logger;
-        private FireBaseServices _fireBaseServices;
+        private readonly FireBaseServices _fireBaseServices;
         private readonly JwtTokenGenerator _jwtServices;
 
         private readonly IHttpClientFactory _httpClientFactory;
@@ -61,7 +61,7 @@ namespace study4_be.Controllers.API
                     string errorMessage;
                     if (_userRegistrationValidator.Validate(user, out errorMessage))
                     {
-                        _userRepository.AddUser(user);
+                        await _userRepository.AddUser(user);
                         var link = $"https://elearning.engineer/api/Auth_API/userEmail={user.UserEmail}/verification={false}";
                         var subject = "[EStudy] - Yêu cầu xác thực tài khoản của bạn";
                         var emailContent = _smtpServices.GenerateLinkVerifiByEmailContent(user.UserEmail, link);
@@ -118,18 +118,37 @@ namespace study4_be.Controllers.API
                 .Where(u => u.UserId == userId || u.UserEmail == userEmail).FirstOrDefaultAsync();
             var emailExist = _context.Users.Where(u => u.UserEmail == userEmail).FirstOrDefaultAsync();
             var idExist = _context.Users.Where(u => u.UserId== userId).FirstOrDefaultAsync();
+            var firebaseBucketName = _fireBaseServices.GetFirebaseBucketName();
             if (userExist == null)
             {
+                // maybe use repository add new user in there 
                 // Nếu người dùng chưa tồn tại, tạo mới
                 var newUser = new User
                 {
-                    UserId = userId,
+                    UserId = Guid.NewGuid().ToString(),// still gen id 
                     UserName = userName,
                     UserEmail = userEmail,
-                    UserImage = userAvatar,
+                    UserImage = "https://firebasestorage.googleapis.com/v0/b/estudy-426108.appspot.com/o/avtDefaultUser.jfif?alt=media&token=8dabba5f-cccb-4a4c-9ab4-69049c769bdf", //default img
                     Isverified = true // Assuming new users are verified
                 };
-
+                // Update the user's avatar URL in the database
+                if (!(userAvatar == null || userAvatar.Length == 0))
+                {
+                    // Delete the old avatar image from Firebase Storage if it exists
+                    if (!string.IsNullOrEmpty(newUser.UserImage))
+                    {
+                        // Upload the new avatar image to Firebase Storage
+                        var uniqueId = Guid.NewGuid().ToString();
+                        var imgFilePath = $"IMG{uniqueId}.jpg";
+                        string firebaseUrl = await _fireBaseServices.UploadFileFromUrlToFirebaseStorageAsync(userAvatar,
+                                                                                                      imgFilePath,
+                                                                                                      firebaseBucketName);
+                        // Extract the file name from the URL
+                        var oldFileName = Path.GetFileName(new Uri(newUser.UserImage).LocalPath);
+                        await _fireBaseServices.DeleteFileFromFirebaseStorageAsync(oldFileName, firebaseBucketName);
+                        newUser.UserImage = firebaseUrl;
+                    }
+                }
                 // Thêm người dùng vào cơ sở dữ liệu và lưu thay đổi
                 await _userRepository.AddUserWithServices(newUser);
                 await _context.SaveChangesAsync();
