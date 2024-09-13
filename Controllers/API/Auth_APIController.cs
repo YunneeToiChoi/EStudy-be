@@ -36,7 +36,7 @@ namespace study4_be.Controllers.API
         private STUDY4Context _context = new STUDY4Context();
         private UserRegistrationValidator _userRegistrationValidator = new UserRegistrationValidator();
         private readonly ILogger<Auth_APIController> _logger;
-        private FireBaseServices _fireBaseServices;
+        private readonly FireBaseServices _fireBaseServices;
         private readonly JwtTokenGenerator _jwtServices;
 
         private readonly IHttpClientFactory _httpClientFactory;
@@ -121,10 +121,11 @@ namespace study4_be.Controllers.API
             var firebaseBucketName = _fireBaseServices.GetFirebaseBucketName();
             if (userExist == null)
             {
+                // maybe use repository add new user in there 
                 // Nếu người dùng chưa tồn tại, tạo mới
                 var newUser = new User
                 {
-                    UserId = userId,
+                    UserId = Guid.NewGuid().ToString(),// still gen id 
                     UserName = userName,
                     UserEmail = userEmail,
                     UserImage = "https://firebasestorage.googleapis.com/v0/b/estudy-426108.appspot.com/o/avtDefaultUser.jfif?alt=media&token=8dabba5f-cccb-4a4c-9ab4-69049c769bdf", //default img

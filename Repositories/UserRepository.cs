@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using study4_be.Models;
+using study4_be.Services;
 using System.Linq;
 
 namespace study4_be.Repositories
@@ -40,11 +41,13 @@ namespace study4_be.Repositories
         }
         public async Task AddUserWithServices(User user)
         {
-            user.UserId = user.UserId ?? Guid.NewGuid().ToString();
+            user.UserId = Guid.NewGuid().ToString(); // still gen id 
             _context.Users.Add(user);
             user.UserBanner = null;
+            // add img to firebase
+
             user.UserImage = user.UserImage ?? "https://firebasestorage.googleapis.com/v0/b/estudy-426108.appspot.com/o/avtDefaultUser.jfif?alt=media&token=8dabba5f-cccb-4a4c-9ab4-69049c769bdf";
-            user.Isverified = true;
+            user.Isverified = true; // is alway true if login with social services 
             await _context.SaveChangesAsync();
         }
         public bool CheckEmailExists(string email)
