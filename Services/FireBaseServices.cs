@@ -35,6 +35,46 @@ namespace study4_be.Services
         {
             return _firebaseBucketName;
         }
+        public async Task<string> UploadFileFromUrlToFirebaseStorageAsync(string imageUrl, string fileName, string bucketName)
+        {
+            // Đường dẫn tới tệp tin serviceAccount.json
+            string serviceAccountPath = Path.Combine(Directory.GetCurrentDirectory(), "firebase_config.json");
+
+            // Load thông tin xác thực từ file
+            var credential = GoogleCredential.FromFile(serviceAccountPath);
+
+            // Tạo đối tượng StorageClient
+            var storage = StorageClient.Create(credential);
+
+            try
+            {
+                // Download the image from the URL
+                using (var httpClient = new HttpClient())
+                {
+                    var imageStream = await httpClient.GetStreamAsync(imageUrl);
+
+                    // Create a MemoryStream to store the downloaded image
+                    using (var memoryStream = new MemoryStream())
+                    {
+                        await imageStream.CopyToAsync(memoryStream);
+                        memoryStream.Position = 0; // Reset stream position
+
+                        // Upload the image to Firebase Storage
+                        var storageObject = await storage.UploadObjectAsync(bucketName, fileName, null, memoryStream);
+
+                        // Return the public URL of the uploaded file
+                        return $"https://firebasestorage.googleapis.com/v0/b/{bucketName}/o/{fileName}?alt=media";
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // Handle any errors during upload
+                Console.WriteLine($"Error uploading file: {ex.Message}");
+                throw;
+            }
+        }
+
         public async Task<string> UploadFileToFirebaseStorageAsync(IFormFile file, string fileName, string bucketName)
         {
             // Đường dẫn tới tệp tin serviceAccount.json
