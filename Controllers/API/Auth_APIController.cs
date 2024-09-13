@@ -33,6 +33,7 @@ namespace study4_be.Controllers.API
     {
         private readonly UserRepository _userRepository = new UserRepository();
         private SMTPServices _smtpServices;
+        private readonly IConfiguration _configuration;
         private STUDY4Context _context = new STUDY4Context();
         private UserRegistrationValidator _userRegistrationValidator = new UserRegistrationValidator();
         private readonly ILogger<Auth_APIController> _logger;
@@ -40,8 +41,9 @@ namespace study4_be.Controllers.API
         private readonly JwtTokenGenerator _jwtServices;
 
         private readonly IHttpClientFactory _httpClientFactory;
-        public Auth_APIController(ILogger<Auth_APIController> logger, FireBaseServices fireBaseServices, SMTPServices smtpServices, IHttpClientFactory httpClientFactory, JwtTokenGenerator jwtServices)
+        public Auth_APIController(IConfiguration configuration ,ILogger<Auth_APIController> logger, FireBaseServices fireBaseServices, SMTPServices smtpServices, IHttpClientFactory httpClientFactory, JwtTokenGenerator jwtServices)
         {
+            _configuration = configuration;
             _logger = logger;
             _fireBaseServices = fireBaseServices;
             _smtpServices = smtpServices;
@@ -190,6 +192,7 @@ namespace study4_be.Controllers.API
             }
             try
             {
+                string frontEndUrl = _configuration["Url:FrontEnd"];
                 var httpClient = _httpClientFactory.CreateClient();
                 var response = await httpClient.GetStringAsync($"https://www.googleapis.com/oauth2/v2/userinfo?access_token={accessToken}");
                 var userInfo = JObject.Parse(response);
@@ -204,7 +207,7 @@ namespace study4_be.Controllers.API
                 var htmlContent = $@"
                     <script>
                         // Gửi thông điệp chứa JWT token về cửa sổ cha (React frontend)
-                        window.opener.postMessage({{ token: '{token}' }}, 'http://localhost:3000/login');
+                        window.opener.postMessage({{ token: '{token}' }}, '{frontEndUrl}');
                         // Đóng cửa sổ popup
                         window.close();
                     </script>";
