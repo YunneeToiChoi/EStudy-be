@@ -114,7 +114,7 @@ namespace study4_be.Controllers.API
         {
             // Kiểm tra người dùng có tồn tại không
             var userExist = await _context.Users
-                .Where(u => u.UserId == userId && u.UserEmail == userEmail).FirstOrDefaultAsync();
+                .Where(u => u.UserId == userId || u.UserEmail == userEmail).FirstOrDefaultAsync();
 
             if (userExist == null)
             {
@@ -129,7 +129,7 @@ namespace study4_be.Controllers.API
                 };
 
                 // Thêm người dùng vào cơ sở dữ liệu và lưu thay đổi
-                _userRepository.AddUserWithServices(newUser);
+                await _userRepository.AddUserWithServices(newUser);
                 await _context.SaveChangesAsync();
                 return newUser;
             }
@@ -177,17 +177,19 @@ namespace study4_be.Controllers.API
 
                 // Sử dụng hàm chung để lấy hoặc tạo người dùng
                 var user = await GetOrCreateUser(userId, userName, userEmail, userAvatar);
-
                 // Tạo JWT token
-                var token = _jwtServices.GenerateToken(user.UserName,user.UserEmail,userId,1);
+                var token = _jwtServices.GenerateToken(user.UserName, user.UserEmail, userId, 1);
+                var htmlContent = $@"
+                <script>
+                    // Gửi thông điệp chứa JWT token về cửa sổ cha (React frontend)
+                    window.opener.postMessage({{ token: '{token}' }}, 'http://localhost:3000/login');
+                    // Đóng cửa sổ popup
+                    window.close();
+                </script>";
 
+                return Content(htmlContent, "text/html");
                 //return Ok(new
-                //{
-                //    status = 200,
-                //    token,
-                //    user
-                //});
-                return Redirect($"https://estudy.engineer/sigin-google?token={token}?userId={userId}?userEmail={userEmail}?userImg={userAvatar}?{DateTime.UtcNow}");
+
             }
             catch (Exception ex)
             {
