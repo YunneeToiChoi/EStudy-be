@@ -24,6 +24,7 @@ using Microsoft.AspNetCore.Authentication.Facebook;
 using Newtonsoft.Json.Linq;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Google.Apis.Auth;
+using NuGet.Versioning;
 namespace study4_be.Controllers.API
 {
     [Route("api/[controller]")]
@@ -115,7 +116,8 @@ namespace study4_be.Controllers.API
             // Kiểm tra người dùng có tồn tại không
             var userExist = await _context.Users
                 .Where(u => u.UserId == userId || u.UserEmail == userEmail).FirstOrDefaultAsync();
-
+            var emailExist = _context.Users.Where(u => u.UserEmail == userEmail).FirstOrDefaultAsync();
+            var idExist = _context.Users.Where(u => u.UserId== userId).FirstOrDefaultAsync();
             if (userExist == null)
             {
                 // Nếu người dùng chưa tồn tại, tạo mới
@@ -133,7 +135,11 @@ namespace study4_be.Controllers.API
                 await _context.SaveChangesAsync();
                 return newUser;
             }
-
+            else if (idExist == null && emailExist != null)
+            {
+                var user = await _context.Users.Where(u => u.UserEmail == userEmail).FirstOrDefaultAsync();
+                return user;
+            }
             return userExist; // Trả về người dùng nếu đã tồn tại
         }
 
@@ -163,7 +169,6 @@ namespace study4_be.Controllers.API
             {
                 return BadRequest("No Access Token found.");
             }
-
             try
             {
                 var httpClient = _httpClientFactory.CreateClient();
@@ -175,20 +180,16 @@ namespace study4_be.Controllers.API
                 var userEmail = userInfo["email"].ToString();
                 var userAvatar = userInfo["picture"]?.ToString();
 
-                // Sử dụng hàm chung để lấy hoặc tạo người dùng
                 var user = await GetOrCreateUser(userId, userName, userEmail, userAvatar);
-                // Tạo JWT token
-                var token = _jwtServices.GenerateToken(user.UserName, user.UserEmail, userId, 1);
+                var token = _jwtServices.GenerateToken(user.UserName, user.UserEmail, user.UserId, 1);
                 var htmlContent = $@"
-                <script>
-                    // Gửi thông điệp chứa JWT token về cửa sổ cha (React frontend)
-                    window.opener.postMessage({{ token: '{token}' }}, 'http://localhost:3000/login');
-                    // Đóng cửa sổ popup
-                    window.close();
-                </script>";
-
+                    <script>
+                        // Gửi thông điệp chứa JWT token về cửa sổ cha (React frontend)
+                        window.opener.postMessage({{ token: '{token}' }}, 'http://localhost:3000/login');
+                        // Đóng cửa sổ popup
+                        window.close();
+                    </script>";
                 return Content(htmlContent, "text/html");
-                //return Ok(new
 
             }
             catch (Exception ex)
@@ -223,7 +224,7 @@ namespace study4_be.Controllers.API
                 var user = await GetOrCreateUser(userId, userName, userEmail, userAvatar);
 
                 // Tạo JWT token
-                var token = _jwtServices.GenerateToken(user.UserName, user.UserEmail, userId, 1);
+                var token = _jwtServices.GenerateToken(user.UserName, user.UserEmail, user.UserId, 1);
 
 
                 return Ok(new
