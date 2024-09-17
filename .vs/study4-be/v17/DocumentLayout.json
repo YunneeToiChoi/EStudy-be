@@ -1,34 +1,150 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "D:\\be\\",
+  "WorkspaceRootPath": "D:\\workspace\\clone\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|d:\\be\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|d:\\be\\controllers\\api\\momo_paymentcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|solutionrelative:controllers\\api\\momo_paymentcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|d:\\be\\controllers\\api\\auth_apicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|d:\\workspace\\clone\\controllers\\api\\auth_apicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|solutionrelative:controllers\\api\\auth_apicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|d:\\be\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|solutionrelative:appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+      "AbsoluteMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|d:\\workspace\\clone\\models\\study4context.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|solutionrelative:models\\study4context.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|d:\\be\\services\\firebaseservices.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|solutionrelative:services\\firebaseservices.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|d:\\workspace\\clone\\controllers\\api\\courses_apicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|solutionrelative:controllers\\api\\courses_apicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|d:\\be\\firebase_config.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "AbsoluteMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|d:\\workspace\\clone\\controllers\\api\\container_apicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|solutionrelative:controllers\\api\\container_apicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|d:\\workspace\\clone\\controllers\\api\\exam_apicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|solutionrelative:controllers\\api\\exam_apicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|d:\\workspace\\clone\\controllers\\api\\unit_apicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|solutionrelative:controllers\\api\\unit_apicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|d:\\workspace\\clone\\controllers\\api\\question_apicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|solutionrelative:controllers\\api\\question_apicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|d:\\workspace\\clone\\controllers\\api\\payment_apicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|solutionrelative:controllers\\api\\payment_apicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|d:\\workspace\\clone\\controllers\\api\\order_apicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|solutionrelative:controllers\\api\\order_apicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|d:\\workspace\\clone\\controllers\\api\\momo_paymentcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|solutionrelative:controllers\\api\\momo_paymentcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|d:\\workspace\\clone\\repositories\\questionrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|solutionrelative:repositories\\questionrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|d:\\workspace\\clone\\repositories\\staffrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|solutionrelative:repositories\\staffrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|d:\\workspace\\clone\\repositories\\unitrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|solutionrelative:repositories\\unitrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|d:\\workspace\\clone\\repositories\\containerrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|solutionrelative:repositories\\containerrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|d:\\workspace\\clone\\models\\usercourse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|solutionrelative:models\\usercourse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|d:\\workspace\\clone\\models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|solutionrelative:models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|d:\\workspace\\clone\\models\\staff.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|solutionrelative:models\\staff.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|d:\\workspace\\clone\\repositories\\examrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|solutionrelative:repositories\\examrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|d:\\workspace\\clone\\services\\response\\part4response.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|solutionrelative:services\\response\\part4response.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|d:\\workspace\\clone\\services\\request\\getallcontainerandlessionrequestcs.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|solutionrelative:services\\request\\getallcontainerandlessionrequestcs.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|d:\\workspace\\clone\\controllers\\api\\vnpaypaymentcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|solutionrelative:controllers\\api\\vnpaypaymentcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|d:\\workspace\\clone\\services\\generalaiaudioservices.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|solutionrelative:services\\generalaiaudioservices.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|d:\\workspace\\clone\\services\\sqlservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|solutionrelative:services\\sqlservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|d:\\workspace\\clone\\services\\smtpservices.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|solutionrelative:services\\smtpservices.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|d:\\workspace\\clone\\controllers\\api\\vocabflashcard_apicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|solutionrelative:controllers\\api\\vocabflashcard_apicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|d:\\workspace\\clone\\repositories\\courserepository .cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|solutionrelative:repositories\\courserepository .cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|d:\\workspace\\clone\\services\\response\\part7response.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|solutionrelative:services\\response\\part7response.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|d:\\workspace\\clone\\services\\response\\part1response.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|solutionrelative:services\\response\\part1response.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|d:\\workspace\\clone\\services\\response\\unitdetailresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|solutionrelative:services\\response\\unitdetailresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|d:\\workspace\\clone\\services\\response\\lessonresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|solutionrelative:services\\response\\lessonresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|d:\\workspace\\clone\\services\\response\\containerresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|solutionrelative:services\\response\\containerresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|d:\\workspace\\clone\\firebase_config.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
       "RelativeMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|solutionrelative:firebase_config.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|d:\\be\\repositories\\userrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|solutionrelative:repositories\\userrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|d:\\workspace\\clone\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|solutionrelative:appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|d:\\workspace\\clone\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|solutionrelative:properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|d:\\workspace\\clone\\global.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|solutionrelative:global.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|d:\\workspace\\clone\\controllers\\api\\video_apicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|solutionrelative:controllers\\api\\video_apicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -38,106 +154,442 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 7,
+          "SelectedChildIndex": 6,
           "Children": [
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "Momo_PaymentController.cs",
-              "DocumentMoniker": "D:\\be\\Controllers\\API\\Momo_PaymentController.cs",
-              "RelativeDocumentMoniker": "Controllers\\API\\Momo_PaymentController.cs",
-              "ToolTip": "D:\\be\\Controllers\\API\\Momo_PaymentController.cs",
-              "RelativeToolTip": "Controllers\\API\\Momo_PaymentController.cs",
-              "ViewState": "AgIAAFoAAAAAAAAAAAAgwKUAAAANAAAAAAAAAA==",
+              "Title": "STUDY4Context.cs",
+              "DocumentMoniker": "D:\\workspace\\clone\\Models\\STUDY4Context.cs",
+              "RelativeDocumentMoniker": "Models\\STUDY4Context.cs",
+              "ToolTip": "D:\\workspace\\clone\\Models\\STUDY4Context.cs",
+              "RelativeToolTip": "Models\\STUDY4Context.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACkAAABGAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-13T08:26:04.539Z",
+              "WhenOpened": "2024-09-16T15:41:45.742Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Exam_APIController.cs",
+              "DocumentMoniker": "D:\\workspace\\clone\\Controllers\\API\\Exam_APIController.cs",
+              "RelativeDocumentMoniker": "Controllers\\API\\Exam_APIController.cs",
+              "ToolTip": "D:\\workspace\\clone\\Controllers\\API\\Exam_APIController.cs",
+              "RelativeToolTip": "Controllers\\API\\Exam_APIController.cs",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAAAPoAAABeAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-14T04:29:30.568Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "Order_APIController.cs",
+              "DocumentMoniker": "D:\\workspace\\clone\\Controllers\\API\\Order_APIController.cs",
+              "RelativeDocumentMoniker": "Controllers\\API\\Order_APIController.cs",
+              "ToolTip": "D:\\workspace\\clone\\Controllers\\API\\Order_APIController.cs",
+              "RelativeToolTip": "Controllers\\API\\Order_APIController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-13T09:43:54.582Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "Payment_APIController.cs",
+              "DocumentMoniker": "D:\\workspace\\clone\\Controllers\\API\\Payment_APIController.cs",
+              "RelativeDocumentMoniker": "Controllers\\API\\Payment_APIController.cs",
+              "ToolTip": "D:\\workspace\\clone\\Controllers\\API\\Payment_APIController.cs",
+              "RelativeToolTip": "Controllers\\API\\Payment_APIController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-13T09:43:51.402Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Question_APIController.cs",
+              "DocumentMoniker": "D:\\workspace\\clone\\Controllers\\API\\Question_APIController.cs",
+              "RelativeDocumentMoniker": "Controllers\\API\\Question_APIController.cs",
+              "ToolTip": "D:\\workspace\\clone\\Controllers\\API\\Question_APIController.cs",
+              "RelativeToolTip": "Controllers\\API\\Question_APIController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-13T09:43:35.142Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Unit_APIController.cs",
+              "DocumentMoniker": "D:\\workspace\\clone\\Controllers\\API\\Unit_APIController.cs",
+              "RelativeDocumentMoniker": "Controllers\\API\\Unit_APIController.cs",
+              "ToolTip": "D:\\workspace\\clone\\Controllers\\API\\Unit_APIController.cs",
+              "RelativeToolTip": "Controllers\\API\\Unit_APIController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-14T04:30:46.628Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Auth_APIController.cs",
+              "DocumentMoniker": "D:\\workspace\\clone\\Controllers\\API\\Auth_APIController.cs",
+              "RelativeDocumentMoniker": "Controllers\\API\\Auth_APIController.cs",
+              "ToolTip": "D:\\workspace\\clone\\Controllers\\API\\Auth_APIController.cs",
+              "RelativeToolTip": "Controllers\\API\\Auth_APIController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-14T04:19:59.628Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 3,
-              "Title": "appsettings.json",
-              "DocumentMoniker": "D:\\be\\appsettings.json",
-              "RelativeDocumentMoniker": "appsettings.json",
-              "ToolTip": "D:\\be\\appsettings.json",
-              "RelativeToolTip": "appsettings.json",
-              "ViewState": "AgIAACIAAAAAAAAAAAAgwEIAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2024-09-13T07:38:51.81Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "firebase_config.json",
-              "DocumentMoniker": "D:\\be\\firebase_config.json",
-              "RelativeDocumentMoniker": "firebase_config.json",
-              "ToolTip": "D:\\be\\firebase_config.json",
-              "RelativeToolTip": "firebase_config.json",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2024-09-13T07:38:50.936Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "UserRepository.cs",
-              "DocumentMoniker": "D:\\be\\Repositories\\UserRepository.cs",
-              "RelativeDocumentMoniker": "Repositories\\UserRepository.cs",
-              "ToolTip": "D:\\be\\Repositories\\UserRepository.cs",
-              "RelativeToolTip": "Repositories\\UserRepository.cs",
-              "ViewState": "AgIAAB4AAAAAAAAAAAAowCsAAAAZAAAAAAAAAA==",
+              "Title": "Container_APIController.cs",
+              "DocumentMoniker": "D:\\workspace\\clone\\Controllers\\API\\Container_APIController.cs",
+              "RelativeDocumentMoniker": "Controllers\\API\\Container_APIController.cs",
+              "ToolTip": "D:\\workspace\\clone\\Controllers\\API\\Container_APIController.cs",
+              "RelativeToolTip": "Controllers\\API\\Container_APIController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACQAAAA9AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-13T07:20:48.867Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:128:0:{75188d03-9892-4ae2-abf1-207126247ce5}"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "FireBaseServices.cs",
-              "DocumentMoniker": "D:\\be\\Services\\FireBaseServices.cs",
-              "RelativeDocumentMoniker": "Services\\FireBaseServices.cs",
-              "ToolTip": "D:\\be\\Services\\FireBaseServices.cs",
-              "RelativeToolTip": "Services\\FireBaseServices.cs",
-              "ViewState": "AgIAACEAAAAAAAAAAAA7wEwAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-13T04:05:19.785Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "Program.cs",
-              "DocumentMoniker": "D:\\be\\Program.cs",
-              "RelativeDocumentMoniker": "Program.cs",
-              "ToolTip": "D:\\be\\Program.cs",
-              "RelativeToolTip": "Program.cs",
-              "ViewState": "AgIAABUAAAAAAAAAAAAAAC0AAAAuAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-11T10:31:52.777Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-09-14T04:25:32.902Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "Auth_APIController.cs",
-              "DocumentMoniker": "D:\\be\\Controllers\\API\\Auth_APIController.cs",
-              "RelativeDocumentMoniker": "Controllers\\API\\Auth_APIController.cs",
-              "ToolTip": "D:\\be\\Controllers\\API\\Auth_APIController.cs",
-              "RelativeToolTip": "Controllers\\API\\Auth_APIController.cs",
-              "ViewState": "AgIAAFgAAAAAAAAAAAAuwLAAAAAAAAAAAAAAAA==",
+              "Title": "Courses_APIController.cs",
+              "DocumentMoniker": "D:\\workspace\\clone\\Controllers\\API\\Courses_APIController.cs",
+              "RelativeDocumentMoniker": "Controllers\\API\\Courses_APIController.cs",
+              "ToolTip": "D:\\workspace\\clone\\Controllers\\API\\Courses_APIController.cs",
+              "RelativeToolTip": "Controllers\\API\\Courses_APIController.cs",
+              "ViewState": "AgIAAFkAAAAAAAAAAAAIwAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-11T09:41:56.498Z",
+              "WhenOpened": "2024-09-14T04:39:43.11Z",
               "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "QuestionRepository.cs",
+              "DocumentMoniker": "D:\\workspace\\clone\\Repositories\\QuestionRepository.cs",
+              "RelativeDocumentMoniker": "Repositories\\QuestionRepository.cs",
+              "ToolTip": "D:\\workspace\\clone\\Repositories\\QuestionRepository.cs",
+              "RelativeToolTip": "Repositories\\QuestionRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-14T04:37:13.842Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "Momo_PaymentController.cs",
+              "DocumentMoniker": "D:\\workspace\\clone\\Controllers\\API\\Momo_PaymentController.cs",
+              "RelativeDocumentMoniker": "Controllers\\API\\Momo_PaymentController.cs",
+              "ToolTip": "D:\\workspace\\clone\\Controllers\\API\\Momo_PaymentController.cs",
+              "RelativeToolTip": "Controllers\\API\\Momo_PaymentController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-14T04:39:41.512Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "StaffRepository.cs",
+              "DocumentMoniker": "D:\\workspace\\clone\\Repositories\\StaffRepository.cs",
+              "RelativeDocumentMoniker": "Repositories\\StaffRepository.cs",
+              "ToolTip": "D:\\workspace\\clone\\Repositories\\StaffRepository.cs",
+              "RelativeToolTip": "Repositories\\StaffRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-14T04:36:49.831Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "UnitRepository.cs",
+              "DocumentMoniker": "D:\\workspace\\clone\\Repositories\\UnitRepository.cs",
+              "RelativeDocumentMoniker": "Repositories\\UnitRepository.cs",
+              "ToolTip": "D:\\workspace\\clone\\Repositories\\UnitRepository.cs",
+              "RelativeToolTip": "Repositories\\UnitRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-14T04:37:11.323Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "UserCourse.cs",
+              "DocumentMoniker": "D:\\workspace\\clone\\Models\\UserCourse.cs",
+              "RelativeDocumentMoniker": "Models\\UserCourse.cs",
+              "ToolTip": "D:\\workspace\\clone\\Models\\UserCourse.cs",
+              "RelativeToolTip": "Models\\UserCourse.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-14T04:36:13.603Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "User.cs",
+              "DocumentMoniker": "D:\\workspace\\clone\\Models\\User.cs",
+              "RelativeDocumentMoniker": "Models\\User.cs",
+              "ToolTip": "D:\\workspace\\clone\\Models\\User.cs",
+              "RelativeToolTip": "Models\\User.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-14T04:36:06.294Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "Staff.cs",
+              "DocumentMoniker": "D:\\workspace\\clone\\Models\\Staff.cs",
+              "RelativeDocumentMoniker": "Models\\Staff.cs",
+              "ToolTip": "D:\\workspace\\clone\\Models\\Staff.cs",
+              "RelativeToolTip": "Models\\Staff.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-14T04:36:04.7Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "ExamRepository.cs",
+              "DocumentMoniker": "D:\\workspace\\clone\\Repositories\\ExamRepository.cs",
+              "RelativeDocumentMoniker": "Repositories\\ExamRepository.cs",
+              "ToolTip": "D:\\workspace\\clone\\Repositories\\ExamRepository.cs",
+              "RelativeToolTip": "Repositories\\ExamRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-14T04:35:38.495Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "GetAllContainerAndLessionRequestcs.cs",
+              "DocumentMoniker": "D:\\workspace\\clone\\Services\\Request\\GetAllContainerAndLessionRequestcs.cs",
+              "RelativeDocumentMoniker": "Services\\Request\\GetAllContainerAndLessionRequestcs.cs",
+              "ToolTip": "D:\\workspace\\clone\\Services\\Request\\GetAllContainerAndLessionRequestcs.cs",
+              "RelativeToolTip": "Services\\Request\\GetAllContainerAndLessionRequestcs.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAnAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-14T04:28:03.783Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "ContainerRepository.cs",
+              "DocumentMoniker": "D:\\workspace\\clone\\Repositories\\ContainerRepository.cs",
+              "RelativeDocumentMoniker": "Repositories\\ContainerRepository.cs",
+              "ToolTip": "D:\\workspace\\clone\\Repositories\\ContainerRepository.cs",
+              "RelativeToolTip": "Repositories\\ContainerRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-14T04:20:23.747Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 20,
+              "Title": "VNPayPaymentController.cs",
+              "DocumentMoniker": "D:\\workspace\\clone\\Controllers\\API\\VNPayPaymentController.cs",
+              "RelativeDocumentMoniker": "Controllers\\API\\VNPayPaymentController.cs",
+              "ToolTip": "D:\\workspace\\clone\\Controllers\\API\\VNPayPaymentController.cs",
+              "RelativeToolTip": "Controllers\\API\\VNPayPaymentController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-14T04:25:12.013Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 22,
+              "Title": "SqlService.cs",
+              "DocumentMoniker": "D:\\workspace\\clone\\Services\\SqlService.cs",
+              "RelativeDocumentMoniker": "Services\\SqlService.cs",
+              "ToolTip": "D:\\workspace\\clone\\Services\\SqlService.cs",
+              "RelativeToolTip": "Services\\SqlService.cs",
+              "ViewState": "AgIAAE0AAAAAAAAAAAAIwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-14T04:22:24.988Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 23,
+              "Title": "SMTPServices.cs",
+              "DocumentMoniker": "D:\\workspace\\clone\\Services\\SMTPServices.cs",
+              "RelativeDocumentMoniker": "Services\\SMTPServices.cs",
+              "ToolTip": "D:\\workspace\\clone\\Services\\SMTPServices.cs",
+              "RelativeToolTip": "Services\\SMTPServices.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-14T04:22:26.174Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 25,
+              "Title": "CourseRepository .cs",
+              "DocumentMoniker": "D:\\workspace\\clone\\Repositories\\CourseRepository .cs",
+              "RelativeDocumentMoniker": "Repositories\\CourseRepository .cs",
+              "ToolTip": "D:\\workspace\\clone\\Repositories\\CourseRepository .cs",
+              "RelativeToolTip": "Repositories\\CourseRepository .cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-14T04:20:31.801Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "Part4Response.cs",
+              "DocumentMoniker": "D:\\workspace\\clone\\Services\\Response\\Part4Response.cs",
+              "RelativeDocumentMoniker": "Services\\Response\\Part4Response.cs",
+              "ToolTip": "D:\\workspace\\clone\\Services\\Response\\Part4Response.cs",
+              "RelativeToolTip": "Services\\Response\\Part4Response.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-14T04:19:50.235Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 26,
+              "Title": "Part7Response.cs",
+              "DocumentMoniker": "D:\\workspace\\clone\\Services\\Response\\Part7Response.cs",
+              "RelativeDocumentMoniker": "Services\\Response\\Part7Response.cs",
+              "ToolTip": "D:\\workspace\\clone\\Services\\Response\\Part7Response.cs",
+              "RelativeToolTip": "Services\\Response\\Part7Response.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-14T04:19:51.003Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 27,
+              "Title": "Part1Response.cs",
+              "DocumentMoniker": "D:\\workspace\\clone\\Services\\Response\\Part1Response.cs",
+              "RelativeDocumentMoniker": "Services\\Response\\Part1Response.cs",
+              "ToolTip": "D:\\workspace\\clone\\Services\\Response\\Part1Response.cs",
+              "RelativeToolTip": "Services\\Response\\Part1Response.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-14T04:19:49.156Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 21,
+              "Title": "GeneralAiAudioServices.cs",
+              "DocumentMoniker": "D:\\workspace\\clone\\Services\\GeneralAiAudioServices.cs",
+              "RelativeDocumentMoniker": "Services\\GeneralAiAudioServices.cs",
+              "ToolTip": "D:\\workspace\\clone\\Services\\GeneralAiAudioServices.cs",
+              "RelativeToolTip": "Services\\GeneralAiAudioServices.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABYAAAA2AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-13T09:44:33.11Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 28,
+              "Title": "UnitDetailResponse.cs",
+              "DocumentMoniker": "D:\\workspace\\clone\\Services\\Response\\UnitDetailResponse.cs",
+              "RelativeDocumentMoniker": "Services\\Response\\UnitDetailResponse.cs",
+              "ToolTip": "D:\\workspace\\clone\\Services\\Response\\UnitDetailResponse.cs",
+              "RelativeToolTip": "Services\\Response\\UnitDetailResponse.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-14T04:19:48.075Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 29,
+              "Title": "LessonResponse.cs",
+              "DocumentMoniker": "D:\\workspace\\clone\\Services\\Response\\LessonResponse.cs",
+              "RelativeDocumentMoniker": "Services\\Response\\LessonResponse.cs",
+              "ToolTip": "D:\\workspace\\clone\\Services\\Response\\LessonResponse.cs",
+              "RelativeToolTip": "Services\\Response\\LessonResponse.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-14T04:19:46.611Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 24,
+              "Title": "VocabFlashCard_APIController.cs",
+              "DocumentMoniker": "D:\\workspace\\clone\\Controllers\\API\\VocabFlashCard_APIController.cs",
+              "RelativeDocumentMoniker": "Controllers\\API\\VocabFlashCard_APIController.cs",
+              "ToolTip": "D:\\workspace\\clone\\Controllers\\API\\VocabFlashCard_APIController.cs",
+              "RelativeToolTip": "Controllers\\API\\VocabFlashCard_APIController.cs",
+              "ViewState": "AgIAAB8AAAAAAAAAAAAiwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-13T09:42:34.596Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 30,
+              "Title": "ContainerResponse.cs",
+              "DocumentMoniker": "D:\\workspace\\clone\\Services\\Response\\ContainerResponse.cs",
+              "RelativeDocumentMoniker": "Services\\Response\\ContainerResponse.cs",
+              "ToolTip": "D:\\workspace\\clone\\Services\\Response\\ContainerResponse.cs",
+              "RelativeToolTip": "Services\\Response\\ContainerResponse.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-14T04:19:44.976Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 34,
+              "Title": "global.json",
+              "DocumentMoniker": "D:\\workspace\\clone\\global.json",
+              "RelativeDocumentMoniker": "global.json",
+              "ToolTip": "D:\\workspace\\clone\\global.json",
+              "RelativeToolTip": "global.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2024-09-13T09:47:28.408Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 32,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "D:\\workspace\\clone\\appsettings.json",
+              "RelativeDocumentMoniker": "appsettings.json",
+              "ToolTip": "D:\\workspace\\clone\\appsettings.json",
+              "RelativeToolTip": "appsettings.json",
+              "ViewState": "AgIAAC0AAAAAAAAAAAAAAD8AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2024-09-13T09:39:15.289Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 31,
+              "Title": "firebase_config.json",
+              "DocumentMoniker": "D:\\workspace\\clone\\firebase_config.json",
+              "RelativeDocumentMoniker": "firebase_config.json",
+              "ToolTip": "D:\\workspace\\clone\\firebase_config.json",
+              "RelativeToolTip": "firebase_config.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2024-09-13T09:39:41.214Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 35,
+              "Title": "Video_APIController.cs",
+              "DocumentMoniker": "D:\\workspace\\clone\\Controllers\\API\\Video_APIController.cs",
+              "RelativeDocumentMoniker": "Controllers\\API\\Video_APIController.cs",
+              "ToolTip": "D:\\workspace\\clone\\Controllers\\API\\Video_APIController.cs",
+              "RelativeToolTip": "Controllers\\API\\Video_APIController.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAIBJwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-13T09:42:58.821Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 33,
+              "Title": "launchSettings.json",
+              "DocumentMoniker": "D:\\workspace\\clone\\Properties\\launchSettings.json",
+              "RelativeDocumentMoniker": "Properties\\launchSettings.json",
+              "ToolTip": "D:\\workspace\\clone\\Properties\\launchSettings.json",
+              "RelativeToolTip": "Properties\\launchSettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAPAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2024-09-13T09:18:02.764Z"
             }
           ]
         }

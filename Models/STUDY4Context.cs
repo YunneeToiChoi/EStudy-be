@@ -39,7 +39,7 @@ namespace study4_be.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("Data Source=LAPTOP-62MKG1UJ;Initial Catalog=STUDY4;Integrated Security=True;Trust Server Certificate=True");
+                optionsBuilder.UseSqlServer("Data Source=RENA-LAPTOP\\SQLEXPRESS01;Initial Catalog=STUDY4;Integrated Security=True;Trust Server Certificate=True");
             }
         }
 
