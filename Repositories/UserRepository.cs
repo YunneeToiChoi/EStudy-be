@@ -7,7 +7,7 @@ namespace study4_be.Repositories
 {
     public class UserRepository
     {
-        private readonly STUDY4Context _context = new STUDY4Context();
+        private readonly Study4Context _context = new Study4Context();
         public async Task<IEnumerable<User>> GetAllUsersAsync()
         {
             return await _context.Users.ToListAsync();

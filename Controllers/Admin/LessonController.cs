@@ -16,7 +16,7 @@ namespace study4_be.Controllers.Admin
             _logger = logger;
         }
         private readonly LessonRepository _lessonsRepository = new LessonRepository();
-        public STUDY4Context _context = new STUDY4Context();
+        public Study4Context _context = new Study4Context();
         [HttpGet("GetAllLessons")]
         public async Task<ActionResult<IEnumerable<Lesson>>> GetAllLessons()
         {

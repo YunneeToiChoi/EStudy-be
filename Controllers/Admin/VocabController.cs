@@ -24,7 +24,7 @@ namespace study4_be.Controllers.Admin
             _firebaseServices = firebaseServices;
         }
         private readonly VocabRepository _vocabsRepository = new VocabRepository();
-        public STUDY4Context _context = new STUDY4Context();
+        public Study4Context _context = new Study4Context();
         [HttpDelete("DeleteAllVocabs")]
         public async Task<IActionResult> DeleteAllVocabs()
         {

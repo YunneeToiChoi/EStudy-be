@@ -23,7 +23,7 @@ namespace study4_be.Controllers.API
             _logger = logger;
         }
         private readonly CourseRepository _coursesRepository = new CourseRepository();
-        public STUDY4Context _context = new STUDY4Context();
+        public Study4Context _context = new Study4Context();
 
         [HttpGet("Get_AllCourses")] 
         public async Task<ActionResult<IEnumerable<Course>>> Get_AllCourses()

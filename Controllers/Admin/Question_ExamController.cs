@@ -20,7 +20,7 @@ namespace study4_be.Controllers.Admin
             _generalAiAudioServices = new GeneralAiAudioServices();
         }
         private readonly QuestionRepository _questionsRepository = new QuestionRepository();
-        public STUDY4Context _context = new STUDY4Context();
+        public Study4Context _context = new Study4Context();
         public async Task<IActionResult> Question_Exam_List()
         {
             try
