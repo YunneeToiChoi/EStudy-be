@@ -97,7 +97,8 @@ namespace study4_be.Controllers.API
                     {
                         if (user.Isverified == true)
                         {
-                            return Json(new { status = 200, message = "Login successful", user });
+                            var token = _jwtServices.GenerateToken(user.UserName, user.UserEmail, user.UserId, 1);
+                            return Json(new { status = 200, message = "Login successful", user ,token});
                         }
                         return Unauthorized("User is not verification");
                         // can resend it
