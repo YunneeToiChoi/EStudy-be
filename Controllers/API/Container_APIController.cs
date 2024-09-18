@@ -18,11 +18,11 @@ namespace study4_be.Controllers.API
         {
             _logger = logger;
         }
-        public STUDY4Context _context = new STUDY4Context();
+        public Study4Context _context = new Study4Context();
         [HttpPost("Get_AllContainerAndLessonByUnit")]
         public async Task<ActionResult<UnitDetailResponse>> Get_AllContainerAndLessonByUnit(GetAllContainerAndLessionRequestcs unit)
         {
-            using (var context = new STUDY4Context())
+            using (var context = new Study4Context())
             {
                 // Get the unit by ID
                 var unitExist = await context.Units.FindAsync(unit.unitId);

@@ -17,7 +17,7 @@ namespace study4_be.Controllers.Admin
             _fireBaseServices = fireBaseServices;
         }
         private readonly CourseRepository _coursesRepository = new CourseRepository();
-        public STUDY4Context _context = new STUDY4Context();
+        public Study4Context _context = new Study4Context();
 
         [HttpGet("GetAllCourses")]
         public async Task<ActionResult<IEnumerable<Course>>> GetAllCourses()

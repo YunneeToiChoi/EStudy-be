@@ -11,7 +11,7 @@ namespace study4_be.Controllers.API
     public class Video_APIController : Controller
     {
         private readonly ILogger<Video_APIController> _logger;
-        public STUDY4Context _context = new STUDY4Context();
+        public Study4Context _context = new Study4Context();
         public Video_APIController(ILogger<Video_APIController> logger)
         {
             _logger = logger;

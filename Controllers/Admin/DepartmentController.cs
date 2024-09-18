@@ -13,7 +13,7 @@ namespace study4_be.Controllers.Admin
             _logger = logger;
         }
         private readonly DepartmentRepository _departmentsRepository = new DepartmentRepository();
-        public STUDY4Context _context = new STUDY4Context();
+        public Study4Context _context = new Study4Context();
 
         [HttpGet("GetAllDepartments")]
         public async Task<ActionResult<IEnumerable<Department>>> GetAllDepartments()

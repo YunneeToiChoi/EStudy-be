@@ -14,7 +14,7 @@ namespace study4_be.Controllers.API
     [ApiController]
     public class Exam_APIController : Controller
     {
-        private STUDY4Context _context = new STUDY4Context();
+        private Study4Context _context = new Study4Context();
         private readonly ILogger<Exam_APIController> _logger;
         private FireBaseServices _fireBaseServices;
         public Exam_APIController(ILogger<Exam_APIController> logger, FireBaseServices fireBaseServices)

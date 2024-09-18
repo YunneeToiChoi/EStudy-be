@@ -3,6 +3,7 @@ using FirebaseAdmin.Auth;
 using Google.Apis.Auth.OAuth2;
 using Google.Cloud.Storage.V1;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages;
 using NuGet.Protocol;
 using study4_be.Models;
 
@@ -35,6 +36,33 @@ namespace study4_be.Services
         {
             return _firebaseBucketName;
         }
+
+        public async Task<string> UploadFileDocAsync(Stream fileStream, string fileName, string userId)
+        {
+            // Get the bucket name and the file path
+            var bucketName = _firebaseBucketName;
+            var filePath = $"UserDocuments/{userId}/{fileName}";
+
+            // Path to your service account file
+            string serviceAccountPath = Path.Combine(Directory.GetCurrentDirectory(), "firebase_config.json");
+
+            // Load credentials from the service account file
+            var credential = GoogleCredential.FromFile(serviceAccountPath);
+
+            // Create the StorageClient with the credential
+            var storageClient = StorageClient.Create(credential);
+
+            // Upload the file to Firebase Storage
+            var uploadObject = await storageClient.UploadObjectAsync(bucketName, filePath, null, fileStream);
+
+            // Generate the file URL (URL-encoded file path)
+            var encodedFilePath = Uri.EscapeDataString(filePath);
+            var fileUrl = $"https://firebasestorage.googleapis.com/v0/b/{bucketName}/o/{encodedFilePath}?alt=media";
+
+            return fileUrl;
+        }
+
+
         public async Task<string> UploadFileFromUrlToFirebaseStorageAsync(string imageUrl, string fileName, string bucketName)
         {
             // Đường dẫn tới tệp tin serviceAccount.json

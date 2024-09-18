@@ -16,7 +16,7 @@ namespace study4_be.Controllers.Admin
             _logger = logger;
         }
         private readonly ContainerRepository _containersRepository = new ContainerRepository();
-        public STUDY4Context _context = new STUDY4Context();
+        public Study4Context _context = new Study4Context();
         public async Task<IActionResult> Container_List()
         {
             var containers = await _context.Containers

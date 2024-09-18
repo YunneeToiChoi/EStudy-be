@@ -10,10 +10,10 @@ namespace study4_be.Services
 {
     public class UserCourseExpirationService
     {
-        private readonly STUDY4Context _context;
+        private readonly Study4Context _context;
         private readonly ILogger<UserCourseExpirationService> _logger;
 
-        public UserCourseExpirationService(STUDY4Context context, ILogger<UserCourseExpirationService> logger)
+        public UserCourseExpirationService(Study4Context context, ILogger<UserCourseExpirationService> logger)
         {
             _context = context;
             _logger = logger;

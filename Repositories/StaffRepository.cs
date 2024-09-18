@@ -6,7 +6,7 @@ namespace study4_be.Repositories
 {
     public class StaffRepository
     {
-        private readonly STUDY4Context _context = new STUDY4Context();
+        private readonly Study4Context _context = new Study4Context();
         public async Task<IEnumerable<Staff>> GetAllStaffsByDepartmentAsync(int idDepartment)
         {
             var staffs = await _context.Staff.Where(u => u.DepartmentId == idDepartment).ToListAsync();

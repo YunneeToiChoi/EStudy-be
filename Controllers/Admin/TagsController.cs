@@ -13,7 +13,7 @@ namespace study4_be.Controllers.Admin
         {
             _logger = logger;
         }
-        public STUDY4Context _context = new STUDY4Context();
+        public Study4Context _context = new Study4Context();
 
         public async Task<IActionResult> Tag_List()
         {

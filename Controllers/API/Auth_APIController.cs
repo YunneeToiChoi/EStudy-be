@@ -34,7 +34,7 @@ namespace study4_be.Controllers.API
         private readonly UserRepository _userRepository = new UserRepository();
         private SMTPServices _smtpServices;
         private readonly IConfiguration _configuration;
-        private STUDY4Context _context = new STUDY4Context();
+        private Study4Context _context = new Study4Context();
         private UserRegistrationValidator _userRegistrationValidator = new UserRegistrationValidator();
         private readonly ILogger<Auth_APIController> _logger;
         private readonly FireBaseServices _fireBaseServices;

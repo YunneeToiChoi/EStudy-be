@@ -16,7 +16,7 @@ namespace study4_be.Controllers.Admin
 
         }
         private readonly ExamRepository _examsRepository = new ExamRepository();
-        public STUDY4Context _context = new STUDY4Context();
+        public Study4Context _context = new Study4Context();
 
         [HttpGet("GetAllExams")]
         public async Task<ActionResult<IEnumerable<Course>>> GetAllExams()

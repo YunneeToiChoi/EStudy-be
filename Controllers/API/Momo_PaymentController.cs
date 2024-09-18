@@ -26,7 +26,7 @@ public class Momo_PaymentController : ControllerBase
     private readonly HashHelper _hashHelper;
     private readonly FireBaseServices _fireBaseServices;
     private SMTPServices _smtpServices;
-    private STUDY4Context _context = new STUDY4Context();
+    private Study4Context _context = new Study4Context();
     public Momo_PaymentController(ILogger<Momo_PaymentController> logger, IOptions<MomoConfig> momoPaymentSettings, FireBaseServices fireBaseServices,SMTPServices sMTPServices)
     {
         _logger = logger;
