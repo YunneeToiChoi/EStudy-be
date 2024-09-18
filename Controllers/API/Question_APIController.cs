@@ -11,13 +11,13 @@ namespace study4_be.Controllers.API
     [ApiController]
     public class Question_APIController : Controller
     {
-        public STUDY4Context _context;
+        public Study4Context _context;
         public QuestionRepository _questionRepo;
         private readonly ILogger<Question_APIController> _logger;
         public Question_APIController(ILogger<Question_APIController> logger)
         {
             _questionRepo = new QuestionRepository();
-            _context = new STUDY4Context();
+            _context = new Study4Context();
             _logger = logger;
         }
 

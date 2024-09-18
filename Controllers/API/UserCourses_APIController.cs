@@ -13,7 +13,7 @@ namespace study4_be.Controllers.API
     [ApiController]
     public class UserCourses_APIController : Controller
     {
-        private STUDY4Context _context = new STUDY4Context();
+        private Study4Context _context = new Study4Context();
         private  UserCoursesRepository _userCoursesRepo = new UserCoursesRepository();
         [HttpPost("Get_AllCoursesByUser")]
         public async Task<ActionResult<IEnumerable<Course>>> Get_AllCoursesByUser(GetAllCoursesByUserRequest request)

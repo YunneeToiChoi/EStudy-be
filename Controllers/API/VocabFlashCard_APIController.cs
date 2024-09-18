@@ -18,13 +18,13 @@ namespace study4_be.Controllers.API
     [ApiController]
     public class VocabFlashCard_APIController : Controller
     {
-        private readonly STUDY4Context _context;
+        private readonly Study4Context _context;
         private readonly VocabFlashCardRepository _vocabFlashCardRepo;
         private readonly ILogger<VocabFlashCard_APIController> _logger;
         private readonly FireBaseServices _firebaseServices;
         public VocabFlashCard_APIController(ILogger<VocabFlashCard_APIController> logger, FireBaseServices firebaseServices)
         {
-            _context = new STUDY4Context();
+            _context = new Study4Context();
             _vocabFlashCardRepo = new VocabFlashCardRepository();
             _logger = logger;
             _firebaseServices = firebaseServices;

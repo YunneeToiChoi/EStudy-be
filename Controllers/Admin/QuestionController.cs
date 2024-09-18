@@ -21,7 +21,7 @@ namespace study4_be.Controllers.Admin
             _generalAiAudioServices = new GeneralAiAudioServices();
         }
         private readonly QuestionRepository _questionsRepository = new QuestionRepository();
-        public STUDY4Context _context = new STUDY4Context();
+        public Study4Context _context = new Study4Context();
         //development enviroment
         [HttpDelete("DeleteAllQuestions")]
         public async Task<IActionResult> DeleteAllQuestions()

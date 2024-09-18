@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Org.BouncyCastle.Asn1.Crmf;
 using study4_be.Models;
 using study4_be.Repositories;
 using study4_be.Services.Request;
@@ -15,11 +16,11 @@ namespace study4_be.Controllers.API
 	{
 		private readonly ILogger<Order_APIController> _logger;
 		private OrderRepository ordRepo = new OrderRepository();
-		private Order_APIController(ILogger<Order_APIController> logger)
+		public Order_APIController(ILogger<Order_APIController> logger)
 		{
 			_logger = logger;
 		}
-		private STUDY4Context _context = new STUDY4Context();
+		private Study4Context _context = new Study4Context();
 		[HttpGet]
         private string GenerateOrderId(string userId, int courseId)
         {

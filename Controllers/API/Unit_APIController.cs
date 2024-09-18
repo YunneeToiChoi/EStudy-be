@@ -17,7 +17,7 @@ namespace study4_be.Controllers.API
         {
             _logger = logger;
         }
-        private STUDY4Context _context = new STUDY4Context();
+        private Study4Context _context = new Study4Context();
         [HttpPost("Get_AllUnitsByCourse")]
         public async Task<ActionResult> Get_AllUnitsByCourse(GetAllUnitsByCourses courses)
         {

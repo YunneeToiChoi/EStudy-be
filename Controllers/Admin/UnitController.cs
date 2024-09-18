@@ -16,7 +16,7 @@ namespace study4_be.Controllers.Admin
             _logger = logger;
         }
         private readonly UnitRepository _unitsRepository = new UnitRepository();
-        public STUDY4Context _context = new STUDY4Context();
+        public Study4Context _context = new Study4Context();
         public async Task<IActionResult> Unit_List()
         {
             var units = await _context.Units.ToListAsync();
