@@ -97,9 +97,9 @@ namespace study4_be.Controllers.API
                 return BadRequest($"Error occurred: {e.Message}");
             }
         }
-
+        // upload -> fe send file , be -> file + idFile -> fe save -> DETAIL -> cate,.... + idFile , 
         [HttpPost("Upload")]
-        public async Task<IActionResult> UploadDocuments(IEnumerable<IFormFile> files, string userId, string description, int categoryId, int courseId, bool state)
+        public async Task<IActionResult> UploadDocuments(IEnumerable<IFormFile> files, string userId, string description)
         {
             if (files == null || !files.Any())
             {
@@ -114,7 +114,7 @@ namespace study4_be.Controllers.API
                     return BadRequest("User does not exist.");
                 }
 
-                var uploadedFiles = new List<string>();
+                var uploadedFiles = new List<object>();
 
                 foreach (var file in files)
                 {
@@ -133,25 +133,74 @@ namespace study4_be.Controllers.API
                         var userDoc = new Document
                         {
                             UserId = userId,
-                            CategoryId = categoryId,
-                            CourseId = courseId,
                             Description = description,
+                            //CategoryId 
+                            //CourseId
+                            //IsPublic
                             DownloadCount = 0,
                             FileType = file.ContentType,
                             FileUrl = fileUrl,
-                            IsPublic = state,
                             Title = fileName,
                             UploadDate = DateTime.UtcNow,
                         };
 
-                        _context.Documents.Add(userDoc); // Add document to context
-                        uploadedFiles.Add(fileUrl);
+                        _context.Documents.Add(userDoc);
+                        await _context.SaveChangesAsync(); // Save document to database to generate DocumentId
+
+                        // Add both FileUrl and DocumentId to the response
+                        uploadedFiles.Add(new
+                        {
+                            DocumentId = userDoc.DocumentId, // Return DocumentId
+                            DocumentName = fileName,
+                            //FileUrl = fileUrl
+                        });
                     }
                 }
+                return Ok(new { status = 200, Files = uploadedFiles });
+            }
+            catch (Exception e)
+            {
+                return BadRequest($"Error occurred: {e.Message}");
+            }
+        } 
 
-                await _context.SaveChangesAsync(); // Save all documents to database
+        [HttpPost("Detail")]
+        public async Task<IActionResult> Detail(IEnumerable<int> idDocuments, string userId, int categoryId, int courseId, bool state)
+        {
+            if (idDocuments == null || !idDocuments.Any())
+            {
+                return BadRequest("No Documents Id uploaded.");
+            }
 
-                return Ok(new { status = 200, FileUrls = uploadedFiles });
+            try
+            {
+                var userExist = await _context.Users.AnyAsync(u => u.UserId == userId);
+                if (!userExist)
+                {
+                    return BadRequest("User does not exist.");
+                }
+                // Truy vấn các document theo idDocuments và cập nhật thông tin
+                var documentsToUpdate = await _context.Documents
+                                        .Where(d => idDocuments.Contains(d.DocumentId) && d.UserId == userId)
+                                        .ToListAsync();
+
+                if (!documentsToUpdate.Any())
+                {
+                    return BadRequest("No matching documents found for this user.");
+                }
+
+                // Cập nhật thông tin cho từng document
+                foreach (var document in documentsToUpdate)
+                {
+                    document.CategoryId = categoryId;
+                    document.CourseId = courseId;
+                    document.IsPublic = state;
+                }
+
+                // Lưu thay đổi vào cơ sở dữ liệu
+                await _context.SaveChangesAsync();
+
+                return Ok(new { status = 200, message = "Documents updated successfully.",  });
             }
             catch (Exception e)
             {
