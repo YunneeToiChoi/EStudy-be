@@ -3,24 +3,28 @@
   "WorkspaceRootPath": "D:\\be\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|d:\\be\\controllers\\api\\auth_apicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|solutionrelative:controllers\\api\\auth_apicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|d:\\be\\controllers\\api\\userdocumentapicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|solutionrelative:controllers\\api\\userdocumentapicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|d:\\be\\services\\request\\document\\uploaddocumentrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|solutionrelative:services\\request\\document\\uploaddocumentrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|d:\\be\\services\\request\\document\\uploaddetailrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|solutionrelative:services\\request\\document\\uploaddetailrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|d:\\be\\controllers\\api\\auth_apicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|solutionrelative:controllers\\api\\auth_apicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|d:\\be\\models\\document.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|solutionrelative:models\\document.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|d:\\be\\controllers\\api\\order_apicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|solutionrelative:controllers\\api\\order_apicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|d:\\be\\services\\firebaseservices.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|solutionrelative:services\\firebaseservices.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|d:\\be\\controllers\\api\\exam_apicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|solutionrelative:controllers\\api\\exam_apicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -30,20 +34,33 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 5,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
               "Title": "UserDocumentAPIController.cs",
               "DocumentMoniker": "D:\\be\\Controllers\\API\\UserDocumentAPIController.cs",
               "RelativeDocumentMoniker": "Controllers\\API\\UserDocumentAPIController.cs",
               "ToolTip": "D:\\be\\Controllers\\API\\UserDocumentAPIController.cs",
               "RelativeToolTip": "Controllers\\API\\UserDocumentAPIController.cs",
-              "ViewState": "AgIAAJoAAAAAAAAAAAAkwGUAAAA4AAAAAAAAAA==",
+              "ViewState": "AgIAAB4BAAAAAAAAAAAowCYBAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-09-17T09:32:53.563Z",
               "IsPinned": true,
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "UploadDocumentRequest.cs",
+              "DocumentMoniker": "D:\\be\\Services\\Request\\Document\\UploadDocumentRequest.cs",
+              "RelativeDocumentMoniker": "Services\\Request\\Document\\UploadDocumentRequest.cs",
+              "ToolTip": "D:\\be\\Services\\Request\\Document\\UploadDocumentRequest.cs",
+              "RelativeToolTip": "Services\\Request\\Document\\UploadDocumentRequest.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAuwAcAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-18T09:15:25.164Z",
               "EditorCaption": ""
             },
             {
@@ -56,52 +73,55 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "Order_APIController.cs",
-              "DocumentMoniker": "D:\\be\\Controllers\\API\\Order_APIController.cs",
-              "RelativeDocumentMoniker": "Controllers\\API\\Order_APIController.cs",
-              "ToolTip": "D:\\be\\Controllers\\API\\Order_APIController.cs",
-              "RelativeToolTip": "Controllers\\API\\Order_APIController.cs",
-              "ViewState": "AgIAAB4AAAAAAAAAAAAYwBYAAAA3AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-17T11:15:21.985Z"
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "Document.cs",
-              "DocumentMoniker": "D:\\be\\Models\\Document.cs",
-              "RelativeDocumentMoniker": "Models\\Document.cs",
-              "ToolTip": "D:\\be\\Models\\Document.cs",
-              "RelativeToolTip": "Models\\Document.cs",
-              "ViewState": "AgIAAAoAAAAAAAAAAAAQwBsAAAAYAAAAAAAAAA==",
+              "Title": "UploadDetailRequest.cs",
+              "DocumentMoniker": "D:\\be\\Services\\Request\\Document\\UploadDetailRequest.cs",
+              "RelativeDocumentMoniker": "Services\\Request\\Document\\UploadDetailRequest.cs",
+              "ToolTip": "D:\\be\\Services\\Request\\Document\\UploadDetailRequest.cs",
+              "RelativeToolTip": "Services\\Request\\Document\\UploadDetailRequest.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAuwAcAAAAqAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-17T10:17:58.286Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "Auth_APIController.cs",
-              "DocumentMoniker": "D:\\be\\Controllers\\API\\Auth_APIController.cs",
-              "RelativeDocumentMoniker": "Controllers\\API\\Auth_APIController.cs",
-              "ToolTip": "D:\\be\\Controllers\\API\\Auth_APIController.cs",
-              "RelativeToolTip": "Controllers\\API\\Auth_APIController.cs",
-              "ViewState": "AgIAANEAAAAAAAAAAAAswLIAAAAhAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-17T09:33:00.533Z",
+              "WhenOpened": "2024-09-18T09:21:07.188Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 4,
-              "Title": "FireBaseServices.cs",
-              "DocumentMoniker": "D:\\be\\Services\\FireBaseServices.cs",
-              "RelativeDocumentMoniker": "Services\\FireBaseServices.cs",
-              "ToolTip": "D:\\be\\Services\\FireBaseServices.cs",
-              "RelativeToolTip": "Services\\FireBaseServices.cs",
-              "ViewState": "AgIAACQAAAAAAAAAAAAuwCwAAAAAAAAAAAAAAA==",
+              "Title": "Document.cs",
+              "DocumentMoniker": "D:\\be\\Models\\Document.cs",
+              "RelativeDocumentMoniker": "Models\\Document.cs",
+              "ToolTip": "D:\\be\\Models\\Document.cs",
+              "RelativeToolTip": "Models\\Document.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-17T09:29:29.535Z"
+              "WhenOpened": "2024-09-18T07:41:40.904Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Auth_APIController.cs",
+              "DocumentMoniker": "D:\\be\\Controllers\\API\\Auth_APIController.cs",
+              "RelativeDocumentMoniker": "Controllers\\API\\Auth_APIController.cs",
+              "ToolTip": "D:\\be\\Controllers\\API\\Auth_APIController.cs",
+              "RelativeToolTip": "Controllers\\API\\Auth_APIController.cs",
+              "ViewState": "AgIAAJ8AAAAAAAAAAAAQwM4AAABZAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-18T06:48:58.879Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Exam_APIController.cs",
+              "DocumentMoniker": "D:\\be\\Controllers\\API\\Exam_APIController.cs",
+              "RelativeDocumentMoniker": "Controllers\\API\\Exam_APIController.cs",
+              "ToolTip": "D:\\be\\Controllers\\API\\Exam_APIController.cs",
+              "RelativeToolTip": "Controllers\\API\\Exam_APIController.cs",
+              "ViewState": "AgIAAFkCAAAAAAAAAAA5wG4CAAA9AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-18T06:32:31.091Z",
+              "EditorCaption": ""
             }
           ]
         }
