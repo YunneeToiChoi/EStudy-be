@@ -17,6 +17,8 @@ public partial class UserSub
 
     public double? UsersubsTotal { get; set; }
 
+    public bool? State { get; set; }
+
     public virtual Subscriptionplan? Plan { get; set; }
 
     public virtual User? User { get; set; }

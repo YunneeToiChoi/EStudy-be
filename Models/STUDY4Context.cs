@@ -4,13 +4,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace study4_be.Models;
 
-public partial class STUDY4Context : DbContext
+public partial class Study4Context : DbContext
 {
-    public STUDY4Context()
+    public Study4Context()
     {
     }
 
-    public STUDY4Context(DbContextOptions<STUDY4Context> options)
+    public Study4Context(DbContextOptions<Study4Context> options)
         : base(options)
     {
     }
@@ -72,6 +72,7 @@ public partial class STUDY4Context : DbContext
             entity.Property(e => e.CategoryName)
                 .HasMaxLength(50)
                 .IsUnicode(false);
+            entity.Property(e => e.Description).HasMaxLength(255);
         });
 
         modelBuilder.Entity<Container>(entity =>
@@ -122,7 +123,7 @@ public partial class STUDY4Context : DbContext
 
         modelBuilder.Entity<Document>(entity =>
         {
-            entity.HasKey(e => e.DocumentId).HasName("PK__Document__1ABEEF0FAA9EFC00");
+            entity.HasKey(e => e.DocumentId).HasName("PK__Document__1ABEEF0FC7209D38");
 
             entity.Property(e => e.Description).HasColumnType("text");
             entity.Property(e => e.DownloadCount).HasDefaultValue(0);
@@ -160,7 +161,7 @@ public partial class STUDY4Context : DbContext
 
         modelBuilder.Entity<Exam>(entity =>
         {
-            entity.HasKey(e => e.ExamId).HasName("PK__Exam__C782CA59B52A7679");
+            entity.HasKey(e => e.ExamId).HasName("PK__Exam__C782CA59429B561A");
 
             entity.ToTable("Exam");
 
@@ -206,7 +207,7 @@ public partial class STUDY4Context : DbContext
 
         modelBuilder.Entity<Order>(entity =>
         {
-            entity.HasKey(e => e.OrderId).HasName("PK__Orders__F1FF84531EED0047");
+            entity.HasKey(e => e.OrderId).HasName("PK__Orders__F1FF8453B07605FA");
 
             entity.Property(e => e.OrderId)
                 .HasMaxLength(255)
@@ -444,7 +445,7 @@ public partial class STUDY4Context : DbContext
 
         modelBuilder.Entity<UserAnswer>(entity =>
         {
-            entity.HasKey(e => e.UserAnswerId).HasName("PK__UserAnsw__47CE237F8919256B");
+            entity.HasKey(e => e.UserAnswerId).HasName("PK__UserAnsw__47CE237FC7E7390F");
 
             entity.Property(e => e.QuestionId).HasColumnName("QUESTION_ID");
             entity.Property(e => e.UserExamId)
@@ -497,6 +498,7 @@ public partial class STUDY4Context : DbContext
                 .HasMaxLength(255)
                 .HasColumnName("USERSUBS_ID");
             entity.Property(e => e.PlanId).HasColumnName("PLAN_ID");
+            entity.Property(e => e.State).HasColumnName("STATE");
             entity.Property(e => e.UserId)
                 .HasMaxLength(100)
                 .IsUnicode(false)

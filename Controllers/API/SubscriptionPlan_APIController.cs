@@ -16,7 +16,7 @@ namespace study4_be.Controllers.API
     {
         private readonly ILogger<SubscriptionPlan_APIController> _logger;
         private readonly SubscriptionRepository _subscriptionRepository = new SubscriptionRepository();
-        private readonly STUDY4Context _context = new STUDY4Context();
+        private readonly Study4Context _context = new();
         public SubscriptionPlan_APIController(ILogger<SubscriptionPlan_APIController> logger)
         {
             _logger = logger;
@@ -90,12 +90,18 @@ namespace study4_be.Controllers.API
             var orderId = GenerateOrderId(request.UserId, request.PlanId);
             var order = new UserSub
             {
-               
+               UsersubsId = orderId,
+               UserId = existingUser.UserId,
+               PlanId = existingPlan.PlanId,
+               UsersubsTotal = existingPlan.PlanPrice,
+               UsersubsStartdate = DateOnly.FromDateTime(DateTime.Now),
+               UsersubsEnddate = DateOnly.FromDateTime(DateTime.Now).AddMonths(1),
+               State = false
             };
             _context.UserSubs.Add(order);
             await _context.SaveChangesAsync();
             var newlyAddedOrderId = order.UsersubsId; // Lấy giá trị ID vừa được thêm vào
-            return Ok();
+            return Ok(new { status = 200, orderId = newlyAddedOrderId, message = "Plan purchased successfully" });
             //return JsonResult(new { status = 200, orderId = newlyAddedOrderId, message = "Course purchased successfully." });
         }
         [HttpGet("Get_AllPlans")]
@@ -108,7 +114,15 @@ namespace study4_be.Controllers.API
                 {
                     return NotFound(new {status = 404, message = "No subscription plans found." });
                 }
-                return Ok(new { status = 200, message = "Success", data = plans });
+                var plansResponse = plans.Select(plans => new PlanResponse
+                {
+                    PlanId = plans.PlanId,
+                    PlanName = plans.PlanName,
+                    PlanDescription = plans.PlanDescription,
+                    PlanDuration = plans.PlanDuration,
+                    PlanPrice = plans.PlanPrice,
+                });
+                return Ok(new { status = 200, message = "Success", data = plansResponse });
             }
             catch (Exception ex)
             {
@@ -137,6 +151,7 @@ namespace study4_be.Controllers.API
                    PlanName = plan.PlanName,
                    PlanPrice = plan.PlanPrice,
                    PlanDuration = plan.PlanDuration,
+
                 }).ToList();
                 return Ok(new { status = 200, message = "Get Outstanding Plans For Guest Successful", outstandingPlans = detailedOutstandingPlansForGuestResponse });
             }
