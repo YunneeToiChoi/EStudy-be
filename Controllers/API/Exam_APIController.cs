@@ -598,5 +598,47 @@ namespace study4_be.Controllers.API
             // Tạm thời giả định tất cả các câu trả lời đều đạt điểm trung bình
             return 5;
         }
+        [HttpDelete("Delete_AllUsersExam")]
+        public async Task<IActionResult> Delete_AllUsersExam()
+        {
+            try
+            {
+                var users = await _context.UsersExams.ToListAsync();
+
+                if (users.Any())
+                {
+                    _context.UsersExams.RemoveRange(users);
+                    await _context.SaveChangesAsync(); // Ensures changes are saved to the database
+                }
+
+                return Json(new { status = 200, message = "Delete Users Exam Successful" });
+            }
+            catch (Exception e)
+            {
+                return BadRequest(new { status = 400, message = e.Message }); // Structured error response
+            }
+
+        }  
+        [HttpDelete("Delete_AllUserAnswer")]
+        public async Task<IActionResult> Delete_AllUserAnswer()
+        {
+            try
+            {
+                var users = await _context.UserAnswers.ToListAsync();
+
+                if (users.Any())
+                {
+                    _context.UserAnswers.RemoveRange(users);
+                    await _context.SaveChangesAsync(); // Ensures changes are saved to the database
+                }
+
+                return Json(new { status = 200, message = "Delete Users Exam Successful" });
+            }
+            catch (Exception e)
+            {
+                return BadRequest(new { status = 400, message = e.Message }); // Structured error response
+            }
+
+        }
     }
 }
