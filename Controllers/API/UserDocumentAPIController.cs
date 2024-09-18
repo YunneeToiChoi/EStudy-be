@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore;
 using study4_be.Models;
 using study4_be.Repositories;
 using study4_be.Services;
+using study4_be.Services.Request;
+using study4_be.Services.Request.Document;
 using study4_be.Validation;
 using System.Collections.Immutable;
 
@@ -31,16 +33,161 @@ namespace study4_be.Controllers.API
             _httpClientFactory = httpClientFactory;
             _jwtServices = jwtServices;
         }
-        //Course public , Other , course da mua // state  -- done
-        // thieu get all course of user , multifile -- done 
+        //################################################### DOCUMENT ##########################################//
 
+        [HttpPost("GetDocByCourse")]
+        public async Task<IActionResult> GetDocByCourse(OfCourseIdRequest _req)
+        {
+            if (_req.courseId == null || _req.courseId <= 0)
+            {
+                return BadRequest($"Course id is invalid: {_req.courseId}");
+            }
+
+            try
+            {
+                // Check if the course exists
+                var courseExist = await _context.Courses.Where(c => c.CourseId == _req.courseId).FirstOrDefaultAsync();
+                if (courseExist != null)
+                {
+                 
+                    var docByCourse = await _context.Documents
+                        .Where(d => d.CourseId == _req.courseId)
+                        .Join(_context.Users,
+                              doc => doc.UserId,
+                              user => user.UserId,
+                              (doc, user) => new
+                              {
+                                  documentId = doc.DocumentId,
+                                  documentTotalDownload = doc.DownloadCount,
+                                  documentName = doc.Title,
+                                  documentPublic = doc.IsPublic,
+                                  documentUploadDate = doc.UploadDate,
+                                  documentType = doc.FileType,
+                                  userId = user.UserId,
+                                  userName = user.UserName,       
+                                  userImage = user.UserImage    
+                              })
+                        .ToListAsync();
+
+                    // Build the response
+                    var documentResponse = docByCourse.Select(c => new
+                    {
+                        documentId = c.documentId,
+                        documentTotalDownload = c.documentTotalDownload,
+                        documentName = c.documentName,
+                        documentPublic = c.documentPublic,
+                        userId = c.userId,
+                        userName = c.userName,            
+                        userImage = c.userImage           
+                    }).ToList();
+
+                    return Ok(new
+                    {
+                        status = 200,
+                        message = "Get All Documents Successful",
+                        documents = documentResponse
+                    });
+                }
+                else
+                {
+                    return NotFound($"Course with Id {_req.courseId} does not exist.");
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        //################################################### DOCUMENT ##########################################//
+
+        //################################################### BASE #############################################//
+
+        //################################################### BASE #############################################//
+        [HttpGet("GetAllCate")]
+        public async Task<IActionResult> GetAllCate()
+        {
+            try
+            {
+                var cate = await _context.Categories.ToListAsync();
+                var cateResponse = cate.Select(c => new
+                {
+                    categoryId = c.CategoryId,
+                    categoryName = c.CategoryName
+                }).ToList();
+                return Ok(new
+                {
+                    status = 200,
+                    message = "Get All Cate Successful",
+                    category = cateResponse
+                });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        [HttpGet("GetAllCourse")]
+        public async Task<IActionResult> GetAllCourse()
+        {
+            try
+            {
+                var course = await _context.Courses.ToListAsync();
+                var courseResponse = course.Select(c => new
+                {
+                    courseId = c.CourseId,
+                    courseName = c.CourseName
+                }).ToList();
+                return Ok(new
+                {
+                    status = 200,
+                    message = "Get All Courses Successful",
+                    course = courseResponse
+                });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        [HttpGet("GetAllDoc")]
+        public async Task<IActionResult> GetAllDoc()
+        {
+            try
+            {
+                var document = await _context.Documents.ToListAsync();
+                var documentResponse = document.Select(c => new
+                {
+                    documentId = c.DocumentId,
+                    documentName = c.Title,
+                    documentPublic = c.IsPublic,
+                    documentFileUrl = c.FileUrl,
+                    documentType= c.FileType,
+                    documentUploadDate= c.UploadDate,
+
+                }).ToList();
+                return Ok(new
+                {
+                    status = 200,
+                    message = "Get All Document Successful",
+                    document = documentResponse
+                });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        //################################################### BASE #############################################//
+        //################################################### UPLOAD ##########################################//
         [HttpPost("GetCourseOfUser")]
-        public async Task<IActionResult> GetCourseOfUser(string userId)
+        public async Task<IActionResult> GetCourseOfUser([FromBody] OfUserIdRequest _req) // course free and course bought -> name id 
         {
             try
             {
                 var user = await _context.Users
-                                          .Where(u => u.UserId == userId)
+                                          .Where(u => u.UserId == _req.userId)
                                           .FirstOrDefaultAsync();
 
                 if (user != null)
@@ -52,7 +199,7 @@ namespace study4_be.Controllers.API
 
                     // Lấy danh sách khóa học đã thanh toán của người dùng
                     var courseOfUser_Paied = await _context.UserCourses
-                                                           .Where(uc => uc.UserId == userId)
+                                                           .Where(uc => uc.UserId == _req.userId)
                                                            .Select(uc => uc.Course)
                                                            .ToListAsync();
 
@@ -80,35 +227,19 @@ namespace study4_be.Controllers.API
                 return BadRequest($"Error occurred: {e.Message}");
             }
         }
-        [HttpGet("GetCategory")] // maybe in category api
-        public async Task<IActionResult> GetCategory()
-        {
-            try
-            {
-                var category = await _context.Categories.ToListAsync();
-                return Ok(new
-                {
-                    status = 200,
-                    category = category
-                });
-            }
-            catch (Exception e)
-            {
-                return BadRequest($"Error occurred: {e.Message}");
-            }
-        }
+     
         // upload -> fe send file , be -> file + idFile -> fe save -> DETAIL -> cate,.... + idFile , 
         [HttpPost("Upload")]
-        public async Task<IActionResult> UploadDocuments(IEnumerable<IFormFile> files, string userId, string description)
+        public async Task<IActionResult> UploadDocuments(UploadDocumentRequest _req) 
         {
-            if (files == null || !files.Any())
+            if (_req.files == null || !_req.files.Any())
             {
                 return BadRequest("No files uploaded.");
             }
 
             try
             {
-                var userExist = await _context.Users.AnyAsync(u => u.UserId == userId);
+                var userExist = await _context.Users.AnyAsync(u => u.UserId == _req.userId);
                 if (!userExist)
                 {
                     return BadRequest("User does not exist.");
@@ -116,7 +247,7 @@ namespace study4_be.Controllers.API
 
                 var uploadedFiles = new List<object>();
 
-                foreach (var file in files)
+                foreach (var file in _req.files)
                 {
                     if (file == null || file.Length == 0)
                     {
@@ -124,21 +255,16 @@ namespace study4_be.Controllers.API
                     }
 
                     var fileName = file.FileName;
-
                     // Convert IFormFile to Stream
                     using (var fileStream = file.OpenReadStream())
                     {
-                        var fileUrl = await _fireBaseServices.UploadFileDocAsync(fileStream, fileName, userId);
-
+                        var fileUrl = await _fireBaseServices.UploadFileDocAsync(fileStream, fileName, _req.userId);
+                        var fileExtension = Path.GetExtension(fileName);
                         var userDoc = new Document
                         {
-                            UserId = userId,
-                            Description = description,
-                            //CategoryId 
-                            //CourseId
-                            //IsPublic
+                            UserId = _req.userId,
                             DownloadCount = 0,
-                            FileType = file.ContentType,
+                            FileType = fileExtension,
                             FileUrl = fileUrl,
                             Title = fileName,
                             UploadDate = DateTime.UtcNow,
@@ -165,23 +291,23 @@ namespace study4_be.Controllers.API
         } 
 
         [HttpPost("Detail")]
-        public async Task<IActionResult> Detail(IEnumerable<int> idDocuments, string userId, int categoryId, int courseId, bool state)
+        public async Task<IActionResult> Detail(UploadDetailRequest _req)
         {
-            if (idDocuments == null || !idDocuments.Any())
+            if (_req.idDocuments == null || !_req.idDocuments.Any())
             {
                 return BadRequest("No Documents Id uploaded.");
             }
 
             try
             {
-                var userExist = await _context.Users.AnyAsync(u => u.UserId == userId);
+                var userExist = await _context.Users.AnyAsync(u => u.UserId == _req.userId);
                 if (!userExist)
                 {
                     return BadRequest("User does not exist.");
                 }
                 // Truy vấn các document theo idDocuments và cập nhật thông tin
                 var documentsToUpdate = await _context.Documents
-                                        .Where(d => idDocuments.Contains(d.DocumentId) && d.UserId == userId)
+                                        .Where(d => _req.idDocuments.Contains(d.DocumentId) && d.UserId == _req.userId)
                                         .ToListAsync();
 
                 if (!documentsToUpdate.Any())
@@ -192,9 +318,10 @@ namespace study4_be.Controllers.API
                 // Cập nhật thông tin cho từng document
                 foreach (var document in documentsToUpdate)
                 {
-                    document.CategoryId = categoryId;
-                    document.CourseId = courseId;
-                    document.IsPublic = state;
+                    document.CategoryId = _req.categoryId;
+                    document.CourseId = _req.courseId;
+                    document.IsPublic = _req.state;
+                    document.Description = _req.description;
                 }
 
                 // Lưu thay đổi vào cơ sở dữ liệu
@@ -207,6 +334,7 @@ namespace study4_be.Controllers.API
                 return BadRequest($"Error occurred: {e.Message}");
             }
         }
+        //################################################### UPLOAD ##########################################//
 
     }
 }
