@@ -34,7 +34,7 @@ namespace study4_be.Controllers.API
         [HttpGet]
         private string ToBase32String(byte[] bytes)
         {
-            const string alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567";
+            const string alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789";
             StringBuilder result = new StringBuilder((bytes.Length + 4) / 5 * 8);
             int bitIndex = 0;
             int currentByte = 0;
@@ -95,7 +95,7 @@ namespace study4_be.Controllers.API
                PlanId = existingPlan.PlanId,
                UsersubsTotal = existingPlan.PlanPrice,
                UsersubsStartdate = DateOnly.FromDateTime(DateTime.Now),
-               UsersubsEnddate = DateOnly.FromDateTime(DateTime.Now).AddMonths(1),
+               UsersubsEnddate = DateOnly.FromDateTime(DateTime.Now).AddDays(existingPlan.PlanDuration),
                State = false
             };
             _context.UserSubs.Add(order);

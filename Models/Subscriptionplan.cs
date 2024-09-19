@@ -11,7 +11,7 @@ public partial class Subscriptionplan
 
     public double? PlanPrice { get; set; }
 
-    public int? PlanDuration { get; set; }
+    public int PlanDuration { get; set; }
 
     public string? PlanDescription { get; set; }
 

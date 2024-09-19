@@ -244,19 +244,38 @@ public class Momo_PaymentController : ControllerBase
     }
     private async Task<IActionResult> Buy_Success(string orderId)
     {
-        var existingOrder = await _context.Orders.FirstOrDefaultAsync(o => o.OrderId == orderId);
+        var existingOrderCourse = await _context.Orders.FirstOrDefaultAsync(o => o.OrderId == orderId);
+        
+        var existingOrderPlan = await _context.UserSubs.FirstOrDefaultAsync(o => o.UsersubsId == orderId);
         try
         {
-            if (existingOrder != null &&  existingOrder.State==false)
+            if (existingOrderCourse != null)
             {
-                    await SendCodeActiveByEmail(existingOrder.Email, existingOrder.OrderId);
-                    existingOrder.State = true;
+                if (existingOrderCourse.State == false)
+                {
+                    await SendCodeActiveByEmail(existingOrderCourse.Email, existingOrderCourse.OrderId);
+                    existingOrderCourse.State = true;
                     await _context.SaveChangesAsync();
-                    return Ok(new { status = 200, order = existingOrder, message = "Update Order State Successful and send email success" });
+                    return Ok(new { status = 200, order = existingOrderCourse, message = "Update Order State Successful and send email success" });
+                }
+                else
+                {
+                    return BadRequest("You Had Bought Before");
+                }
+
             }
-            else if (existingOrder != null && existingOrder.State==true)
+            else if (existingOrderPlan != null)
             {
-                return BadRequest("You Had Bought Before");
+                if (existingOrderPlan.State == false)
+                {
+                    existingOrderPlan.State = true;
+                    await _context.SaveChangesAsync();
+                    return Ok(new { status = 200, order = existingOrderPlan, message = "Update Order State Successful" });
+                }
+                else
+                {
+                    return BadRequest("You had bought this Plan before.");
+                }
             }
             else
             {
