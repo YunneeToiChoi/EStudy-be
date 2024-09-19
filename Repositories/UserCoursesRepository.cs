@@ -18,11 +18,26 @@ namespace study4_be.Repositories
             _context.UserCourses.RemoveRange(userCourses);
             await _context.SaveChangesAsync();
         }
-        public async Task<IEnumerable<UserCourse>> Get_AllCoursesByUser(string idUser)
+        public async Task<IEnumerable<int>> Get_AllCoursesByUser(string idUser)
         {
-            return await _context.UserCourses
-                                  .Where(uc => uc.UserId == idUser)
-                                  .ToListAsync();
+            // Lấy danh sách các CourseId từ bảng UserCourses (các khóa học đã thanh toán)
+            var userCourses = _context.UserCourses
+                                      .Where(uc => uc.UserId == idUser)
+                                      .Select(uc => uc.CourseId);
+
+            // Lấy danh sách các CourseId từ bảng Plan_Courses (các khóa học trong gói mà người dùng đã đăng ký)
+            var planCourses = from pc in _context.PlanCourses
+                              join us in _context.UserSubs on pc.PlanId equals us.PlanId
+                              where us.UserId == idUser && us.State == true
+                              select pc.CourseId;
+
+            // Kết hợp cả hai danh sách và loại bỏ các CourseId trùng lặp
+            var allCourses = await userCourses
+                                    .Union(planCourses)    // Kết hợp danh sách từ cả hai bảng
+                                    .Distinct()            // Loại bỏ khóa học trùng lặp
+                                    .ToListAsync();
+
+            return allCourses;
         }
         public async Task<IEnumerable<UserCourse>> Get_DetailCourseAndUserBought(int idCourse)
         {

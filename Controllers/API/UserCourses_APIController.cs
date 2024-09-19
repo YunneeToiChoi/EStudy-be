@@ -23,8 +23,9 @@ namespace study4_be.Controllers.API
             {
                 return Json(new { status = 404, message = "No courses found for the user" });
             }
+            // Truy vấn để lấy danh sách khóa học dựa trên danh sách CourseId
             var courses = await _context.Courses
-                .Where(c => courseListId.Select(uc => uc.CourseId).Contains(c.CourseId))
+                .Where(c => courseListId.Contains(c.CourseId))  // So sánh trực tiếp với danh sách int
                 .ToListAsync();
             return Json(new { status = 200, message = "Get All Courses By User Successful", courses });
         }

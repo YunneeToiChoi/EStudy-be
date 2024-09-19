@@ -3,28 +3,24 @@
   "WorkspaceRootPath": "D:\\workspace\\clone\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|d:\\be\\controllers\\api\\userdocumentapicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|solutionrelative:controllers\\api\\userdocumentapicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|d:\\workspace\\clone\\controllers\\api\\usercourses_apicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|solutionrelative:controllers\\api\\usercourses_apicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|d:\\be\\services\\request\\document\\uploaddocumentrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|solutionrelative:services\\request\\document\\uploaddocumentrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|d:\\workspace\\clone\\models\\usersub.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|solutionrelative:models\\usersub.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|d:\\be\\services\\request\\document\\uploaddetailrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|solutionrelative:services\\request\\document\\uploaddetailrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|d:\\workspace\\clone\\controllers\\api\\subscriptionplan_apicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|solutionrelative:controllers\\api\\subscriptionplan_apicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|d:\\be\\controllers\\api\\auth_apicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|solutionrelative:controllers\\api\\auth_apicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|d:\\workspace\\clone\\models\\subscriptionplan.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|solutionrelative:models\\subscriptionplan.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|d:\\be\\models\\document.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|solutionrelative:models\\document.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|d:\\be\\controllers\\api\\exam_apicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|solutionrelative:controllers\\api\\exam_apicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|d:\\workspace\\clone\\repositories\\usercoursesrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|solutionrelative:repositories\\usercoursesrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -34,32 +30,58 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 6,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "UserDocumentAPIController.cs",
-              "DocumentMoniker": "D:\\workspace\\clone\\Controllers\\API\\UserDocumentAPIController.cs",
-              "RelativeDocumentMoniker": "Controllers\\API\\UserDocumentAPIController.cs",
-              "ToolTip": "D:\\workspace\\clone\\Controllers\\API\\UserDocumentAPIController.cs",
-              "RelativeToolTip": "Controllers\\API\\UserDocumentAPIController.cs",
-              "ViewState": "AgIAAB4BAAAAAAAAAAAowCYBAAAJAAAAAAAAAA==",
+              "DocumentIndex": 1,
+              "Title": "UserSub.cs",
+              "DocumentMoniker": "D:\\workspace\\clone\\Models\\UserSub.cs",
+              "RelativeDocumentMoniker": "Models\\UserSub.cs",
+              "ToolTip": "D:\\workspace\\clone\\Models\\UserSub.cs",
+              "RelativeToolTip": "Models\\UserSub.cs",
+              "ViewState": "AgIAAAUAAAAAAAAAAAAAAAsAAAAOAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-17T09:32:53.563Z",
-              "IsPinned": true
+              "WhenOpened": "2024-09-19T06:55:03.238Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "UploadDocumentRequest.cs",
-              "DocumentMoniker": "D:\\be\\Services\\Request\\Document\\UploadDocumentRequest.cs",
-              "RelativeDocumentMoniker": "Services\\Request\\Document\\UploadDocumentRequest.cs",
-              "ToolTip": "D:\\be\\Services\\Request\\Document\\UploadDocumentRequest.cs",
-              "RelativeToolTip": "Services\\Request\\Document\\UploadDocumentRequest.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAuwAcAAAAFAAAAAAAAAA==",
+              "DocumentIndex": 3,
+              "Title": "Subscriptionplan.cs",
+              "DocumentMoniker": "D:\\workspace\\clone\\Models\\Subscriptionplan.cs",
+              "RelativeDocumentMoniker": "Models\\Subscriptionplan.cs",
+              "ToolTip": "D:\\workspace\\clone\\Models\\Subscriptionplan.cs",
+              "RelativeToolTip": "Models\\Subscriptionplan.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAgwA0AAAAOAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-18T09:15:25.164Z",
+              "WhenOpened": "2024-09-19T06:54:50.496Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "SubscriptionPlan_APIController.cs",
+              "DocumentMoniker": "D:\\workspace\\clone\\Controllers\\API\\SubscriptionPlan_APIController.cs",
+              "RelativeDocumentMoniker": "Controllers\\API\\SubscriptionPlan_APIController.cs",
+              "ToolTip": "D:\\workspace\\clone\\Controllers\\API\\SubscriptionPlan_APIController.cs",
+              "RelativeToolTip": "Controllers\\API\\SubscriptionPlan_APIController.cs",
+              "ViewState": "AgIAAJUAAAAAAAAAAIAwwKAAAABDAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-19T06:54:31.701Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "UserCoursesRepository.cs",
+              "DocumentMoniker": "D:\\workspace\\clone\\Repositories\\UserCoursesRepository.cs",
+              "RelativeDocumentMoniker": "Repositories\\UserCoursesRepository.cs",
+              "ToolTip": "D:\\workspace\\clone\\Repositories\\UserCoursesRepository.cs",
+              "RelativeToolTip": "Repositories\\UserCoursesRepository.cs",
+              "ViewState": "AgIAABIAAAAAAAAAAAAYwB8AAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-19T06:35:16.99Z",
               "EditorCaption": ""
             },
             {
@@ -72,54 +94,15 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "UploadDetailRequest.cs",
-              "DocumentMoniker": "D:\\be\\Services\\Request\\Document\\UploadDetailRequest.cs",
-              "RelativeDocumentMoniker": "Services\\Request\\Document\\UploadDetailRequest.cs",
-              "ToolTip": "D:\\be\\Services\\Request\\Document\\UploadDetailRequest.cs",
-              "RelativeToolTip": "Services\\Request\\Document\\UploadDetailRequest.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAuwAcAAAAqAAAAAAAAAA==",
+              "DocumentIndex": 0,
+              "Title": "UserCourses_APIController.cs",
+              "DocumentMoniker": "D:\\workspace\\clone\\Controllers\\API\\UserCourses_APIController.cs",
+              "RelativeDocumentMoniker": "Controllers\\API\\UserCourses_APIController.cs",
+              "ToolTip": "D:\\workspace\\clone\\Controllers\\API\\UserCourses_APIController.cs",
+              "RelativeToolTip": "Controllers\\API\\UserCourses_APIController.cs",
+              "ViewState": "AgIAAA4AAAAAAAAAAAAAwBsAAAAfAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-18T09:21:07.188Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "Document.cs",
-              "DocumentMoniker": "D:\\be\\Models\\Document.cs",
-              "RelativeDocumentMoniker": "Models\\Document.cs",
-              "ToolTip": "D:\\be\\Models\\Document.cs",
-              "RelativeToolTip": "Models\\Document.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-18T07:41:40.904Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "Auth_APIController.cs",
-              "DocumentMoniker": "D:\\be\\Controllers\\API\\Auth_APIController.cs",
-              "RelativeDocumentMoniker": "Controllers\\API\\Auth_APIController.cs",
-              "ToolTip": "D:\\be\\Controllers\\API\\Auth_APIController.cs",
-              "RelativeToolTip": "Controllers\\API\\Auth_APIController.cs",
-              "ViewState": "AgIAAJ8AAAAAAAAAAAAQwM4AAABZAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-18T06:48:58.879Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "Exam_APIController.cs",
-              "DocumentMoniker": "D:\\be\\Controllers\\API\\Exam_APIController.cs",
-              "RelativeDocumentMoniker": "Controllers\\API\\Exam_APIController.cs",
-              "ToolTip": "D:\\be\\Controllers\\API\\Exam_APIController.cs",
-              "RelativeToolTip": "Controllers\\API\\Exam_APIController.cs",
-              "ViewState": "AgIAAFkCAAAAAAAAAAA5wG4CAAA9AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-18T06:32:31.091Z",
+              "WhenOpened": "2024-09-18T08:23:42.701Z",
               "EditorCaption": ""
             }
           ]

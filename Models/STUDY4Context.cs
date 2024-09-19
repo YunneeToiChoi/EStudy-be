@@ -31,6 +31,8 @@ public partial class Study4Context : DbContext
 
     public virtual DbSet<Order> Orders { get; set; }
 
+    public virtual DbSet<PlanCourse> PlanCourses { get; set; }
+
     public virtual DbSet<Question> Questions { get; set; }
 
     public virtual DbSet<Rating> Ratings { get; set; }
@@ -61,7 +63,7 @@ public partial class Study4Context : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Data Source=localhost\\SQLEXPRESS01;Initial Catalog=STUDY4;Integrated Security=True;Trust Server Certificate=True");
+        => optionsBuilder.UseSqlServer("Data Source=localhost\\SQLEXPRESS01;Initial Catalog=study4;Integrated Security=True;Trust Server Certificate=True");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -123,7 +125,7 @@ public partial class Study4Context : DbContext
 
         modelBuilder.Entity<Document>(entity =>
         {
-            entity.HasKey(e => e.DocumentId).HasName("PK__Document__1ABEEF0FC7209D38");
+            entity.HasKey(e => e.DocumentId).HasName("PK__Document__1ABEEF0F9CCE325E");
 
             entity.Property(e => e.Description).HasColumnType("text");
             entity.Property(e => e.DownloadCount).HasDefaultValue(0);
@@ -161,7 +163,7 @@ public partial class Study4Context : DbContext
 
         modelBuilder.Entity<Exam>(entity =>
         {
-            entity.HasKey(e => e.ExamId).HasName("PK__Exam__C782CA59429B561A");
+            entity.HasKey(e => e.ExamId).HasName("PK__Exam__C782CA59AB603031");
 
             entity.ToTable("Exam");
 
@@ -207,7 +209,7 @@ public partial class Study4Context : DbContext
 
         modelBuilder.Entity<Order>(entity =>
         {
-            entity.HasKey(e => e.OrderId).HasName("PK__Orders__F1FF8453B07605FA");
+            entity.HasKey(e => e.OrderId).HasName("PK__Orders__F1FF8453E2170F93");
 
             entity.Property(e => e.OrderId)
                 .HasMaxLength(255)
@@ -238,6 +240,16 @@ public partial class Study4Context : DbContext
             entity.HasOne(d => d.User).WithMany(p => p.Orders)
                 .HasForeignKey(d => d.UserId)
                 .HasConstraintName("FK_Orders_USERS");
+        });
+
+        modelBuilder.Entity<PlanCourse>(entity =>
+        {
+            entity.HasKey(e => new { e.PlanId, e.CourseId }).HasName("PK__PLAN_COU__47E48A7C5B2C6EDD");
+
+            entity.ToTable("PLAN_COURSES");
+
+            entity.Property(e => e.PlanId).HasColumnName("PLAN_ID");
+            entity.Property(e => e.CourseId).HasColumnName("COURSE_ID");
         });
 
         modelBuilder.Entity<Question>(entity =>
@@ -369,9 +381,7 @@ public partial class Study4Context : DbContext
 
             entity.ToTable("SUBSCRIPTIONPLAN");
 
-            entity.Property(e => e.PlanId)
-                .ValueGeneratedNever()
-                .HasColumnName("PLAN_ID");
+            entity.Property(e => e.PlanId).HasColumnName("PLAN_ID");
             entity.Property(e => e.PlanDescription).HasColumnName("PLAN_DESCRIPTION");
             entity.Property(e => e.PlanDuration).HasColumnName("PLAN_DURATION");
             entity.Property(e => e.PlanName).HasColumnName("PLAN_NAME");
@@ -445,7 +455,7 @@ public partial class Study4Context : DbContext
 
         modelBuilder.Entity<UserAnswer>(entity =>
         {
-            entity.HasKey(e => e.UserAnswerId).HasName("PK__UserAnsw__47CE237FC7E7390F");
+            entity.HasKey(e => e.UserAnswerId).HasName("PK__UserAnsw__47CE237F6AE93884");
 
             entity.Property(e => e.QuestionId).HasColumnName("QUESTION_ID");
             entity.Property(e => e.UserExamId)
@@ -490,7 +500,7 @@ public partial class Study4Context : DbContext
 
         modelBuilder.Entity<UserSub>(entity =>
         {
-            entity.HasKey(e => e.UsersubsId).HasName("PK__USER_SUB__ECB467F321ED14DE");
+            entity.HasKey(e => e.UsersubsId).HasName("PK__USER_SUB__ECB467F3ABC1FC7B");
 
             entity.ToTable("USER_SUBS");
 
@@ -509,11 +519,13 @@ public partial class Study4Context : DbContext
 
             entity.HasOne(d => d.Plan).WithMany(p => p.UserSubs)
                 .HasForeignKey(d => d.PlanId)
-                .HasConstraintName("FK__USER_SUBS__PLAN___17F790F9");
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__USER_SUBS__PLAN___7A672E12");
 
             entity.HasOne(d => d.User).WithMany(p => p.UserSubs)
                 .HasForeignKey(d => d.UserId)
-                .HasConstraintName("FK__USER_SUBS__USER___17036CC0");
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__USER_SUBS__USER___7B5B524B");
         });
 
         modelBuilder.Entity<UsersExam>(entity =>
