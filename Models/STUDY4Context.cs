@@ -68,6 +68,7 @@ public partial class Study4Context : DbContext
             entity.Property(e => e.CategoryName)
                 .HasMaxLength(50)
                 .IsUnicode(false);
+            entity.Property(e => e.Description).HasMaxLength(255);
         });
 
         modelBuilder.Entity<Container>(entity =>
