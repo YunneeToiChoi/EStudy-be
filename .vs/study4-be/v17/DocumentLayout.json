@@ -3,95 +3,28 @@
   "WorkspaceRootPath": "D:\\workspace\\clone\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|d:\\workspace\\clone\\controllers\\api\\subscriptionplan_apicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|solutionrelative:controllers\\api\\subscriptionplan_apicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|d:\\workspace\\clone\\models\\subscriptionplan.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|solutionrelative:models\\subscriptionplan.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|d:\\workspace\\clone\\controllers\\api\\usercourses_apicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|solutionrelative:controllers\\api\\usercourses_apicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|d:\\workspace\\clone\\controllers\\api\\momo_paymentcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|solutionrelative:controllers\\api\\momo_paymentcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|d:\\workspace\\clone\\controllers\\api\\order_apicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|solutionrelative:controllers\\api\\order_apicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|d:\\workspace\\clone\\models\\usersub.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|solutionrelative:models\\usersub.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|d:\\workspace\\clone\\models\\study4context.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|solutionrelative:models\\study4context.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|d:\\workspace\\clone\\controllers\\api\\userdocumentapicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|d:\\be\\controllers\\api\\userdocumentapicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|solutionrelative:controllers\\api\\userdocumentapicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|d:\\workspace\\clone\\controllers\\api\\unit_apicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|solutionrelative:controllers\\api\\unit_apicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|d:\\be\\services\\request\\document\\uploaddocumentrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|solutionrelative:services\\request\\document\\uploaddocumentrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|d:\\workspace\\clone\\controllers\\api\\courses_apicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|solutionrelative:controllers\\api\\courses_apicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|d:\\be\\services\\request\\document\\uploaddetailrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|solutionrelative:services\\request\\document\\uploaddetailrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|d:\\workspace\\clone\\services\\request\\orderplanrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|solutionrelative:services\\request\\orderplanrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|d:\\workspace\\clone\\controllers\\api\\payment_apicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|solutionrelative:controllers\\api\\payment_apicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|d:\\workspace\\clone\\services\\response\\planresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|solutionrelative:services\\response\\planresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|d:\\workspace\\clone\\repositories\\subscriptionrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|solutionrelative:repositories\\subscriptionrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|ViewDataWindow_MSSQL__/localhost_SQLEXPRESS01/Study4/True/SqlTable/dbo.SUBSCRIPTIONPLAN.sql||{0058A1F7-65F3-4DB9-B3D0-CA7E64DD73CD}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|d:\\workspace\\clone\\controllers\\admin\\departmentcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|solutionrelative:controllers\\admin\\departmentcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|d:\\workspace\\clone\\controllers\\admin\\containercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|solutionrelative:controllers\\admin\\containercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|d:\\workspace\\clone\\models\\category.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|solutionrelative:models\\category.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|d:\\workspace\\clone\\firebase_config.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|solutionrelative:firebase_config.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|d:\\workspace\\clone\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|solutionrelative:appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|d:\\workspace\\clone\\controllers\\api\\auth_apicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|d:\\be\\controllers\\api\\auth_apicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|solutionrelative:controllers\\api\\auth_apicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|d:\\workspace\\clone\\models\\document.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|d:\\be\\models\\document.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|solutionrelative:models\\document.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|d:\\workspace\\clone\\services\\firebaseservices.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|solutionrelative:services\\firebaseservices.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|d:\\be\\controllers\\api\\exam_apicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|solutionrelative:controllers\\api\\exam_apicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -101,20 +34,33 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 4,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 0,
               "Title": "UserDocumentAPIController.cs",
               "DocumentMoniker": "D:\\workspace\\clone\\Controllers\\API\\UserDocumentAPIController.cs",
               "RelativeDocumentMoniker": "Controllers\\API\\UserDocumentAPIController.cs",
               "ToolTip": "D:\\workspace\\clone\\Controllers\\API\\UserDocumentAPIController.cs",
               "RelativeToolTip": "Controllers\\API\\UserDocumentAPIController.cs",
-              "ViewState": "AgIAAKgAAAAAAAAAAAAowGUAAAA4AAAAAAAAAA==",
+              "ViewState": "AgIAAB4BAAAAAAAAAAAowCYBAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-09-17T09:32:53.563Z",
               "IsPinned": true
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "UploadDocumentRequest.cs",
+              "DocumentMoniker": "D:\\be\\Services\\Request\\Document\\UploadDocumentRequest.cs",
+              "RelativeDocumentMoniker": "Services\\Request\\Document\\UploadDocumentRequest.cs",
+              "ToolTip": "D:\\be\\Services\\Request\\Document\\UploadDocumentRequest.cs",
+              "RelativeToolTip": "Services\\Request\\Document\\UploadDocumentRequest.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAuwAcAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-18T09:15:25.164Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Bookmark",
@@ -127,268 +73,54 @@
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "UserCourses_APIController.cs",
-              "DocumentMoniker": "D:\\workspace\\clone\\Controllers\\API\\UserCourses_APIController.cs",
-              "RelativeDocumentMoniker": "Controllers\\API\\UserCourses_APIController.cs",
-              "ToolTip": "D:\\workspace\\clone\\Controllers\\API\\UserCourses_APIController.cs",
-              "RelativeToolTip": "Controllers\\API\\UserCourses_APIController.cs",
-              "ViewState": "AgIAAAkAAAAAAAAAAAAAABQAAABKAAAAAAAAAA==",
+              "Title": "UploadDetailRequest.cs",
+              "DocumentMoniker": "D:\\be\\Services\\Request\\Document\\UploadDetailRequest.cs",
+              "RelativeDocumentMoniker": "Services\\Request\\Document\\UploadDetailRequest.cs",
+              "ToolTip": "D:\\be\\Services\\Request\\Document\\UploadDetailRequest.cs",
+              "RelativeToolTip": "Services\\Request\\Document\\UploadDetailRequest.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAuwAcAAAAqAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-18T08:23:42.701Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "SubscriptionPlan_APIController.cs",
-              "DocumentMoniker": "D:\\workspace\\clone\\Controllers\\API\\SubscriptionPlan_APIController.cs",
-              "RelativeDocumentMoniker": "Controllers\\API\\SubscriptionPlan_APIController.cs",
-              "ToolTip": "D:\\workspace\\clone\\Controllers\\API\\SubscriptionPlan_APIController.cs*",
-              "RelativeToolTip": "Controllers\\API\\SubscriptionPlan_APIController.cs*",
-              "ViewState": "AgIAAIgAAAAAAAAAAAAnwGAAAABHAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-18T08:01:01.976Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "Subscriptionplan.cs",
-              "DocumentMoniker": "D:\\workspace\\clone\\Models\\Subscriptionplan.cs",
-              "RelativeDocumentMoniker": "Models\\Subscriptionplan.cs",
-              "ToolTip": "D:\\workspace\\clone\\Models\\Subscriptionplan.cs",
-              "RelativeToolTip": "Models\\Subscriptionplan.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAwwA0AAAAOAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-18T09:04:44.609Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "Momo_PaymentController.cs",
-              "DocumentMoniker": "D:\\workspace\\clone\\Controllers\\API\\Momo_PaymentController.cs",
-              "RelativeDocumentMoniker": "Controllers\\API\\Momo_PaymentController.cs",
-              "ToolTip": "D:\\workspace\\clone\\Controllers\\API\\Momo_PaymentController.cs*",
-              "RelativeToolTip": "Controllers\\API\\Momo_PaymentController.cs*",
-              "ViewState": "AgIAAAUBAAAAAAAAAAAewBQBAAA/AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-18T08:35:32.859Z",
+              "WhenOpened": "2024-09-18T09:21:07.188Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 4,
-              "Title": "Order_APIController.cs",
-              "DocumentMoniker": "D:\\workspace\\clone\\Controllers\\API\\Order_APIController.cs",
-              "RelativeDocumentMoniker": "Controllers\\API\\Order_APIController.cs",
-              "ToolTip": "D:\\workspace\\clone\\Controllers\\API\\Order_APIController.cs",
-              "RelativeToolTip": "Controllers\\API\\Order_APIController.cs",
-              "ViewState": "AgIAACwAAAAAAAAAAAAgwG4AAAA+AAAAAAAAAA==",
+              "Title": "Document.cs",
+              "DocumentMoniker": "D:\\be\\Models\\Document.cs",
+              "RelativeDocumentMoniker": "Models\\Document.cs",
+              "ToolTip": "D:\\be\\Models\\Document.cs",
+              "RelativeToolTip": "Models\\Document.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-17T11:15:21.985Z",
+              "WhenOpened": "2024-09-18T07:41:40.904Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Auth_APIController.cs",
+              "DocumentMoniker": "D:\\be\\Controllers\\API\\Auth_APIController.cs",
+              "RelativeDocumentMoniker": "Controllers\\API\\Auth_APIController.cs",
+              "ToolTip": "D:\\be\\Controllers\\API\\Auth_APIController.cs",
+              "RelativeToolTip": "Controllers\\API\\Auth_APIController.cs",
+              "ViewState": "AgIAAJ8AAAAAAAAAAAAQwM4AAABZAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-18T06:48:58.879Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 5,
-              "Title": "UserSub.cs",
-              "DocumentMoniker": "D:\\workspace\\clone\\Models\\UserSub.cs",
-              "RelativeDocumentMoniker": "Models\\UserSub.cs",
-              "ToolTip": "D:\\workspace\\clone\\Models\\UserSub.cs",
-              "RelativeToolTip": "Models\\UserSub.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAOAAAAAAAAAA==",
+              "Title": "Exam_APIController.cs",
+              "DocumentMoniker": "D:\\be\\Controllers\\API\\Exam_APIController.cs",
+              "RelativeDocumentMoniker": "Controllers\\API\\Exam_APIController.cs",
+              "ToolTip": "D:\\be\\Controllers\\API\\Exam_APIController.cs",
+              "RelativeToolTip": "Controllers\\API\\Exam_APIController.cs",
+              "ViewState": "AgIAAFkCAAAAAAAAAAA5wG4CAAA9AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-18T10:32:01.299Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "STUDY4Context.cs",
-              "DocumentMoniker": "D:\\workspace\\clone\\Models\\STUDY4Context.cs",
-              "RelativeDocumentMoniker": "Models\\STUDY4Context.cs",
-              "ToolTip": "D:\\workspace\\clone\\Models\\STUDY4Context.cs",
-              "RelativeToolTip": "Models\\STUDY4Context.cs",
-              "ViewState": "AgIAACoAAAAAAAAAAAD4vzUAAAAiAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-18T08:19:58.08Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "Unit_APIController.cs",
-              "DocumentMoniker": "D:\\workspace\\clone\\Controllers\\API\\Unit_APIController.cs",
-              "RelativeDocumentMoniker": "Controllers\\API\\Unit_APIController.cs",
-              "ToolTip": "D:\\workspace\\clone\\Controllers\\API\\Unit_APIController.cs",
-              "RelativeToolTip": "Controllers\\API\\Unit_APIController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-18T10:26:54.756Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "Courses_APIController.cs",
-              "DocumentMoniker": "D:\\workspace\\clone\\Controllers\\API\\Courses_APIController.cs",
-              "RelativeDocumentMoniker": "Controllers\\API\\Courses_APIController.cs",
-              "ToolTip": "D:\\workspace\\clone\\Controllers\\API\\Courses_APIController.cs",
-              "RelativeToolTip": "Controllers\\API\\Courses_APIController.cs",
-              "ViewState": "AgIAACEAAAAAAAAAAAAewFwAAAAqAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-18T08:23:32.836Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 10,
-              "Title": "OrderPlanRequest.cs",
-              "DocumentMoniker": "D:\\workspace\\clone\\Services\\Request\\OrderPlanRequest.cs",
-              "RelativeDocumentMoniker": "Services\\Request\\OrderPlanRequest.cs",
-              "ToolTip": "D:\\workspace\\clone\\Services\\Request\\OrderPlanRequest.cs",
-              "RelativeToolTip": "Services\\Request\\OrderPlanRequest.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAuwAUAAAAnAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-18T09:27:18.669Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 11,
-              "Title": "Payment_APIController.cs",
-              "DocumentMoniker": "D:\\workspace\\clone\\Controllers\\API\\Payment_APIController.cs",
-              "RelativeDocumentMoniker": "Controllers\\API\\Payment_APIController.cs",
-              "ToolTip": "D:\\workspace\\clone\\Controllers\\API\\Payment_APIController.cs",
-              "RelativeToolTip": "Controllers\\API\\Payment_APIController.cs",
-              "ViewState": "AgIAAAwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-18T08:23:18.852Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 12,
-              "Title": "PlanResponse.cs",
-              "DocumentMoniker": "D:\\workspace\\clone\\Services\\Response\\PlanResponse.cs",
-              "RelativeDocumentMoniker": "Services\\Response\\PlanResponse.cs",
-              "ToolTip": "D:\\workspace\\clone\\Services\\Response\\PlanResponse.cs",
-              "RelativeToolTip": "Services\\Response\\PlanResponse.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAA0AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-18T09:08:51.908Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 13,
-              "Title": "SubscriptionRepository.cs",
-              "DocumentMoniker": "D:\\workspace\\clone\\Repositories\\SubscriptionRepository.cs",
-              "RelativeDocumentMoniker": "Repositories\\SubscriptionRepository.cs",
-              "ToolTip": "D:\\workspace\\clone\\Repositories\\SubscriptionRepository.cs",
-              "RelativeToolTip": "Repositories\\SubscriptionRepository.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAuwAwAAAAJAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-18T08:21:13.436Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 14,
-              "Title": "dbo.SUBSCRIPTIONPLAN.sql",
-              "DocumentMoniker": "ViewDataWindow_MSSQL__/localhost_SQLEXPRESS01/Study4/True/SqlTable/dbo.SUBSCRIPTIONPLAN.sql",
-              "ToolTip": "ViewDataWindow_MSSQL__/localhost_SQLEXPRESS01/Study4/True/SqlTable/dbo.SUBSCRIPTIONPLAN.sql",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000826|",
-              "WhenOpened": "2024-09-18T08:45:19.961Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 15,
-              "Title": "DepartmentController.cs",
-              "DocumentMoniker": "D:\\workspace\\clone\\Controllers\\Admin\\DepartmentController.cs",
-              "RelativeDocumentMoniker": "Controllers\\Admin\\DepartmentController.cs",
-              "ToolTip": "D:\\workspace\\clone\\Controllers\\Admin\\DepartmentController.cs",
-              "RelativeToolTip": "Controllers\\Admin\\DepartmentController.cs",
-              "ViewState": "AgIAAAMAAAAAAAAAAAAUwA8AAAAPAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-18T08:19:53.972Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 16,
-              "Title": "ContainerController.cs",
-              "DocumentMoniker": "D:\\workspace\\clone\\Controllers\\Admin\\ContainerController.cs",
-              "RelativeDocumentMoniker": "Controllers\\Admin\\ContainerController.cs",
-              "ToolTip": "D:\\workspace\\clone\\Controllers\\Admin\\ContainerController.cs",
-              "RelativeToolTip": "Controllers\\Admin\\ContainerController.cs",
-              "ViewState": "AgIAAA0AAAAAAAAAAAA4wBIAAAAPAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-18T08:19:45.915Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 17,
-              "Title": "Category.cs",
-              "DocumentMoniker": "D:\\workspace\\clone\\Models\\Category.cs",
-              "RelativeDocumentMoniker": "Models\\Category.cs",
-              "ToolTip": "D:\\workspace\\clone\\Models\\Category.cs",
-              "RelativeToolTip": "Models\\Category.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAIwA0AAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-18T08:16:35.395Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 18,
-              "Title": "firebase_config.json",
-              "DocumentMoniker": "D:\\workspace\\clone\\firebase_config.json",
-              "RelativeDocumentMoniker": "firebase_config.json",
-              "ToolTip": "D:\\workspace\\clone\\firebase_config.json",
-              "RelativeToolTip": "firebase_config.json",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2024-09-18T08:00:50.521Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 19,
-              "Title": "appsettings.json",
-              "DocumentMoniker": "D:\\workspace\\clone\\appsettings.json",
-              "RelativeDocumentMoniker": "appsettings.json",
-              "ToolTip": "D:\\workspace\\clone\\appsettings.json",
-              "RelativeToolTip": "appsettings.json",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2024-09-18T08:00:49.385Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 21,
-              "Title": "Document.cs",
-              "DocumentMoniker": "D:\\workspace\\clone\\Models\\Document.cs",
-              "RelativeDocumentMoniker": "Models\\Document.cs",
-              "ToolTip": "D:\\workspace\\clone\\Models\\Document.cs",
-              "RelativeToolTip": "Models\\Document.cs",
-              "ViewState": "AgIAAAoAAAAAAAAAAAAQwBsAAAAYAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-17T10:17:58.286Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 20,
-              "Title": "Auth_APIController.cs",
-              "DocumentMoniker": "D:\\workspace\\clone\\Controllers\\API\\Auth_APIController.cs",
-              "RelativeDocumentMoniker": "Controllers\\API\\Auth_APIController.cs",
-              "ToolTip": "D:\\workspace\\clone\\Controllers\\API\\Auth_APIController.cs",
-              "RelativeToolTip": "Controllers\\API\\Auth_APIController.cs",
-              "ViewState": "AgIAAIEAAAAAAAAAAAAAAIUAAADBAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-17T09:33:00.533Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 22,
-              "Title": "FireBaseServices.cs",
-              "DocumentMoniker": "D:\\workspace\\clone\\Services\\FireBaseServices.cs",
-              "RelativeDocumentMoniker": "Services\\FireBaseServices.cs",
-              "ToolTip": "D:\\workspace\\clone\\Services\\FireBaseServices.cs",
-              "RelativeToolTip": "Services\\FireBaseServices.cs",
-              "ViewState": "AgIAACQAAAAAAAAAAAAuwCwAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-17T09:29:29.535Z"
+              "WhenOpened": "2024-09-18T06:32:31.091Z",
+              "EditorCaption": ""
             }
           ]
         }

@@ -122,6 +122,7 @@ namespace study4_be.Controllers.API
             var emailExist = _context.Users.Where(u => u.UserEmail == userEmail).FirstOrDefaultAsync();
             var idExist = _context.Users.Where(u => u.UserId== userId).FirstOrDefaultAsync();
             var firebaseBucketName = _fireBaseServices.GetFirebaseBucketName();
+            var imgDefault = _configuration["Firebase:AvatarDefaultUser"];//default img
             if (userExist == null)
             {
                 // maybe use repository add new user in there 
@@ -131,7 +132,7 @@ namespace study4_be.Controllers.API
                     UserId = Guid.NewGuid().ToString(),// still gen id 
                     UserName = userName,
                     UserEmail = userEmail,
-                    UserImage = "https://firebasestorage.googleapis.com/v0/b/estudy-426108.appspot.com/o/avtDefaultUser.jfif?alt=media&token=8dabba5f-cccb-4a4c-9ab4-69049c769bdf", //default img
+                    UserImage = imgDefault, 
                     Isverified = true // Assuming new users are verified
                 };
                 // Update the user's avatar URL in the database
@@ -147,8 +148,8 @@ namespace study4_be.Controllers.API
                                                                                                       imgFilePath,
                                                                                                       firebaseBucketName);
                         // Extract the file name from the URL
-                        var oldFileName = Path.GetFileName(new Uri(newUser.UserImage).LocalPath);
-                        await _fireBaseServices.DeleteFileFromFirebaseStorageAsync(oldFileName, firebaseBucketName);
+                        //var oldFileName = Path.GetFileName(new Uri(newUser.UserImage).LocalPath);
+                        //await _fireBaseServices.DeleteFileFromFirebaseStorageAsync(oldFileName, firebaseBucketName); // don't delete
                         newUser.UserImage = firebaseUrl;
                     }
                 }
