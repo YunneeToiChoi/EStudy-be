@@ -27,6 +27,8 @@ public partial class Document
 
     public int? CourseId { get; set; }
 
+    public double? Price { get; set; }
+
     public virtual Category? Category { get; set; }
 
     public virtual Course? Course { get; set; }

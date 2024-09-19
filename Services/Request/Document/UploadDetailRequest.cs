@@ -8,6 +8,6 @@
         public int? courseId { get; set; }
         public bool state { get; set; }
         public string? description { get; set; }
-
+        public double? price { get; set; }
     }
 }

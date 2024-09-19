@@ -58,6 +58,7 @@ namespace study4_be.Controllers.API
                               (doc, user) => new
                               {
                                   documentId = doc.DocumentId,
+                                  documentPrice = doc.Price,
                                   documentTotalDownload = doc.DownloadCount,
                                   documentName = doc.Title,
                                   documentPublic = doc.IsPublic,
@@ -164,6 +165,7 @@ namespace study4_be.Controllers.API
                     documentFileUrl = c.FileUrl,
                     documentType= c.FileType,
                     documentUploadDate= c.UploadDate,
+                    documentPrice = c.Price,
 
                 }).ToList();
                 return Ok(new
@@ -322,6 +324,7 @@ namespace study4_be.Controllers.API
                     document.CourseId = _req.courseId;
                     document.IsPublic = _req.state;
                     document.Description = _req.description;
+                    document.Price = _req.price;
                 }
 
                 // Lưu thay đổi vào cơ sở dữ liệu
