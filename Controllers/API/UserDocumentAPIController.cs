@@ -257,6 +257,7 @@ namespace study4_be.Controllers.API
                     }
 
                     var fileName = file.FileName;
+                    var fileSize = file.Length;
                     // Convert IFormFile to Stream
                     using (var fileStream = file.OpenReadStream())
                     {
@@ -270,6 +271,7 @@ namespace study4_be.Controllers.API
                             FileUrl = fileUrl,
                             Title = fileName,
                             UploadDate = DateTime.UtcNow,
+                            DocumentSize = fileSize,    
                         };
 
                         _context.Documents.Add(userDoc);
@@ -280,6 +282,7 @@ namespace study4_be.Controllers.API
                         {
                             DocumentId = userDoc.DocumentId, // Return DocumentId
                             DocumentName = fileName,
+                            DocumentSize = fileSize,
                             //FileUrl = fileUrl
                         });
                     }
