@@ -257,7 +257,8 @@ namespace study4_be.Controllers.API
                     }
 
                     var fileName = file.FileName;
-                    var fileSize = file.Length;
+                    var fileSizeInBytes = file.Length;
+                    var fileSizeReadable = ConvertFileSize(fileSizeInBytes); // Convert to KB/MB
                     // Convert IFormFile to Stream
                     using (var fileStream = file.OpenReadStream())
                     {
@@ -271,7 +272,7 @@ namespace study4_be.Controllers.API
                             FileUrl = fileUrl,
                             Title = fileName,
                             UploadDate = DateTime.UtcNow,
-                            DocumentSize = fileSize,    
+                            DocumentSize = fileSizeInBytes // Save file size in database (in bytes)
                         };
 
                         _context.Documents.Add(userDoc);
@@ -282,7 +283,7 @@ namespace study4_be.Controllers.API
                         {
                             DocumentId = userDoc.DocumentId, // Return DocumentId
                             DocumentName = fileName,
-                            DocumentSize = fileSize,
+                            FileSize = fileSizeReadable,
                             //FileUrl = fileUrl
                         });
                     }
@@ -293,8 +294,17 @@ namespace study4_be.Controllers.API
             {
                 return BadRequest($"Error occurred: {e.Message}");
             }
-        } 
-
+        }
+        // Helper method to convert file size to KB or MB
+        private string ConvertFileSize(long fileSizeInBytes)
+        {
+            if (fileSizeInBytes < 1024)
+                return $"{fileSizeInBytes} B";
+            else if (fileSizeInBytes < 1024 * 1024)
+                return $"{fileSizeInBytes / 1024.0:F2} KB"; // Convert to KB
+            else
+                return $"{fileSizeInBytes / (1024.0 * 1024.0):F2} MB"; // Convert to MB
+        }
         [HttpPost("Detail")]
         public async Task<IActionResult> Detail(UploadDetailRequest _req)
         {
