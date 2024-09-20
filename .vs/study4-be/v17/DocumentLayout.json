@@ -48,19 +48,11 @@
               "RelativeDocumentMoniker": "Controllers\\API\\UserDocumentAPIController.cs",
               "ToolTip": "D:\\be\\Controllers\\API\\UserDocumentAPIController.cs",
               "RelativeToolTip": "Controllers\\API\\UserDocumentAPIController.cs",
-              "ViewState": "AgIAADABAAAAAAAAAAAAAEYBAAAwAAAAAAAAAA==",
+              "ViewState": "AgIAAOcAAAAAAAAAAAAswBwBAAA0AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-09-17T09:32:53.563Z",
               "IsPinned": true,
               "EditorCaption": ""
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:128:0:{75188d03-9892-4ae2-abf1-207126247ce5}"
             },
             {
               "$type": "Document",
@@ -72,8 +64,7 @@
               "RelativeToolTip": "appsettings.json",
               "ViewState": "AgIAAAkAAAAAAAAAAAAAABgAAAA1AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2024-09-18T10:31:28.174Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-09-18T10:31:28.174Z"
             },
             {
               "$type": "Document",
@@ -85,8 +76,7 @@
               "RelativeToolTip": "Services\\Request\\Document\\UploadDocumentRequest.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAuwAIAAAARAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-18T09:15:25.164Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-09-18T09:15:25.164Z"
             },
             {
               "$type": "Document",
@@ -98,8 +88,7 @@
               "RelativeToolTip": "Services\\Request\\Document\\UploadDetailRequest.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAcAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-18T09:21:07.188Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-09-18T09:21:07.188Z"
             },
             {
               "$type": "Document",
@@ -123,7 +112,8 @@
               "RelativeToolTip": "Controllers\\API\\Auth_APIController.cs",
               "ViewState": "AgIAABYAAAAAAAAAAAAiwCEAAAAIAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-18T06:48:58.879Z"
+              "WhenOpened": "2024-09-18T06:48:58.879Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
