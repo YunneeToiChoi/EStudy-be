@@ -1,6 +1,6 @@
 ﻿namespace study4_be.Services.Request
 {
-    public class CheckExpireRequest
+    public class UserRequest
     {
         public string userId {  get; set; }    
     }

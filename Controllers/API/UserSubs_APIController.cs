@@ -15,7 +15,7 @@ namespace study4_be.Controllers.API
         private readonly Study4Context _context = new();
 
         [HttpPost("Check_Expire")]
-        public async Task<IActionResult> CheckExpireSubscription(CheckExpireRequest request)
+        public async Task<IActionResult> CheckExpireSubscription(UserRequest request)
         {
             var result = await _datetimeService.GetPlanTimeRemaining(request.userId);
             if (result == null)
@@ -36,6 +36,16 @@ namespace study4_be.Controllers.API
                 return BadRequest(new {message = "Your plan is disable"});
             }
             return Ok(new { days = result.Days, hours = result.Hours, minutes = result.Minutes});
+        }
+
+        [HttpDelete("Cancel_Plan")]
+        public async Task<IActionResult> Cancel_Plan(UserRequest request)
+        {
+            var userSubscription = await _context.UserSubs
+                .FirstOrDefaultAsync(u => u.UserId == request.userId && u.State == true);
+            _context.UserSubs.Remove(userSubscription);
+            await _context.SaveChangesAsync();
+            return BadRequest(new { message = "Your plan is cancel"});
         }
     }
 }
