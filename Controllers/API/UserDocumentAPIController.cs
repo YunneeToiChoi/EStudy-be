@@ -103,8 +103,6 @@ namespace study4_be.Controllers.API
         //################################################### DOCUMENT ##########################################//
 
         //################################################### BASE #############################################//
-
-        //################################################### BASE #############################################//
         [HttpGet("GetAllCate")]
         public async Task<IActionResult> GetAllCate()
         {
@@ -178,6 +176,58 @@ namespace study4_be.Controllers.API
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
+            }
+        }
+        [HttpPost("GetDocByUser")]
+        public async Task<IActionResult> GetDocByUser([FromBody] OfUserIdRequest _req)
+        {
+            try
+            {
+                var user = await _context.Users
+                                          .Where(u => u.UserId == _req.userId)
+                                          .SingleOrDefaultAsync();
+
+                if (user != null)
+                {
+                    var userDocs = await _context.Documents
+                               .Where(d => d.UserId == user.UserId)
+                               .Include(d => d.Category) 
+                               .Include(d => d.Course)   // Eager load Course
+                               .ToListAsync();
+
+                    var userDocResponses = userDocs.Select(doc => new UserDocumentResponse
+                    {
+                        documentId = doc.DocumentId,
+                        userId = doc.UserId,
+                        categoryId = doc.CategoryId,
+                        categoryName = doc.Category?.CategoryName ?? string.Empty,
+                        courseId = doc.CourseId,
+                        courseName = doc.Course?.CourseName ?? string.Empty,
+                        description = doc.Description,
+                        documentSize = doc.DocumentSize,
+                        downloadCount = doc.DownloadCount,
+                        fileType = doc.FileType,
+                        fileUrl = doc.FileUrl,
+                        isPublic = doc.IsPublic,
+                        price = doc.Price,
+                        title = doc.Title,
+                        uploadDate = doc.UploadDate,
+                    }).ToList();
+
+                    return Ok(new
+                    {
+                        status = 200,
+                        userDoc = userDocResponses
+                    });
+                }
+                else
+                {
+                    return BadRequest("User ID is not valid or does not exist.");
+                }
+            }
+            catch (Exception e)
+            {
+                return BadRequest($"Error occurred: {e.Message}");
             }
         }
 
