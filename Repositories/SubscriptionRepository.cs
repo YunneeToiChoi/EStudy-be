@@ -11,5 +11,20 @@ namespace study4_be.Repositories
         {
             return await _context.Subscriptionplans.ToListAsync();
         }
+        public async Task<IEnumerable<UserSub>> Get_PlanFromUser(string idUser)
+        {
+            // Retrieve all UserSubs for the user
+            var userSubs = await _context.UserSubs
+                .Where(us => us.UserId == idUser)
+                .ToListAsync();
+
+            if (userSubs == null || !userSubs.Any())
+            {
+                throw new Exception("User does not have any subscriptions.");
+            }
+
+            // Assuming UserSubs has a property named SubscriptionPlanId or similar
+            return userSubs;
+        }
     }
 }

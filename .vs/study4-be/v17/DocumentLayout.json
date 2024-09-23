@@ -7,12 +7,20 @@
       "RelativeMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|solutionrelative:controllers\\api\\usersubs_apicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|d:\\workspace\\clone\\services\\datetimeservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|solutionrelative:services\\datetimeservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|d:\\workspace\\clone\\repositories\\usercoursesrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|solutionrelative:repositories\\usercoursesrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|d:\\workspace\\clone\\services\\request\\buy_successrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|solutionrelative:services\\request\\buy_successrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|d:\\workspace\\clone\\repositories\\subscriptionrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|solutionrelative:repositories\\subscriptionrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|d:\\workspace\\clone\\controllers\\api\\usercourses_apicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|solutionrelative:controllers\\api\\usercourses_apicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|d:\\workspace\\clone\\services\\datetimeservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|solutionrelative:services\\datetimeservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|d:\\workspace\\clone\\services\\request\\editpasswordrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -27,19 +35,12 @@
       "RelativeMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|solutionrelative:services\\request\\edituserprofilerequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|ViewDataWindow_MSSQL__/localhost_SQLEXPRESS01/Study4/True/SqlTable/dbo.USER_SUBS.sql||{0058A1F7-65F3-4DB9-B3D0-CA7E64DD73CD}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|d:\\workspace\\clone\\controllers\\api\\order_apicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|solutionrelative:controllers\\api\\order_apicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|d:\\workspace\\clone\\controllers\\api\\momo_paymentcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|solutionrelative:controllers\\api\\momo_paymentcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|d:\\workspace\\clone\\controllers\\api\\courses_apicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|solutionrelative:controllers\\api\\courses_apicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|d:\\workspace\\clone\\services\\request\\vocabflashcardrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -80,10 +81,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|d:\\workspace\\clone\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
       "RelativeMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|solutionrelative:appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|d:\\workspace\\clone\\controllers\\api\\usercourses_apicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|solutionrelative:controllers\\api\\usercourses_apicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|ViewDataWindow_MSSQL__/localhost_SQLEXPRESS01/Study4/True/SqlTable/dbo.Orders.sql||{0058A1F7-65F3-4DB9-B3D0-CA7E64DD73CD}"
@@ -182,10 +179,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|d:\\workspace\\clone\\models\\study4context.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|solutionrelative:models\\study4context.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|d:\\workspace\\clone\\repositories\\usercoursesrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|solutionrelative:repositories\\usercoursesrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -195,7 +188,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 6,
+          "SelectedChildIndex": 5,
           "Children": [
             {
               "$type": "Bookmark",
@@ -206,55 +199,32 @@
               "Name": "ST:128:0:{75188d03-9892-4ae2-abf1-207126247ce5}"
             },
             {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "DateTimeService.cs",
-              "DocumentMoniker": "D:\\workspace\\clone\\Services\\DateTimeService.cs",
-              "RelativeDocumentMoniker": "Services\\DateTimeService.cs",
-              "ToolTip": "D:\\workspace\\clone\\Services\\DateTimeService.cs",
-              "RelativeToolTip": "Services\\DateTimeService.cs",
-              "ViewState": "AgIAAAYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-23T05:11:27.997Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "Buy_SuccessRequest.cs",
-              "DocumentMoniker": "D:\\workspace\\clone\\Services\\Request\\Buy_SuccessRequest.cs",
-              "RelativeDocumentMoniker": "Services\\Request\\Buy_SuccessRequest.cs",
-              "ToolTip": "D:\\workspace\\clone\\Services\\Request\\Buy_SuccessRequest.cs",
-              "RelativeToolTip": "Services\\Request\\Buy_SuccessRequest.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-22T07:47:28.418Z",
-              "EditorCaption": ""
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
             },
             {
               "$type": "Document",
               "DocumentIndex": 3,
-              "Title": "EditPasswordRequest.cs",
-              "DocumentMoniker": "D:\\workspace\\clone\\Services\\Request\\EditPasswordRequest.cs",
-              "RelativeDocumentMoniker": "Services\\Request\\EditPasswordRequest.cs",
-              "ToolTip": "D:\\workspace\\clone\\Services\\Request\\EditPasswordRequest.cs",
-              "RelativeToolTip": "Services\\Request\\EditPasswordRequest.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Title": "UserCourses_APIController.cs",
+              "DocumentMoniker": "D:\\workspace\\clone\\Controllers\\API\\UserCourses_APIController.cs",
+              "RelativeDocumentMoniker": "Controllers\\API\\UserCourses_APIController.cs",
+              "ToolTip": "D:\\workspace\\clone\\Controllers\\API\\UserCourses_APIController.cs",
+              "RelativeToolTip": "Controllers\\API\\UserCourses_APIController.cs",
+              "ViewState": "AgIAAA4AAAAAAAAAAAAAwAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-22T07:47:30.92Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-09-23T06:38:23.105Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "UserRequest.cs",
-              "DocumentMoniker": "D:\\workspace\\clone\\Services\\Request\\UserRequest.cs",
-              "RelativeDocumentMoniker": "Services\\Request\\UserRequest.cs",
-              "ToolTip": "D:\\workspace\\clone\\Services\\Request\\UserRequest.cs*",
-              "RelativeToolTip": "Services\\Request\\UserRequest.cs*",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAFAAAAAAAAAA==",
+              "DocumentIndex": 2,
+              "Title": "SubscriptionRepository.cs",
+              "DocumentMoniker": "D:\\workspace\\clone\\Repositories\\SubscriptionRepository.cs",
+              "RelativeDocumentMoniker": "Repositories\\SubscriptionRepository.cs",
+              "ToolTip": "D:\\workspace\\clone\\Repositories\\SubscriptionRepository.cs",
+              "RelativeToolTip": "Repositories\\SubscriptionRepository.cs",
+              "ViewState": "AgIAAAoAAAAAAAAAAAAiwA0AAAAtAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-23T05:01:16.674Z",
+              "WhenOpened": "2024-09-23T05:59:43.996Z",
               "EditorCaption": ""
             },
             {
@@ -263,16 +233,65 @@
               "Title": "UserSubs_APIController.cs",
               "DocumentMoniker": "D:\\workspace\\clone\\Controllers\\API\\UserSubs_APIController.cs",
               "RelativeDocumentMoniker": "Controllers\\API\\UserSubs_APIController.cs",
-              "ToolTip": "D:\\workspace\\clone\\Controllers\\API\\UserSubs_APIController.cs",
-              "RelativeToolTip": "Controllers\\API\\UserSubs_APIController.cs",
-              "ViewState": "AgIAACEAAAAAAAAAAAAcwCwAAABEAAAAAAAAAA==",
+              "ToolTip": "D:\\workspace\\clone\\Controllers\\API\\UserSubs_APIController.cs*",
+              "RelativeToolTip": "Controllers\\API\\UserSubs_APIController.cs*",
+              "ViewState": "AgIAADwAAAAAAAAAAAAuwEcAAAAQAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-09-23T04:59:17.271Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "UserCoursesRepository.cs",
+              "DocumentMoniker": "D:\\workspace\\clone\\Repositories\\UserCoursesRepository.cs",
+              "RelativeDocumentMoniker": "Repositories\\UserCoursesRepository.cs",
+              "ToolTip": "D:\\workspace\\clone\\Repositories\\UserCoursesRepository.cs",
+              "RelativeToolTip": "Repositories\\UserCoursesRepository.cs",
+              "ViewState": "AgIAAA8AAAAAAAAAAADgvycAAAAeAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-19T06:35:16.99Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "DateTimeService.cs",
+              "DocumentMoniker": "D:\\workspace\\clone\\Services\\DateTimeService.cs",
+              "RelativeDocumentMoniker": "Services\\DateTimeService.cs",
+              "ToolTip": "D:\\workspace\\clone\\Services\\DateTimeService.cs",
+              "RelativeToolTip": "Services\\DateTimeService.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-23T05:11:27.997Z"
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 5,
+              "Title": "EditPasswordRequest.cs",
+              "DocumentMoniker": "D:\\workspace\\clone\\Services\\Request\\EditPasswordRequest.cs",
+              "RelativeDocumentMoniker": "Services\\Request\\EditPasswordRequest.cs",
+              "ToolTip": "D:\\workspace\\clone\\Services\\Request\\EditPasswordRequest.cs",
+              "RelativeToolTip": "Services\\Request\\EditPasswordRequest.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-22T07:47:30.92Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "UserRequest.cs",
+              "DocumentMoniker": "D:\\workspace\\clone\\Services\\Request\\UserRequest.cs",
+              "RelativeDocumentMoniker": "Services\\Request\\UserRequest.cs",
+              "ToolTip": "D:\\workspace\\clone\\Services\\Request\\UserRequest.cs",
+              "RelativeToolTip": "Services\\Request\\UserRequest.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-23T05:01:16.674Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
               "Title": "EditUserProfileRequest.cs",
               "DocumentMoniker": "D:\\workspace\\clone\\Services\\Request\\EditUserProfileRequest.cs",
               "RelativeDocumentMoniker": "Services\\Request\\EditUserProfileRequest.cs",
@@ -280,22 +299,11 @@
               "RelativeToolTip": "Services\\Request\\EditUserProfileRequest.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-22T07:47:32.045Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-09-22T07:47:32.045Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "dbo.USER_SUBS [Data]",
-              "DocumentMoniker": "ViewDataWindow_MSSQL__/localhost_SQLEXPRESS01/Study4/True/SqlTable/dbo.USER_SUBS.sql",
-              "ToolTip": "dbo.USER_SUBS [Data]",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000826|",
-              "WhenOpened": "2024-09-23T05:07:18.389Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 8,
               "Title": "Order_APIController.cs",
               "DocumentMoniker": "D:\\workspace\\clone\\Controllers\\API\\Order_APIController.cs",
               "RelativeDocumentMoniker": "Controllers\\API\\Order_APIController.cs",
@@ -303,12 +311,11 @@
               "RelativeToolTip": "Controllers\\API\\Order_APIController.cs",
               "ViewState": "AgIAAEsAAAAAAAAAAAAowHEAAAApAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-20T08:53:08.865Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-09-20T08:53:08.865Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 9,
               "Title": "Momo_PaymentController.cs",
               "DocumentMoniker": "D:\\workspace\\clone\\Controllers\\API\\Momo_PaymentController.cs",
               "RelativeDocumentMoniker": "Controllers\\API\\Momo_PaymentController.cs",
@@ -316,21 +323,7 @@
               "RelativeToolTip": "Controllers\\API\\Momo_PaymentController.cs",
               "ViewState": "AgIAAPQAAAAAAAAAAAAUwPMAAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-23T04:17:22.733Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "Courses_APIController.cs",
-              "DocumentMoniker": "D:\\workspace\\clone\\Controllers\\API\\Courses_APIController.cs",
-              "RelativeDocumentMoniker": "Controllers\\API\\Courses_APIController.cs",
-              "ToolTip": "D:\\workspace\\clone\\Controllers\\API\\Courses_APIController.cs",
-              "RelativeToolTip": "Controllers\\API\\Courses_APIController.cs",
-              "ViewState": "AgIAAH4AAAAAAAAAAAAowAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-23T04:57:54.026Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-09-23T04:17:22.733Z"
             },
             {
               "$type": "Document",
@@ -342,8 +335,7 @@
               "RelativeToolTip": "Services\\Request\\VocabFlashCardRequest.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-23T05:01:35.715Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-09-23T05:01:35.715Z"
             },
             {
               "$type": "Document",
@@ -355,8 +347,7 @@
               "RelativeToolTip": "Services\\Request\\OrderPlanRequest.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-23T05:02:03.348Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-09-23T05:02:03.348Z"
             },
             {
               "$type": "Document",
@@ -368,8 +359,7 @@
               "RelativeToolTip": "Services\\Request\\BuyCourseRequest.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-20T09:49:40.301Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-09-20T09:49:40.301Z"
             },
             {
               "$type": "Document",
@@ -381,8 +371,7 @@
               "RelativeToolTip": "Services\\Request\\OfExamUserIdRequest.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-23T05:01:31.013Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-09-23T05:01:31.013Z"
             },
             {
               "$type": "Document",
@@ -394,8 +383,7 @@
               "RelativeToolTip": "Services\\Request\\GetAllContainerAndLessionRequestcs.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-22T07:47:33.27Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-09-22T07:47:33.27Z"
             },
             {
               "$type": "Document",
@@ -407,8 +395,7 @@
               "RelativeToolTip": "Services\\Request\\UserEditRequest.cs",
               "ViewState": "AgIAAAMAAAAAAAAAAADwvwAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-22T07:47:41.318Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-09-22T07:47:41.318Z"
             },
             {
               "$type": "Document",
@@ -420,8 +407,7 @@
               "RelativeToolTip": "Services\\Request\\GetMomoIPNResult.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-22T07:47:35.692Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-09-22T07:47:35.692Z"
             },
             {
               "$type": "Document",
@@ -433,8 +419,7 @@
               "RelativeToolTip": "Controllers\\API\\Payment_APIController.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-23T04:58:11.433Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-09-23T04:58:11.433Z"
             },
             {
               "$type": "Document",
@@ -446,8 +431,7 @@
               "RelativeToolTip": "Properties\\launchSettings.json",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2024-09-23T04:56:13.065Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-09-23T04:56:13.065Z"
             },
             {
               "$type": "Document",
@@ -459,25 +443,11 @@
               "RelativeToolTip": "appsettings.json",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2024-09-23T04:56:09.726Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-09-23T04:56:09.726Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 20,
-              "Title": "UserCourses_APIController.cs",
-              "DocumentMoniker": "D:\\workspace\\clone\\Controllers\\API\\UserCourses_APIController.cs",
-              "RelativeDocumentMoniker": "Controllers\\API\\UserCourses_APIController.cs",
-              "ToolTip": "D:\\workspace\\clone\\Controllers\\API\\UserCourses_APIController.cs",
-              "RelativeToolTip": "Controllers\\API\\UserCourses_APIController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABoAAAAoAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-18T08:23:42.701Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 21,
               "Title": "dbo.Orders.sql",
               "DocumentMoniker": "ViewDataWindow_MSSQL__/localhost_SQLEXPRESS01/Study4/True/SqlTable/dbo.Orders.sql",
               "ToolTip": "ViewDataWindow_MSSQL__/localhost_SQLEXPRESS01/Study4/True/SqlTable/dbo.Orders.sql",
@@ -486,7 +456,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 22,
+              "DocumentIndex": 21,
               "Title": "dbo.USER_COURSE.sql",
               "DocumentMoniker": "ViewDataWindow_MSSQL__/localhost_SQLEXPRESS01/Study4/True/SqlTable/dbo.USER_COURSE.sql",
               "ToolTip": "ViewDataWindow_MSSQL__/localhost_SQLEXPRESS01/Study4/True/SqlTable/dbo.USER_COURSE.sql",
@@ -495,7 +465,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 23,
+              "DocumentIndex": 22,
               "Title": "CourseDetailResponse.cs",
               "DocumentMoniker": "D:\\workspace\\clone\\Services\\Response\\CourseDetailResponse.cs",
               "RelativeDocumentMoniker": "Services\\Response\\CourseDetailResponse.cs",
@@ -507,7 +477,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 24,
+              "DocumentIndex": 23,
               "Title": "VocabFindPairResponse.cs",
               "DocumentMoniker": "D:\\workspace\\clone\\Services\\Response\\VocabFindPairResponse.cs",
               "RelativeDocumentMoniker": "Services\\Response\\VocabFindPairResponse.cs",
@@ -519,7 +489,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 25,
+              "DocumentIndex": 24,
               "Title": "ContainerResponse.cs",
               "DocumentMoniker": "D:\\workspace\\clone\\Services\\Response\\ContainerResponse.cs",
               "RelativeDocumentMoniker": "Services\\Response\\ContainerResponse.cs",
@@ -531,7 +501,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 26,
+              "DocumentIndex": 25,
               "Title": "VocabListenChoosenResponse.cs",
               "DocumentMoniker": "D:\\workspace\\clone\\Services\\Response\\VocabListenChoosenResponse.cs",
               "RelativeDocumentMoniker": "Services\\Response\\VocabListenChoosenResponse.cs",
@@ -543,7 +513,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 27,
+              "DocumentIndex": 26,
               "Title": "JwtTokenGenerator.cs",
               "DocumentMoniker": "D:\\workspace\\clone\\Services\\JwtTokenGenerator.cs",
               "RelativeDocumentMoniker": "Services\\JwtTokenGenerator.cs",
@@ -555,7 +525,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 28,
+              "DocumentIndex": 27,
               "Title": "GetAllUnitsByCourses.cs",
               "DocumentMoniker": "D:\\workspace\\clone\\Services\\GetAllUnitsByCourses.cs",
               "RelativeDocumentMoniker": "Services\\GetAllUnitsByCourses.cs",
@@ -567,7 +537,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 30,
+              "DocumentIndex": 29,
               "Title": "StaffRepository.cs",
               "DocumentMoniker": "D:\\workspace\\clone\\Repositories\\StaffRepository.cs",
               "RelativeDocumentMoniker": "Repositories\\StaffRepository.cs",
@@ -579,7 +549,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 29,
+              "DocumentIndex": 28,
               "Title": "ConnectionService.cs",
               "DocumentMoniker": "D:\\workspace\\clone\\Services\\ConnectionService.cs",
               "RelativeDocumentMoniker": "Services\\ConnectionService.cs",
@@ -591,7 +561,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 31,
+              "DocumentIndex": 30,
               "Title": "SubmitExamRequest.cs",
               "DocumentMoniker": "D:\\workspace\\clone\\Services\\Request\\SubmitExamRequest.cs",
               "RelativeDocumentMoniker": "Services\\Request\\SubmitExamRequest.cs",
@@ -603,7 +573,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 32,
+              "DocumentIndex": 31,
               "Title": "OfUserIdRequest.cs",
               "DocumentMoniker": "D:\\workspace\\clone\\Services\\Request\\OfUserIdRequest.cs",
               "RelativeDocumentMoniker": "Services\\Request\\OfUserIdRequest.cs",
@@ -615,7 +585,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 33,
+              "DocumentIndex": 32,
               "Title": "OfExamIdRequest.cs",
               "DocumentMoniker": "D:\\workspace\\clone\\Services\\Request\\OfExamIdRequest.cs",
               "RelativeDocumentMoniker": "Services\\Request\\OfExamIdRequest.cs",
@@ -627,7 +597,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 34,
+              "DocumentIndex": 33,
               "Title": "LearnAgainRequest.cs",
               "DocumentMoniker": "D:\\workspace\\clone\\Services\\Request\\LearnAgainRequest.cs",
               "RelativeDocumentMoniker": "Services\\Request\\LearnAgainRequest.cs",
@@ -639,7 +609,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 35,
+              "DocumentIndex": 34,
               "Title": "GetAllCoursesByUserRequest.cs",
               "DocumentMoniker": "D:\\workspace\\clone\\Services\\Request\\GetAllCoursesByUserRequest.cs",
               "RelativeDocumentMoniker": "Services\\Request\\GetAllCoursesByUserRequest.cs",
@@ -651,7 +621,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 36,
+              "DocumentIndex": 35,
               "Title": "ActiveCodeRequest.cs",
               "DocumentMoniker": "D:\\workspace\\clone\\Services\\Request\\ActiveCodeRequest.cs",
               "RelativeDocumentMoniker": "Services\\Request\\ActiveCodeRequest.cs",
@@ -663,7 +633,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 37,
+              "DocumentIndex": 36,
               "Title": "ActiveAccountRequest.cs",
               "DocumentMoniker": "D:\\workspace\\clone\\Services\\Request\\ActiveAccountRequest.cs",
               "RelativeDocumentMoniker": "Services\\Request\\ActiveAccountRequest.cs",
@@ -675,7 +645,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 38,
+              "DocumentIndex": 37,
               "Title": "FireBaseServices.cs",
               "DocumentMoniker": "D:\\workspace\\clone\\Services\\FireBaseServices.cs",
               "RelativeDocumentMoniker": "Services\\FireBaseServices.cs",
@@ -687,7 +657,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 39,
+              "DocumentIndex": 38,
               "Title": "Auth_APIController.cs",
               "DocumentMoniker": "D:\\workspace\\clone\\Controllers\\API\\Auth_APIController.cs",
               "RelativeDocumentMoniker": "Controllers\\API\\Auth_APIController.cs",
@@ -699,7 +669,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 40,
+              "DocumentIndex": 39,
               "Title": "CurrentUserServices.cs",
               "DocumentMoniker": "D:\\workspace\\clone\\Services\\CurrentUserServices.cs",
               "RelativeDocumentMoniker": "Services\\CurrentUserServices.cs",
@@ -711,7 +681,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 42,
+              "DocumentIndex": 41,
               "Title": "SqlService.cs",
               "DocumentMoniker": "D:\\workspace\\clone\\Services\\SqlService.cs",
               "RelativeDocumentMoniker": "Services\\SqlService.cs",
@@ -723,7 +693,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 43,
+              "DocumentIndex": 42,
               "Title": "GeneralAiAudioServices.cs",
               "DocumentMoniker": "D:\\workspace\\clone\\Services\\GeneralAiAudioServices.cs",
               "RelativeDocumentMoniker": "Services\\GeneralAiAudioServices.cs",
@@ -735,7 +705,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 41,
+              "DocumentIndex": 40,
               "Title": "AuthService.cs",
               "DocumentMoniker": "D:\\workspace\\clone\\Services\\AuthService.cs",
               "RelativeDocumentMoniker": "Services\\AuthService.cs",
@@ -747,7 +717,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 44,
+              "DocumentIndex": 43,
               "Title": "Document.cs",
               "DocumentMoniker": "D:\\workspace\\clone\\Models\\Document.cs",
               "RelativeDocumentMoniker": "Models\\Document.cs",
@@ -759,7 +729,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 45,
+              "DocumentIndex": 44,
               "Title": "STUDY4Context.cs",
               "DocumentMoniker": "D:\\workspace\\clone\\Models\\STUDY4Context.cs",
               "RelativeDocumentMoniker": "Models\\STUDY4Context.cs",
@@ -768,18 +738,6 @@
               "ViewState": "AgIAADsAAAAAAAAAAAAswEEAAACaAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-09-20T09:30:58.183Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 46,
-              "Title": "UserCoursesRepository.cs",
-              "DocumentMoniker": "D:\\workspace\\clone\\Repositories\\UserCoursesRepository.cs",
-              "RelativeDocumentMoniker": "Repositories\\UserCoursesRepository.cs",
-              "ToolTip": "D:\\workspace\\clone\\Repositories\\UserCoursesRepository.cs",
-              "RelativeToolTip": "Repositories\\UserCoursesRepository.cs",
-              "ViewState": "AgIAABIAAAAAAAAAAAAYwB8AAAAJAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-19T06:35:16.99Z"
             }
           ]
         }
