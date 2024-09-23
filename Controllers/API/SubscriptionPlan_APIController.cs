@@ -94,8 +94,8 @@ namespace study4_be.Controllers.API
                UserId = existingUser.UserId,
                PlanId = existingPlan.PlanId,
                UsersubsTotal = existingPlan.PlanPrice,
-               UsersubsStartdate = DateOnly.FromDateTime(DateTime.Now),
-               UsersubsEnddate = DateOnly.FromDateTime(DateTime.Now).AddDays(existingPlan.PlanDuration),
+               UsersubsStartdate = DateTime.Now,
+               UsersubsEnddate = DateTime.Now.AddDays(existingPlan.PlanDuration),
                State = false
             };
             _context.UserSubs.Add(order);

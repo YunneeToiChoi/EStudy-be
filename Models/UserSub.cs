@@ -11,13 +11,13 @@ public partial class UserSub
 
     public int PlanId { get; set; }
 
-    public DateOnly UsersubsStartdate { get; set; }
+    public DateTime UsersubsStartdate { get; set; }
 
-    public DateOnly UsersubsEnddate { get; set; }
+    public DateTime UsersubsEnddate { get; set; }
 
     public double UsersubsTotal { get; set; }
 
-    public bool? State { get; set; }
+    public bool State { get; set; }
 
     public virtual Subscriptionplan Plan { get; set; } = null!;
 
