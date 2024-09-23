@@ -501,8 +501,9 @@ namespace study4_be.Controllers.API
                 {
                     return BadRequest("User is not exist");
                 }
+                var urlPort = _configuration["Url:BackEnd"];
                 var currentTime = DateTime.Now.ToString("yyyyMMddHHmmss");
-                var link = $"https://elearning.engineer/api/Auth_API/userEmail={userExist.UserEmail}/verification={false}/time={currentTime}";
+                var link = $"{urlPort}/api/Auth_API/userEmail={userExist.UserEmail}/verification={false}/time={currentTime}";
                 var subject = "[EStudy] - Yêu cầu đặt lại mật khẩu của bạn";
                 var emailContent = _smtpServices.GenerateLinkVerifiByEmailContent(userExist.UserEmail, link);
                 _smtpServices.GenerateLinkToResetPassword(_req.userEmail, link);

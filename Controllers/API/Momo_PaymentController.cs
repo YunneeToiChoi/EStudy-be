@@ -25,15 +25,17 @@ public class Momo_PaymentController : ControllerBase
     private readonly MomoConfig _momoConfig;
     private readonly HashHelper _hashHelper;
     private readonly FireBaseServices _fireBaseServices;
+    private readonly ContractPOServices _contractPOServices;
     private SMTPServices _smtpServices;
     private Study4Context _context = new Study4Context();
-    public Momo_PaymentController(ILogger<Momo_PaymentController> logger, IOptions<MomoConfig> momoPaymentSettings, FireBaseServices fireBaseServices,SMTPServices sMTPServices)
+    public Momo_PaymentController(ILogger<Momo_PaymentController> logger, IOptions<MomoConfig> momoPaymentSettings, FireBaseServices fireBaseServices,SMTPServices sMTPServices, ContractPOServices contractPOServices)
     {
         _logger = logger;
         _momoConfig = momoPaymentSettings.Value;
         _hashHelper = new HashHelper();
-        _fireBaseServices= fireBaseServices;
+        _fireBaseServices = fireBaseServices;
         _smtpServices = sMTPServices;
+        _contractPOServices = contractPOServices;
     }
     [HttpPost("MakePayment")]
     public async Task<IActionResult> MakePayment([FromBody] MomoPaymentRequest request)
@@ -273,32 +275,43 @@ public class Momo_PaymentController : ControllerBase
         try
         {
             var existOrder = await _context.Orders.FirstOrDefaultAsync(o => o.OrderId == orderId);
-            var codeActiveCourse = _smtpServices.GenerateCode(12);
-            var subject = "[EStudy] - Thông  tin đơn hàng và mã kích hoạt khóa học";
-            var userName =  await  _context.Users.Where(u=> u.UserId == existOrder.UserId).Select(u=> u.UserName).FirstOrDefaultAsync();
-            var courseName = await _context.Courses.Where(u => u.CourseId == existOrder.CourseId).Select(u => u.CourseName).FirstOrDefaultAsync();
-            try
+            if (existOrder == null)
             {
-                var emailContent = _smtpServices.GenerateCodeByEmailContent(userName, existOrder.OrderDate.ToString(), orderId, courseName, codeActiveCourse);
-                await _smtpServices.SendEmailAsync(userEmail, subject, emailContent, emailContent);
+                return NotFound($"Order with ID {orderId} not found.");
+            }
 
-                if (existOrder != null || existOrder.State == true)
-                {
-                    existOrder.Code = codeActiveCourse;
-                    await _context.SaveChangesAsync();
-                }
-            }
-            catch (Exception ex)
+            // Tạo PDF và lấy dữ liệu
+            var contractResult = await _contractPOServices.GenerateInvoicePdf(orderId);
+            if (contractResult is not FileContentResult contractFileResult)
             {
-                return StatusCode(500, new { error = $"An error occurred while sending the email or email not exist : {ex.Message}" });
+                return StatusCode(500, "Failed to generate invoice PDF.");
             }
+
+            var codeActiveCourse = _smtpServices.GenerateCode(12);
+            var subject = "[EStudy] - Thông tin đơn hàng và mã kích hoạt khóa học";
+            var userName = await _context.Users.Where(u => u.UserId == existOrder.UserId).Select(u => u.UserName).FirstOrDefaultAsync();
+            var courseName = await _context.Courses.Where(u => u.CourseId == existOrder.CourseId).Select(u => u.CourseName).FirstOrDefaultAsync();
+
+            // Chuyển đổi PDF thành Base64 (nếu cần gửi dưới dạng tệp đính kèm)
+            var pdfBytes = contractFileResult.FileContents; // Hoặc sử dụng contractFileResult.FileDownloadName nếu cần
+            var pdfBase64 = Convert.ToBase64String(pdfBytes);
+
+            var emailContent = _smtpServices.GenerateCodeByEmailContent(userName, existOrder.OrderDate.ToString(), orderId, courseName, codeActiveCourse, pdfBase64);
+
+            await _smtpServices.SendEmailAsync(userEmail, subject, emailContent, pdfBase64);
+
+            if (existOrder.State == true)
+            {
+                existOrder.Code = codeActiveCourse;
+                await _context.SaveChangesAsync();
+            }
+
             return Ok("Email sent successfully");
         }
         catch (Exception ex)
         {
-            return StatusCode(500, $"An error occurred: {ex.Message}");
+            return StatusCode(500, new { error = $"An error occurred: {ex.Message}" });
         }
-    }    
-    
-  
+    }
+
 }
