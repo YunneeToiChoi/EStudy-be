@@ -180,35 +180,30 @@
           "SelectedChildIndex": 3,
           "Children": [
             {
-              "$type": "Bookmark",
-              "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:128:0:{75188d03-9892-4ae2-abf1-207126247ce5}"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "dbo.USER_SUBS [Data]",
-              "DocumentMoniker": "ViewDataWindow_MSSQL__/localhost_SQLEXPRESS01/Study4/True/SqlTable/dbo.USER_SUBS.sql",
-              "ToolTip": "dbo.USER_SUBS [Data]",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000826|",
-              "WhenOpened": "2024-09-23T04:34:37.351Z",
-              "EditorCaption": ""
-            },
-            {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "Momo_PaymentController.cs",
-              "DocumentMoniker": "D:\\workspace\\clone\\Controllers\\API\\Momo_PaymentController.cs",
-              "RelativeDocumentMoniker": "Controllers\\API\\Momo_PaymentController.cs",
-              "ToolTip": "D:\\workspace\\clone\\Controllers\\API\\Momo_PaymentController.cs",
-              "RelativeToolTip": "Controllers\\API\\Momo_PaymentController.cs",
-              "ViewState": "AgIAABwBAAAAAAAAAAAcwCwBAAAIAAAAAAAAAA==",
+              "Title": "UserDocumentAPIController.cs",
+              "DocumentMoniker": "D:\\be\\Controllers\\API\\UserDocumentAPIController.cs",
+              "RelativeDocumentMoniker": "Controllers\\API\\UserDocumentAPIController.cs",
+              "ToolTip": "D:\\be\\Controllers\\API\\UserDocumentAPIController.cs",
+              "RelativeToolTip": "Controllers\\API\\UserDocumentAPIController.cs",
+              "ViewState": "AgIAAOcAAAAAAAAAAAAswBwBAAA0AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-23T04:17:22.733Z",
+              "WhenOpened": "2024-09-17T09:32:53.563Z",
+              "IsPinned": true,
               "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "D:\\be\\appsettings.json",
+              "RelativeDocumentMoniker": "appsettings.json",
+              "ToolTip": "D:\\be\\appsettings.json",
+              "RelativeToolTip": "appsettings.json",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAAABgAAAA1AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2024-09-18T10:31:28.174Z"
             },
             {
               "$type": "Document",
@@ -220,8 +215,7 @@
               "RelativeToolTip": "Controllers\\API\\SubscriptionPlan_APIController.cs",
               "ViewState": "AgIAAEAAAAAAAAAAAAA5wF4AAAAsAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-23T04:13:49.886Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-09-18T09:15:25.164Z"
             },
             {
               "$type": "Document",
@@ -233,21 +227,7 @@
               "RelativeToolTip": "Services\\Response\\CourseDetailResponse.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-23T03:41:55.507Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "VocabFindPairResponse.cs",
-              "DocumentMoniker": "D:\\workspace\\clone\\Services\\Response\\VocabFindPairResponse.cs",
-              "RelativeDocumentMoniker": "Services\\Response\\VocabFindPairResponse.cs",
-              "ToolTip": "D:\\workspace\\clone\\Services\\Response\\VocabFindPairResponse.cs",
-              "RelativeToolTip": "Services\\Response\\VocabFindPairResponse.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-23T03:41:51.02Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-09-18T09:21:07.188Z"
             },
             {
               "$type": "Document",
@@ -272,7 +252,7 @@
               "RelativeToolTip": "Controllers\\API\\Order_APIController.cs",
               "ViewState": "AgIAAAwAAAAAAAAAAAAIwHEAAAApAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-20T08:53:08.865Z",
+              "WhenOpened": "2024-09-18T06:48:58.879Z",
               "EditorCaption": ""
             },
             {
