@@ -219,6 +219,10 @@ public partial class Study4Context : DbContext
                 .IsUnicode(false)
                 .HasColumnName("CODE");
             entity.Property(e => e.CourseId).HasColumnName("Course_id");
+            entity.Property(e => e.CreatedAt)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime")
+                .HasColumnName("created_at");
             entity.Property(e => e.Email)
                 .HasMaxLength(100)
                 .IsUnicode(false)
