@@ -14,7 +14,7 @@ namespace study4_be.Services
             var userSubscription = await _study4Context.UserSubs
                 .FirstOrDefaultAsync(u => u.UserId == userId);
 
-            if (userSubscription != null && userSubscription.State)
+            if (userSubscription != null)
             {
                 var timeRemaining = userSubscription.UsersubsEnddate - DateTime.UtcNow;
                 // Chuyển đổi thời gian còn lại thành ngày, giờ, phút
