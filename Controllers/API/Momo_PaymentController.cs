@@ -293,7 +293,6 @@ public class Momo_PaymentController : ControllerBase
 
         if (existingPlan != null)
         {
-            // Remove or mark the old plan as inactive
             _context.UserSubs.Remove(existingPlan);
         }
 
