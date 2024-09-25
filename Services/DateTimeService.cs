@@ -27,20 +27,20 @@ namespace study4_be.Services
             return null;
         }
 
-        public void CheckAndDeleteExpiredOrders()
+        public async void CheckAndDeleteExpiredOrders()
         {
             var expirationTime = DateTime.Now.AddMinutes(-15);
 
             // Lấy ra các đơn hàng quá 15 phút và vẫn đang ở trạng thái chưa thanh toán
-            var expiredOrders = _study4Context.Orders
+            var expiredOrders = await _study4Context.Orders
                                 .Where(o => o.State == false && o.CreatedAt < expirationTime)
-                                .ToList();
+                                .ToListAsync();
 
             if (expiredOrders.Any())
             {
                 // Xóa các đơn hàng quá hạn
                 _study4Context.Orders.RemoveRange(expiredOrders);
-                _study4Context.SaveChanges();
+                await _study4Context.SaveChangesAsync();
             }
         }
 

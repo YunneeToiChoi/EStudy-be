@@ -467,7 +467,7 @@ namespace study4_be.Controllers.API
                     {
                         UserId = existingOrder.UserId,
                         CourseId = (int)existingOrder.CourseId,
-                        Date = DateTime.Now,
+                        Date = DateTime.Now, // 
                         Process = 0,
                         State = true
                     };
