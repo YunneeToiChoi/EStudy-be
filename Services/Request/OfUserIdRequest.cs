@@ -2,6 +2,6 @@
 {
     public class OfUserIdRequest
     {
-        public string? userId { get; set; } = string.Empty;
+        public string userId { get; set; }
     }
 }
