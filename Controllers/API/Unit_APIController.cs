@@ -13,7 +13,7 @@ namespace study4_be.Controllers.API
     {
         private readonly ILogger<Unit_APIController> _logger;
         private UnitRepository _unitRepo = new UnitRepository();
-        private Unit_APIController(ILogger<Unit_APIController> logger)
+        public Unit_APIController(ILogger<Unit_APIController> logger)
         {
             _logger = logger;
         }

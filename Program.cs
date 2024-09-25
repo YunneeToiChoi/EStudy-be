@@ -40,7 +40,7 @@ builder.Services.AddTransient<ICurrentUserServices, CurrentUserServices>();
 builder.Services.AddTransient<IConnectionService, ConnectionService>();
 builder.Services.AddTransient<ISqlService, SqlService>();
 builder.Services.Configure<MomoConfig>(builder.Configuration.GetSection(MomoConfig.ConfigName));
-
+builder.Services.AddScoped<ContractPOServices>();
 // Dịch vụ Firebase và SMTP
 builder.Services.AddSingleton<FireBaseServices>();
 builder.Services.AddSingleton<SMTPServices>();

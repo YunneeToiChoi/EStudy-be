@@ -4,3 +4,4 @@
 /.vs
 /bin
 /publish
+/Properties/launchSettings.json

@@ -28,15 +28,20 @@ public class Momo_PaymentController : ControllerBase
     private readonly ContractPOServices _contractPOServices;
     private SMTPServices _smtpServices;
     private Study4Context _context = new Study4Context();
-    public Momo_PaymentController(ILogger<Momo_PaymentController> logger, IOptions<MomoConfig> momoPaymentSettings, FireBaseServices fireBaseServices,SMTPServices sMTPServices, ContractPOServices contractPOServices)
+    public Momo_PaymentController(ILogger<Momo_PaymentController> logger,
+                                 IOptions<MomoConfig> momoPaymentSettings,
+                                 FireBaseServices fireBaseServices,
+                                 SMTPServices sMTPServices,
+                                 ContractPOServices contractPOServices)
     {
         _logger = logger;
-        _momoConfig = momoPaymentSettings.Value;
         _hashHelper = new HashHelper();
+        _momoConfig = momoPaymentSettings.Value;
         _fireBaseServices = fireBaseServices;
         _smtpServices = sMTPServices;
-        _contractPOServices = contractPOServices;
+        _contractPOServices = contractPOServices; // DI will inject this
     }
+
     [HttpPost("MakePayment")]
     public async Task<IActionResult> MakePayment([FromBody] MomoPaymentRequest request)
     {
@@ -251,6 +256,7 @@ public class Momo_PaymentController : ControllerBase
         {
             if (existingOrder != null &&  existingOrder.State==false)
             {
+                // thieu get error 
                     await SendCodeActiveByEmail(existingOrder.Email, existingOrder.OrderId);
                     existingOrder.State = true;
                     await _context.SaveChangesAsync();

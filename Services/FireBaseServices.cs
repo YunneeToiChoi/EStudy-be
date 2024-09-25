@@ -52,8 +52,11 @@ namespace study4_be.Services
             // Create the StorageClient with the credential
             var storageClient = StorageClient.Create(credential);
 
+            // Determine the content type based on the file extension
+            var contentType = GetContentType(fileName);
+
             // Upload the file to Firebase Storage
-            var uploadObject = await storageClient.UploadObjectAsync(bucketName, filePath, null, fileStream);
+            var uploadObject = await storageClient.UploadObjectAsync(bucketName, filePath, contentType, fileStream);
 
             // Generate the file URL (URL-encoded file path)
             var encodedFilePath = Uri.EscapeDataString(filePath);
@@ -61,6 +64,33 @@ namespace study4_be.Services
 
             return fileUrl;
         }
+
+        private string GetContentType(string fileName)
+        {
+            var extension = Path.GetExtension(fileName).ToLowerInvariant();
+            switch (extension)
+            {
+                case ".jpg":
+                case ".jpeg":
+                    return "image/jpeg";
+                case ".png":
+                    return "image/png";
+                case ".gif":
+                    return "image/gif";
+                case ".pdf":
+                    return "application/pdf";
+                case ".doc":
+                case ".docx":
+                    return "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
+                case ".txt":
+                    return "text/plain";
+                // Add more types as needed
+                default:
+                    return "application/octet-stream"; // Default for unknown types
+            }
+        }
+
+
 
 
         public async Task<string> UploadFileFromUrlToFirebaseStorageAsync(string imageUrl, string fileName, string bucketName)
