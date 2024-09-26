@@ -103,6 +103,7 @@ namespace study4_be.Controllers.API
 				OrderDate = DateTime.Now,
 				Email = request.Email,
 				Address = request.Address,
+				CreatedAt = DateTime.Now,
 				State = false
 			};
 			_context.Orders.Add(order);

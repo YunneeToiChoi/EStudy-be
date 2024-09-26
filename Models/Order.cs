@@ -23,6 +23,8 @@ public partial class Order
 
     public string? Code { get; set; }
 
+    public DateTime? CreatedAt { get; set; }
+
     public virtual Course? Course { get; set; }
 
     public virtual User? User { get; set; }

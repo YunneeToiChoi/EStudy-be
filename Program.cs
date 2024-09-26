@@ -14,6 +14,8 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Hangfire;
+using Hangfire.SqlServer;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -107,8 +109,21 @@ builder.Services.AddCors(options =>
     });
 });
 
-var app = builder.Build();
+builder.Services.AddHangfire(config => {
+    config.UseSqlServerStorage(builder.Configuration.GetConnectionString("DefaultConnection"));
+});
 
+builder.Services.AddHangfireServer();
+
+var app = builder.Build();
+// Cấu hình sử dụng Hangfire dashboard
+app.UseHangfireDashboard();
+
+// Khởi động server cho Hangfire
+app.UseHangfireServer();
+
+// Thiết lập RecurringJob để chạy job xóa đơn hàng hết hạn sau 15 phút mỗi 5 phút
+RecurringJob.AddOrUpdate<DateTimeService>(dateTimeService => dateTimeService.CheckAndDeleteExpiredOrders(), Cron.MinuteInterval(5));
 // Cấu hình HTTP request pipeline
 if (!app.Environment.IsDevelopment())
 {
@@ -147,5 +162,7 @@ app.Use(async (context, next) =>
 
     await next();
 });
+
+app.MapControllers();
 
 app.Run();

@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿    using Microsoft.AspNetCore.Mvc;
 using study4_be.Models;
 using study4_be.Repositories;
 using study4_be.Validation;
@@ -468,7 +468,7 @@ namespace study4_be.Controllers.API
                     {
                         UserId = existingOrder.UserId,
                         CourseId = (int)existingOrder.CourseId,
-                        Date = DateTime.Now,
+                        Date = DateTime.Now, // 
                         Process = 0,
                         State = true
                     };

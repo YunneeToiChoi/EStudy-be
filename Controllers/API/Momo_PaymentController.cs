@@ -249,8 +249,46 @@ public class Momo_PaymentController : ControllerBase
                 return StatusCode(500, new { status = 500, message = "Unhandled response code from MoMo. Please contact support." });
         }
     }
-    private async Task<IActionResult> Buy_Success(string orderId)
+    public async Task<IActionResult> Buy_Success(string orderId)
     {
+
+        try
+        {
+            var existingOrderCourse = await _context.Orders.FirstOrDefaultAsync(o => o.OrderId == orderId);
+
+            if (existingOrderCourse != null)
+            {
+                return await HandleCourseOrder(existingOrderCourse);
+            }
+
+            var newOrderPlan = await _context.UserSubs.FirstOrDefaultAsync(o => o.UsersubsId == orderId);
+            if (newOrderPlan != null)
+            {
+                return await HandleSubscriptionPlan(newOrderPlan);
+            }
+
+            return BadRequest("Order not found");
+        }
+        catch (Exception e)
+        {
+            return BadRequest($"Error updating order state: {e.Message}");
+        }
+    }
+
+    private async Task<IActionResult> HandleCourseOrder(Order existingOrderCourse)
+    {
+        if (existingOrderCourse.State == false)
+        {
+            await SendCodeActiveByEmail(existingOrderCourse.Email, existingOrderCourse.OrderId);
+            existingOrderCourse.State = true;
+            await _context.SaveChangesAsync();
+            return Ok(new
+            {
+                status = 200,
+                order = existingOrderCourse,
+                message = "Update Order State Successful and send email success"
+            });
+
         var existingOrder = await _context.Orders.FirstOrDefaultAsync(o => o.OrderId == orderId);
         if (existingOrder == null)
         {
@@ -280,7 +318,32 @@ public class Momo_PaymentController : ControllerBase
         catch (Exception e)
         {
             return StatusCode(500, new { status = 500, message = $"An error occurred while updating the order: {e.Message}" });
+
         }
+
+        return BadRequest("You Had Bought Before");
+    }
+
+    private async Task<IActionResult> HandleSubscriptionPlan(UserSub newOrderPlan)
+    {
+        var existingPlan = await _context.UserSubs
+            .Where(u => u.UserId == newOrderPlan.UserId)
+            .FirstOrDefaultAsync();
+
+        if (existingPlan != null)
+        {
+            _context.UserSubs.Remove(existingPlan);
+        }
+
+        newOrderPlan.State = true;
+        await _context.SaveChangesAsync();
+
+        return Ok(new
+        {
+            status = 200,
+            order = newOrderPlan,
+            message = "Update Order State Successful"
+        });
     }
 
     private async Task<IActionResult> SendCodeActiveByEmail(string userEmail, string orderId)
