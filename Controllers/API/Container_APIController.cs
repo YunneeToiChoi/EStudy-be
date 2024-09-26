@@ -12,12 +12,7 @@ namespace study4_be.Controllers.API
     [ApiController]
     public class Container_APIController : Controller
     {
-        private readonly ILogger<Container_APIController> _logger;
         public ContainerRepository _containerRepo = new ContainerRepository();
-        public Container_APIController(ILogger<Container_APIController> logger)
-        {
-            _logger = logger;
-        }
         public Study4Context _context = new Study4Context();
         [HttpPost("Get_AllContainerAndLessonByUnit")]
         public async Task<ActionResult<UnitDetailResponse>> Get_AllContainerAndLessonByUnit(GetAllContainerAndLessionRequestcs unit)

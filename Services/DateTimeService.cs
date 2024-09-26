@@ -27,7 +27,7 @@ namespace study4_be.Services
             return null;
         }
 
-        public async void CheckAndDeleteExpiredOrders()
+        public async Task CheckAndDeleteExpiredOrders()
         {
             var expirationTime = DateTime.Now.AddMinutes(-15);
 

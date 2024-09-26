@@ -8,6 +8,7 @@ using study4_be.Services;
 
 namespace study4_be.Controllers.Admin
 {
+    [Route("[controller]/{action=Index}")]
     public class ContainerController : Controller
     {
         private readonly ILogger<ContainerController> _logger;

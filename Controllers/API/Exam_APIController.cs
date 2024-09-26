@@ -15,13 +15,6 @@ namespace study4_be.Controllers.API
     public class Exam_APIController : Controller
     {
         private Study4Context _context = new Study4Context();
-        private readonly ILogger<Exam_APIController> _logger;
-        private FireBaseServices _fireBaseServices;
-        public Exam_APIController(ILogger<Exam_APIController> logger, FireBaseServices fireBaseServices)
-        {
-            _logger = logger;
-            _fireBaseServices = fireBaseServices;
-        }
         [HttpGet("Get_AllExams")]
         public async Task<ActionResult<IEnumerable<Exam>>> Get_AllExams()
         {
@@ -125,9 +118,30 @@ namespace study4_be.Controllers.API
         {
             try
             {
-                var outstandingExams = await _context.Exams
-                    .Where(e => !_context.UsersExams.Any(ue => ue.UserId == _req.userId && ue.ExamId == e.ExamId))
-                    .ToListAsync();
+                IEnumerable<Exam> outstandingExams;
+
+                if (_req.userId != null)
+                {
+                    outstandingExams = await _context.Exams
+                        .Where(e => !_context.UsersExams.Any(ue => ue.UserId == _req.userId && ue.ExamId == e.ExamId))
+                        .GroupBy(e => e)
+                        .Select(g => new { Exam = g.Key, Count = g.Count() })
+                        .OrderByDescending(g => g.Count)
+                        .Take(4)
+                        .Select(g => g.Exam)
+                        .ToListAsync();
+                }
+                else
+                {
+                    // Lấy 4 khóa học được nhiều người mua nhất
+                    outstandingExams = await _context.Exams
+                        .GroupBy(e => e)
+                        .Select(g => new { Exam = g.Key, Count = g.Count() })
+                        .OrderByDescending(g => g.Count)
+                        .Take(4)
+                        .Select(g => g.Exam)
+                        .ToListAsync();
+                }
 
                 return Json(new { status = 200, message = "Get Outstanding Exams Success", outstandingExams });
             }
@@ -136,6 +150,7 @@ namespace study4_be.Controllers.API
                 return BadRequest(ex.Message);
             }
         }
+
 
         [HttpPost("Get_AudioExam")]
         public async Task<ActionResult<IEnumerable<Exam>>> Get_AudioExam(OfExamIdRequest _req)
