@@ -11,12 +11,7 @@ namespace study4_be.Controllers.API
     [ApiController]
     public class Unit_APIController : Controller
     {
-        private readonly ILogger<Unit_APIController> _logger;
         private UnitRepository _unitRepo = new UnitRepository();
-        public Unit_APIController(ILogger<Unit_APIController> logger)
-        {
-            _logger = logger;
-        }
         private Study4Context _context = new Study4Context();
         [HttpPost("Get_AllUnitsByCourse")]
         public async Task<ActionResult> Get_AllUnitsByCourse(GetAllUnitsByCourses courses)

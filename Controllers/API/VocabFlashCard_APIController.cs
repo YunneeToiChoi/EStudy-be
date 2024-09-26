@@ -21,13 +21,11 @@ namespace study4_be.Controllers.API
         private readonly Study4Context _context;
         private readonly VocabFlashCardRepository _vocabFlashCardRepo;
         private readonly ILogger<VocabFlashCard_APIController> _logger;
-        private readonly FireBaseServices _firebaseServices;
-        public VocabFlashCard_APIController(ILogger<VocabFlashCard_APIController> logger, FireBaseServices firebaseServices)
+        public VocabFlashCard_APIController(ILogger<VocabFlashCard_APIController> logger)
         {
             _context = new Study4Context();
             _vocabFlashCardRepo = new VocabFlashCardRepository();
             _logger = logger;
-            _firebaseServices = firebaseServices;
         }
         [HttpPost("Get_AllVocabOfLesson")]
         public async Task<IActionResult> Get_AllVocabOfLesson([FromBody] VocabFlashCardRequest _vocabRequest) {

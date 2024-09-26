@@ -24,20 +24,17 @@ public class Momo_PaymentController : ControllerBase
     private readonly ILogger<Momo_PaymentController> _logger;
     private readonly MomoConfig _momoConfig;
     private readonly HashHelper _hashHelper;
-    private readonly FireBaseServices _fireBaseServices;
     private readonly ContractPOServices _contractPOServices;
     private SMTPServices _smtpServices;
     private Study4Context _context = new Study4Context();
     public Momo_PaymentController(ILogger<Momo_PaymentController> logger,
                                  IOptions<MomoConfig> momoPaymentSettings,
-                                 FireBaseServices fireBaseServices,
                                  SMTPServices sMTPServices,
                                  ContractPOServices contractPOServices)
     {
         _logger = logger;
         _hashHelper = new HashHelper();
         _momoConfig = momoPaymentSettings.Value;
-        _fireBaseServices = fireBaseServices;
         _smtpServices = sMTPServices;
         _contractPOServices = contractPOServices; // DI will inject this
     }
