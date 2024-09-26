@@ -38,52 +38,83 @@ namespace study4_be.Services
                 using (var memoryStream = new MemoryStream())
                 {
                     // Tạo PDF
-                    using (PdfWriter writer = new PdfWriter(memoryStream))
+                    using (PdfWriter writer = new PdfWriter(memoryStream)) // No SmartMode used
                     {
                         PdfDocument pdf = new PdfDocument(writer);
                         var document = new iText.Layout.Document(pdf);
-                        string stampImage = _config["Firebase:Stamp"];
-                        string signatureImage = _config["Firebase:SignatureImage"];
+                        string stampImageUrl = _config["Firebase:Stamp"];
+                        string signatureImageUrl = _config["Firebase:SignatureImage"];
 
-                        // Thêm tiêu đề hóa đơn
+                        // Add title to the invoice
                         document.Add(new Paragraph("HÓA ĐƠN ĐIỆN TỬ")
                             .SetTextAlignment(TextAlignment.CENTER)
                             .SetFontSize(20)
                             .SetBold());
 
-                        // Thông tin khách hàng
+                        // Add customer information
                         document.Add(new Paragraph($"Tên khách hàng: {user.UserName}").SetFontSize(12));
                         document.Add(new Paragraph($"Mã đơn hàng: {orderId}").SetFontSize(12));
                         document.Add(new Paragraph($"Tên khóa học: {course.CourseName}").SetFontSize(12));
                         document.Add(new Paragraph($"Ngày đặt: {existOrder.OrderDate.ToString()}").SetFontSize(12));
-                        document.Add(new Paragraph(" ")); // Khoảng trống
+                        document.Add(new Paragraph(" ")); // Add a blank line for spacing
 
-                        // Thêm mộc đỏ
-                        Image stamp = new Image(ImageDataFactory.Create(stampImage));
-                        stamp.SetWidth(100); // Đặt kích thước mộc đỏ
-                        document.Add(stamp);
+                        // Load stamp and signature images from Firebase and add them to the document
+                        var stampImage = await DownloadImageFromUrlAsync(stampImageUrl);
+                        var signatureImage = await DownloadImageFromUrlAsync(signatureImageUrl);
 
-                        // Thêm chữ ký
-                        Image signature = new Image(ImageDataFactory.Create(signatureImage));
-                        signature.SetWidth(100); // Đặt kích thước chữ ký
-                        document.Add(signature);
+                        if (stampImage != null)
+                        {
+                            Image stamp = new Image(ImageDataFactory.Create(stampImage));
+                            stamp.SetWidth(100); // Set size for stamp
+                            document.Add(stamp);
+                        }
 
-                        // Đóng document
+                        if (signatureImage != null)
+                        {
+                            Image signature = new Image(ImageDataFactory.Create(signatureImage));
+                            signature.SetWidth(100); // Set size for signature
+                            document.Add(signature);
+                        }
+
+                        // Close the document
                         document.Close();
                     }
 
-                    // Trả về file PDF
+                    // Return the PDF file
                     return new FileContentResult(memoryStream.ToArray(), "application/pdf")
                     {
                         FileDownloadName = $"Invoice_{orderId}.pdf"
                     };
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                // Log the exception if needed
                 return new StatusCodeResult(500); // Trả về lỗi 500
             }
         }
+
+        // Helper method to download an image from a URL
+        private async Task<byte[]> DownloadImageFromUrlAsync(string imageUrl)
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                try
+                {
+                    var response = await client.GetAsync(imageUrl);
+                    if (response.IsSuccessStatusCode)
+                    {
+                        return await response.Content.ReadAsByteArrayAsync();
+                    }
+                }
+                catch
+                {
+                    // Handle any errors related to downloading the image
+                }
+            }
+            return null; // Return null if unable to download
+        }
+
 
     }
 }
