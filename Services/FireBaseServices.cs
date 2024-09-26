@@ -15,6 +15,7 @@ namespace study4_be.Services
         private readonly IConfiguration _config;
         private readonly FirebaseServiceAccountKey _serviceAccountKey;
         private readonly string _firebaseBucketName;
+        private readonly Study4Context _context = new Study4Context();
         public FireBaseServices(IConfiguration config)
         {
             _config = config;
@@ -47,8 +48,7 @@ namespace study4_be.Services
             string serviceAccountPath = Path.Combine(Directory.GetCurrentDirectory(), "firebase_config.json");
 
             // Load credentials from the service account file
-            var credential = GoogleCredential.FromFile(serviceAccountPath)
-                                  .CreateScoped("https://www.googleapis.com/auth/cloud-platform");
+            var credential = GoogleCredential.FromFile(serviceAccountPath);
 
 
             // Create the StorageClient with the credential
