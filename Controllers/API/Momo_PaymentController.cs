@@ -249,33 +249,103 @@ public class Momo_PaymentController : ControllerBase
                 return StatusCode(500, new { status = 500, message = "Unhandled response code from MoMo. Please contact support." });
         }
     }
-    private async Task<IActionResult> Buy_Success(string orderId)
+    public async Task<IActionResult> Buy_Success(string orderId)
     {
-        var existingOrder = await _context.Orders.FirstOrDefaultAsync(o => o.OrderId == orderId);
+
         try
         {
-            if (existingOrder != null &&  existingOrder.State==false)
+            var existingOrderCourse = await _context.Orders.FirstOrDefaultAsync(o => o.OrderId == orderId);
+
+            if (existingOrderCourse != null)
             {
-                // thieu get error 
-                    await SendCodeActiveByEmail(existingOrder.Email, existingOrder.OrderId);
-                    existingOrder.State = true;
-                    await _context.SaveChangesAsync();
-                    return Ok(new { status = 200, order = existingOrder, message = "Update Order State Successful and send email success" });
+                return await HandleCourseOrder(existingOrderCourse);
             }
-            else if (existingOrder != null && existingOrder.State==true)
+
+            var newOrderPlan = await _context.UserSubs.FirstOrDefaultAsync(o => o.UsersubsId == orderId);
+            if (newOrderPlan != null)
             {
-                return BadRequest("You Had Bought Before");
+                return await HandleSubscriptionPlan(newOrderPlan);
             }
-            else
-            {
-                return BadRequest("Order not found");
-            }
+
+            return BadRequest("Order not found");
         }
         catch (Exception e)
         {
-            return BadRequest("Has error when Update State of Order" + e);
+            return BadRequest($"Error updating order state: {e.Message}");
         }
     }
+
+    private async Task<IActionResult> HandleCourseOrder(Order existingOrderCourse)
+    {
+        if (existingOrderCourse.State == false)
+        {
+            await SendCodeActiveByEmail(existingOrderCourse.Email, existingOrderCourse.OrderId);
+            existingOrderCourse.State = true;
+            await _context.SaveChangesAsync();
+            return Ok(new
+            {
+                status = 200,
+                order = existingOrderCourse,
+                message = "Update Order State Successful and send email success"
+            });
+
+        var existingOrder = await _context.Orders.FirstOrDefaultAsync(o => o.OrderId == orderId);
+        if (existingOrder == null)
+        {
+            return BadRequest(new { status = 400, message = "Order not found" });
+        }
+
+        if (existingOrder.State == true)
+        {
+            return BadRequest(new { status = 400, message = "You have already bought before" });
+        }
+
+        try
+        {
+            // Attempt to send the activation email
+            var sendEmailResult = await SendCodeActiveByEmail(existingOrder.Email, existingOrder.OrderId);
+            if (sendEmailResult is BadRequestObjectResult)
+            {
+                return BadRequest(new { status = 400, message = "Failed to send activation email." });
+            }
+
+            // Update the order state if email was sent successfully
+            existingOrder.State = true;
+            await _context.SaveChangesAsync();
+
+            return Ok(new { status = 200, order = existingOrder, message = "Order state updated and email sent successfully" });
+        }
+        catch (Exception e)
+        {
+            return StatusCode(500, new { status = 500, message = $"An error occurred while updating the order: {e.Message}" });
+
+        }
+
+        return BadRequest("You Had Bought Before");
+    }
+
+    private async Task<IActionResult> HandleSubscriptionPlan(UserSub newOrderPlan)
+    {
+        var existingPlan = await _context.UserSubs
+            .Where(u => u.UserId == newOrderPlan.UserId)
+            .FirstOrDefaultAsync();
+
+        if (existingPlan != null)
+        {
+            _context.UserSubs.Remove(existingPlan);
+        }
+
+        newOrderPlan.State = true;
+        await _context.SaveChangesAsync();
+
+        return Ok(new
+        {
+            status = 200,
+            order = newOrderPlan,
+            message = "Update Order State Successful"
+        });
+    }
+
     private async Task<IActionResult> SendCodeActiveByEmail(string userEmail, string orderId)
     {
         try
@@ -283,28 +353,29 @@ public class Momo_PaymentController : ControllerBase
             var existOrder = await _context.Orders.FirstOrDefaultAsync(o => o.OrderId == orderId);
             if (existOrder == null)
             {
-                return NotFound($"Order with ID {orderId} not found.");
+                return BadRequest(new { status = 400, message = $"Order with ID {orderId} not found." });
             }
 
-            // Tạo PDF và lấy dữ liệu
-            var contractResult = await _contractPOServices.GenerateInvoicePdf(orderId);
-            if (contractResult is not FileContentResult contractFileResult)
-            {
-                return StatusCode(500, "Failed to generate invoice PDF.");
-            }
+            //// Generate PDF and get data
+            //var contractResult = await _contractPOServices.GenerateInvoicePdf(orderId);
+            //if (contractResult is not FileContentResult contractFileResult)
+            //{
+            //    return StatusCode(500, new { status = 500, message = "Failed to generate invoice PDF." });
+            //}
 
             var codeActiveCourse = _smtpServices.GenerateCode(12);
             var subject = "[EStudy] - Thông tin đơn hàng và mã kích hoạt khóa học";
             var userName = await _context.Users.Where(u => u.UserId == existOrder.UserId).Select(u => u.UserName).FirstOrDefaultAsync();
             var courseName = await _context.Courses.Where(u => u.CourseId == existOrder.CourseId).Select(u => u.CourseName).FirstOrDefaultAsync();
 
-            // Chuyển đổi PDF thành Base64 (nếu cần gửi dưới dạng tệp đính kèm)
-            var pdfBytes = contractFileResult.FileContents; // Hoặc sử dụng contractFileResult.FileDownloadName nếu cần
-            var pdfBase64 = Convert.ToBase64String(pdfBytes);
+            // Convert PDF to Base64 (if necessary for sending as attachment)
+            //var pdfBytes = contractFileResult.FileContents;
+            //var pdfBase64 = Convert.ToBase64String(pdfBytes);
 
-            var emailContent = _smtpServices.GenerateCodeByEmailContent(userName, existOrder.OrderDate.ToString(), orderId, courseName, codeActiveCourse, pdfBase64);
+            var emailContent = _smtpServices.GenerateCodeByEmailContent(userName, existOrder.OrderDate.ToString(), orderId, courseName, codeActiveCourse);
 
-            await _smtpServices.SendEmailAsync(userEmail, subject, emailContent, pdfBase64);
+            // Attempt to send the email
+            await _smtpServices.SendEmailAsync(userEmail, subject, emailContent, emailContent);
 
             if (existOrder.State == true)
             {
@@ -312,12 +383,13 @@ public class Momo_PaymentController : ControllerBase
                 await _context.SaveChangesAsync();
             }
 
-            return Ok("Email sent successfully");
+            return Ok(new { status = 200, message = "Email sent successfully" });
         }
         catch (Exception ex)
         {
-            return StatusCode(500, new { error = $"An error occurred: {ex.Message}" });
+            return StatusCode(500, new { status = 500, message = $"An error occurred while sending the email: {ex.Message}" });
         }
     }
+
 
 }

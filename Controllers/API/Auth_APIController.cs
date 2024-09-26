@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿    using Microsoft.AspNetCore.Mvc;
 using study4_be.Models;
 using study4_be.Repositories;
 using study4_be.Validation;
@@ -64,7 +64,8 @@ namespace study4_be.Controllers.API
                     if (_userRegistrationValidator.Validate(user, out errorMessage))
                     {
                         await _userRepository.AddUser(user);
-                        var link = $"https://elearning.engineer/api/Auth_API/userEmail={user.UserEmail}/verification={false}";
+                        string beUrl = _configuration["Url:BackEnd"];
+                        var link = $"{beUrl}/api/Auth_API/userEmail={user.UserEmail}/verification={false}";
                         var subject = "[EStudy] - Yêu cầu xác thực tài khoản của bạn";
                         var emailContent = _smtpServices.GenerateLinkVerifiByEmailContent(user.UserEmail, link);
                         await _smtpServices.SendEmailAsync(user.UserEmail, subject,emailContent,emailContent);
@@ -467,7 +468,7 @@ namespace study4_be.Controllers.API
                     {
                         UserId = existingOrder.UserId,
                         CourseId = (int)existingOrder.CourseId,
-                        Date = DateTime.Now,
+                        Date = DateTime.Now, // 
                         Process = 0,
                         State = true
                     };
@@ -624,7 +625,8 @@ namespace study4_be.Controllers.API
                 return BadRequest("User had actived");
 
             }
-            var link = $"https://elearning.engineer/api/Auth_API/userEmail={user.UserEmail}/verification={false}";
+            string beUrl = _configuration["Url:BackEnd"];
+            var link = $"{beUrl}/api/Auth_API/userEmail=l={user.UserEmail}/verification={false}";
             var subject = "[EStudy] - Thông  tin đơn hàng và mã kích hoạt khóa học";
             var emailContent = _smtpServices.GenerateLinkVerifiByEmailContent(user.UserEmail, link);
             await _smtpServices.SendEmailAsync(user.UserEmail, subject, emailContent, emailContent);

@@ -36,7 +36,7 @@ namespace study4_be.Services
         {
             var startInfo = new ProcessStartInfo
             {
-                FileName = @"C:\Program Files (x86)\eSpeak NG\espeak-ng.exe",
+                FileName = @"C:\Program Files\eSpeak NG\espeak-ng.exe",
                 Arguments = $"-w \"{filePath}\" \"{text}\"",
                 RedirectStandardOutput = true,
                 UseShellExecute = false,

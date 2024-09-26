@@ -113,9 +113,41 @@ namespace study4_be.Services
             sb.AppendLine($"<h4>Hợp đồng (PO): <a href='{contractUrl}' target='_blank'>Tải về</a></h4>");
 
             // Thêm hình ảnh dấu mộc và chữ ký
-            sb.AppendLine("<p><img src='URL_TO_SEAL_IMAGE' alt='Dấu mộc' width='100' /></p>");
-            sb.AppendLine("<p><img src='URL_TO_SIGNATURE_IMAGE' alt='Chữ ký' width='100' /></p>");
+            sb.AppendLine("<p><img src='URL_TO_SEAL_IMAGE' alt='Dấu mộc' width='100' /></p>"); // fix header
+            sb.AppendLine("<p><img src='URL_TO_SIGNATURE_IMAGE' alt='Chữ ký' width='100' /></p>"); // fix header
 
+            sb.AppendLine("</body>");
+            sb.AppendLine("</html>");
+            return sb.ToString();
+        } 
+        public string GenerateCodeByEmailContent(string username, string orderDate, string orderId, string nameCourse, string codeActiveCourse)
+        {
+            var logo = _config["Firebase:Logo"];//default img
+            var sb = new StringBuilder();
+            sb.AppendLine("<html>");
+            sb.AppendLine("<body>");
+            sb.AppendLine("<div style='text-align: center;'>");
+            sb.AppendLine($"<img src='{logo}' alt='Logo' width='150'/>");
+            sb.AppendLine("</div>");
+            sb.AppendLine($"<p>Xin chào {username}, đơn hàng của bạn đã đặt thành công vào ngày {orderDate}</p>");
+            sb.AppendLine("<h3>Thông tin đơn hàng:</h3>");
+            sb.AppendLine("<ul>");
+            sb.AppendLine($"<li>Mã đơn hàng: {orderId}</li>");
+            sb.AppendLine($"<li>Tên khoá học: {nameCourse}</li>");
+            sb.AppendLine("</ul>");
+            sb.AppendLine("<div style='border: 1px solid #ccc; padding: 10px; width: 200px; margin: 0 auto;'>");
+            sb.AppendLine($"<p style='text-align: center;'> {codeActiveCourse} </p>");
+            sb.AppendLine("</div>");
+            sb.AppendLine("<p>Xin chân thành cảm ơn và chúc quý học viên có một khoá học thành công và hiệu quả.</p>");
+            sb.AppendLine("<p>Trân trọng,</p>");
+            sb.AppendLine("<p>Đội ngũ EStudy</p>");
+            sb.AppendLine("<h4>Liên hệ hỗ trợ:</h4>");
+            sb.AppendLine("<ul>");
+            sb.AppendLine("<li>Email: contact.nangphanvan@gmail.com</li>");
+            sb.AppendLine("<li>Số điện thoại: (+84) 902250149</li>");
+            sb.AppendLine("</ul>");
+
+            // Thêm hình ảnh dấu mộc và chữ ký
             sb.AppendLine("</body>");
             sb.AppendLine("</html>");
             return sb.ToString();
