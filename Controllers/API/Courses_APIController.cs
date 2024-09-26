@@ -17,11 +17,6 @@ namespace study4_be.Controllers.API
     [ApiController]
     public class Courses_APIController : Controller
     {
-        private readonly ILogger<Courses_APIController> _logger;
-        public Courses_APIController(ILogger<Courses_APIController> logger)
-        {
-            _logger = logger;
-        }
         private readonly CourseRepository _coursesRepository = new CourseRepository();
         public Study4Context _context = new Study4Context();
 

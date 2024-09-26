@@ -15,13 +15,6 @@ namespace study4_be.Controllers.API
     public class Exam_APIController : Controller
     {
         private Study4Context _context = new Study4Context();
-        private readonly ILogger<Exam_APIController> _logger;
-        private FireBaseServices _fireBaseServices;
-        public Exam_APIController(ILogger<Exam_APIController> logger, FireBaseServices fireBaseServices)
-        {
-            _logger = logger;
-            _fireBaseServices = fireBaseServices;
-        }
         [HttpGet("Get_AllExams")]
         public async Task<ActionResult<IEnumerable<Exam>>> Get_AllExams()
         {

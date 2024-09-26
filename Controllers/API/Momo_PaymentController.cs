@@ -288,42 +288,10 @@ public class Momo_PaymentController : ControllerBase
                 order = existingOrderCourse,
                 message = "Update Order State Successful and send email success"
             });
-
-        var existingOrder = await _context.Orders.FirstOrDefaultAsync(o => o.OrderId == orderId);
-        if (existingOrder == null)
-        {
-            return BadRequest(new { status = 400, message = "Order not found" });
-        }
-
-        if (existingOrder.State == true)
-        {
-            return BadRequest(new { status = 400, message = "You have already bought before" });
-        }
-
-        try
-        {
-            // Attempt to send the activation email
-            var sendEmailResult = await SendCodeActiveByEmail(existingOrder.Email, existingOrder.OrderId);
-            if (sendEmailResult is BadRequestObjectResult)
-            {
-                return BadRequest(new { status = 400, message = "Failed to send activation email." });
-            }
-
-            // Update the order state if email was sent successfully
-            existingOrder.State = true;
-            await _context.SaveChangesAsync();
-
-            return Ok(new { status = 200, order = existingOrder, message = "Order state updated and email sent successfully" });
-        }
-        catch (Exception e)
-        {
-            return StatusCode(500, new { status = 500, message = $"An error occurred while updating the order: {e.Message}" });
-
         }
 
         return BadRequest("You Had Bought Before");
     }
-
     private async Task<IActionResult> HandleSubscriptionPlan(UserSub newOrderPlan)
     {
         var existingPlan = await _context.UserSubs
@@ -390,6 +358,5 @@ public class Momo_PaymentController : ControllerBase
             return StatusCode(500, new { status = 500, message = $"An error occurred while sending the email: {ex.Message}" });
         }
     }
-
 
 }
