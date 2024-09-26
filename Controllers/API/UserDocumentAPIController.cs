@@ -334,7 +334,7 @@ namespace study4_be.Controllers.API
                             DocumentId = userDoc.DocumentId, // Return DocumentId
                             DocumentName = fileName,
                             FileSize = fileSizeReadable,
-                            //FileUrl = fileUrl
+                            FileUrl = fileUrl
                         });
                     }
                 }
@@ -388,6 +388,7 @@ namespace study4_be.Controllers.API
                     document.IsPublic = _req.state;
                     document.Description = _req.description;
                     document.Price = _req.price;
+                    document.Title = _req.title;
                 }
 
                 // Lưu thay đổi vào cơ sở dữ liệu

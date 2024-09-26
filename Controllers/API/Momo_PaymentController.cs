@@ -28,15 +28,20 @@ public class Momo_PaymentController : ControllerBase
     private readonly ContractPOServices _contractPOServices;
     private SMTPServices _smtpServices;
     private Study4Context _context = new Study4Context();
-    public Momo_PaymentController(ILogger<Momo_PaymentController> logger, IOptions<MomoConfig> momoPaymentSettings, FireBaseServices fireBaseServices,SMTPServices sMTPServices, ContractPOServices contractPOServices)
+    public Momo_PaymentController(ILogger<Momo_PaymentController> logger,
+                                 IOptions<MomoConfig> momoPaymentSettings,
+                                 FireBaseServices fireBaseServices,
+                                 SMTPServices sMTPServices,
+                                 ContractPOServices contractPOServices)
     {
         _logger = logger;
-        _momoConfig = momoPaymentSettings.Value;
         _hashHelper = new HashHelper();
+        _momoConfig = momoPaymentSettings.Value;
         _fireBaseServices = fireBaseServices;
         _smtpServices = sMTPServices;
-        _contractPOServices = contractPOServices;
+        _contractPOServices = contractPOServices; // DI will inject this
     }
+
     [HttpPost("MakePayment")]
     public async Task<IActionResult> MakePayment([FromBody] MomoPaymentRequest request)
     {
@@ -246,6 +251,7 @@ public class Momo_PaymentController : ControllerBase
     }
     public async Task<IActionResult> Buy_Success(string orderId)
     {
+
         try
         {
             var existingOrderCourse = await _context.Orders.FirstOrDefaultAsync(o => o.OrderId == orderId);
@@ -282,6 +288,37 @@ public class Momo_PaymentController : ControllerBase
                 order = existingOrderCourse,
                 message = "Update Order State Successful and send email success"
             });
+
+        var existingOrder = await _context.Orders.FirstOrDefaultAsync(o => o.OrderId == orderId);
+        if (existingOrder == null)
+        {
+            return BadRequest(new { status = 400, message = "Order not found" });
+        }
+
+        if (existingOrder.State == true)
+        {
+            return BadRequest(new { status = 400, message = "You have already bought before" });
+        }
+
+        try
+        {
+            // Attempt to send the activation email
+            var sendEmailResult = await SendCodeActiveByEmail(existingOrder.Email, existingOrder.OrderId);
+            if (sendEmailResult is BadRequestObjectResult)
+            {
+                return BadRequest(new { status = 400, message = "Failed to send activation email." });
+            }
+
+            // Update the order state if email was sent successfully
+            existingOrder.State = true;
+            await _context.SaveChangesAsync();
+
+            return Ok(new { status = 200, order = existingOrder, message = "Order state updated and email sent successfully" });
+        }
+        catch (Exception e)
+        {
+            return StatusCode(500, new { status = 500, message = $"An error occurred while updating the order: {e.Message}" });
+
         }
 
         return BadRequest("You Had Bought Before");
@@ -308,6 +345,7 @@ public class Momo_PaymentController : ControllerBase
             message = "Update Order State Successful"
         });
     }
+
     private async Task<IActionResult> SendCodeActiveByEmail(string userEmail, string orderId)
     {
         try
@@ -315,28 +353,29 @@ public class Momo_PaymentController : ControllerBase
             var existOrder = await _context.Orders.FirstOrDefaultAsync(o => o.OrderId == orderId);
             if (existOrder == null)
             {
-                return NotFound($"Order with ID {orderId} not found.");
+                return BadRequest(new { status = 400, message = $"Order with ID {orderId} not found." });
             }
 
-            // Tạo PDF và lấy dữ liệu
-            var contractResult = await _contractPOServices.GenerateInvoicePdf(orderId);
-            if (contractResult is not FileContentResult contractFileResult)
-            {
-                return StatusCode(500, "Failed to generate invoice PDF.");
-            }
+            //// Generate PDF and get data
+            //var contractResult = await _contractPOServices.GenerateInvoicePdf(orderId);
+            //if (contractResult is not FileContentResult contractFileResult)
+            //{
+            //    return StatusCode(500, new { status = 500, message = "Failed to generate invoice PDF." });
+            //}
 
             var codeActiveCourse = _smtpServices.GenerateCode(12);
             var subject = "[EStudy] - Thông tin đơn hàng và mã kích hoạt khóa học";
             var userName = await _context.Users.Where(u => u.UserId == existOrder.UserId).Select(u => u.UserName).FirstOrDefaultAsync();
             var courseName = await _context.Courses.Where(u => u.CourseId == existOrder.CourseId).Select(u => u.CourseName).FirstOrDefaultAsync();
 
-            // Chuyển đổi PDF thành Base64 (nếu cần gửi dưới dạng tệp đính kèm)
-            var pdfBytes = contractFileResult.FileContents; // Hoặc sử dụng contractFileResult.FileDownloadName nếu cần
-            var pdfBase64 = Convert.ToBase64String(pdfBytes);
+            // Convert PDF to Base64 (if necessary for sending as attachment)
+            //var pdfBytes = contractFileResult.FileContents;
+            //var pdfBase64 = Convert.ToBase64String(pdfBytes);
 
-            var emailContent = _smtpServices.GenerateCodeByEmailContent(userName, existOrder.OrderDate.ToString(), orderId, courseName, codeActiveCourse, pdfBase64);
+            var emailContent = _smtpServices.GenerateCodeByEmailContent(userName, existOrder.OrderDate.ToString(), orderId, courseName, codeActiveCourse);
 
-            await _smtpServices.SendEmailAsync(userEmail, subject, emailContent, pdfBase64);
+            // Attempt to send the email
+            await _smtpServices.SendEmailAsync(userEmail, subject, emailContent, emailContent);
 
             if (existOrder.State == true)
             {
@@ -344,12 +383,13 @@ public class Momo_PaymentController : ControllerBase
                 await _context.SaveChangesAsync();
             }
 
-            return Ok("Email sent successfully");
+            return Ok(new { status = 200, message = "Email sent successfully" });
         }
         catch (Exception ex)
         {
-            return StatusCode(500, new { error = $"An error occurred: {ex.Message}" });
+            return StatusCode(500, new { status = 500, message = $"An error occurred while sending the email: {ex.Message}" });
         }
     }
+
 
 }

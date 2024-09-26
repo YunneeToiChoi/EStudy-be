@@ -194,6 +194,36 @@
     {
       "AbsoluteMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|d:\\workspace\\clone\\models\\document.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|solutionrelative:models\\document.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|d:\\be\\controllers\\api\\momo_paymentcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|solutionrelative:controllers\\api\\momo_paymentcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|d:\\be\\services\\smtpservices.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|solutionrelative:services\\smtpservices.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|d:\\be\\services\\contractposervices.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|solutionrelative:services\\contractposervices.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|d:\\be\\controllers\\api\\userdocumentapicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|solutionrelative:controllers\\api\\userdocumentapicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|d:\\be\\controllers\\api\\order_apicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|solutionrelative:controllers\\api\\order_apicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|d:\\be\\study4-be.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|solutionrelative:study4-be.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|d:\\be\\controllers\\api\\auth_apicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|solutionrelative:controllers\\api\\auth_apicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|d:\\be\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{F874FD6F-BB69-4E65-A93C-476F20E72063}|study4-be.csproj|solutionrelative:appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     }
   ],
   "DocumentGroupContainers": [
@@ -216,6 +246,45 @@
               "ViewState": "AgIAAAMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-09-25T07:23:50.837Z",
+          "SelectedChildIndex": 6,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "SMTPServices.cs",
+              "DocumentMoniker": "D:\\be\\Services\\SMTPServices.cs",
+              "RelativeDocumentMoniker": "Services\\SMTPServices.cs",
+              "ToolTip": "D:\\be\\Services\\SMTPServices.cs",
+              "RelativeToolTip": "Services\\SMTPServices.cs",
+              "ViewState": "AgIAABIAAAAAAAAAAAAiwB4AAAAaAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-26T04:20:48.535Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "study4-be.csproj",
+              "DocumentMoniker": "D:\\be\\study4-be.csproj",
+              "RelativeDocumentMoniker": "study4-be.csproj",
+              "ToolTip": "D:\\be\\study4-be.csproj",
+              "RelativeToolTip": "study4-be.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAA8AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2024-09-26T04:03:30.79Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "ContractPOServices.cs",
+              "DocumentMoniker": "D:\\be\\Services\\ContractPOServices.cs",
+              "RelativeDocumentMoniker": "Services\\ContractPOServices.cs",
+              "ToolTip": "D:\\be\\Services\\ContractPOServices.cs",
+              "RelativeToolTip": "Services\\ContractPOServices.cs",
+              "ViewState": "AgIAAEAAAAAAAAAAAAAMwE4AAAAtAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-26T03:02:14.735Z",
               "EditorCaption": ""
             },
             {
@@ -229,6 +298,14 @@
               "ViewState": "AgIAAAcAAAAAAAAAAAAzwAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-09-25T07:23:28.599Z",
+              "Title": "Order_APIController.cs",
+              "DocumentMoniker": "D:\\be\\Controllers\\API\\Order_APIController.cs",
+              "RelativeDocumentMoniker": "Controllers\\API\\Order_APIController.cs",
+              "ToolTip": "D:\\be\\Controllers\\API\\Order_APIController.cs",
+              "RelativeToolTip": "Controllers\\API\\Order_APIController.cs",
+              "ViewState": "AgIAADsAAAAAAAAAAIAwwEcAAAACAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-26T03:02:14.749Z",
               "EditorCaption": ""
             },
             {
@@ -242,6 +319,28 @@
               "ViewState": "AgIAAAUAAAAAAAAAAAAxwAsAAAAnAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-09-25T07:23:18.507Z",
+              "DocumentIndex": 6,
+              "Title": "Auth_APIController.cs",
+              "DocumentMoniker": "D:\\be\\Controllers\\API\\Auth_APIController.cs",
+              "RelativeDocumentMoniker": "Controllers\\API\\Auth_APIController.cs",
+              "ToolTip": "D:\\be\\Controllers\\API\\Auth_APIController.cs",
+              "RelativeToolTip": "Controllers\\API\\Auth_APIController.cs",
+              "ViewState": "AgIAAO0BAAAAAAAAAAAAwAMCAAAyAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-26T03:06:11.666Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "D:\\be\\appsettings.json",
+              "RelativeDocumentMoniker": "appsettings.json",
+              "ToolTip": "D:\\be\\appsettings.json",
+              "RelativeToolTip": "appsettings.json",
+              "ViewState": "AgIAABcAAAAAAAAAAABRwAoAAAAkAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2024-09-26T03:06:03.067Z",
               "EditorCaption": ""
             },
             {
@@ -306,6 +405,15 @@
               "ViewState": "AgIAAAoAAAAAAAAAAAAqwAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-09-25T07:15:20.59Z",
+              "DocumentIndex": 0,
+              "Title": "Momo_PaymentController.cs",
+              "DocumentMoniker": "D:\\be\\Controllers\\API\\Momo_PaymentController.cs",
+              "RelativeDocumentMoniker": "Controllers\\API\\Momo_PaymentController.cs",
+              "ToolTip": "D:\\be\\Controllers\\API\\Momo_PaymentController.cs",
+              "RelativeToolTip": "Controllers\\API\\Momo_PaymentController.cs",
+              "ViewState": "AgIAADEBAAAAAAAAAAAjwDYBAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-26T02:59:45.465Z",
               "EditorCaption": ""
             },
             {
@@ -840,6 +948,16 @@
               "ViewState": "AgIAABYAAAAAAAAAAADwvwAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-09-20T09:32:16.378Z",
+              "DocumentIndex": 3,
+              "Title": "UserDocumentAPIController.cs",
+              "DocumentMoniker": "D:\\be\\Controllers\\API\\UserDocumentAPIController.cs",
+              "RelativeDocumentMoniker": "Controllers\\API\\UserDocumentAPIController.cs",
+              "ToolTip": "D:\\be\\Controllers\\API\\UserDocumentAPIController.cs",
+              "RelativeToolTip": "Controllers\\API\\UserDocumentAPIController.cs",
+              "ViewState": "AgIAAJwAAAAAAAAAAAAowMoAAABHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-26T02:59:25.312Z",
+
               "EditorCaption": ""
             }
           ]
