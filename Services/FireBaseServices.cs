@@ -66,6 +66,33 @@ namespace study4_be.Services
 
             return fileUrl;
         }
+        public async Task<string> UploadInvoiceAsync(Stream invoiceStream, string invoiceFileName, string userId)
+        {
+            // Get the bucket name and the file path for the invoice
+            var bucketName = _firebaseBucketName;
+            var invoiceFilePath = $"UserInvoices/{userId}/{invoiceFileName}";
+
+            // Path to your service account file
+            string serviceAccountPath = Path.Combine(Directory.GetCurrentDirectory(), "firebase_config.json");
+
+            // Load credentials from the service account file
+            var credential = GoogleCredential.FromFile(serviceAccountPath);
+
+            // Create the StorageClient with the credential
+            var storageClient = StorageClient.Create(credential);
+
+            // Determine the content type based on the file extension
+            var contentType = GetContentType(invoiceFileName);
+
+            // Upload the invoice file to Firebase Storage
+            var uploadObject = await storageClient.UploadObjectAsync(bucketName, invoiceFilePath, contentType, invoiceStream);
+
+            // Generate the file URL (URL-encoded file path)
+            var encodedInvoiceFilePath = Uri.EscapeDataString(invoiceFilePath);
+            var invoiceFileUrl = $"https://firebasestorage.googleapis.com/v0/b/{bucketName}/o/{encodedInvoiceFilePath}?alt=media";
+
+            return invoiceFileUrl;
+        }
 
         private string GetContentType(string fileName)
         {

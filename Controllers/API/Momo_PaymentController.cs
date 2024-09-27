@@ -311,37 +311,35 @@ public class Momo_PaymentController : ControllerBase
         });
     }
 
-    private async Task<IActionResult> SendCodeActiveByEmail(string userEmail, string orderId)
+    [HttpPost("test")]
+    public async Task<IActionResult> SendCodeActiveByEmail(LogTestRequest _req)
     {
         try
         {
-            var existOrder = await _context.Orders.FirstOrDefaultAsync(o => o.OrderId == orderId);
+            var existOrder = await _context.Orders.FirstOrDefaultAsync(o => o.OrderId == _req.orderId);
             if (existOrder == null)
             {
-                return BadRequest(new { status = 400, message = $"Order with ID {orderId} not found." });
+                return NotFound(new { status = 404, message = $"Order with ID {_req.orderId} not found." });
             }
 
-            //// Generate PDF and get data
-            //var contractResult = await _contractPOServices.GenerateInvoicePdf(orderId);
-            //if (contractResult is not FileContentResult contractFileResult)
-            //{
-            //    return StatusCode(500, new { status = 500, message = "Failed to generate invoice PDF." });
-            //}
-
+            // Generate PDF and get data
+            string invoiceResult = await _contractPOServices.GenerateInvoicePdf(_req.orderId);
+            if (invoiceResult == null)
+            {
+                return NotFound(new { status = 404, message = "Had problem with create invoice " });
+            }
             var codeActiveCourse = _smtpServices.GenerateCode(12);
             var subject = "[EStudy] - Thông tin đơn hàng và mã kích hoạt khóa học";
             var userName = await _context.Users.Where(u => u.UserId == existOrder.UserId).Select(u => u.UserName).FirstOrDefaultAsync();
             var courseName = await _context.Courses.Where(u => u.CourseId == existOrder.CourseId).Select(u => u.CourseName).FirstOrDefaultAsync();
 
-            // Convert PDF to Base64 (if necessary for sending as attachment)
-            //var pdfBytes = contractFileResult.FileContents;
-            //var pdfBase64 = Convert.ToBase64String(pdfBytes);
-
-            var emailContent = _smtpServices.GenerateCodeByEmailContent(userName, existOrder.OrderDate.ToString(), orderId, courseName, codeActiveCourse);
+            // Generate email content with the invoice URL
+            var emailContent = _smtpServices.GenerateCodeByEmailContent(userName, existOrder.OrderDate.ToString(), _req.orderId, courseName, codeActiveCourse, invoiceResult);
 
             // Attempt to send the email
-            await _smtpServices.SendEmailAsync(userEmail, subject, emailContent, emailContent);
+            await _smtpServices.SendEmailAsync(_req.userEmail, subject, emailContent, emailContent);
 
+            // Update order state with the activation code
             if (existOrder.State == true)
             {
                 existOrder.Code = codeActiveCourse;
@@ -352,8 +350,52 @@ public class Momo_PaymentController : ControllerBase
         }
         catch (Exception ex)
         {
+            // Log the exception (consider using a logging framework)
             return StatusCode(500, new { status = 500, message = $"An error occurred while sending the email: {ex.Message}" });
         }
     }
+    private async Task<IActionResult> SendCodeActiveByEmail(string userEmail, string orderId)
+    {
+        try
+        {
+            var existOrder = await _context.Orders.FirstOrDefaultAsync(o => o.OrderId == orderId);
+            if (existOrder == null)
+            {
+                return NotFound(new { status = 404, message = $"Order with ID {orderId} not found." });
+            }
+
+            // Generate PDF and get data
+            string invoiceResult = await _contractPOServices.GenerateInvoicePdf(orderId);
+            if (invoiceResult == null)
+            {
+                return NotFound(new { status = 404, message = "Had problem with create invoice " });
+            }
+            var codeActiveCourse = _smtpServices.GenerateCode(12);
+            var subject = "[EStudy] - Thông tin đơn hàng và mã kích hoạt khóa học";
+            var userName = await _context.Users.Where(u => u.UserId == existOrder.UserId).Select(u => u.UserName).FirstOrDefaultAsync();
+            var courseName = await _context.Courses.Where(u => u.CourseId == existOrder.CourseId).Select(u => u.CourseName).FirstOrDefaultAsync();
+
+            // Generate email content with the invoice URL
+            var emailContent = _smtpServices.GenerateCodeByEmailContent(userName, existOrder.OrderDate.ToString(), orderId, courseName, codeActiveCourse, invoiceResult);
+
+            // Attempt to send the email
+            await _smtpServices.SendEmailAsync(userEmail, subject, emailContent, emailContent);
+
+            // Update order state with the activation code
+            if (existOrder.State == true)
+            {
+                existOrder.Code = codeActiveCourse;
+                await _context.SaveChangesAsync();
+            }
+
+            return Ok(new { status = 200, message = "Email sent successfully" });
+        }
+        catch (Exception ex)
+        {
+            // Log the exception (consider using a logging framework)
+            return StatusCode(500, new { status = 500, message = $"An error occurred while sending the email: {ex.Message}" });
+        }
+    }
+
 
 }
