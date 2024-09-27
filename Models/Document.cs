@@ -31,6 +31,8 @@ public partial class Document
 
     public double? DocumentSize { get; set; }
 
+    public string? ThumbnailUrl { get; set; }
+
     public virtual Category? Category { get; set; }
 
     public virtual Course? Course { get; set; }
