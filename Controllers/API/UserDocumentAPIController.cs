@@ -15,23 +15,13 @@ namespace study4_be.Controllers.API
     public class UserDocumentAPIController : Controller
     {
         private readonly UserRepository _userRepository = new UserRepository();
-        private SMTPServices _smtpServices;
-        private readonly IConfiguration _configuration;
         private Study4Context _context = new Study4Context();
         private UserRegistrationValidator _userRegistrationValidator = new UserRegistrationValidator();
-        private readonly ILogger<UserDocumentAPIController> _logger;
         private readonly FireBaseServices _fireBaseServices;
-        private readonly JwtTokenGenerator _jwtServices;
 
-        private readonly IHttpClientFactory _httpClientFactory;
-        public UserDocumentAPIController(IConfiguration configuration, ILogger<UserDocumentAPIController> logger, FireBaseServices fireBaseServices, SMTPServices smtpServices, IHttpClientFactory httpClientFactory, JwtTokenGenerator jwtServices)
+        public UserDocumentAPIController(FireBaseServices fireBaseServices)
         {
-            _configuration = configuration;
-            _logger = logger;
             _fireBaseServices = fireBaseServices;
-            _smtpServices = smtpServices;
-            _httpClientFactory = httpClientFactory;
-            _jwtServices = jwtServices;
         }
         //################################################### DOCUMENT ##########################################//
 

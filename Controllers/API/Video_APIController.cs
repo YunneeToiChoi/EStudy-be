@@ -10,12 +10,8 @@ namespace study4_be.Controllers.API
     [ApiController]
     public class Video_APIController : Controller
     {
-        private readonly ILogger<Video_APIController> _logger;
         public Study4Context _context = new Study4Context();
-        public Video_APIController(ILogger<Video_APIController> logger)
-        {
-            _logger = logger;
-        }
+
         [HttpPost("Get_AllVideoOfLesson")]
         public async Task<IActionResult> Get_AllVideoOfLesson(OfLessonRequest _req)
         {

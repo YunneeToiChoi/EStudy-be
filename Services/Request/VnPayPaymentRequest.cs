@@ -2,7 +2,7 @@
 {
     public class VnPayPaymentRequest
     {
-        public decimal Amount { get; set; }
+        public required decimal Amount { get; set; }
         public string IpAddr { get; set; }
         public string OrderInfo { get; set; }
         public string OrderType { get; set; }

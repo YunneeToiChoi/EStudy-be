@@ -14,12 +14,7 @@ namespace study4_be.Controllers.API
 	[ApiController]
 	public class Order_APIController : Controller
 	{
-		private readonly ILogger<Order_APIController> _logger;
 		private OrderRepository ordRepo = new OrderRepository();
-		public Order_APIController(ILogger<Order_APIController> logger)
-		{
-			_logger = logger;
-		}
 		private Study4Context _context = new Study4Context();
 		[HttpGet]
         private string GenerateOrderId(string userId, int courseId)
