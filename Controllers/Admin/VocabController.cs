@@ -25,7 +25,6 @@ namespace study4_be.Controllers.Admin
         }
         private readonly VocabRepository _vocabsRepository = new VocabRepository();
         public Study4Context _context = new Study4Context();
-        [HttpDelete("DeleteAllVocabs")]
         public async Task<IActionResult> DeleteAllVocabs()
         {
             await _vocabsRepository.DeleteAllVocabAsync();
@@ -133,7 +132,6 @@ namespace study4_be.Controllers.Admin
             }
         }
 
-        [HttpGet("{id}")]
         public async Task<IActionResult> GetVocabById(int id)
         {
             var vocab = await _context.Vocabularies.FindAsync(id);

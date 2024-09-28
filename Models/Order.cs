@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace study4_be.Models;
 
 public partial class Order
 {
+    [Required]
     public string OrderId { get; set; } = null!;
 
     public string? UserId { get; set; }

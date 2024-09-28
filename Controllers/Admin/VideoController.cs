@@ -102,7 +102,6 @@ namespace study4_be.Controllers.Admin
             }
         }
 
-        [HttpGet("{id}")]
         public async Task<IActionResult> GetVideoById(int id)
         {
             var video = await _context.Videos.FindAsync(id);

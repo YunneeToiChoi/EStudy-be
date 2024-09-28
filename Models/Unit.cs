@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace study4_be.Models;
 
 public partial class Unit
 {
+    [Required]
     public int UnitId { get; set; }
 
     public int? CourseId { get; set; }

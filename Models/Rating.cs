@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace study4_be.Models;
 
 public partial class Rating
 {
+    [Required]
     public int RatingId { get; set; }
 
     public string? UserId { get; set; }

@@ -18,8 +18,6 @@ namespace study4_be.Controllers.Admin
         }
         private readonly CourseRepository _coursesRepository = new CourseRepository();
         public Study4Context _context = new Study4Context();
-
-        [HttpGet("GetAllCourses")]
         public async Task<ActionResult<IEnumerable<Course>>> GetAllCourses()
         {
             var courses = await _coursesRepository.GetAllCoursesAsync();
@@ -27,7 +25,6 @@ namespace study4_be.Controllers.Admin
 
         }
         //development enviroment
-        [HttpDelete("DeleteAllCourses")]
         public async Task<IActionResult> DeleteAllCourses()
         {
             await _coursesRepository.DeleteAllCoursesAsync();
@@ -81,13 +78,16 @@ namespace study4_be.Controllers.Admin
             }
         }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetCourseById(int id)
+        public async Task<IActionResult> GetCourseById(int id)  
         {
+            if (!ModelState.IsValid)
+            {
+                return NotFound(new {message = "Id is invalid"});
+            }
             var course = await _context.Courses.FindAsync(id);
             if (course == null)
             {
-                return NotFound();
+                return NotFound(new {message ="Course is not found"});
             }
 
             return Ok(course);
@@ -95,18 +95,34 @@ namespace study4_be.Controllers.Admin
         [HttpGet]
         public IActionResult Course_Edit(int id)
         {
+            if (!ModelState.IsValid)
+            {
+                return NotFound(new { message = "courseId is invalid" });
+            }
             var course = _context.Courses.FirstOrDefault(c => c.CourseId == id);
             if (course == null)
             {
-                return NotFound();
+                return NotFound(new {message = "Course is not found"});
             }
             return View(course);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Course_Edit(Course course, IFormFile CourseImage)
+        public async Task<IActionResult> Course_Edit(Course course, IFormFile? CourseImage)
         {
-                var courseToUpdate = _context.Courses.FirstOrDefault(c => c.CourseId == course.CourseId);
+            if (!ModelState.IsValid) 
+            {
+                _logger.LogError("Course not found");
+                return NotFound();
+            }
+            var courseToUpdate = _context.Courses.FirstOrDefault(c => c.CourseId == course.CourseId);
+            if (courseToUpdate == null)
+            {
+                _logger.LogError($"Course not found");
+                return RedirectToAction("Course_List");
+            }
+            try
+            {
                 if (CourseImage != null && CourseImage.Length > 0)
                 {
                     var firebaseBucketName = _fireBaseServices.GetFirebaseBucketName();
@@ -134,21 +150,24 @@ namespace study4_be.Controllers.Admin
                     courseToUpdate.CourseTag = course.CourseTag;
                     courseToUpdate.CourseImage = courseToUpdate.CourseImage;
                 }
-                try
-                {
-                    _context.SaveChanges();
-                    return RedirectToAction("Course_List");
-                }
-                catch (Exception ex)
-                {
-                    _logger.LogError($"Error updating course with ID {course.CourseId}: {ex.Message}");
-                    ModelState.AddModelError(string.Empty, "An error occurred while updating the course.");
-                }
+                await _context.SaveChangesAsync();
+                return RedirectToAction("Course_List");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Error updating course with ID {course.CourseId}: {ex.Message}");
+                ModelState.AddModelError(string.Empty, "An error occurred while updating the course.");
+            }
             return View(course);
         }
         [HttpGet]
         public IActionResult Course_Delete(int id)
         {
+            if (!ModelState.IsValid)
+            {
+                _logger.LogError($"Course with ID {id} not found for deletion.");
+                return NotFound($"Course with ID {id} not found.");
+            }
             var course = _context.Courses.FirstOrDefault(c => c.CourseId == id);
             if (course == null)
             {
@@ -159,19 +178,23 @@ namespace study4_be.Controllers.Admin
         }
 
         [HttpPost, ActionName("Course_Delete")]
-        public IActionResult Course_DeleteConfirmed(int id)
+        public async Task<IActionResult> Course_DeleteConfirmed(int id)
         {
+            if (!ModelState.IsValid)
+            {
+                _logger.LogError($"Course with ID {id} not found for deletion.");
+                return NotFound($"Course with ID {id} not found.");
+            }
             var course = _context.Courses.FirstOrDefault(c => c.CourseId == id);
             if (course == null)
             {
                 _logger.LogError($"Course with ID {id} not found for deletion.");
                 return NotFound($"Course with ID {id} not found.");
             }
-
             try
             {
                 _context.Courses.Remove(course);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
                 return RedirectToAction("Course_List");
             }
             catch (Exception ex)
@@ -185,7 +208,23 @@ namespace study4_be.Controllers.Admin
 
         public IActionResult Course_Details(int id)
         {
-            return View(_context.Courses.FirstOrDefault(c => c.CourseId == id));
+            // Check if the ID is invalid (e.g., not positive)
+            if (!ModelState.IsValid)
+            {
+                ModelState.AddModelError("", "Invalid course ID.");
+                TempData["ErrorMessage"] = "The specified course was not found.";
+                return RedirectToAction("Course_List", "Course");
+            }
+
+            var course = _context.Courses.FirstOrDefault(c => c.CourseId == id);
+
+            // If no container is found, return to the list with an error
+            if (course == null)
+            {
+                TempData["ErrorMessage"] = "The specified course was not found.";
+                return RedirectToAction("Course_List", "Course");
+            }
+            return View(course);
         }
     }
 }

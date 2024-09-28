@@ -39,7 +39,6 @@ builder.Services.AddDbContext<Study4Context>(options =>
 // Đăng ký các dịch vụ
 builder.Services.AddScoped<UserCourseExpirationService>();
 builder.Services.AddTransient<ICurrentUserServices, CurrentUserServices>();
-builder.Services.AddTransient<IConnectionService, ConnectionService>();
 builder.Services.AddTransient<ISqlService, SqlService>();
 builder.Services.Configure<MomoConfig>(builder.Configuration.GetSection(MomoConfig.ConfigName));
 builder.Services.AddScoped<ContractPOServices>();

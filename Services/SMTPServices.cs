@@ -14,12 +14,10 @@ namespace study4_be.Services
     public class SMTPServices
     {
         private readonly IConfiguration _config;
-        private readonly SmtpServicesAccountKey _serviceAccountKey;
         private readonly string _firebaseBucketName;
         public SMTPServices(IConfiguration config)
         {
             _config = config;
-            _serviceAccountKey = _config.GetSection("Smtp").Get<SmtpServicesAccountKey>();
         }
         public string GenerateCode(int length)
         {

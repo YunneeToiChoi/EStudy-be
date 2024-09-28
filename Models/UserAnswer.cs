@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace study4_be.Models;
 
 public partial class UserAnswer
 {
+    [Required]
     public long UserAnswerId { get; set; }
 
     public string UserExamId { get; set; } = null!;
