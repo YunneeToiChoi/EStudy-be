@@ -18,8 +18,6 @@ namespace study4_be.Controllers.Admin
         }
         private readonly CourseRepository _coursesRepository = new CourseRepository();
         public Study4Context _context = new Study4Context();
-
-        [HttpGet("GetAllCourses")]
         public async Task<ActionResult<IEnumerable<Course>>> GetAllCourses()
         {
             var courses = await _coursesRepository.GetAllCoursesAsync();
@@ -27,7 +25,6 @@ namespace study4_be.Controllers.Admin
 
         }
         //development enviroment
-        [HttpDelete("DeleteAllCourses")]
         public async Task<IActionResult> DeleteAllCourses()
         {
             await _coursesRepository.DeleteAllCoursesAsync();
@@ -81,8 +78,7 @@ namespace study4_be.Controllers.Admin
             }
         }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetCourseById(int id)
+        public async Task<IActionResult> GetCourseById(int id)  
         {
             if (!ModelState.IsValid)
             {

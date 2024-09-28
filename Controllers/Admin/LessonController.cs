@@ -17,7 +17,6 @@ namespace study4_be.Controllers.Admin
         }
         private readonly LessonRepository _lessonsRepository = new LessonRepository();
         public Study4Context _context = new Study4Context();
-        [HttpGet("GetAllLessons")]
         public async Task<ActionResult<IEnumerable<Lesson>>> GetAllLessons()
         {
             var lessons = await _lessonsRepository.GetAllLessonsAsync();
@@ -25,7 +24,6 @@ namespace study4_be.Controllers.Admin
 
         }
 
-        [HttpDelete("DeleteAllLessons")]
         public async Task<IActionResult> DeleteAllLessons()
         {
             await _lessonsRepository.DeleteAllLessonsAsync();
@@ -110,7 +108,6 @@ namespace study4_be.Controllers.Admin
             }
         }
 
-        [HttpGet("{id}")]
         public async Task<IActionResult> GetLessonById(int id)
         {
             var lesson = await _context.Lessons.FindAsync(id);
