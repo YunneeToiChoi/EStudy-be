@@ -1,4 +1,23 @@
-﻿<div class="page-header">
+﻿<style>
+    progress {
+        appearance: none; /* Remove default styles */
+        width: 100%; /* Full width */
+        height: 20px; /* Height of the progress bar */
+    }
+
+        progress::-webkit-progress-bar {
+            background: #e9ecef; /* Background color */
+        }
+
+        progress::-webkit-progress-value {
+            background: linear-gradient(90deg, #5D62B4, #54C3BE); /* Gradient color */
+        }
+
+        progress::-moz-progress-bar {
+            background: linear-gradient(90deg, #5D62B4, #54C3BE); /* Gradient color for Firefox */
+        }
+</style>
+<div class="page-header">
     <h3 class="page-title">
         <span class="page-title-icon bg-gradient-primary text-white me-2">
             <i class="mdi mdi-home"></i>
@@ -205,7 +224,8 @@
                                 <td> July 15, 2024 </td>
                                 <td>
                                     <div class="progress">
-                                        <div class="progress-bar bg-gradient-success" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+
+                                        <progress class="bg-gradient-success" value="25" max="100"></progress>
                                     </div>
                                 </td>
                             </tr>
@@ -215,7 +235,8 @@
                                 <td> August 01, 2024 </td>
                                 <td>
                                     <div class="progress">
-                                        <div class="progress-bar bg-gradient-danger" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+
+                                        <progress class="bg-gradient-success" value="75" max="100"></progress>
                                     </div>
                                 </td>
                             </tr>
@@ -225,7 +246,8 @@
                                 <td> September 12, 2024 </td>
                                 <td>
                                     <div class="progress">
-                                        <div class="progress-bar bg-gradient-warning" role="progressbar" style="width: 90%" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100"></div>
+
+                                        <progress class="bg-gradient-success" value="90" max="100"></progress>
                                     </div>
                                 </td>
                             </tr>
@@ -235,7 +257,8 @@
                                 <td> October 15, 2024 </td>
                                 <td>
                                     <div class="progress">
-                                        <div class="progress-bar bg-gradient-primary" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+
+                                        <progress class="bg-gradient-success" value="50" max="100"></progress>
                                     </div>
                                 </td>
                             </tr>
@@ -245,7 +268,8 @@
                                 <td> November 03, 2024 </td>
                                 <td>
                                     <div class="progress">
-                                        <div class="progress-bar bg-gradient-danger" role="progressbar" style="width: 35%" aria-valuenow="35" aria-valuemin="0" aria-valuemax="100"></div>
+
+                                        <progress class="bg-gradient-success" value="35" max="100"></progress>
                                     </div>
                                 </td>
                             </tr>
@@ -255,7 +279,8 @@
                                 <td> December 05, 2024 </td>
                                 <td>
                                     <div class="progress">
-                                        <div class="progress-bar bg-gradient-info" role="progressbar" style="width: 65%" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100"></div>
+
+                                        <progress class="bg-gradient-success" value="65" max="100"></progress>
                                     </div>
                                 </td>
                             </tr>

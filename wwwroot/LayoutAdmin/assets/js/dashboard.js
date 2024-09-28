@@ -264,15 +264,13 @@
           legendCallback: function(chart) {
             var text = []; 
             text.push('<ul>'); 
-            for (var i = 0; i < chart.data.datasets.length; i++) { 
-                text.push('<li><span class="legend-dots" style="background:' + 
-                           chart.data.datasets[i].legendColor + 
-                           '"></span>'); 
-                if (chart.data.datasets[i].label) { 
-                    text.push(chart.data.datasets[i].label); 
-                } 
-                text.push('</li>'); 
-            } 
+              for (const dataset of chart.data.datasets) {
+                  text.push('<li><span class="legend-dots" style="background:' + dataset.legendColor + '"></span>');
+                  if (dataset.label) {
+                      text.push(dataset.label);
+                  }
+                  text.push('</li>');
+              }
             text.push('</ul>'); 
             return text.join('');
           },
@@ -383,15 +381,13 @@
           legendCallback: function(chart) {
             var text = []; 
             text.push('<ul>'); 
-            for (var i = 0; i < chart.data.datasets.length; i++) { 
-                text.push('<li><span class="legend-dots" style="background:' + 
-                           chart.data.datasets[i].legendColor + 
-                           '"></span>'); 
-                if (chart.data.datasets[i].label) { 
-                    text.push(chart.data.datasets[i].label); 
-                } 
-                text.push('</li>'); 
-            } 
+              for (const dataset of chart.data.datasets) {
+                  text.push('<li><span class="legend-dots" style="background:' + dataset.legendColor + '"></span>');
+                  if (dataset.label) {
+                      text.push(dataset.label);
+                  }
+                  text.push('</li>');
+              }
             text.push('</ul>'); 
             return text.join('');
           },
