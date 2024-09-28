@@ -246,7 +246,7 @@ public class Momo_PaymentController : ControllerBase
                 return StatusCode(500, new { status = 500, message = "Unhandled response code from MoMo. Please contact support." });
         }
     }
-    public async Task<IActionResult> Buy_Success(string orderId)
+    private async Task<IActionResult> Buy_Success(string orderId)
     {
 
         try
