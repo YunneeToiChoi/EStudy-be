@@ -21,7 +21,7 @@ namespace study4_be.Controllers.Admin
             _generalAiAudioServices = new GeneralAiAudioServices();
         }
         private readonly QuestionRepository _questionsRepository = new QuestionRepository();
-        private Study4Context _context = new Study4Context();
+        private readonly Study4Context _context = new Study4Context();
         public async Task<IActionResult> DeleteAllQuestions()
         {
             await _questionsRepository.DeleteAllQuestionsAsync();

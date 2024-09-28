@@ -53,11 +53,11 @@ namespace study4_be.Controllers.Admin
         {
             if (!ModelState.IsValid)
             {
-                containerViewModel.listUnits = _context.Units.Select(c => new SelectListItem
+                containerViewModel.listUnits = await _context.Units.Select(c => new SelectListItem
                 {
                     Value = c.UnitId.ToString(),
                     Text = c.UnitTittle + " : " + c.Course.CourseName
-                }).ToList();
+                }).ToListAsync();
                 return View(containerViewModel);
             }
             try
