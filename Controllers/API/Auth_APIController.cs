@@ -391,7 +391,7 @@ namespace study4_be.Controllers.API
                 return BadRequest(new { status = 400, message = "User id is not valid" });
             }
 
-            var userExist = _context.Users.FirstOrDefault(u => u.UserId == _req.userId);
+            var userExist = await _context.Users.FirstOrDefaultAsync(u => u.UserId == _req.userId);
 
             if (userExist == null)
             {
@@ -431,12 +431,12 @@ namespace study4_be.Controllers.API
             }
             try
             {
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
                 return Json(new { status = 200, message = "User avatar updated successfully" });
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Error updating avatar for user with ID {_req.userId}: {ex.Message}");
+                _logger.LogError("Error updating user avatar: {Message}", ex.Message);
                 return StatusCode(500, new { status = 500, message = "An error occurred while updating the avatar" });
             }
         }
@@ -614,7 +614,7 @@ namespace study4_be.Controllers.API
            
             // Thực hiện kiểm tra xác thực userId và verificationCode
             // Ví dụ đơn giản: Kiểm tra trong cơ sở dữ liệu
-            var user = _context.Users.FirstOrDefault(u => u.UserEmail == _req.userEmail);
+            var user = await _context.Users.FirstOrDefault(u => u.UserEmail == _req.userEmail);
 
             if (user == null)
             {

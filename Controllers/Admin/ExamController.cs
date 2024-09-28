@@ -129,7 +129,7 @@ namespace study4_be.Controllers.Admin
                 }
                 catch (Exception ex)
                 {
-                    _logger.LogError($"Error updating course with ID {exam.ExamId}: {ex.Message}");
+                    _logger.LogError($"Error updating Exam with ID {ex.Message}");
                     ModelState.AddModelError(string.Empty, "An error occurred while updating the course.");
                 }
             }
@@ -141,8 +141,8 @@ namespace study4_be.Controllers.Admin
             var exam = _context.Exams.FirstOrDefault(c => c.ExamId == id);
             if (exam == null)
             {
-                _logger.LogError($"Course with ID {id} not found for delete.");
-                return NotFound($"Course with ID {id} not found.");
+                _logger.LogError($"Exam with ID not found for delete.");
+                return NotFound($"Exam with ID not found.");
             }
             return View(exam);
         }
@@ -153,8 +153,8 @@ namespace study4_be.Controllers.Admin
             var exam = _context.Exams.FirstOrDefault(c => c.ExamId == id);
             if (exam == null)
             {
-                _logger.LogError($"Course with ID {id} not found for deletion.");
-                return NotFound($"Course with ID {id} not found.");
+                _logger.LogError($"Exam with ID not found for delete.");
+                return NotFound($"Exam with ID not found.");
             }
 
             try
