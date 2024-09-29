@@ -60,8 +60,31 @@ namespace study4_be.Controllers.Admin
             return View(model);
         }
         [HttpPost]
-        public async Task<IActionResult> Question_Exam_Create(QuestionExamCreateViewModel questionViewModel, IFormFile QuestionImage, string selectedPart, string selectedCorrect)
+        public async Task<IActionResult> Question_Exam_Create(QuestionExamCreateViewModel questionViewModel, IFormFile? QuestionImage, string selectedPart, string selectedCorrect)
         {
+            // Custom validation: Check if all question fields are null or empty
+            if (string.IsNullOrEmpty(questionViewModel.question.QuestionText) &&
+                string.IsNullOrEmpty(questionViewModel.question.QuestionParagraph) &&
+                string.IsNullOrEmpty(questionViewModel.question.OptionA) &&
+                string.IsNullOrEmpty(questionViewModel.question.OptionB) &&
+                string.IsNullOrEmpty(questionViewModel.question.OptionC) &&
+                string.IsNullOrEmpty(questionViewModel.question.OptionD))
+            {
+                ModelState.AddModelError("", "Please fill in at least one field before submitting.");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                _logger.LogError("Error occurred while creating new unit.");
+
+                questionViewModel.exam = _context.Exams.Select(c => new SelectListItem
+                {
+                    Value = c.ExamId.ToString(),
+                    Text = c.ExamName.ToString()
+                }).ToList();
+
+                return View(questionViewModel);
+            }
             try
             {
                 var firebaseBucketName = _firebaseServices.GetFirebaseBucketName();
@@ -118,6 +141,10 @@ namespace study4_be.Controllers.Admin
 
         public async Task<IActionResult> GetQuestionExamById(int id)
         {
+            if (!ModelState.IsValid)
+            {
+                return NotFound(new { message = "Id is invalid" });
+            }
             var question = await _context.Questions.FindAsync(id);
             if (question == null)
             {
@@ -129,11 +156,16 @@ namespace study4_be.Controllers.Admin
         [HttpGet]
         public IActionResult Question_Exam_Delete(int id)
         {
+            if (!ModelState.IsValid)
+            {
+                _logger.LogError($"Question not found for deletion.");
+                return NotFound($"Question not found.");
+            }
             var question = _context.Questions.FirstOrDefault(c => c.QuestionId == id);
             if (question == null)
             {
-                _logger.LogError($"Exam with ID {id} not found for delete.");
-                return NotFound($"Exam with ID {id} not found.");
+                _logger.LogError($"Question not found for delete.");
+                return NotFound($"Question not found.");
             }
             return View(question);
         }
@@ -141,11 +173,16 @@ namespace study4_be.Controllers.Admin
         [HttpPost, ActionName("Question_Exam_Delete")]
         public IActionResult Question_Exam_DeleteConfirmed(int id)
         {
+            if (!ModelState.IsValid)
+            {
+                _logger.LogError($"Question not found for deletion.");
+                return NotFound($"Question not found.");
+            }
             var question = _context.Questions.FirstOrDefault(c => c.QuestionId == id);
             if (question == null)
             {
-                _logger.LogError($"Exam with ID {id} not found for deletion.");
-                return NotFound($"Exam with ID {id} not found.");
+                _logger.LogError($"Question not found for deletion.");
+                return NotFound($"Question not found.");
             }
 
             try
@@ -156,14 +193,18 @@ namespace study4_be.Controllers.Admin
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Error deleting exam with ID {id}: {ex.Message}");
-                ModelState.AddModelError(string.Empty, "An error occurred while deleting the course.");
+                _logger.LogError($"Error deleting question: {ex.Message}");
+                ModelState.AddModelError(string.Empty, "An error occurred while deleting the question.");
                 return View(question);
             }
         }
         [HttpGet]
         public IActionResult Question_Exam_Edit(int id)
         {
+            if (!ModelState.IsValid)
+            {
+                return NotFound(new { message = "questionId is invalid" });
+            }
             var question = _context.Questions.FirstOrDefault(c => c.QuestionId == id);
             if (question == null)
             {
@@ -186,67 +227,85 @@ namespace study4_be.Controllers.Admin
         }
 
         [HttpPost]
-        public async Task<IActionResult> Question_Exam_Edit(QuestionExamEditViewModel questionViewModel, IFormFile QuestionImage)
+        public async Task<IActionResult> Question_Exam_Edit(QuestionExamEditViewModel questionViewModel, IFormFile? QuestionImage)
         {
-
-            try
+            if(ModelState.IsValid) 
             {
-                var courseToUpdate = _context.Questions.FirstOrDefault(c => c.QuestionId == questionViewModel.question.QuestionId);
-                if (QuestionImage != null && QuestionImage.Length > 0)
+                try
                 {
-                    var firebaseBucketName = _firebaseServices.GetFirebaseBucketName();
-                    // Delete the old image from Firebase Storage
-                    if (!string.IsNullOrEmpty(courseToUpdate.QuestionImage))
+                    var courseToUpdate = _context.Questions.FirstOrDefault(c => c.QuestionId == questionViewModel.question.QuestionId);
+                    if (QuestionImage != null && QuestionImage.Length > 0)
                     {
-                        // Extract the file name from the URL
-                        var oldFileName = Path.GetFileName(new Uri(courseToUpdate.QuestionImage).LocalPath);
-                        await _firebaseServices.DeleteFileFromFirebaseStorageAsync(oldFileName, firebaseBucketName);
+                        var firebaseBucketName = _firebaseServices.GetFirebaseBucketName();
+                        // Delete the old image from Firebase Storage
+                        if (!string.IsNullOrEmpty(courseToUpdate.QuestionImage))
+                        {
+                            // Extract the file name from the URL
+                            var oldFileName = Path.GetFileName(new Uri(courseToUpdate.QuestionImage).LocalPath);
+                            await _firebaseServices.DeleteFileFromFirebaseStorageAsync(oldFileName, firebaseBucketName);
+                        }
+                        var uniqueId = Guid.NewGuid().ToString();
+                        var imgFilePath = ($"IMG{uniqueId}.jpg");
+                        string firebaseUrl = await _firebaseServices.UploadFileToFirebaseStorageAsync(QuestionImage, imgFilePath, firebaseBucketName);
+                        courseToUpdate.QuestionImage = firebaseUrl;
+                        courseToUpdate.QuestionText = questionViewModel.question.QuestionText;
+                        courseToUpdate.QuestionTextMean = questionViewModel.question.QuestionText;
+                        courseToUpdate.QuestionParagraph = questionViewModel.question.QuestionParagraph;
+                        courseToUpdate.OptionA = questionViewModel.question.OptionA;
+                        courseToUpdate.OptionB = questionViewModel.question.OptionB;
+                        courseToUpdate.OptionC = questionViewModel.question.OptionC;
+                        courseToUpdate.OptionD = questionViewModel.question.OptionD;
+                        courseToUpdate.QuestionTag = questionViewModel.question.QuestionTag;
+                        courseToUpdate.CorrectAnswer = questionViewModel.question.CorrectAnswer;
+                        courseToUpdate.LessonId = questionViewModel.question.LessonId;
+                        _context.SaveChanges();
+                        return RedirectToAction("Question_Exam_List");
                     }
-                    var uniqueId = Guid.NewGuid().ToString();
-                    var imgFilePath = ($"IMG{uniqueId}.jpg");
-                    string firebaseUrl = await _firebaseServices.UploadFileToFirebaseStorageAsync(QuestionImage, imgFilePath, firebaseBucketName);
-                    courseToUpdate.QuestionImage = firebaseUrl;
-                    courseToUpdate.QuestionText = questionViewModel.question.QuestionText;
-                    courseToUpdate.QuestionTextMean = questionViewModel.question.QuestionText;
-                    courseToUpdate.QuestionParagraph = questionViewModel.question.QuestionParagraph;
-                    courseToUpdate.OptionA = questionViewModel.question.OptionA;
-                    courseToUpdate.OptionB = questionViewModel.question.OptionB;
-                    courseToUpdate.OptionC = questionViewModel.question.OptionC;
-                    courseToUpdate.OptionD = questionViewModel.question.OptionD;
-                    courseToUpdate.QuestionTag = questionViewModel.question.QuestionTag;
-                    courseToUpdate.CorrectAnswer = questionViewModel.question.CorrectAnswer;
-                    courseToUpdate.LessonId = questionViewModel.question.LessonId;
-                    _context.SaveChanges();
-                    return RedirectToAction("Question_Exam_List");
+                    else
+                    {
+                        courseToUpdate.QuestionImage = questionViewModel.question.QuestionImage;
+                        courseToUpdate.QuestionText = questionViewModel.question.QuestionText;
+                        courseToUpdate.QuestionTextMean = questionViewModel.question.QuestionText;
+                        courseToUpdate.QuestionParagraph = questionViewModel.question.QuestionParagraph;
+                        courseToUpdate.OptionA = questionViewModel.question.OptionA;
+                        courseToUpdate.OptionB = questionViewModel.question.OptionB;
+                        courseToUpdate.OptionC = questionViewModel.question.OptionC;
+                        courseToUpdate.OptionD = questionViewModel.question.OptionD;
+                        courseToUpdate.QuestionTag = questionViewModel.question.QuestionTag;
+                        courseToUpdate.CorrectAnswer = questionViewModel.question.CorrectAnswer;
+                        courseToUpdate.LessonId = questionViewModel.question.LessonId;
+                        _context.SaveChanges();
+                        return RedirectToAction("Question_Exam_List");
+                    }
                 }
-                else
-                {
-                    courseToUpdate.QuestionImage = questionViewModel.question.QuestionImage;
-                    courseToUpdate.QuestionText = questionViewModel.question.QuestionText;
-                    courseToUpdate.QuestionTextMean = questionViewModel.question.QuestionText;
-                    courseToUpdate.QuestionParagraph = questionViewModel.question.QuestionParagraph;
-                    courseToUpdate.OptionA = questionViewModel.question.OptionA;
-                    courseToUpdate.OptionB = questionViewModel.question.OptionB;
-                    courseToUpdate.OptionC = questionViewModel.question.OptionC;
-                    courseToUpdate.OptionD = questionViewModel.question.OptionD;
-                    courseToUpdate.QuestionTag = questionViewModel.question.QuestionTag;
-                    courseToUpdate.CorrectAnswer = questionViewModel.question.CorrectAnswer;
-                    courseToUpdate.LessonId = questionViewModel.question.LessonId;
-                    _context.SaveChanges();
-                    return RedirectToAction("Question_Exam_List");
-                }
-            }
 
-            catch (Exception ex)
-            {
-                _logger.LogError($"Error updating exam with ID {questionViewModel.question.QuestionId}: {ex.Message}");
-                ModelState.AddModelError(string.Empty, "An error occurred while updating the exam.");
+                catch (Exception ex)
+                {
+                    _logger.LogError($"Error updating question: {ex.Message}");
+                    ModelState.AddModelError(string.Empty, "An error occurred while updating the question.");
+                }
             }
             return View(questionViewModel);
         }
         public IActionResult Question_Exam_Details(int id)
         {
-            return View(_context.Questions.FirstOrDefault(c => c.QuestionId == id));
+            // Check if the ID is invalid (e.g., not positive)
+            if (!ModelState.IsValid)
+            {
+                ModelState.AddModelError("", "Invalid Question ID.");
+                TempData["ErrorMessage"] = "The specified Question was not found.";
+                return RedirectToAction("Question_Exam_List", "Question_Exam");
+            }
+
+            var question = _context.Questions.FirstOrDefault(c => c.QuestionId == id);
+
+            // If no container is found, return to the list with an error
+            if (question == null)
+            {
+                TempData["ErrorMessage"] = "The specified Question was not found.";
+                return RedirectToAction("Question_Exam_List", "Question_Exam");
+            }
+            return View(question);
         }
     }
 }

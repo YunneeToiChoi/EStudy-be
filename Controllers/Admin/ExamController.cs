@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using study4_be.Models;
 using study4_be.Repositories;
 using study4_be.Services;
@@ -91,13 +92,13 @@ namespace study4_be.Controllers.Admin
             return Ok(exam);
         }
         [HttpGet]
-        public IActionResult Exam_Edit(string id)
+        public async Task<IActionResult> Exam_Edit(string id)
         {
             if (!ModelState.IsValid)
             {
                 return NotFound(new { message = "examId is invalid" });
             }
-            var exam = _context.Exams.FirstOrDefault(c => c.ExamId == id);
+            var exam = await _context.Exams.FirstOrDefaultAsync(c => c.ExamId == id);
             if (exam == null)
             {
                 return NotFound();
@@ -136,42 +137,42 @@ namespace study4_be.Controllers.Admin
                 }
                 catch (Exception ex)
                 {
-                    _logger.LogError($"Error updating exam with ID {exam.ExamId}: {ex.Message}");
+                    _logger.LogError($"Error updating exam: {ex.Message}");
                     ModelState.AddModelError(string.Empty, "An error occurred while updating the exam.");
                 }
             }
             return View(exam);
         }
         [HttpGet]
-        public IActionResult Exam_Delete(string id)
+        public async Task<IActionResult> Exam_Delete(string id)
         {
             if (!ModelState.IsValid)
             {
-                _logger.LogError($"Exam with ID {id} not found for deletion.");
-                return NotFound($"Exam with ID {id} not found.");
+                _logger.LogError($"Exam not found for deletion.");
+                return NotFound($"Exam not found.");
             }
-            var exam = _context.Exams.FirstOrDefault(c => c.ExamId == id);
+            var exam = await _context.Exams.FirstOrDefaultAsync(c => c.ExamId == id);
             if (exam == null)
             {
-                _logger.LogError($"Exam with ID {id} not found for delete.");
-                return NotFound($"Exam with ID {id} not found.");
+                _logger.LogError($"Exam not found for delete.");
+                return NotFound($"Exam not found.");
             }
             return View(exam);
         }
 
         [HttpPost, ActionName("Exam_Delete")]
-        public IActionResult Exam_DeleteConfirmed(string id)
+        public async Task<IActionResult> Exam_DeleteConfirmed(string id)
         {
             if (!ModelState.IsValid)
             {
-                _logger.LogError($"Exam with ID {id} not found for deletion.");
-                return NotFound($"Exam with ID {id} not found.");
+                _logger.LogError($"Exam not found for deletion.");
+                return NotFound($"Exam not found.");
             }
-            var exam = _context.Exams.FirstOrDefault(c => c.ExamId == id);
+            var exam = await _context.Exams.FirstOrDefaultAsync(c => c.ExamId == id);
             if (exam == null)
             {
-                _logger.LogError($"Exam with ID {id} not found for deletion.");
-                return NotFound($"Exam with ID {id} not found.");
+                _logger.LogError($"Exam not found for deletion.");
+                return NotFound($"Exam not found.");
             }
 
             try
@@ -182,14 +183,14 @@ namespace study4_be.Controllers.Admin
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Error deleting Exam with ID {id}: {ex.Message}");
+                _logger.LogError($"Error deleting Exam: {ex.Message}");
                 ModelState.AddModelError(string.Empty, "An error occurred while deleting the Exam.");
                 return View(exam);
             }
         }
 
 
-        public IActionResult Exam_Details(string id)
+        public async Task<IActionResult> Exam_Details(string id)
         {
             // Check if the ID is invalid (e.g., not positive)
             if (!ModelState.IsValid)
@@ -199,7 +200,7 @@ namespace study4_be.Controllers.Admin
                 return RedirectToAction("Exam_List", "Exam");
             }
 
-            var exam = _context.Exams.FirstOrDefault(c => c.ExamId == id);
+            var exam = await _context.Exams.FirstOrDefaultAsync(c => c.ExamId == id);
 
             // If no container is found, return to the list with an error
             if (exam == null)

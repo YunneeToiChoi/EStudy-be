@@ -106,11 +106,11 @@ namespace study4_be.Controllers.Admin
             {
                 _logger.LogError("Error occurred while creating new question.");
 
-                questionViewModel.lesson = _context.Lessons.Select(c => new SelectListItem
+                questionViewModel.lesson = await _context.Lessons.Select(c => new SelectListItem
                 {
                     Value = c.LessonId.ToString(),
                     Text = c.LessonTitle.ToString()
-                }).ToList();
+                }).ToListAsync();
 
                 return View(questionViewModel);
             }
@@ -175,11 +175,11 @@ namespace study4_be.Controllers.Admin
                 _logger.LogError(ex, "Error occurred while creating new question.");
                 ModelState.AddModelError("", "An error occurred while processing your request. Please try again later.");
 
-                questionViewModel.lesson = _context.Lessons.Select(c => new SelectListItem
+                questionViewModel.lesson = await _context.Lessons.Select(c => new SelectListItem
                 {
                     Value = c.LessonId.ToString(),
                     Text = c.LessonTitle.ToString()
-                }).ToList();
+                }).ToListAsync();
 
                 return View(questionViewModel);
             }
@@ -187,7 +187,6 @@ namespace study4_be.Controllers.Admin
 
         public async Task<IActionResult> GetQuestionById(int id)
         {
-
             if (!ModelState.IsValid)
             {
                 return NotFound(new { message = "Id is invalid" });
@@ -201,46 +200,46 @@ namespace study4_be.Controllers.Admin
             return Ok(question);
         }
         [HttpGet]
-        public IActionResult Question_Delete(int id)
+        public async Task<IActionResult> Question_Delete(int id)
         {
             if (!ModelState.IsValid)
             {
-                _logger.LogError($"Question with ID {id} not found for deletion.");
-                return NotFound($"Question with ID {id} not found.");
+                _logger.LogError($"Question not found for deletion.");
+                return NotFound($"Question not found.");
             }
-            var question = _context.Questions.FirstOrDefault(c => c.QuestionId == id);
+            var question = await _context.Questions.FirstOrDefaultAsync(c => c.QuestionId == id);
             if (question == null)
             {
-                _logger.LogError($"Question with ID {id} not found for delete.");
-                return NotFound($"Question with ID {id} not found.");
+                _logger.LogError($"Question not found for delete.");
+                return NotFound($"Question not found.");
             }
             return View(question);
         }
 
         [HttpPost, ActionName("Question_Delete")]
-        public IActionResult Question_DeleteConfirmed(int id)
+        public async Task<IActionResult> Question_DeleteConfirmed(int id)
         {
             if (!ModelState.IsValid)
             {
-                _logger.LogError($"Question with ID {id} not found for deletion.");
-                return NotFound($"Question with ID {id} not found.");
+                _logger.LogError($"Question not found for deletion.");
+                return NotFound($"Question not found.");
             }
-            var question = _context.Questions.FirstOrDefault(c => c.QuestionId == id);
+            var question = await _context.Questions.FirstOrDefaultAsync(c => c.QuestionId == id);
             if (question == null)
             {
-                _logger.LogError($"Question with ID {id} not found for deletion.");
-                return NotFound($"Question with ID {id} not found.");
+                _logger.LogError($"Question not found for deletion.");
+                return NotFound($"Question not found.");
             }
 
             try
             {
                 _context.Questions.Remove(question);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
                 return RedirectToAction("Question_Exam_List");
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Error deleting Question with ID {id}: {ex.Message}");
+                _logger.LogError($"Error deleting Question: {ex.Message}");
                 ModelState.AddModelError(string.Empty, "An error occurred while deleting the Question.");
                 return View(question);
             }
@@ -322,7 +321,7 @@ namespace study4_be.Controllers.Admin
                 }
                 catch (Exception ex)
                 {
-                    _logger.LogError($"Error updating Question with ID {question.QuestionId}: {ex.Message}");
+                    _logger.LogError($"Error updating Question: {ex.Message}");
                     ModelState.AddModelError(string.Empty, "An error occurred while updating the Question.");
                 }
             }

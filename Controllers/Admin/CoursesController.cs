@@ -95,13 +95,13 @@ namespace study4_be.Controllers.Admin
             return Ok(course);
         }
         [HttpGet]
-        public IActionResult Course_Edit(int id)
+        public async Task<IActionResult> Course_Edit(int id)
         {
             if (!ModelState.IsValid)
             {
                 return NotFound(new { message = "courseId is invalid" });
             }
-            var course = _context.Courses.FirstOrDefault(c => c.CourseId == id);
+            var course = await _context.Courses.FirstOrDefaultAsync(c => c.CourseId == id);
             if (course == null)
             {
                 return NotFound(new {message = "Course is not found"});
@@ -157,24 +157,24 @@ namespace study4_be.Controllers.Admin
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Error updating course with ID {course.CourseId}: {ex.Message}");
+                _logger.LogError($"Error updating course : {ex.Message}");
                 ModelState.AddModelError(string.Empty, "An error occurred while updating the course.");
             }
             return View(course);
         }
         [HttpGet]
-        public IActionResult Course_Delete(int id)
+        public async Task<IActionResult> Course_Delete(int id)
         {
             if (!ModelState.IsValid)
             {
-                _logger.LogError($"Course with ID {id} not found for deletion.");
-                return NotFound($"Course with ID {id} not found.");
+                _logger.LogError($"Course not found for deletion.");
+                return NotFound($"Course not found.");
             }
-            var course = _context.Courses.FirstOrDefault(c => c.CourseId == id);
+            var course = await _context.Courses.FirstOrDefaultAsync(c => c.CourseId == id);
             if (course == null)
             {
-                _logger.LogError($"Course with ID {id} not found for delete.");
-                return NotFound($"Course with ID {id} not found.");
+                _logger.LogError($"Course not found for delete.");
+                return NotFound($"Course not found.");
             }
             return View(course);
         }
@@ -184,14 +184,14 @@ namespace study4_be.Controllers.Admin
         {
             if (!ModelState.IsValid)
             {
-                _logger.LogError($"Course with ID {id} not found for deletion.");
-                return NotFound($"Course with ID {id} not found.");
+                _logger.LogError($"Course not found for deletion.");
+                return NotFound($"Course not found.");
             }
             var course = await _context.Courses.FirstOrDefaultAsync(c => c.CourseId == id);
             if (course == null)
             {
-                _logger.LogError($"Course with ID {id} not found for deletion.");
-                return NotFound($"Course with ID {id} not found.");
+                _logger.LogError($"Course not found for deletion.");
+                return NotFound($"Course not found.");
             }
             try
             {
@@ -201,14 +201,14 @@ namespace study4_be.Controllers.Admin
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Error deleting course with ID {id}: {ex.Message}");
+                _logger.LogError($"Error deleting course: {ex.Message}");
                 ModelState.AddModelError(string.Empty, "An error occurred while deleting the course.");
                 return View(course);
             }
         }
 
 
-        public IActionResult Course_Details(int id)
+        public async Task<IActionResult> Course_Details(int id)
         {
             // Check if the ID is invalid (e.g., not positive)
             if (!ModelState.IsValid)
@@ -218,7 +218,7 @@ namespace study4_be.Controllers.Admin
                 return RedirectToAction("Course_List", "Course");
             }
 
-            var course = _context.Courses.FirstOrDefault(c => c.CourseId == id);
+            var course = await _context.Courses.FirstOrDefaultAsync(c => c.CourseId == id);
 
             // If no container is found, return to the list with an error
             if (course == null)

@@ -34,12 +34,12 @@ namespace study4_be.Controllers.Admin
 
             return View(containerViewModels);
         }
-        public IActionResult Container_Create()
+        public async Task<IActionResult> Container_Create()
         {
-            var units = _context.Units.Include(u => u.Course).ToList();
+            var units = await _context.Units.Include(u => u.Course).ToListAsync();
             var model = new ContainerCreateViewModel
             {
-                containers = new Container(),
+                containers = new Container(){},
                 listUnits = units.Select(c => new SelectListItem
                 {
                     Value = c.UnitId.ToString(),
@@ -79,11 +79,11 @@ namespace study4_be.Controllers.Admin
                 _logger.LogError(ex, "Error occurred while creating new unit.");
                 ModelState.AddModelError("", "An error occurred while processing your request. Please try again later.");
 
-                containerViewModel.listUnits = _context.Units.Select(c => new SelectListItem
+                containerViewModel.listUnits = await _context.Units.Select(c => new SelectListItem
                 {
                     Value = c.UnitId.ToString(),
                     Text = c.UnitTittle + " : " + c.Course.CourseName
-                }).ToList();
+                }).ToListAsync();
                 return View(containerViewModel);
             }
         }
@@ -91,6 +91,7 @@ namespace study4_be.Controllers.Admin
         [HttpGet("{id}")]
         public async Task<IActionResult> GetContainerById(int id)
         {
+
             var container = await _context.Containers.FindAsync(id);
             if (container == null)
             {
@@ -101,13 +102,13 @@ namespace study4_be.Controllers.Admin
         }
 
         [HttpGet]
-        public IActionResult Container_Edit(int id)
+        public async Task<IActionResult> Container_Edit(int id)
         {
             if (!ModelState.IsValid)
             {
                 return NotFound();
             }
-            var container = _context.Containers.FirstOrDefault(c => c.ContainerId == id);
+            var container = await _context.Containers.FirstOrDefaultAsync(c => c.ContainerId == id);
             if (container == null)
             {
                 return NotFound();
@@ -129,7 +130,7 @@ namespace study4_be.Controllers.Admin
                 }
                 catch (Exception ex)
                 {
-                    _logger.LogError($"Error updating course with ID {container.ContainerId}: {ex.Message}");
+                    _logger.LogError($"Error updating course: {ex.Message}");
                     ModelState.AddModelError(string.Empty, "An error occurred while updating the course.");
                 }
             }
@@ -137,18 +138,18 @@ namespace study4_be.Controllers.Admin
         }
 
         [HttpGet]
-        public IActionResult Container_Delete(int id)
+        public async Task<IActionResult> Container_Delete(int id)
         {
             if (!ModelState.IsValid)
             {
-                _logger.LogError($"Container with ID {id} not found for delete.");
-                return NotFound($"Container with ID {id} not found.");
+                _logger.LogError($"Container not found for delete.");
+                return NotFound($"Container not found.");
             }
-            var container = _context.Containers.FirstOrDefault(c => c.ContainerId == id);
+            var container = await _context.Containers.FirstOrDefaultAsync(c => c.ContainerId == id);
             if (container == null)
             {
-                _logger.LogError($"Container with ID {id} not found for delete.");
-                return NotFound($"Container with ID {id} not found.");
+                _logger.LogError($"Container not found for delete.");
+                return NotFound($"Container not found.");
             }
             return View(container);
         }
@@ -158,14 +159,14 @@ namespace study4_be.Controllers.Admin
         {
             if (!ModelState.IsValid) 
             {
-                _logger.LogError($"Container with ID {id} not found for deletion.");
-                return NotFound($"Container with ID {id} not found.");
+                _logger.LogError($"Container not found for deletion.");
+                return NotFound($"Container not found.");
             }
             var container = await _context.Containers.FirstOrDefaultAsync(c => c.ContainerId == id);
             if (container == null)
             {
-                _logger.LogError($"Container with ID {id} not found for deletion.");
-                return NotFound($"Container with ID {id} not found.");
+                _logger.LogError($"Container not found for deletion.");
+                return NotFound($"Container not found.");
             }
 
             try
@@ -176,13 +177,13 @@ namespace study4_be.Controllers.Admin
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Error deleting container with ID {id}: {ex.Message}");
+                _logger.LogError($"Error deleting container: {ex.Message}");
                 ModelState.AddModelError(string.Empty, "An error occurred while deleting the container.");
                 return View(container);
             }
         }
 
-        public IActionResult Container_Details(int id)
+        public async Task<IActionResult> Container_Details(int id)
         {
             // Check if the ID is invalid (e.g., not positive)
             if (!ModelState.IsValid)
@@ -192,7 +193,7 @@ namespace study4_be.Controllers.Admin
                 return RedirectToAction("Container_List", "Container");
             }
 
-            var container = _context.Containers.FirstOrDefault(c => c.ContainerId == id);
+            var container = await _context.Containers.FirstOrDefaultAsync(c => c.ContainerId == id);
 
             // If no container is found, return to the list with an error
             if (container == null)

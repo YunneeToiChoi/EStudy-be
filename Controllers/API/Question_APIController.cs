@@ -29,7 +29,6 @@ namespace study4_be.Controllers.API
                 _logger.LogWarning("LessonId is null or empty in the request.");
                 return BadRequest(new { status = 400, message = "LessonId is null or empty" });
             }
-
             try
             {
                 var lessonTag = await _context.Lessons

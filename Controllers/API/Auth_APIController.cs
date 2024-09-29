@@ -611,10 +611,15 @@ namespace study4_be.Controllers.API
         [HttpPost("ResendLink")]
         public async Task<IActionResult> ResendLink([FromBody] ResendLinkActive _req)
         {
-           
+
             // Thực hiện kiểm tra xác thực userId và verificationCode
             // Ví dụ đơn giản: Kiểm tra trong cơ sở dữ liệu
-            var user = await _context.Users.FirstOrDefault(u => u.UserEmail == _req.userEmail);
+            if (string.IsNullOrWhiteSpace(_req.userEmail))
+            {
+                return BadRequest("User email must be provided");
+            }
+
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.UserEmail == _req.userEmail);
 
             if (user == null)
             {

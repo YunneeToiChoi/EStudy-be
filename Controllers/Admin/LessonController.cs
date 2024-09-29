@@ -48,14 +48,14 @@ namespace study4_be.Controllers.Admin
 
             return View(lessonViewModels);
         }
-        public IActionResult Lesson_Create()
+        public async Task<IActionResult> Lesson_Create()
         {
-            var containers = _context.Containers
+            var containers = await _context.Containers
                 .Include(c => c.Unit)
                     .ThenInclude(u => u.Course)
-                .ToList();
+                .ToListAsync();
 
-            var tags = _context.Tags.ToList();
+            var tags = await _context.Tags.ToListAsync();
 
             var model = new LessonCreateViewModel
             {
@@ -137,14 +137,14 @@ namespace study4_be.Controllers.Admin
         }
 
         [HttpGet]
-        public IActionResult Lesson_Delete(int id)
+        public async Task<IActionResult> Lesson_Delete(int id)
         {
             if (!ModelState.IsValid)
             {
                 _logger.LogError($"Lesson with ID {id} not found for deletion.");
                 return NotFound($"Lesson with ID {id} not found.");
             }
-            var lesson = _context.Lessons.FirstOrDefault(c => c.LessonId == id);
+            var lesson = await _context.Lessons.FirstOrDefaultAsync(c => c.LessonId == id);
             if (lesson == null)
             {
                 _logger.LogError($"Lesson with ID {id} not found for delete.");

@@ -5,6 +5,6 @@ namespace study4_be.Services.Request
     public class OfCourseIdRequest
     {
         [Required]
-        public int courseId { get; set; }
+        public required int courseId { get; set; }
     }
 }

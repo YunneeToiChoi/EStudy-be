@@ -76,13 +76,13 @@ namespace study4_be.Controllers.Admin
         }
 
         [HttpGet]
-        public IActionResult Department_Edit(int id)
+        public async Task<IActionResult> Department_Edit(int id)
         {
             if (!ModelState.IsValid)
             {
                 return NotFound(new { message = "departmentId is invalid" });
             }
-            var department = _context.Departments.FirstOrDefault(c => c.DepartmentId == id);
+            var department = await _context.Departments.FirstOrDefaultAsync(c => c.DepartmentId == id);
             if (department == null)
             {
                 return NotFound();
@@ -94,8 +94,8 @@ namespace study4_be.Controllers.Admin
         {
             if (ModelState.IsValid)
             {
-                var courseToUpdate = await _context.Departments.FirstOrDefaultAsync(c => c.DepartmentId == department.DepartmentId);
-                courseToUpdate.DepartmentName = department.DepartmentName;
+                var departmentToUpdate = await _context.Departments.FirstOrDefaultAsync(c => c.DepartmentId == department.DepartmentId);
+                departmentToUpdate.DepartmentName = department.DepartmentName;
                 try
                 {
                     await _context.SaveChangesAsync();
@@ -103,54 +103,54 @@ namespace study4_be.Controllers.Admin
                 }
                 catch (Exception ex)
                 {
-                    _logger.LogError($"Error updating course with ID {department.DepartmentId}: {ex.Message}");
+                    _logger.LogError($"Error updating course: {ex.Message}");
                     ModelState.AddModelError(string.Empty, "An error occurred while updating the department.");
                 }
             }
             return View(department);
         }
         [HttpGet]
-        public IActionResult Department_Delete(int id)
+        public async Task<IActionResult> Department_Delete(int id)
         {
             if (!ModelState.IsValid)
             {
-                _logger.LogError($"Department with ID {id} not found for deletion.");
-                return NotFound($"Department with ID {id} not found.");
+                _logger.LogError($"Department not found for deletion.");
+                return NotFound($"Department not found.");
             }
-            var department = _context.Departments.FirstOrDefault(c => c.DepartmentId == id);
+            var department = await _context.Departments.FirstOrDefaultAsync(c => c.DepartmentId == id);
             if (department == null)
             {
-                _logger.LogError($"Department with ID {id} not found for delete.");
-                return NotFound($"Department with ID {id} not found.");
+                _logger.LogError($"Department not found for delete.");
+                return NotFound($"Department not found.");
             }
             return View(department);
         }
 
         [HttpPost, ActionName("Department_Delete")]
-        public IActionResult Department_DeleteConfirmed(int id)
+        public async Task<IActionResult> Department_DeleteConfirmed(int id)
         {
             if (!ModelState.IsValid)
             {
-                _logger.LogError($"Department with ID {id} not found for deletion.");
-                return NotFound($"Department with ID {id} not found.");
+                _logger.LogError($"Department not found for deletion.");
+                return NotFound($"Department not found.");
             }
 
-            var department = _context.Departments.FirstOrDefault(c => c.DepartmentId == id);
+            var department = await _context.Departments.FirstOrDefaultAsync(c => c.DepartmentId == id);
             if (department == null)
             {
-                _logger.LogError($"Department with ID {id} not found for deletion.");
-                return NotFound($"Department with ID {id} not found.");
+                _logger.LogError($"Department not found for deletion.");
+                return NotFound($"Department not found.");
             }
 
             try
             {
                 _context.Departments.Remove(department);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
                 return RedirectToAction("Department_List");
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Error deleting department with ID {id}: {ex.Message}");
+                _logger.LogError($"Error deleting department: {ex.Message}");
                 ModelState.AddModelError(string.Empty, "An error occurred while deleting the department.");
                 return View(department);
             }
