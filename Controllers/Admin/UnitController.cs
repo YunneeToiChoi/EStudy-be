@@ -95,13 +95,13 @@ namespace study4_be.Controllers.Admin
             return Ok(unit);
         }
         [HttpGet]
-        public IActionResult Unit_Edit(int id)
+        public async Task<IActionResult> Unit_Edit(int id)
         {
             if (!ModelState.IsValid)
             {
                 return NotFound(new { message = "unitId is invalid" });
             }
-            var unit = _context.Units.FirstOrDefault(c => c.UnitId == id);
+            var unit = await _context.Units.FirstOrDefaultAsync(c => c.UnitId == id);
             if (unit == null)
             {
                 return NotFound();
@@ -114,7 +114,7 @@ namespace study4_be.Controllers.Admin
         {
             if (ModelState.IsValid)
             {
-                var courseToUpdate = _context.Units.FirstOrDefault(c => c.UnitId == unit.UnitId);
+                var courseToUpdate = await _context.Units.FirstOrDefaultAsync(c => c.UnitId == unit.UnitId);
                 courseToUpdate.UnitTittle = unit.UnitTittle;
                 courseToUpdate.Course = unit.Course;
                 try
@@ -132,14 +132,14 @@ namespace study4_be.Controllers.Admin
         }
 
         [HttpGet]
-        public IActionResult Unit_Delete(int id)
+        public async Task<IActionResult> Unit_Delete(int id)
         {
             if (!ModelState.IsValid)
             {
                 _logger.LogError($"Unit not found for deletion.");
                 return NotFound($"Unit not found.");
             }
-            var unit = _context.Units.FirstOrDefault(c => c.UnitId == id);
+            var unit = await _context.Units.FirstOrDefaultAsync(c => c.UnitId == id);
             if (unit == null)
             {
                 _logger.LogError($"Unit not found for deletion.");
@@ -149,14 +149,14 @@ namespace study4_be.Controllers.Admin
         }
 
         [HttpPost, ActionName("Unit_Delete")]
-        public IActionResult Unit_DeleteConfirmed(int id)
+        public async Task<IActionResult> Unit_DeleteConfirmed(int id)
         {
             if (!ModelState.IsValid)
             {
                 _logger.LogError($"Unit not found for deletion.");
                 return NotFound($"Unit not found.");
             }
-            var unit = _context.Units.FirstOrDefault(c => c.UnitId == id);
+            var unit = await _context.Units.FirstOrDefaultAsync(c => c.UnitId == id);
             if (unit == null)
             {
                 _logger.LogError($"Unit not found for deletion.");
@@ -166,7 +166,7 @@ namespace study4_be.Controllers.Admin
             try
             {
                 _context.Units.Remove(unit);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
                 return RedirectToAction("Unit_List");
             }
             catch (Exception ex)
@@ -177,7 +177,7 @@ namespace study4_be.Controllers.Admin
             }
         }
 
-        public IActionResult Unit_Details(int id)
+        public async Task<IActionResult> Unit_Details(int id)
         {
             // Check if the ID is invalid (e.g., not positive)
             if (!ModelState.IsValid)
@@ -187,7 +187,7 @@ namespace study4_be.Controllers.Admin
                 return RedirectToAction("Unit_List", "Unit");
             }
 
-            var unit = _context.Units.FirstOrDefault(c => c.UnitId == id);
+            var unit = await _context.Units.FirstOrDefaultAsync(c => c.UnitId == id);
 
             // If no container is found, return to the list with an error
             if (unit == null)

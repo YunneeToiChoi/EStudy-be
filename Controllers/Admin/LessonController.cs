@@ -154,14 +154,14 @@ namespace study4_be.Controllers.Admin
         }
 
         [HttpPost, ActionName("Lesson_Delete")]
-        public IActionResult Lesson_DeleteConfirmed(int id)
+        public async Task<IActionResult> Lesson_DeleteConfirmed(int id)
         {
             if (!ModelState.IsValid)
             {
                 _logger.LogError($"Lesson with ID {id} not found for deletion.");
                 return NotFound($"Lesson with ID {id} not found.");
             }
-            var lesson = _context.Lessons.FirstOrDefault(c => c.LessonId == id);
+            var lesson = await _context.Lessons.FirstOrDefaultAsync(c => c.LessonId == id);
             if (lesson == null)
             {
                 _logger.LogError($"Lesson with ID {id} not found for deletion.");
@@ -182,13 +182,13 @@ namespace study4_be.Controllers.Admin
             }
         }
         [HttpGet]
-        public IActionResult Lesson_Edit(int id)
+        public async Task<IActionResult> Lesson_Edit(int id)
         {
             if (!ModelState.IsValid)
             {
                 return NotFound(new { message = "lessonId is invalid" });
             }
-            var lesson = _context.Lessons.FirstOrDefault(c => c.LessonId == id);
+            var lesson = await _context.Lessons.FirstOrDefaultAsync(c => c.LessonId == id);
             if (lesson == null)
             {
                 return NotFound();
@@ -232,7 +232,7 @@ namespace study4_be.Controllers.Admin
             }
             return View(lessonViewModel);
         }
-        public IActionResult Lesson_Details(int id)
+        public async Task<IActionResult> Lesson_Details(int id)
         {
             // Check if the ID is invalid (e.g., not positive)
             if (!ModelState.IsValid)
@@ -242,7 +242,7 @@ namespace study4_be.Controllers.Admin
                 return RedirectToAction("Lesson_List", "Lesson");
             }
 
-            var lesson = _context.Lessons.FirstOrDefault(c => c.LessonId == id);
+            var lesson = await _context.Lessons.FirstOrDefaultAsync(c => c.LessonId == id);
 
             // If no container is found, return to the list with an error
             if (lesson == null)

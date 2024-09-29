@@ -72,13 +72,13 @@ namespace study4_be.Controllers.Admin
         }
 
         [HttpGet]
-        public IActionResult Tag_Edit(string id)
+        public async Task<IActionResult> Tag_Edit(string id)
         {
             if (!ModelState.IsValid)
             {
                 return NotFound(new { message = "tagId is invalid" });
             }
-            var tag = _context.Tags.FirstOrDefault(c => c.TagId == id);
+            var tag = await _context.Tags.FirstOrDefaultAsync(c => c.TagId == id);
             if (tag == null)
             {
                 return NotFound();
@@ -108,14 +108,14 @@ namespace study4_be.Controllers.Admin
         }
 
         [HttpGet]
-        public IActionResult Tag_Delete(string id)
+        public async Task<IActionResult> Tag_Delete(string id)
         {
             if (!ModelState.IsValid)
             {
                 _logger.LogError($"Staff not found for deletion.");
                 return NotFound($"Staff not found.");
             }
-            var tag = _context.Tags.FirstOrDefault(c => c.TagId == id);
+            var tag = await _context.Tags.FirstOrDefaultAsync(c => c.TagId == id);
             if (tag == null)
             {
                 _logger.LogError($"Tag not found for delete.");
@@ -125,14 +125,14 @@ namespace study4_be.Controllers.Admin
         }
 
         [HttpPost, ActionName("Tag_Delete")]
-        public IActionResult Tag_DeleteConfirmed(string id)
+        public async Task<IActionResult> Tag_DeleteConfirmed(string id)
         {
             if (!ModelState.IsValid)
             {
                 _logger.LogError($"Tag not found for deletion.");
                 return NotFound($"Tag not found.");
             }
-            var tag = _context.Tags.FirstOrDefault(c => c.TagId == id);
+            var tag = await _context.Tags.FirstOrDefaultAsync(c => c.TagId == id);
             if (tag == null)
             {
                 _logger.LogError($"Tag not found for deletion.");
@@ -142,7 +142,7 @@ namespace study4_be.Controllers.Admin
             try
             {
                 _context.Tags.Remove(tag);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
                 return RedirectToAction("Tag_List");
             }
             catch (Exception ex)
@@ -153,7 +153,7 @@ namespace study4_be.Controllers.Admin
             }
         }
 
-        public IActionResult Tag_Details(string id)
+        public async Task<IActionResult> Tag_Details(string id)
         {
             // Check if the ID is invalid (e.g., not positive)
             if (!ModelState.IsValid)
@@ -163,7 +163,7 @@ namespace study4_be.Controllers.Admin
                 return RedirectToAction("Tag_List", "Tag");
             }
 
-            var tag = _context.Tags.FirstOrDefault(c => c.TagId == id);
+            var tag = await _context.Tags.FirstOrDefaultAsync(c => c.TagId == id);
 
             // If no container is found, return to the list with an error
             if (tag == null)

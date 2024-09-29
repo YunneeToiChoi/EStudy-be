@@ -245,13 +245,13 @@ namespace study4_be.Controllers.Admin
             }
         }
         [HttpGet]
-        public IActionResult Question_Edit(int id)
+        public async Task<IActionResult> Question_Edit(int id)
         {
             if (!ModelState.IsValid)
             {
                 return NotFound(new { message = "questionId is invalid" });
             }
-            var question = _context.Questions.FirstOrDefault(c => c.QuestionId == id);
+            var question = await _context.Questions.FirstOrDefaultAsync(c => c.QuestionId == id);
             if (question == null)
             {
                 return NotFound();
@@ -266,7 +266,7 @@ namespace study4_be.Controllers.Admin
             {
                 try
                 {
-                    var courseToUpdate = _context.Questions.FirstOrDefault(c => c.QuestionId == question.QuestionId);
+                    var courseToUpdate = await _context.Questions.FirstOrDefaultAsync(c => c.QuestionId == question.QuestionId);
                     if (QuestionImage != null && QuestionImage.Length > 0)
                     {
                         var firebaseBucketName = _firebaseServices.GetFirebaseBucketName();
@@ -315,7 +315,7 @@ namespace study4_be.Controllers.Admin
                         courseToUpdate.OptionD = question.OptionD;
                         courseToUpdate.OptionMeanD = question.OptionMeanD;
                         courseToUpdate.CorrectAnswer = question.CorrectAnswer;
-                        _context.SaveChanges();
+                        await _context.SaveChangesAsync();
                         return RedirectToAction("Question_List");
                     }
                 }
@@ -327,7 +327,7 @@ namespace study4_be.Controllers.Admin
             }
             return View(question);
         }
-        public IActionResult Question_Details(int id)
+        public async Task<IActionResult> Question_Details(int id)
         {
             // Check if the ID is invalid (e.g., not positive)
             if (!ModelState.IsValid)
@@ -337,7 +337,7 @@ namespace study4_be.Controllers.Admin
                 return RedirectToAction("Question_List", "Question");
             }
 
-            var question = _context.Questions.FirstOrDefault(c => c.QuestionId == id);
+            var question = await _context.Questions.FirstOrDefaultAsync(c => c.QuestionId == id);
 
             // If no container is found, return to the list with an error
             if (question == null)

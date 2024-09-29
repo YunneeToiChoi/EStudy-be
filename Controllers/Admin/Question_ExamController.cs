@@ -77,11 +77,11 @@ namespace study4_be.Controllers.Admin
             {
                 _logger.LogError("Error occurred while creating new unit.");
 
-                questionViewModel.exam = _context.Exams.Select(c => new SelectListItem
+                questionViewModel.exam = await _context.Exams.Select(c => new SelectListItem
                 {
                     Value = c.ExamId.ToString(),
                     Text = c.ExamName.ToString()
-                }).ToList();
+                }).ToListAsync();
 
                 return View(questionViewModel);
             }
@@ -129,11 +129,11 @@ namespace study4_be.Controllers.Admin
                 _logger.LogError(ex, "Error occurred while creating new unit.");
                 ModelState.AddModelError("", "An error occurred while processing your request. Please try again later.");
 
-                questionViewModel.exam = _context.Exams.Select(c => new SelectListItem
+                questionViewModel.exam = await _context.Exams.Select(c => new SelectListItem
                 {
                     Value = c.ExamId.ToString(),
                     Text = c.ExamName.ToString()
-                }).ToList();
+                }).ToListAsync();
 
                 return View(questionViewModel);
             }
@@ -154,14 +154,14 @@ namespace study4_be.Controllers.Admin
             return Ok(question);
         }
         [HttpGet]
-        public IActionResult Question_Exam_Delete(int id)
+        public async Task<IActionResult> Question_Exam_Delete(int id)
         {
             if (!ModelState.IsValid)
             {
                 _logger.LogError($"Question not found for deletion.");
                 return NotFound($"Question not found.");
             }
-            var question = _context.Questions.FirstOrDefault(c => c.QuestionId == id);
+            var question = await _context.Questions.FirstOrDefaultAsync(c => c.QuestionId == id);
             if (question == null)
             {
                 _logger.LogError($"Question not found for delete.");
@@ -171,14 +171,14 @@ namespace study4_be.Controllers.Admin
         }
 
         [HttpPost, ActionName("Question_Exam_Delete")]
-        public IActionResult Question_Exam_DeleteConfirmed(int id)
+        public async Task<IActionResult> Question_Exam_DeleteConfirmed(int id)
         {
             if (!ModelState.IsValid)
             {
                 _logger.LogError($"Question not found for deletion.");
                 return NotFound($"Question not found.");
             }
-            var question = _context.Questions.FirstOrDefault(c => c.QuestionId == id);
+            var question = await _context.Questions.FirstOrDefaultAsync(c => c.QuestionId == id);
             if (question == null)
             {
                 _logger.LogError($"Question not found for deletion.");
@@ -199,13 +199,13 @@ namespace study4_be.Controllers.Admin
             }
         }
         [HttpGet]
-        public IActionResult Question_Exam_Edit(int id)
+        public async Task<IActionResult> Question_Exam_Edit(int id)
         {
             if (!ModelState.IsValid)
             {
                 return NotFound(new { message = "questionId is invalid" });
             }
-            var question = _context.Questions.FirstOrDefault(c => c.QuestionId == id);
+            var question = await _context.Questions.FirstOrDefaultAsync(c => c.QuestionId == id);
             if (question == null)
             {
                 return NotFound();
@@ -287,7 +287,7 @@ namespace study4_be.Controllers.Admin
             }
             return View(questionViewModel);
         }
-        public IActionResult Question_Exam_Details(int id)
+        public async Task<IActionResult> Question_Exam_Details(int id)
         {
             // Check if the ID is invalid (e.g., not positive)
             if (!ModelState.IsValid)
@@ -297,7 +297,7 @@ namespace study4_be.Controllers.Admin
                 return RedirectToAction("Question_Exam_List", "Question_Exam");
             }
 
-            var question = _context.Questions.FirstOrDefault(c => c.QuestionId == id);
+            var question = await _context.Questions.FirstOrDefaultAsync(c => c.QuestionId == id);
 
             // If no container is found, return to the list with an error
             if (question == null)

@@ -52,7 +52,7 @@ namespace study4_be.Services
 
 
             // Create the StorageClient with the credential
-            var storageClient = StorageClient.Create(credential);
+            var storageClient = await StorageClient.CreateAsync(credential);
 
             // Determine the content type based on the file extension
             var contentType = GetContentType(fileName);
@@ -104,7 +104,7 @@ namespace study4_be.Services
             var credential = GoogleCredential.FromFile(serviceAccountPath);
 
             // Tạo đối tượng StorageClient
-            var storage = StorageClient.Create(credential);
+            var storage = await StorageClient.CreateAsync(credential);
 
             try
             {
@@ -144,7 +144,7 @@ namespace study4_be.Services
             var credential = GoogleCredential.FromFile(serviceAccountPath);
 
             // Tạo đối tượng StorageClient
-            var storage = StorageClient.Create(credential);
+            var storage = await StorageClient.CreateAsync(credential);
 
             try
             {
@@ -175,7 +175,7 @@ namespace study4_be.Services
             var credential = GoogleCredential.FromFile(serviceAccountPath);
 
             // Tạo đối tượng StorageClient
-            var storage = StorageClient.Create(credential);
+            var storage = await StorageClient.CreateAsync(credential);
 
             try
             {

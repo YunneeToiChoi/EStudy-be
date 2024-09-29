@@ -156,7 +156,7 @@ namespace study4_be.Controllers.Admin
             }
         }
 
-        public IActionResult Department_Details(int id)
+        public async Task<IActionResult> Department_Details(int id)
         {
             // Check if the ID is invalid (e.g., not positive)
             if (!ModelState.IsValid)
@@ -166,7 +166,7 @@ namespace study4_be.Controllers.Admin
                 return RedirectToAction("Department_List", "Department");
             }
 
-            var department = _context.Departments.FirstOrDefault(c => c.DepartmentId == id);
+            var department = await _context.Departments.FirstOrDefaultAsync(c => c.DepartmentId == id);
 
             // If no container is found, return to the list with an error
             if (department == null)

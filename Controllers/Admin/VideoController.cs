@@ -224,7 +224,7 @@ namespace study4_be.Controllers.Admin
             }
         }
 
-        public IActionResult Video_Details(int id)
+        public async Task<IActionResult> Video_Details(int id)
         {
             // Check if the ID is invalid (e.g., not positive)
             if (!ModelState.IsValid)
@@ -234,7 +234,7 @@ namespace study4_be.Controllers.Admin
                 return RedirectToAction("Video_List", "Video");
             }
 
-            var video = _context.Videos.FirstOrDefault(c => c.VideoId == id);
+            var video = await _context.Videos.FirstOrDefaultAsync(c => c.VideoId == id);
 
             // If no container is found, return to the list with an error
             if (video == null)

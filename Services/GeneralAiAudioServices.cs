@@ -15,7 +15,7 @@ namespace study4_be.Services
             var credential = GoogleCredential.FromFile(serviceAccountPath);
 
             // Create a StorageClient object
-            var storage = StorageClient.Create(credential);
+            var storage = await StorageClient.CreateAsync(credential);
             string correctedBucketName = "estudy-426108.appspot.com"; // Assuming the correct name is 'estudy426108'
             // Create a MemoryStream object from the file bytes
             using (var memoryStream = new MemoryStream(fileBytes))
