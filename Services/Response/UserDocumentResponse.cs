@@ -8,7 +8,7 @@ public class UserDocumentResponse
 
     public string title { get; set; } = null!;
 
-    public string? description { get; set; }
+    public string? documentDescription { get; set; }
 
     public string fileUrl { get; set; } = null!;
 
@@ -29,5 +29,6 @@ public class UserDocumentResponse
     public double? price { get; set; }
 
     public double? documentSize { get; set; }
+    public string? documentImage {  get; set; } 
 
 }
