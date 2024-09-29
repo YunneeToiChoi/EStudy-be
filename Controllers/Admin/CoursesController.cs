@@ -10,6 +10,7 @@ namespace study4_be.Controllers.Admin
     public class CoursesController : Controller
     {
         private readonly ILogger<CoursesController> _logger;
+        public Study4Context _context = new Study4Context();
         private FireBaseServices _fireBaseServices;
         public CoursesController(ILogger<CoursesController> logger, FireBaseServices fireBaseServices)
         {
@@ -17,7 +18,6 @@ namespace study4_be.Controllers.Admin
             _fireBaseServices = fireBaseServices;
         }
         private readonly CourseRepository _coursesRepository = new CourseRepository();
-        public Study4Context _context = new Study4Context();
 
         [HttpGet("GetAllCourses")]
         public async Task<ActionResult<IEnumerable<Course>>> GetAllCourses()
@@ -119,7 +119,7 @@ namespace study4_be.Controllers.Admin
                 _logger.LogError("Course not found");
                 return NotFound();
             }
-            var courseToUpdate = _context.Courses.FirstOrDefault(c => c.CourseId == course.CourseId);
+            var courseToUpdate = await _context.Courses.FirstOrDefaultAsync(c => c.CourseId == course.CourseId);
             if (courseToUpdate == null)
             {
                 _logger.LogError($"Course not found");

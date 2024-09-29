@@ -79,6 +79,19 @@ namespace study4_be.Controllers.Admin
         [HttpPost]
         public async Task<IActionResult> Lesson_Create(LessonCreateViewModel lessonViewModel)
         {
+            if (!ModelState.IsValid)
+            {
+                _logger.LogError("Error occurred while creating new lesson.");
+                ModelState.AddModelError("", "An error occurred while processing your request. Please try again later.");
+
+                lessonViewModel.container = _context.Containers.Select(c => new SelectListItem
+                {
+                    Value = c.ContainerId.ToString(),
+                    Text = c.ContainerId.ToString()
+                }).ToList();
+
+                return View(lessonViewModel);
+            }
             try
             {
                 var lesson = new Lesson
@@ -97,7 +110,7 @@ namespace study4_be.Controllers.Admin
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error occurred while creating new unit.");
+                _logger.LogError(ex, "Error occurred while creating new lesson.");
                 ModelState.AddModelError("", "An error occurred while processing your request. Please try again later.");
 
                 lessonViewModel.container = _context.Containers.Select(c => new SelectListItem
@@ -113,6 +126,10 @@ namespace study4_be.Controllers.Admin
         [HttpGet("{id}")]
         public async Task<IActionResult> GetLessonById(int id)
         {
+            if (!ModelState.IsValid)
+            {
+                return NotFound(new { message = "Id is invalid" });
+            }
             var lesson = await _context.Lessons.FindAsync(id);
             if (lesson == null)
             {
@@ -125,11 +142,16 @@ namespace study4_be.Controllers.Admin
         [HttpGet]
         public IActionResult Lesson_Delete(int id)
         {
+            if (!ModelState.IsValid)
+            {
+                _logger.LogError($"Lesson with ID {id} not found for deletion.");
+                return NotFound($"Lesson with ID {id} not found.");
+            }
             var lesson = _context.Lessons.FirstOrDefault(c => c.LessonId == id);
             if (lesson == null)
             {
-                _logger.LogError($"Course with ID {id} not found for delete.");
-                return NotFound($"Course with ID {id} not found.");
+                _logger.LogError($"Lesson with ID {id} not found for delete.");
+                return NotFound($"Lesson with ID {id} not found.");
             }
             return View(lesson);
         }
@@ -137,11 +159,16 @@ namespace study4_be.Controllers.Admin
         [HttpPost, ActionName("Lesson_Delete")]
         public IActionResult Lesson_DeleteConfirmed(int id)
         {
+            if (!ModelState.IsValid)
+            {
+                _logger.LogError($"Lesson with ID {id} not found for deletion.");
+                return NotFound($"Lesson with ID {id} not found.");
+            }
             var lesson = _context.Lessons.FirstOrDefault(c => c.LessonId == id);
             if (lesson == null)
             {
-                _logger.LogError($"Course with ID {id} not found for deletion.");
-                return NotFound($"Course with ID {id} not found.");
+                _logger.LogError($"Lesson with ID {id} not found for deletion.");
+                return NotFound($"Lesson with ID {id} not found.");
             }
 
             try
@@ -160,6 +187,10 @@ namespace study4_be.Controllers.Admin
         [HttpGet]
         public IActionResult Lesson_Edit(int id)
         {
+            if (!ModelState.IsValid)
+            {
+                return NotFound(new { message = "lessonId is invalid" });
+            }
             var lesson = _context.Lessons.FirstOrDefault(c => c.LessonId == id);
             if (lesson == null)
             {
@@ -185,14 +216,15 @@ namespace study4_be.Controllers.Admin
         [HttpPost]
         public async Task<IActionResult> Lesson_Edit(LessonEditViewModel lessonViewModel)
         {
-     
-                var lessonToUpdate = _context.Lessons.FirstOrDefault(c => c.LessonId == lessonViewModel.lesson.LessonId);
+            if (ModelState.IsValid)
+            {
+                var lessonToUpdate = await _context.Lessons.FirstOrDefaultAsync(c => c.LessonId == lessonViewModel.lesson.LessonId);
                 lessonToUpdate.LessonTitle = lessonViewModel.lesson.LessonTitle;
                 lessonToUpdate.LessonType = lessonViewModel.lesson.LessonType;
                 lessonToUpdate.TagId = lessonViewModel.lesson.TagId;
                 try
                 {
-                    _context.SaveChanges();
+                    await _context.SaveChangesAsync();
                     return RedirectToAction("Lesson_List");
                 }
                 catch (Exception ex)
@@ -200,11 +232,28 @@ namespace study4_be.Controllers.Admin
                     _logger.LogError($"Error updating course with ID {lessonViewModel.lesson.LessonId}: {ex.Message}");
                     ModelState.AddModelError(string.Empty, "An error occurred while updating the course.");
                 }
+            }
             return View(lessonViewModel);
         }
         public IActionResult Lesson_Details(int id)
         {
-            return View(_context.Lessons.FirstOrDefault(c => c.LessonId == id));
+            // Check if the ID is invalid (e.g., not positive)
+            if (!ModelState.IsValid)
+            {
+                ModelState.AddModelError("", "Invalid lesson ID.");
+                TempData["ErrorMessage"] = "The specified lesson was not found.";
+                return RedirectToAction("Lesson_List", "Lesson");
+            }
+
+            var lesson = _context.Lessons.FirstOrDefault(c => c.LessonId == id);
+
+            // If no container is found, return to the list with an error
+            if (lesson == null)
+            {
+                TempData["ErrorMessage"] = "The specified lesson was not found.";
+                return RedirectToAction("Lesson_List", "Lesson");
+            }
+            return View(lesson);
         }
     }
 }

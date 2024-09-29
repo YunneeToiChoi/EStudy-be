@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using study4_be.Models;
 using study4_be.Repositories;
 using study4_be.Services;
@@ -19,7 +20,7 @@ namespace study4_be.Controllers.Admin
         public async Task<ActionResult<IEnumerable<Department>>> GetAllDepartments()
         {
             var departments = await _departmentsRepository.GetAllDepartmentsAsync();
-            return Json(new { status = 200, message = "Get Courses Successful", departments });
+            return Json(new { status = 200, message = "Get Department Successful", departments });
 
         }
         //development enviroment
@@ -27,7 +28,7 @@ namespace study4_be.Controllers.Admin
         public async Task<IActionResult> DeleteAllDepartments()
         {
             await _departmentsRepository.DeleteAllDepartmentsAsync();
-            return Json(new { status = 200, message = "Delete Courses Successful" });
+            return Json(new { status = 200, message = "Delete Department Successful" });
         }
         public async Task<IActionResult> Department_List()
         {
@@ -56,7 +57,7 @@ namespace study4_be.Controllers.Admin
             catch (Exception ex)
             {
                 // show log
-                _logger.LogError(ex, "Error occurred while creating new course.");
+                _logger.LogError(ex, "Error occurred while creating new department.");
                 ModelState.AddModelError("", "An error occurred while processing your request. Please try again later.");
                 return View(department);
             }
@@ -64,6 +65,11 @@ namespace study4_be.Controllers.Admin
         [HttpGet("{id}")]
         public async Task<IActionResult> GetDepartmentById(int id)
         {
+
+            if (!ModelState.IsValid)
+            {
+                return NotFound(new { message = "Id is invalid" });
+            }
             var department = await _context.Departments.FindAsync(id);
             if (department == null)
             {
@@ -76,6 +82,10 @@ namespace study4_be.Controllers.Admin
         [HttpGet]
         public IActionResult Department_Edit(int id)
         {
+            if (!ModelState.IsValid)
+            {
+                return NotFound(new { message = "departmentId is invalid" });
+            }
             var department = _context.Departments.FirstOrDefault(c => c.DepartmentId == id);
             if (department == null)
             {
@@ -88,17 +98,17 @@ namespace study4_be.Controllers.Admin
         {
             if (ModelState.IsValid)
             {
-                var courseToUpdate = _context.Departments.FirstOrDefault(c => c.DepartmentId == department.DepartmentId);
+                var courseToUpdate = await _context.Departments.FirstOrDefaultAsync(c => c.DepartmentId == department.DepartmentId);
                 courseToUpdate.DepartmentName = department.DepartmentName;
                 try
                 {
-                    _context.SaveChanges();
+                    await _context.SaveChangesAsync();
                     return RedirectToAction("Department_List");
                 }
                 catch (Exception ex)
                 {
                     _logger.LogError($"Error updating course with ID {department.DepartmentId}: {ex.Message}");
-                    ModelState.AddModelError(string.Empty, "An error occurred while updating the course.");
+                    ModelState.AddModelError(string.Empty, "An error occurred while updating the department.");
                 }
             }
             return View(department);
@@ -106,11 +116,16 @@ namespace study4_be.Controllers.Admin
         [HttpGet]
         public IActionResult Department_Delete(int id)
         {
+            if (!ModelState.IsValid)
+            {
+                _logger.LogError($"Department with ID {id} not found for deletion.");
+                return NotFound($"Department with ID {id} not found.");
+            }
             var department = _context.Departments.FirstOrDefault(c => c.DepartmentId == id);
             if (department == null)
             {
-                _logger.LogError($"Course with ID {id} not found for delete.");
-                return NotFound($"Course with ID {id} not found.");
+                _logger.LogError($"Department with ID {id} not found for delete.");
+                return NotFound($"Department with ID {id} not found.");
             }
             return View(department);
         }
@@ -118,11 +133,17 @@ namespace study4_be.Controllers.Admin
         [HttpPost, ActionName("Department_Delete")]
         public IActionResult Department_DeleteConfirmed(int id)
         {
+            if (!ModelState.IsValid)
+            {
+                _logger.LogError($"Department with ID {id} not found for deletion.");
+                return NotFound($"Department with ID {id} not found.");
+            }
+
             var department = _context.Departments.FirstOrDefault(c => c.DepartmentId == id);
             if (department == null)
             {
-                _logger.LogError($"Course with ID {id} not found for deletion.");
-                return NotFound($"Course with ID {id} not found.");
+                _logger.LogError($"Department with ID {id} not found for deletion.");
+                return NotFound($"Department with ID {id} not found.");
             }
 
             try
@@ -133,15 +154,31 @@ namespace study4_be.Controllers.Admin
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Error deleting course with ID {id}: {ex.Message}");
-                ModelState.AddModelError(string.Empty, "An error occurred while deleting the course.");
+                _logger.LogError($"Error deleting department with ID {id}: {ex.Message}");
+                ModelState.AddModelError(string.Empty, "An error occurred while deleting the department.");
                 return View(department);
             }
         }
 
         public IActionResult Department_Details(int id)
         {
-            return View(_context.Departments.FirstOrDefault(c => c.DepartmentId == id));
+            // Check if the ID is invalid (e.g., not positive)
+            if (!ModelState.IsValid)
+            {
+                ModelState.AddModelError("", "Invalid department ID.");
+                TempData["ErrorMessage"] = "The specified department was not found.";
+                return RedirectToAction("Department_List", "Department");
+            }
+
+            var department = _context.Departments.FirstOrDefault(c => c.DepartmentId == id);
+
+            // If no container is found, return to the list with an error
+            if (department == null)
+            {
+                TempData["ErrorMessage"] = "The specified department was not found.";
+                return RedirectToAction("Department_List", "Department");
+            }
+            return View(department);
         }
     }
 }

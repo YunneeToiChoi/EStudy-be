@@ -85,8 +85,37 @@ namespace study4_be.Controllers.Admin
             return View(model);
         }
         [HttpPost]
-        public async Task<IActionResult> Question_Create(QuestionCreateViewModel questionViewModel, IFormFile QuestionImage,string selectedCorrect)
+        public async Task<IActionResult> Question_Create(QuestionCreateViewModel questionViewModel, IFormFile? QuestionImage,string selectedCorrect)
         {
+            // Custom validation: Check if all question fields are null or empty
+            if (string.IsNullOrEmpty(questionViewModel.question.QuestionText) &&
+                string.IsNullOrEmpty(questionViewModel.question.QuestionTextMean) &&
+                string.IsNullOrEmpty(questionViewModel.question.QuestionParagraph) &&
+                string.IsNullOrEmpty(questionViewModel.question.QuestionParagraphMean) &&
+                string.IsNullOrEmpty(questionViewModel.question.OptionA) &&
+                string.IsNullOrEmpty(questionViewModel.question.OptionB) &&
+                string.IsNullOrEmpty(questionViewModel.question.OptionC) &&
+                string.IsNullOrEmpty(questionViewModel.question.OptionD) &&
+                string.IsNullOrEmpty(questionViewModel.question.OptionMeanA) &&
+                string.IsNullOrEmpty(questionViewModel.question.OptionMeanB) &&
+                string.IsNullOrEmpty(questionViewModel.question.OptionMeanC) &&
+                string.IsNullOrEmpty(questionViewModel.question.OptionMeanD))
+            {
+                ModelState.AddModelError("", "Please fill in at least one field before submitting.");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                _logger.LogError("Error occurred while creating new question.");
+
+                questionViewModel.lesson = _context.Lessons.Select(c => new SelectListItem
+                {
+                    Value = c.LessonId.ToString(),
+                    Text = c.LessonTitle.ToString()
+                }).ToList();
+
+                return View(questionViewModel);
+            }
             try
             {
                 var firebaseBucketName = _firebaseServices.GetFirebaseBucketName();
@@ -145,7 +174,7 @@ namespace study4_be.Controllers.Admin
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error occurred while creating new unit.");
+                _logger.LogError(ex, "Error occurred while creating new question.");
                 ModelState.AddModelError("", "An error occurred while processing your request. Please try again later.");
 
                 questionViewModel.lesson = _context.Lessons.Select(c => new SelectListItem
@@ -161,6 +190,11 @@ namespace study4_be.Controllers.Admin
         [HttpGet("{id}")]
         public async Task<IActionResult> GetQuestionById(int id)
         {
+
+            if (!ModelState.IsValid)
+            {
+                return NotFound(new { message = "Id is invalid" });
+            }
             var question = await _context.Questions.FindAsync(id);
             if (question == null)
             {
@@ -172,11 +206,16 @@ namespace study4_be.Controllers.Admin
         [HttpGet]
         public IActionResult Question_Delete(int id)
         {
+            if (!ModelState.IsValid)
+            {
+                _logger.LogError($"Question with ID {id} not found for deletion.");
+                return NotFound($"Question with ID {id} not found.");
+            }
             var question = _context.Questions.FirstOrDefault(c => c.QuestionId == id);
             if (question == null)
             {
-                _logger.LogError($"Course with ID {id} not found for delete.");
-                return NotFound($"Course with ID {id} not found.");
+                _logger.LogError($"Question with ID {id} not found for delete.");
+                return NotFound($"Question with ID {id} not found.");
             }
             return View(question);
         }
@@ -184,11 +223,16 @@ namespace study4_be.Controllers.Admin
         [HttpPost, ActionName("Question_Delete")]
         public IActionResult Question_DeleteConfirmed(int id)
         {
+            if (!ModelState.IsValid)
+            {
+                _logger.LogError($"Question with ID {id} not found for deletion.");
+                return NotFound($"Question with ID {id} not found.");
+            }
             var question = _context.Questions.FirstOrDefault(c => c.QuestionId == id);
             if (question == null)
             {
-                _logger.LogError($"Course with ID {id} not found for deletion.");
-                return NotFound($"Course with ID {id} not found.");
+                _logger.LogError($"Question with ID {id} not found for deletion.");
+                return NotFound($"Question with ID {id} not found.");
             }
 
             try
@@ -199,14 +243,18 @@ namespace study4_be.Controllers.Admin
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Error deleting course with ID {id}: {ex.Message}");
-                ModelState.AddModelError(string.Empty, "An error occurred while deleting the course.");
+                _logger.LogError($"Error deleting Question with ID {id}: {ex.Message}");
+                ModelState.AddModelError(string.Empty, "An error occurred while deleting the Question.");
                 return View(question);
             }
         }
         [HttpGet]
         public IActionResult Question_Edit(int id)
         {
+            if (!ModelState.IsValid)
+            {
+                return NotFound(new { message = "questionId is invalid" });
+            }
             var question = _context.Questions.FirstOrDefault(c => c.QuestionId == id);
             if (question == null)
             {
@@ -216,9 +264,10 @@ namespace study4_be.Controllers.Admin
         }
 
         [HttpPost]
-        public async Task<IActionResult> Question_Edit(Question question, IFormFile QuestionImage)
+        public async Task<IActionResult> Question_Edit(Question question, IFormFile? QuestionImage)
         {
-          
+            if (ModelState.IsValid)
+            {
                 try
                 {
                     var courseToUpdate = _context.Questions.FirstOrDefault(c => c.QuestionId == question.QuestionId);
@@ -272,19 +321,35 @@ namespace study4_be.Controllers.Admin
                         courseToUpdate.CorrectAnswer = question.CorrectAnswer;
                         _context.SaveChanges();
                         return RedirectToAction("Question_List");
+                    }
                 }
-                }
-
                 catch (Exception ex)
                 {
-                    _logger.LogError($"Error updating course with ID {question.QuestionId}: {ex.Message}");
-                    ModelState.AddModelError(string.Empty, "An error occurred while updating the course.");
+                    _logger.LogError($"Error updating Question with ID {question.QuestionId}: {ex.Message}");
+                    ModelState.AddModelError(string.Empty, "An error occurred while updating the Question.");
                 }
+            }
             return View(question);
         }
         public IActionResult Question_Details(int id)
         {
-            return View(_context.Questions.FirstOrDefault(c => c.QuestionId == id));
+            // Check if the ID is invalid (e.g., not positive)
+            if (!ModelState.IsValid)
+            {
+                ModelState.AddModelError("", "Invalid Question ID.");
+                TempData["ErrorMessage"] = "The specified Question was not found.";
+                return RedirectToAction("Question_List", "Question");
+            }
+
+            var question = _context.Questions.FirstOrDefault(c => c.QuestionId == id);
+
+            // If no container is found, return to the list with an error
+            if (question == null)
+            {
+                TempData["ErrorMessage"] = "The specified Question was not found.";
+                return RedirectToAction("Question_List", "Question");
+            }
+            return View(question);
         }
     }
 }
