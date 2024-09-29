@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 
 namespace study4_be.Models;
 
 public partial class Staff
 {
-    [Required]
     public int StaffId { get; set; }
 
     public int? RoleId { get; set; }

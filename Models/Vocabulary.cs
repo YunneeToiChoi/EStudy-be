@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 
 namespace study4_be.Models;
 
 public partial class Vocabulary
 {
-    [Required]
     public int VocabId { get; set; }
 
     public string? VocabType { get; set; }

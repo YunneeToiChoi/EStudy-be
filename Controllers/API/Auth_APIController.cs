@@ -5,26 +5,14 @@ using study4_be.Validation;
 using NuGet.Protocol.Core.Types;
 using System.IO;
 using System.Text.Json;
-using System.Threading.Tasks;
 using study4_be.Services.Request;
 using study4_be.Services;
-using study4_be.Controllers.Admin;
 using Microsoft.EntityFrameworkCore;
-using MailKit.Search;
-using FirebaseAdmin.Auth;
-using SendGrid.Helpers.Mail;
 using study4_be.Models.ViewModel;
 using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Authentication;
-using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
-using Microsoft.AspNetCore.Authentication.Facebook;
 using Newtonsoft.Json.Linq;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Google.Apis.Auth;
-using NuGet.Versioning;
 namespace study4_be.Controllers.API
 {
     [Route("api/[controller]")]
@@ -614,7 +602,7 @@ namespace study4_be.Controllers.API
            
             // Thực hiện kiểm tra xác thực userId và verificationCode
             // Ví dụ đơn giản: Kiểm tra trong cơ sở dữ liệu
-            var user = await _context.Users.FirstOrDefault(u => u.UserEmail == _req.userEmail);
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.UserEmail == _req.userEmail);
 
             if (user == null)
             {

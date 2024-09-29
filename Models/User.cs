@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 
 namespace study4_be.Models;
 
 public partial class User
 {
-    [Required]
     public string UserId { get; set; } = null!;
 
     public string? UserName { get; set; }
@@ -30,6 +28,8 @@ public partial class User
     public virtual ICollection<Document> Documents { get; set; } = new List<Document>();
 
     public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
+
+    public virtual ICollection<Rating> Ratings { get; set; } = new List<Rating>();
 
     public virtual Role? Role { get; set; }
 

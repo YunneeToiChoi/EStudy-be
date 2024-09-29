@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 
 namespace study4_be.Models;
 
 public partial class Document
 {
-    [Required]
     public int DocumentId { get; set; }
 
     public string UserId { get; set; } = null!;
@@ -38,6 +36,8 @@ public partial class Document
     public virtual Category? Category { get; set; }
 
     public virtual Course? Course { get; set; }
+
+    public virtual ICollection<Rating> Ratings { get; set; } = new List<Rating>();
 
     public virtual User User { get; set; } = null!;
 }

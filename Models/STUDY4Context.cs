@@ -51,6 +51,8 @@ public partial class Study4Context : DbContext
 
     public virtual DbSet<Rating> Ratings { get; set; }
 
+    public virtual DbSet<RatingImage> RatingImages { get; set; }
+
     public virtual DbSet<Role> Roles { get; set; }
 
     public virtual DbSet<Schema> Schemas { get; set; }
@@ -425,10 +427,15 @@ public partial class Study4Context : DbContext
 
         modelBuilder.Entity<Rating>(entity =>
         {
+            entity.HasKey(e => e.Id).HasName("PK__RATING__3214EC27FC591F28");
+
             entity.ToTable("RATING");
 
-            entity.Property(e => e.RatingId).HasColumnName("RATING_ID");
-            entity.Property(e => e.CourseId).HasColumnName("COURSE_ID");
+            entity.Property(e => e.Id).HasColumnName("ID");
+            entity.Property(e => e.EntityId).HasColumnName("ENTITY_ID");
+            entity.Property(e => e.EntityType)
+                .HasMaxLength(10)
+                .HasColumnName("ENTITY_TYPE");
             entity.Property(e => e.RatingDate)
                 .HasColumnType("datetime")
                 .HasColumnName("RATING_DATE");
@@ -439,9 +446,33 @@ public partial class Study4Context : DbContext
                 .IsUnicode(false)
                 .HasColumnName("USER_ID");
 
-            entity.HasOne(d => d.UserCourse).WithMany(p => p.Ratings)
-                .HasForeignKey(d => new { d.UserId, d.CourseId })
-                .HasConstraintName("FK_RATING_RATING1");
+            entity.HasOne(d => d.Entity).WithMany(p => p.Ratings)
+                .HasForeignKey(d => d.EntityId)
+                .HasConstraintName("FK_Course");
+
+            entity.HasOne(d => d.EntityNavigation).WithMany(p => p.Ratings)
+                .HasForeignKey(d => d.EntityId)
+                .HasConstraintName("FK_Document");
+
+            entity.HasOne(d => d.User).WithMany(p => p.Ratings)
+                .HasForeignKey(d => d.UserId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__RATING__USER_ID__367C1819");
+        });
+
+        modelBuilder.Entity<RatingImage>(entity =>
+        {
+            entity.HasKey(e => e.ImageId).HasName("PK__RATING_I__7EA98689F3675B78");
+
+            entity.ToTable("RATING_IMAGES");
+
+            entity.Property(e => e.ImageId).HasColumnName("IMAGE_ID");
+            entity.Property(e => e.ImageUrl).HasColumnName("IMAGE_URL");
+            entity.Property(e => e.RatingId).HasColumnName("RATING_ID");
+
+            entity.HasOne(d => d.Rating).WithMany(p => p.RatingImages)
+                .HasForeignKey(d => d.RatingId)
+                .HasConstraintName("FK__RATING_IM__RATIN__3B40CD36");
         });
 
         modelBuilder.Entity<Role>(entity =>
