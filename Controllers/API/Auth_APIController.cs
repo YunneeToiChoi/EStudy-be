@@ -614,7 +614,7 @@ namespace study4_be.Controllers.API
            
             // Thực hiện kiểm tra xác thực userId và verificationCode
             // Ví dụ đơn giản: Kiểm tra trong cơ sở dữ liệu
-            var user = await _context.Users.FirstOrDefault(u => u.UserEmail == _req.userEmail);
+            var user = await _context.Users.FindAsync(_req.userEmail);
 
             if (user == null)
             {

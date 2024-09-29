@@ -29,6 +29,6 @@ public class UserDocumentResponse
     public double? price { get; set; }
 
     public double? documentSize { get; set; }
-    public string? documentImage {  get; set; } 
+    public string? thumbnailUrl {  get; set; } 
 
 }

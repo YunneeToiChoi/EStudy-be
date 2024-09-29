@@ -57,7 +57,7 @@ namespace study4_be.Controllers.API
                                   documentPublic = doc.IsPublic,
                                   documentUploadDate = doc.UploadDate,
                                   documentType = doc.FileType,
-                                  documentImage = doc.ThumbnailUrl,
+                                  thumbnailUrl = doc.ThumbnailUrl,
                                   userId = user.UserId,
                                   userName = user.UserName,       
                                   userImage = user.UserImage    
@@ -71,7 +71,7 @@ namespace study4_be.Controllers.API
                         documentTotalDownload = c.documentTotalDownload,
                         documentName = c.documentName,
                         documentPublic = c.documentPublic,
-                        documentImage = c.documentImage,
+                        thumbnailUrl = c.thumbnailUrl,
                         userId = c.userId,
                         userName = c.userName,            
                         userImage = c.userImage           
@@ -160,7 +160,7 @@ namespace study4_be.Controllers.API
                     documentUploadDate= c.UploadDate,
                     documentPrice = c.Price,
                     documentDescription = c.Description,
-                    documentImage = c.ThumbnailUrl
+                    thumbnailUrl = c.ThumbnailUrl
 
                 }).ToList();
                 return Ok(new
@@ -201,7 +201,7 @@ namespace study4_be.Controllers.API
                         courseId = doc.CourseId,
                         courseName = doc.Course?.CourseName ?? string.Empty,
                         documentDescription = doc.Description,
-                        documentImage = doc.ThumbnailUrl,
+                        thumbnailUrl = doc.ThumbnailUrl,
                         documentSize = doc.DocumentSize,
                         downloadCount = doc.DownloadCount,
                         fileType = doc.FileType,
