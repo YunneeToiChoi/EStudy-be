@@ -16,15 +16,12 @@ namespace study4_be.Controllers.Admin
         private readonly DepartmentRepository _departmentsRepository = new DepartmentRepository();
         public Study4Context _context = new Study4Context();
 
-        [HttpGet("GetAllDepartments")]
         public async Task<ActionResult<IEnumerable<Department>>> GetAllDepartments()
         {
             var departments = await _departmentsRepository.GetAllDepartmentsAsync();
             return Json(new { status = 200, message = "Get Department Successful", departments });
 
         }
-        //development enviroment
-        [HttpDelete("DeleteAllDepartments")]
         public async Task<IActionResult> DeleteAllDepartments()
         {
             await _departmentsRepository.DeleteAllDepartmentsAsync();
@@ -62,7 +59,6 @@ namespace study4_be.Controllers.Admin
                 return View(department);
             }
         }
-        [HttpGet("{id}")]
         public async Task<IActionResult> GetDepartmentById(int id)
         {
 

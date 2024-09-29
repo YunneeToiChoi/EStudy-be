@@ -68,7 +68,6 @@ namespace study4_be.Controllers.Admin
                 return View(unitViewModel);
             }
         }
-        [HttpGet("{id}")]
         public async Task<IActionResult> GetUnitById(int id)
         {
             var unit = await _context.Units.FindAsync(id);

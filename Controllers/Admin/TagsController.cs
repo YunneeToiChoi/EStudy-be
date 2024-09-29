@@ -13,7 +13,7 @@ namespace study4_be.Controllers.Admin
         {
             _logger = logger;
         }
-        public Study4Context _context = new Study4Context();
+        private readonly Study4Context _context = new Study4Context();
 
         public async Task<IActionResult> Tag_List()
         {
@@ -56,7 +56,6 @@ namespace study4_be.Controllers.Admin
             }
         }
 
-        [HttpGet("{id}")]
         public async Task<IActionResult> GetTagById(int id)
         {
             var tag = await _context.Tags.FindAsync(id);

@@ -12,15 +12,13 @@ namespace study4_be.Controllers.Admin
     {
         private readonly ILogger<Question_ExamController> _logger;
         private FireBaseServices _firebaseServices;
-        private GeneralAiAudioServices _generalAiAudioServices;
         public Question_ExamController(ILogger<Question_ExamController> logger, FireBaseServices firebaseServices)
         {
             _logger = logger;
             _firebaseServices = firebaseServices;
-            _generalAiAudioServices = new GeneralAiAudioServices();
         }
         private readonly QuestionRepository _questionsRepository = new QuestionRepository();
-        public Study4Context _context = new Study4Context();
+        private Study4Context _context = new Study4Context();
         public async Task<IActionResult> Question_Exam_List()
         {
             try
@@ -118,7 +116,6 @@ namespace study4_be.Controllers.Admin
             }
         }
 
-        [HttpGet("{id}")]
         public async Task<IActionResult> GetQuestionExamById(int id)
         {
             var question = await _context.Questions.FindAsync(id);

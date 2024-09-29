@@ -18,15 +18,12 @@ namespace study4_be.Controllers.Admin
         private readonly ExamRepository _examsRepository = new ExamRepository();
         public Study4Context _context = new Study4Context();
 
-        [HttpGet("GetAllExams")]
         public async Task<ActionResult<IEnumerable<Course>>> GetAllExams()
         {
             var exams = await _examsRepository.GetAllExamsAsync();
             return Json(new { status = 200, message = "Get Exam Successful", exams });
 
         }
-        //development enviroment
-        [HttpDelete("DeleteAllExams")]
         public async Task<IActionResult> DeleteAllCourses()
         {
             await _examsRepository.DeleteAllExamsAsync();
@@ -79,7 +76,6 @@ namespace study4_be.Controllers.Admin
             }
         }
 
-        [HttpGet("{id}")]
         public async Task<IActionResult> GetExamById(int id)
         {
             if (!ModelState.IsValid)

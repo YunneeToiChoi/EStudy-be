@@ -15,7 +15,7 @@ namespace study4_be.Controllers.Admin
             _logger = logger;
         }
         private readonly StaffRepository _staffsRepository = new StaffRepository();
-        public Study4Context _context = new Study4Context();
+        private readonly Study4Context _context = new Study4Context();
         public async Task<IActionResult> Staff_List()
         {
             var staffs = await _context.Staff.ToListAsync();
@@ -71,7 +71,6 @@ namespace study4_be.Controllers.Admin
             }
         }
 
-        [HttpGet("{id}")]
         public async Task<IActionResult> GetStaffById(int id)
         {
             var staff = await _context.Staff.FindAsync(id);

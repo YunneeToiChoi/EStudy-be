@@ -27,7 +27,6 @@ namespace study4_be.Controllers.Admin
 
         }
         //development enviroment
-        [HttpDelete("DeleteAllCourses")]
         public async Task<IActionResult> DeleteAllCourses()
         {
             await _coursesRepository.DeleteAllCoursesAsync();
@@ -81,8 +80,7 @@ namespace study4_be.Controllers.Admin
             }
         }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetCourseById(int id)
+        public async Task<IActionResult> GetCourseById(int id)  
         {
             if (!ModelState.IsValid)
             {
@@ -189,7 +187,7 @@ namespace study4_be.Controllers.Admin
                 _logger.LogError($"Course with ID {id} not found for deletion.");
                 return NotFound($"Course with ID {id} not found.");
             }
-            var course = _context.Courses.FirstOrDefault(c => c.CourseId == id);
+            var course = await _context.Courses.FirstOrDefaultAsync(c => c.CourseId == id);
             if (course == null)
             {
                 _logger.LogError($"Course with ID {id} not found for deletion.");

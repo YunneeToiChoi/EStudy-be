@@ -1,9 +1,12 @@
-﻿namespace study4_be.Payment.MomoPayment
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace study4_be.Payment.MomoPayment
 {
     public class MomoPaymentRequest
     {
         public string SubPartnerCode { get; set; } = string.Empty;
         public string RequestId { get; set; } = string.Empty;
+        [Required]
         public long Amount { get; set; } 
         public string OrderId { get; set; }= string.Empty;
         public string OrderInfo { get; set; } = string.Empty;
