@@ -34,7 +34,20 @@ namespace study4_be.Controllers.API
         [HttpGet("GetAllRating")]
         public async Task<IActionResult> GetRatingsOfDocument()
         {
-            var ratings = await _context.Ratings.ToListAsync();
+            var ratings = await _context.Ratings
+                .Include(r => r.RatingImages) 
+                .Select(r => new
+                {
+                    ratingId = r.Id,
+                    userId = r.UserId,
+                    ratingEntityType = r.EntityType,
+                    ratingEntityId = r.EntityId,
+                    ratingValue = r.RatingValue,
+                    ratingReview = r.Review,
+                    ratingDate = r.RatingDate,
+                    ratingImageUrls = r.RatingImages.Select(ri => ri.ImageUrl).ToList() 
+                })
+                .ToListAsync();
 
             return Ok(new
             {
@@ -43,13 +56,14 @@ namespace study4_be.Controllers.API
                 data = ratings
             });
         }
-
         [HttpPost("RatingOfDocument")]
         public async Task<IActionResult> GetRatingsOfDocument(OfDocumentIdRequest _req)
         {
-            var ratings = await _context.Ratings
-                .Where(r => r.EntityType == "Document" && r.EntityId == _req.idDocument)
-                .Select(r => new RatingDocumentResponse
+                var ratings = await _context.Ratings
+               .Include(r => r.RatingImages) // Nạp dữ liệu liên quan
+               .Include(r => r.User) // Nạp dữ liệu người dùng
+               .Where(r => r.EntityType == "Document" && r.EntityId == _req.documentId)
+                   .Select(r => new RatingDocumentResponse
                 {
                     ratingId = r.EntityId,
                     userId = r.UserId,
@@ -98,7 +112,7 @@ namespace study4_be.Controllers.API
         }
 
         // Lấy đánh giá của người dùng
-        [HttpPost("user/{userId}")]
+        [HttpPost("RatingOfUser")]
         public async Task<IActionResult> GetRatingsOfUser(OfUserIdRequest _req)
         {
             var ratings = await _context.Ratings

@@ -6,6 +6,6 @@ namespace study4_be.Services.Request.Document
     public class OfDocumentIdRequest
     {
         [Required]
-        public int idDocument { get; set; }
+        public int documentId { get; set; }
     }
 }

@@ -1,7 +1,10 @@
-﻿namespace study4_be.Services.Request
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace study4_be.Services.Request
 {
     public class OfUserIdRequest
     {
-        public string? userId { get; set; }
+        [Required]
+        public string userId { get; set; }
     }
 }
