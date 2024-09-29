@@ -619,7 +619,7 @@ namespace study4_be.Controllers.API
                 return BadRequest("User email must be provided");
             }
 
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.UserEmail == _req.userEmail);
+            var user = await _context.Users.FindAsync(_req.userEmail);
 
             if (user == null)
             {

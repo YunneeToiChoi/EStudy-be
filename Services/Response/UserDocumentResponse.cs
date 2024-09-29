@@ -10,7 +10,7 @@ namespace study4_be.Services.Response
 
         public string title { get; set; } = null!;
 
-        public string? description { get; set; }
+    public string? documentDescription { get; set; }
 
         public string fileUrl { get; set; } = null!;
 
@@ -30,7 +30,8 @@ namespace study4_be.Services.Response
 
         public double? price { get; set; }
 
-        public double? documentSize { get; set; }
+    public double? documentSize { get; set; }
+    public string? thumbnailUrl {  get; set; } 
 
     }
 }

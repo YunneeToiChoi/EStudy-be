@@ -7,6 +7,9 @@ using study4_be.Services.Request;
 using study4_be.Services.Request.Document;
 using study4_be.Validation;
 using System.Collections.Immutable;
+using PdfSharpCore.Pdf;
+using System.Drawing.Imaging;
+using PdfiumViewer;
 
 namespace study4_be.Controllers.API
 {
@@ -54,6 +57,7 @@ namespace study4_be.Controllers.API
                                   documentPublic = doc.IsPublic,
                                   documentUploadDate = doc.UploadDate,
                                   documentType = doc.FileType,
+                                  thumbnailUrl = doc.ThumbnailUrl,
                                   userId = user.UserId,
                                   userName = user.UserName,       
                                   userImage = user.UserImage    
@@ -67,6 +71,7 @@ namespace study4_be.Controllers.API
                         documentTotalDownload = c.documentTotalDownload,
                         documentName = c.documentName,
                         documentPublic = c.documentPublic,
+                        thumbnailUrl = c.thumbnailUrl,
                         userId = c.userId,
                         userName = c.userName,            
                         userImage = c.userImage           
@@ -154,6 +159,8 @@ namespace study4_be.Controllers.API
                     documentType= c.FileType,
                     documentUploadDate= c.UploadDate,
                     documentPrice = c.Price,
+                    documentDescription = c.Description,
+                    thumbnailUrl = c.ThumbnailUrl
 
                 }).ToList();
                 return Ok(new
@@ -193,7 +200,8 @@ namespace study4_be.Controllers.API
                         categoryName = doc.Category?.CategoryName ?? string.Empty,
                         courseId = doc.CourseId,
                         courseName = doc.Course?.CourseName ?? string.Empty,
-                        description = doc.Description,
+                        documentDescription = doc.Description,
+                        thumbnailUrl = doc.ThumbnailUrl,
                         documentSize = doc.DocumentSize,
                         downloadCount = doc.DownloadCount,
                         fileType = doc.FileType,
@@ -269,10 +277,8 @@ namespace study4_be.Controllers.API
                 return BadRequest($"Error occurred: {e.Message}");
             }
         }
-     
-        // upload -> fe send file , be -> file + idFile -> fe save -> DETAIL -> cate,.... + idFile , 
         [HttpPost("Upload")]
-        public async Task<IActionResult> UploadDocuments(UploadDocumentRequest _req) 
+        public async Task<IActionResult> UploadDocuments(UploadDocumentRequest _req)
         {
             if (_req.files == null || !_req.files.Any())
             {
@@ -288,7 +294,6 @@ namespace study4_be.Controllers.API
                 }
 
                 var uploadedFiles = new List<object>();
-
                 foreach (var file in _req.files)
                 {
                     if (file == null || file.Length == 0)
@@ -298,36 +303,79 @@ namespace study4_be.Controllers.API
 
                     var fileName = file.FileName;
                     var fileSizeInBytes = file.Length;
-                    var fileSizeReadable = ConvertFileSize(fileSizeInBytes); // Convert to KB/MB
-                    // Convert IFormFile to Stream
+                    var fileSizeReadable = ConvertFileSize(fileSizeInBytes);
+                    var fileExtension = Path.GetExtension(fileName);
+
                     using (var fileStream = file.OpenReadStream())
                     {
-                        var fileUrl = await _fireBaseServices.UploadFileDocAsync(fileStream, fileName, _req.userId);
-                        var fileExtension = Path.GetExtension(fileName);
-                        var userDoc = new Document
+                        // Read the entire file stream into a MemoryStream
+                        using (var memoryStream = new MemoryStream())
                         {
-                            UserId = _req.userId,
-                            DownloadCount = 0,
-                            FileType = fileExtension,
-                            FileUrl = fileUrl,
-                            Title = fileName,
-                            UploadDate = DateTime.UtcNow,
-                            DocumentSize = fileSizeInBytes // Save file size in database (in bytes)
-                        };
+                            await fileStream.CopyToAsync(memoryStream);
+                            memoryStream.Seek(0, SeekOrigin.Begin); // Reset the position to the beginning for the upload
 
-                        _context.Documents.Add(userDoc);
-                        await _context.SaveChangesAsync(); // Save document to database to generate DocumentId
+                            // Upload the document to Firebase
+                            var fileUrl = await _fireBaseServices.UploadFileDocAsync(memoryStream, fileName, _req.userId);
 
-                        // Add both FileUrl and DocumentId to the response
-                        uploadedFiles.Add(new
-                        {
-                            DocumentId = userDoc.DocumentId, // Return DocumentId
-                            DocumentName = fileName,
-                            FileSize = fileSizeReadable,
-                            FileUrl = fileUrl
-                        });
+                            // Initialize a thumbnail URL (in case it's not a PDF)
+                            string thumbnailUrl = null;
+
+                            // Check if the file is a PDF
+                            if (fileExtension.Equals(".pdf", StringComparison.OrdinalIgnoreCase))
+                            {
+                                // Extract first page as image
+                                using (var thumbnailStream = new MemoryStream())
+                                {
+                                    // Copy memoryStream to thumbnailStream for thumbnail extraction
+                                    memoryStream.Seek(0, SeekOrigin.Begin); // Ensure memoryStream is at the beginning
+                                    await memoryStream.CopyToAsync(thumbnailStream);
+                                    thumbnailStream.Seek(0, SeekOrigin.Begin); // Reset thumbnailStream position
+
+                                    // Extract the first page image from the PDF stream
+                                    using (var firstPageImage = ExtractFirstPageAsImage(thumbnailStream))
+                                    {
+                                        if (firstPageImage != null)
+                                        {
+                                            // Ensure the position of firstPageImage is reset before upload
+                                            firstPageImage.Seek(0, SeekOrigin.Begin);
+
+                                            // Upload thumbnail to Firebase
+                                            var thumbnailFileName = Path.GetFileNameWithoutExtension(fileName) + "_thumbnail.jpg";
+                                            thumbnailUrl = await _fireBaseServices.UploadFileDocAsync(firstPageImage, thumbnailFileName, _req.userId);
+                                        }
+                                    }
+                                }
+                            }
+
+                            // Save document data to the database
+                            var userDoc = new Document
+                            {
+                                UserId = _req.userId,
+                                DownloadCount = 0,
+                                FileType = fileExtension,
+                                FileUrl = fileUrl,
+                                ThumbnailUrl = thumbnailUrl,
+                                Title = fileName,
+                                UploadDate = DateTime.UtcNow,
+                                DocumentSize = fileSizeInBytes
+                            };
+
+                            await _context.Documents.AddAsync(userDoc);
+                            await _context.SaveChangesAsync();
+
+                            // Add both FileUrl and DocumentId to the response
+                            uploadedFiles.Add(new
+                            {
+                                DocumentId = userDoc.DocumentId,
+                                DocumentName = fileName,
+                                FileSize = fileSizeReadable,
+                                FileUrl = fileUrl,
+                                ThumbnailUrl = thumbnailUrl
+                            });
+                        }
                     }
                 }
+
                 return Ok(new { status = 200, Files = uploadedFiles });
             }
             catch (Exception e)
@@ -335,6 +383,30 @@ namespace study4_be.Controllers.API
                 return BadRequest($"Error occurred: {e.Message}");
             }
         }
+
+        private Stream ExtractFirstPageAsImage(Stream pdfStream)
+        {
+            // Open the PDF document using PdfiumViewer
+            using (var pdfDocument = PdfiumViewer.PdfDocument.Load(pdfStream))
+            {
+                if (pdfDocument.PageCount < 1)
+                {
+                    return null; // No pages in the PDF
+                }
+
+                // Render the first page of the PDF to a bitmap
+                using (var firstPageImage = pdfDocument.Render(0, 300, 300, true)) // 300 DPI
+                {
+                    // Convert Bitmap to MemoryStream
+                    var memoryStream = new MemoryStream();
+                    firstPageImage.Save(memoryStream, ImageFormat.Jpeg); // Save the image as JPEG
+                    memoryStream.Seek(0, SeekOrigin.Begin); // Reset stream position for reading
+                    return memoryStream; // Return the stream containing the JPEG image
+                }
+            }
+        }
+
+
         // Helper method to convert file size to KB or MB
         private string ConvertFileSize(long fileSizeInBytes)
         {
