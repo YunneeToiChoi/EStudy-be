@@ -11,12 +11,15 @@ namespace study4_be.Controllers.Admin
     public class VideoController : Controller
     {
         private readonly ILogger<VideoController> _logger;
-        public VideoController(ILogger<VideoController> logger)
+        private readonly VideoRepository _videosRepository;
+        private readonly Study4Context _context;
+        public VideoController(ILogger<VideoController> logger, Study4Context context)
         {
             _logger = logger;
+            _context = context;
+            _videosRepository = new(context);
         }
-        private readonly VideoRepository _videosRepository = new VideoRepository();
-        public Study4Context _context = new Study4Context();
+        
         public async Task<IActionResult> Video_List()
         {
             try

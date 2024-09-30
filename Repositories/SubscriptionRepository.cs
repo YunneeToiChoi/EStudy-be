@@ -5,7 +5,12 @@ namespace study4_be.Repositories
 {
     public class SubscriptionRepository
     {
-        private readonly Study4Context _context = new();
+        private readonly Study4Context _context;
+
+        public SubscriptionRepository(Study4Context context)
+        {
+            _context = context;
+        }
 
         public async Task<IEnumerable<Subscriptionplan>> GetAllPlans()
         {

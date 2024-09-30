@@ -600,7 +600,7 @@
 			gradient.addColorStop(0, "rgba(215, 227, 244, 1)");
 			gradient.addColorStop(1, "rgba(215, 227, 244, 0)");
 			// Line chart
-			new Chart(document.getElementById("chartjs-dashboard-line"), {
+			const line = new Chart(document.getElementById("chartjs-dashboard-line"), {
 				type: "line",
 				data: {
 					labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
@@ -666,7 +666,7 @@
 	<script>
 		document.addEventListener("DOMContentLoaded", function() {
 			// Pie chart
-			new Chart(document.getElementById("chartjs-dashboard-pie"), {
+			const pie = new Chart(document.getElementById("chartjs-dashboard-pie"), {
 				type: "pie",
 				data: {
 					labels: ["Chrome", "Firefox", "IE"],
@@ -694,7 +694,7 @@
 	<script>
 		document.addEventListener("DOMContentLoaded", function() {
 			// Bar chart
-			new Chart(document.getElementById("chartjs-dashboard-bar"), {
+			const bar = new Chart(document.getElementById("chartjs-dashboard-bar"), {
 				type: "bar",
 				data: {
 					labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],

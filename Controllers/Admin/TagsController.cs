@@ -9,11 +9,13 @@ namespace study4_be.Controllers.Admin
     public class TagsController : Controller
     {
         private readonly ILogger<TagsController> _logger;
-        public TagsController(ILogger<TagsController> logger)
+        private readonly Study4Context _context;
+        public TagsController(ILogger<TagsController> logger, Study4Context context)
         {
             _logger = logger;
+            _context = context;
         }
-        private readonly Study4Context _context = new Study4Context();
+        
 
         public async Task<IActionResult> Tag_List()
         {

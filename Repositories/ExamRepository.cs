@@ -5,7 +5,9 @@ namespace study4_be.Repositories
 {
     public class ExamRepository
     {
-        private readonly Study4Context _context = new Study4Context();
+        private readonly Study4Context _context;
+
+        public ExamRepository(Study4Context context) { _context = context; }
         public async Task<IEnumerable<Exam>> GetAllExamsAsync()
         {
             return await _context.Exams.ToListAsync();

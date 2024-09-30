@@ -14,14 +14,17 @@ namespace study4_be.Controllers.Admin
         private readonly ILogger<QuestionController> _logger;
         private FireBaseServices _firebaseServices;
         private GeneralAiAudioServices _generalAiAudioServices;
-        public QuestionController(ILogger<QuestionController> logger, FireBaseServices firebaseServices)
+        private readonly QuestionRepository _questionsRepository;
+        private readonly Study4Context _context;
+        public QuestionController(ILogger<QuestionController> logger, FireBaseServices firebaseServices,Study4Context context)
         {
             _logger = logger;
             _firebaseServices = firebaseServices;
             _generalAiAudioServices = new GeneralAiAudioServices();
+            _context = context;
+            _questionsRepository = new(context);
         }
-        private readonly QuestionRepository _questionsRepository = new QuestionRepository();
-        private readonly Study4Context _context = new Study4Context();
+       
         public async Task<IActionResult> DeleteAllQuestions()
         {
             await _questionsRepository.DeleteAllQuestionsAsync();

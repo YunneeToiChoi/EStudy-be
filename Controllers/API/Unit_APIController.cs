@@ -11,8 +11,14 @@ namespace study4_be.Controllers.API
     [ApiController]
     public class Unit_APIController : Controller
     {
-        private UnitRepository _unitRepo = new UnitRepository();
-        private Study4Context _context = new Study4Context();
+        private UnitRepository _unitRepo;
+        private Study4Context _context;
+
+        public Unit_APIController(Study4Context context) 
+        { 
+            _context = context;
+            _unitRepo = new(context);
+        }
         [HttpPost("Get_AllUnitsByCourse")]
         public async Task<ActionResult> Get_AllUnitsByCourse(GetAllUnitsByCourses courses)
         {

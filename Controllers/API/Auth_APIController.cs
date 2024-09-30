@@ -31,17 +31,17 @@ namespace study4_be.Controllers.API
     [ApiController]
     public class Auth_APIController : Controller
     {
-        private readonly UserRepository _userRepository = new UserRepository();
+        private readonly UserRepository _userRepository;
         private SMTPServices _smtpServices;
         private readonly IConfiguration _configuration;
-        private Study4Context _context = new Study4Context();
-        private UserRegistrationValidator _userRegistrationValidator = new UserRegistrationValidator();
+        private Study4Context _context;
+        private UserRegistrationValidator _userRegistrationValidator;
         private readonly ILogger<Auth_APIController> _logger;
         private readonly FireBaseServices _fireBaseServices;
         private readonly JwtTokenGenerator _jwtServices;
 
         private readonly IHttpClientFactory _httpClientFactory;
-        public Auth_APIController(IConfiguration configuration ,ILogger<Auth_APIController> logger, FireBaseServices fireBaseServices, SMTPServices smtpServices, IHttpClientFactory httpClientFactory, JwtTokenGenerator jwtServices)
+        public Auth_APIController(IConfiguration configuration ,ILogger<Auth_APIController> logger, FireBaseServices fireBaseServices, SMTPServices smtpServices, IHttpClientFactory httpClientFactory, JwtTokenGenerator jwtServices, Study4Context context)
         {
             _configuration = configuration;
             _logger = logger;
@@ -49,6 +49,9 @@ namespace study4_be.Controllers.API
             _smtpServices = smtpServices;
             _httpClientFactory = httpClientFactory;
             _jwtServices = jwtServices;
+            _context = context;
+            _userRepository = new(context);
+            _userRegistrationValidator = new(_userRepository);
         }
         [HttpPost("Register")]
         public async Task<IActionResult> Register()

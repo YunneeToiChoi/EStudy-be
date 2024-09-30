@@ -11,13 +11,16 @@ namespace study4_be.Controllers.Admin
     [Route("[controller]/{action=Index}")]
     public class ContainerController : Controller
     {
+        private readonly Study4Context _context;
+        private readonly ContainerRepository _containersRepository;
         private readonly ILogger<ContainerController> _logger;
-        public ContainerController(ILogger<ContainerController> logger)
+        public ContainerController(ILogger<ContainerController> logger, Study4Context context)
         {
             _logger = logger;
+            _context = context;
+            _containersRepository = new(context);
         }
-        private readonly ContainerRepository _containersRepository = new ContainerRepository();
-        public Study4Context _context = new Study4Context();
+        
         public async Task<IActionResult> Container_List()
         {
             var containers = await _context.Containers

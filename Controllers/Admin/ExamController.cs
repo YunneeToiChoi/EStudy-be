@@ -10,14 +10,16 @@ namespace study4_be.Controllers.Admin
     {
         private readonly ILogger<ExamController> _logger;
         private FireBaseServices _fireBaseServices;
-        public ExamController(ILogger<ExamController> logger, FireBaseServices fireBaseServices)
+        private readonly ExamRepository _examsRepository;
+        private  readonly Study4Context _context;
+        public ExamController(ILogger<ExamController> logger, FireBaseServices fireBaseServices,Study4Context context)
         {
             _logger = logger;
             _fireBaseServices = fireBaseServices;
-
+            _context = context;
+            _examsRepository = new(context);
         }
-        private readonly ExamRepository _examsRepository = new ExamRepository();
-        public Study4Context _context = new Study4Context();
+        
 
         public async Task<ActionResult<IEnumerable<Course>>> GetAllExams()
         {

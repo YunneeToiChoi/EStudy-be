@@ -17,8 +17,14 @@ namespace study4_be.Controllers.API
     [ApiController]
     public class Courses_APIController : Controller
     {
-        private readonly CourseRepository _coursesRepository = new CourseRepository();
-        public Study4Context _context = new Study4Context();
+        private readonly CourseRepository _coursesRepository;
+        public Study4Context _context;
+
+        public Courses_APIController (Study4Context context)
+        {
+            _context = context;
+            _coursesRepository = new(context);
+        }
 
         [HttpGet("Get_AllCourses")] 
         public async Task<ActionResult<IEnumerable<Course>>> Get_AllCourses()

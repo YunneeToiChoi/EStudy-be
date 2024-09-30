@@ -21,10 +21,10 @@ namespace study4_be.Controllers.API
         private readonly Study4Context _context;
         private readonly VocabFlashCardRepository _vocabFlashCardRepo;
         private readonly ILogger<VocabFlashCard_APIController> _logger;
-        public VocabFlashCard_APIController(ILogger<VocabFlashCard_APIController> logger)
+        public VocabFlashCard_APIController(ILogger<VocabFlashCard_APIController> logger, Study4Context context)
         {
-            _context = new Study4Context();
-            _vocabFlashCardRepo = new VocabFlashCardRepository();
+            _context = context;
+            _vocabFlashCardRepo = new(context);
             _logger = logger;
         }
         [HttpPost("Get_AllVocabOfLesson")]

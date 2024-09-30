@@ -11,12 +11,15 @@ namespace study4_be.Controllers.Admin
     public class UnitController : Controller
     {
         private readonly ILogger<UnitController> _logger;
-        public UnitController(ILogger<UnitController> logger)
+        private readonly UnitRepository _unitsRepository;
+        private  readonly Study4Context _context;
+        public UnitController(ILogger<UnitController> logger, Study4Context context)
         {
             _logger = logger;
+            _context = context;
+            _unitsRepository = new(context);
         }
-        private readonly UnitRepository _unitsRepository = new UnitRepository();
-        public Study4Context _context = new Study4Context();
+        
         public async Task<IActionResult> Unit_List()
         {
             var units = await _context.Units.ToListAsync();

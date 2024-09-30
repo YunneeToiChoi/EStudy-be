@@ -11,12 +11,15 @@ namespace study4_be.Controllers.Admin
     public class LessonController : Controller
     {
         private readonly ILogger<LessonController> _logger;
-        public LessonController(ILogger<LessonController> logger)
+        private readonly LessonRepository _lessonsRepository;
+        private readonly Study4Context _context;
+        public LessonController(ILogger<LessonController> logger,Study4Context context)
         {
             _logger = logger;
+            _context = context;
+            _lessonsRepository = new(context);
         }
-        private readonly LessonRepository _lessonsRepository = new LessonRepository();
-        public Study4Context _context = new Study4Context();
+        
         public async Task<ActionResult<IEnumerable<Lesson>>> GetAllLessons()
         {
             var lessons = await _lessonsRepository.GetAllLessonsAsync();

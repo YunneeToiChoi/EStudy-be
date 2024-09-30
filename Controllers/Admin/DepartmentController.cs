@@ -9,12 +9,15 @@ namespace study4_be.Controllers.Admin
     public class DepartmentController : Controller
     {
         private readonly ILogger<DepartmentController> _logger;
-        public DepartmentController(ILogger<DepartmentController> logger)
+        private readonly DepartmentRepository _departmentsRepository;
+        private readonly Study4Context _context;
+        public DepartmentController(ILogger<DepartmentController> logger, Study4Context context)
         {
             _logger = logger;
+            _context = context;
+            _departmentsRepository = new(context);
         }
-        private readonly DepartmentRepository _departmentsRepository = new DepartmentRepository();
-        public Study4Context _context = new Study4Context();
+        
 
         public async Task<ActionResult<IEnumerable<Department>>> GetAllDepartments()
         {

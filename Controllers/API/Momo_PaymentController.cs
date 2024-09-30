@@ -29,12 +29,14 @@ namespace study4_be.Controllers.API
         private readonly HashHelper _hashHelper;
         private readonly ContractPOServices _contractPOServices;
         private SMTPServices _smtpServices;
-        private Study4Context _context = new Study4Context();
+        private Study4Context _context;
         public Momo_PaymentController(ILogger<Momo_PaymentController> logger,
                                      IOptions<MomoConfig> momoPaymentSettings,
                                      SMTPServices sMTPServices,
-                                     ContractPOServices contractPOServices)
+                                     ContractPOServices contractPOServices,
+                                     Study4Context context)
         {
+            _context = context;
             _logger = logger;
             _hashHelper = new HashHelper();
             _momoConfig = momoPaymentSettings.Value;

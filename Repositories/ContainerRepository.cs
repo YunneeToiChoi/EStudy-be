@@ -6,7 +6,8 @@ namespace study4_be.Repositories
 {
     public class ContainerRepository
     {
-        private readonly Study4Context _context = new Study4Context();
+        private readonly Study4Context _context;
+        public ContainerRepository(Study4Context context) { _context = context; }
         //public async Task<UnitDetail> GetAllContainersAndLessonsByUnitAsync(int unitId)
         //{
         

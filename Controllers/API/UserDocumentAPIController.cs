@@ -18,14 +18,17 @@ namespace study4_be.Controllers.API
     [Route("api/[controller]")]
     public class UserDocumentAPIController : Controller
     {
-        private readonly UserRepository _userRepository = new UserRepository();
-        private Study4Context _context = new Study4Context();
-        private UserRegistrationValidator _userRegistrationValidator = new UserRegistrationValidator();
+        private readonly UserRepository _userRepository;
+        private Study4Context _context;
+        private UserRegistrationValidator _userRegistrationValidator;
         private readonly FireBaseServices _fireBaseServices;
 
-        public UserDocumentAPIController(FireBaseServices fireBaseServices)
+        public UserDocumentAPIController(FireBaseServices fireBaseServices, Study4Context context)
         {
             _fireBaseServices = fireBaseServices;
+            _context = context;
+            _userRepository = new(context);
+            _userRegistrationValidator = new(_userRepository);
         }
         //################################################### DOCUMENT ##########################################//
 

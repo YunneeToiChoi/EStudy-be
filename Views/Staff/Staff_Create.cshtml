@@ -13,27 +13,27 @@
             <p class="card-description">Create</p>
             <form asp-action="Staff_Create" method="post" enctype="multipart/form-data" class="forms-sample">
                 <div class="form-group">
-                    <label asp-for="Staffs.StaffName">StaffName</label>
+                    <label for="Staffs.StaffName">StaffName</label>
                     <input asp-for="Staffs.StaffName" class="form-control" />
                     <span asp-validation-for="Staffs.StaffName" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label asp-for="Staffs.StaffType">StaffType</label>
+                    <label for="Staffs.StaffType">StaffType</label>
                     <input asp-for="Staffs.StaffType" class="form-control" />
                     <span asp-validation-for="Staffs.StaffType" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label asp-for="Staffs.StaffEmail">StaffEmail</label>
+                    <label for="Staffs.StaffEmail">StaffEmail</label>
                     <input asp-for="Staffs.StaffEmail" class="form-control" />
                     <span asp-validation-for="Staffs.StaffEmail" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label asp-for="Staffs.StaffCmnd">StaffCmnd</label>
+                    <label for="Staffs.StaffCmnd">StaffCmnd</label>
                     <input asp-for="Staffs.StaffCmnd" class="form-control" />
                     <span asp-validation-for="Staffs.StaffCmnd" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label asp-for="Staffs.DepartmentId">DepartmentId</label>
+                    <label for="Staffs.DepartmentId">DepartmentId</label>
                     <select asp-for="Staffs.DepartmentId" class="form-control" asp-items="Model.Departments"></select>
                     <span asp-validation-for="Staffs.DepartmentId" class="text-danger"></span>
                 </div>

@@ -17,14 +17,17 @@ namespace study4_be.Controllers.Admin
         private readonly ILogger<VocabController> _logger;
         private FireBaseServices _firebaseServices;
         private GeneralAiAudioServices _generalAiAudioServices;
-        public VocabController(ILogger<VocabController> logger, FireBaseServices firebaseServices)
+        private readonly VocabRepository _vocabsRepository;
+        private readonly Study4Context _context;
+        public VocabController(ILogger<VocabController> logger, FireBaseServices firebaseServices, Study4Context context)
         {
             _logger = logger;
             _generalAiAudioServices = new GeneralAiAudioServices();
             _firebaseServices = firebaseServices;
+            _context = context;
+            _vocabsRepository = new(context);
         }
-        private readonly VocabRepository _vocabsRepository = new VocabRepository();
-        public Study4Context _context = new Study4Context();
+        
         public async Task<IActionResult> DeleteAllVocabs()
         {
             await _vocabsRepository.DeleteAllVocabAsync();

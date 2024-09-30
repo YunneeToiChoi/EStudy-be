@@ -10,14 +10,17 @@ namespace study4_be.Controllers.Admin
     public class CoursesController : Controller
     {
         private readonly ILogger<CoursesController> _logger;
-        public Study4Context _context = new Study4Context();
+        public  readonly  Study4Context _context;
         private FireBaseServices _fireBaseServices;
-        public CoursesController(ILogger<CoursesController> logger, FireBaseServices fireBaseServices)
+        private readonly CourseRepository _coursesRepository;
+        public CoursesController(ILogger<CoursesController> logger, FireBaseServices fireBaseServices, Study4Context context)
         {
             _logger = logger;
             _fireBaseServices = fireBaseServices;
+            _context = context;
+            _coursesRepository = new(context);
         }
-        private readonly CourseRepository _coursesRepository = new CourseRepository();
+        
 
         [HttpGet("GetAllCourses")]
         public async Task<ActionResult<IEnumerable<Course>>> GetAllCourses()

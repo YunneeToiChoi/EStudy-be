@@ -12,13 +12,16 @@ namespace study4_be.Controllers.Admin
     {
         private readonly ILogger<Question_ExamController> _logger;
         private FireBaseServices _firebaseServices;
-        public Question_ExamController(ILogger<Question_ExamController> logger, FireBaseServices firebaseServices)
+        private readonly QuestionRepository _questionsRepository;
+        private readonly Study4Context _context;
+        public Question_ExamController(ILogger<Question_ExamController> logger, FireBaseServices firebaseServices,Study4Context context)
         {
             _logger = logger;
             _firebaseServices = firebaseServices;
+            _context = context;
+            _questionsRepository = new(context);
         }
-        private readonly QuestionRepository _questionsRepository = new QuestionRepository();
-        private Study4Context _context = new Study4Context();
+        
         public async Task<IActionResult> Question_Exam_List()
         {
             try

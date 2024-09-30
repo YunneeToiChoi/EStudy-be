@@ -33,7 +33,8 @@ builder.Services.AddControllers()
 // Đăng ký DbContext
 builder.Services.AddDbContext<Study4Context>(options =>
 {
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+    var connectString = builder.Configuration.GetConnectionString("DefaultConnection");
+    options.UseSqlServer(connectString);
 });
 
 // Đăng ký các dịch vụ

@@ -5,7 +5,8 @@ namespace study4_be.Repositories
 {
 	public class VideoRepository
 	{
-		private readonly Study4Context _context = new Study4Context();
+		private readonly Study4Context _context;
+		public VideoRepository(Study4Context context) { _context = context; }
 		public async Task<IEnumerable<Video>> GetAllVideosAsync()
 		{
 			return await _context.Videos.ToListAsync();

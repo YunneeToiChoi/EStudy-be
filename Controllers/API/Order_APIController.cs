@@ -14,8 +14,13 @@ namespace study4_be.Controllers.API
 	[ApiController]
 	public class Order_APIController : Controller
 	{
-		private OrderRepository ordRepo = new OrderRepository();
-		private Study4Context _context = new Study4Context();
+		private OrderRepository ordRepo;
+		private Study4Context _context;
+		public Order_APIController(Study4Context context)
+		{
+			this._context = context;
+			ordRepo = new(context);
+		}
 		[HttpGet]
         private string GenerateOrderId(string userId, int courseId)
         {

@@ -14,7 +14,9 @@ namespace study4_be.Controllers.API
     [ApiController]
     public class Exam_APIController : Controller
     {
-        private Study4Context _context = new Study4Context();
+        private Study4Context _context;
+
+        public Exam_APIController(Study4Context context) { _context = context; }
         [HttpGet("Get_AllExams")]
         public async Task<ActionResult<IEnumerable<Exam>>> Get_AllExams()
         {

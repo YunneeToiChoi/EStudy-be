@@ -15,10 +15,12 @@ namespace study4_be.Controllers.API
     public class SubscriptionPlan_APIController : ControllerBase
     {
         private readonly ILogger<SubscriptionPlan_APIController> _logger;
-        private readonly SubscriptionRepository _subscriptionRepository = new SubscriptionRepository();
-        private readonly Study4Context _context = new();
-        public SubscriptionPlan_APIController(ILogger<SubscriptionPlan_APIController> logger)
-        {
+        private readonly SubscriptionRepository _subscriptionRepository;
+        private readonly Study4Context _context;
+
+        public SubscriptionPlan_APIController(Study4Context context, ILogger<SubscriptionPlan_APIController> logger) 
+        {   _context = context; 
+            _subscriptionRepository = new(context);
             _logger = logger;
         }
 

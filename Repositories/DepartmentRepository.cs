@@ -5,7 +5,13 @@ namespace study4_be.Repositories
 {
     public class DepartmentRepository
     {
-        private readonly Study4Context _context = new Study4Context();
+        private readonly Study4Context _context;
+
+        public DepartmentRepository(Study4Context context)
+        {
+            _context = context;
+        }
+
         public async Task<IEnumerable<Department>> GetAllDepartmentsAsync()
         {
             return await _context.Departments.ToListAsync();
