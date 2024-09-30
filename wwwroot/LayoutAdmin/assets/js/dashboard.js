@@ -66,7 +66,6 @@
                   pointRadius: 0,
                   fill: false,
                   borderWidth: 1,
-                  fill: 'origin',
                   data: [20, 40, 15, 35, 25, 50, 30, 20]
                 },
                 {
@@ -77,7 +76,6 @@
                   pointRadius: 0,
                   fill: false,
                   borderWidth: 1,
-                  fill: 'origin',
                   data: [40, 30, 20, 10, 50, 15, 35, 20]
                 }
             ]
@@ -141,7 +139,6 @@
                   pointRadius: 0,
                   fill: false,
                   borderWidth: 1,
-                  fill: 'origin',
                   data: [20, 40, 15, 35, 25, 50, 30, 20]
                 },
                 {
@@ -152,7 +149,6 @@
                   pointRadius: 0,
                   fill: false,
                   borderWidth: 1,
-                  fill: 'origin',
                   data: [40, 30, 20, 10, 50, 15, 35, 20]
                 }
             ]
@@ -229,7 +225,6 @@
                 pointRadius: 0,
                 fill: false,
                 borderWidth: 1,
-                fill: 'origin',
                 data: [20, 40, 15, 35, 25, 50, 30, 20]
               },
               {
@@ -241,7 +236,6 @@
                 pointRadius: 0,
                 fill: false,
                 borderWidth: 1,
-                fill: 'origin',
                 data: [40, 30, 20, 10, 50, 15, 35, 40]
               },
               {
@@ -253,7 +247,6 @@
                 pointRadius: 0,
                 fill: false,
                 borderWidth: 1,
-                fill: 'origin',
                 data: [70, 10, 30, 40, 25, 50, 15, 30]
               }
           ]
@@ -346,7 +339,6 @@
                 pointRadius: 0,
                 fill: false,
                 borderWidth: 1,
-                fill: 'origin',
                 data: [20, 40, 15, 35, 25, 50, 30, 20]
               },
               {
@@ -358,7 +350,6 @@
                 pointRadius: 0,
                 fill: false,
                 borderWidth: 1,
-                fill: 'origin',
                 data: [40, 30, 20, 10, 50, 15, 35, 40]
               },
               {
@@ -370,7 +361,6 @@
                 pointRadius: 0,
                 fill: false,
                 borderWidth: 1,
-                fill: 'origin',
                 data: [70, 10, 30, 40, 25, 50, 15, 30]
               }
           ]

@@ -168,7 +168,6 @@ namespace study4_be.Controllers.Admin
                 _logger.LogError($"Container not found for deletion.");
                 return NotFound($"Container not found.");
             }
-
             try
             {
                 _context.Containers.RemoveRange(container);
