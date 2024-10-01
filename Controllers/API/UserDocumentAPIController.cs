@@ -153,7 +153,7 @@ namespace study4_be.Controllers.API
                     documentId = c.DocumentId,
                     documentName = c.Title,
                     documentPublic = c.IsPublic,
-                    documentFileUrl = c.FileUrl,
+                    //documentFileUrl = c.FileUrl, // needn't return file url , will private 
                     documentType= c.FileType,
                     documentUploadDate= c.UploadDate,
                     documentPrice = c.Price,
@@ -272,72 +272,6 @@ namespace study4_be.Controllers.API
                 return BadRequest($"Error occurred: {e.Message}");
             }
         }
-
-        // upload -> fe send file , be -> file + idFile -> fe save -> DETAIL -> cate,.... + idFile , 
-        //[HttpPost("Upload")]
-        //public async Task<IActionResult> UploadDocuments(UploadDocumentRequest _req) 
-        //{
-        //    if (_req.files == null || !_req.files.Any())
-        //    {
-        //        return BadRequest("No files uploaded.");
-        //    }
-
-        //    try
-        //    {
-        //        var userExist = await _context.Users.AnyAsync(u => u.UserId == _req.userId);
-        //        if (!userExist)
-        //        {
-        //            return BadRequest("User does not exist.");
-        //        }
-
-        //        var uploadedFiles = new List<object>();
-
-        //        foreach (var file in _req.files)
-        //        {
-        //            if (file == null || file.Length == 0)
-        //            {
-        //                continue; // Skip empty files
-        //            }
-
-        //            var fileName = file.FileName;
-        //            var fileSizeInBytes = file.Length;
-        //            var fileSizeReadable = ConvertFileSize(fileSizeInBytes); // Convert to KB/MB
-        //            // Convert IFormFile to Stream
-        //            using (var fileStream = file.OpenReadStream())
-        //            {
-        //                var fileUrl = await _fireBaseServices.UploadFileDocAsync(fileStream, fileName, _req.userId);
-        //                var fileExtension = Path.GetExtension(fileName);
-        //                var userDoc = new Document
-        //                {
-        //                    UserId = _req.userId,
-        //                    DownloadCount = 0,
-        //                    FileType = fileExtension,
-        //                    FileUrl = fileUrl,
-        //                    Title = fileName,
-        //                    UploadDate = DateTime.UtcNow,
-        //                    DocumentSize = fileSizeInBytes // Save file size in database (in bytes)
-        //                };
-
-        //                _context.Documents.Add(userDoc);
-        //                await _context.SaveChangesAsync(); // Save document to database to generate DocumentId
-
-        //                // Add both FileUrl and DocumentId to the response
-        //                uploadedFiles.Add(new
-        //                {
-        //                    DocumentId = userDoc.DocumentId, // Return DocumentId
-        //                    DocumentName = fileName,
-        //                    FileSize = fileSizeReadable,
-        //                    FileUrl = fileUrl
-        //                });
-        //            }
-        //        }
-        //        return Ok(new { status = 200, Files = uploadedFiles });
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        return BadRequest($"Error occurred: {e.Message}");
-        //    }
-        //}
         [HttpPost("Upload")]
         public async Task<IActionResult> UploadDocuments(UploadDocumentRequest _req)
         {
