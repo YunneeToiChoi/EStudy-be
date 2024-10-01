@@ -37,5 +37,7 @@ public partial class Document
 
     public virtual Course? Course { get; set; }
 
+    public virtual ICollection<Rating> Ratings { get; set; } = new List<Rating>();
+
     public virtual User User { get; set; } = null!;
 }

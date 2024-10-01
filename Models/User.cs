@@ -29,6 +29,8 @@ public partial class User
 
     public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
 
+    public virtual ICollection<Rating> Ratings { get; set; } = new List<Rating>();
+
     public virtual Role? Role { get; set; }
 
     public virtual ICollection<UserCourse> UserCourses { get; set; } = new List<UserCourse>();
