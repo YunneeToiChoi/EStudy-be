@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 
 namespace study4_be.Models;
 
 public partial class UserSub
 {
-    [Required]
     public string UsersubsId { get; set; } = null!;
 
     public string UserId { get; set; } = null!;

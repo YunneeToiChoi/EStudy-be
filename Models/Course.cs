@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 
 namespace study4_be.Models;
 
 public partial class Course
 {
-    [Required]
     public int CourseId { get; set; }
 
     public string? CourseName { get; set; }
@@ -24,6 +22,8 @@ public partial class Course
     public virtual ICollection<Document> Documents { get; set; } = new List<Document>();
 
     public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
+
+    public virtual ICollection<Rating> Ratings { get; set; } = new List<Rating>();
 
     public virtual ICollection<Unit> Units { get; set; } = new List<Unit>();
 

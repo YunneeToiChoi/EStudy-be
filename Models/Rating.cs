@@ -1,23 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 
 namespace study4_be.Models;
 
 public partial class Rating
 {
-    [Required]
-    public int RatingId { get; set; }
+    public int Id { get; set; }
 
-    public string? UserId { get; set; }
+    public string UserId { get; set; } = null!;
 
-    public int? CourseId { get; set; }
+    public string EntityType { get; set; } = null!;
 
-    public DateTime? RatingDate { get; set; }
+    public int EntityId { get; set; }
 
-    public short? RatingValue { get; set; }
+    public DateTime RatingDate { get; set; }
+
+    public short RatingValue { get; set; }
 
     public string? Review { get; set; }
 
-    public virtual UserCourse? UserCourse { get; set; }
+    public virtual Course Entity { get; set; } = null!;
+
+    public virtual Document EntityNavigation { get; set; } = null!;
+
+    public virtual ICollection<RatingImage> RatingImages { get; set; } = new List<RatingImage>();
+
+    public virtual User User { get; set; } = null!;
 }

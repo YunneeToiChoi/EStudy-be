@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 
 namespace study4_be.Models;
 
 public partial class Subscriptionplan
 {
-    [Required]
     public int PlanId { get; set; }
 
     public string PlanName { get; set; } = null!;
