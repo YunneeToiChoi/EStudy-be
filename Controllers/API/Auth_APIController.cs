@@ -20,10 +20,10 @@ namespace study4_be.Controllers.API
     public class Auth_APIController : Controller
     {
         private readonly UserRepository _userRepository;
-        private SMTPServices _smtpServices;
+        private readonly SMTPServices _smtpServices;
         private readonly IConfiguration _configuration;
-        private Study4Context _context;
-        private UserRegistrationValidator _userRegistrationValidator;
+        private readonly Study4Context _context;
+        private readonly UserRegistrationValidator _userRegistrationValidator;
         private readonly ILogger<Auth_APIController> _logger;
         private readonly FireBaseServices _fireBaseServices;
         private readonly JwtTokenGenerator _jwtServices;
@@ -128,22 +128,19 @@ namespace study4_be.Controllers.API
                     Isverified = true // Assuming new users are verified
                 };
                 // Update the user's avatar URL in the database
-                if (!(userAvatar == null || userAvatar.Length == 0))
+                if (!(userAvatar == null || userAvatar.Length == 0) && !string.IsNullOrEmpty(newUser.UserImage))
                 {
-                    // Delete the old avatar image from Firebase Storage if it exists
-                    if (!string.IsNullOrEmpty(newUser.UserImage))
-                    {
-                        // Upload the new avatar image to Firebase Storage
-                        var uniqueId = Guid.NewGuid().ToString();
-                        var imgFilePath = $"IMG{uniqueId}.jpg";
-                        string firebaseUrl = await _fireBaseServices.UploadFileFromUrlToFirebaseStorageAsync(userAvatar,
-                                                                                                      imgFilePath,
-                                                                                                      firebaseBucketName);
-                        // Extract the file name from the URL
-                        //var oldFileName = Path.GetFileName(new Uri(newUser.UserImage).LocalPath);
-                        //await _fireBaseServices.DeleteFileFromFirebaseStorageAsync(oldFileName, firebaseBucketName); // don't delete
-                        newUser.UserImage = firebaseUrl;
-                    }
+                    // Upload the new avatar image to Firebase Storage
+                    var uniqueId = Guid.NewGuid().ToString();
+                    var imgFilePath = $"IMG{uniqueId}.jpg";
+                    string firebaseUrl = await _fireBaseServices.UploadFileFromUrlToFirebaseStorageAsync(userAvatar,
+                                                                                                    imgFilePath,
+                                                                                                    firebaseBucketName);
+                    // Extract the file name from the URL
+                    //var oldFileName = Path.GetFileName(new Uri(newUser.UserImage).LocalPath);
+                    //await _fireBaseServices.DeleteFileFromFirebaseStorageAsync(oldFileName, firebaseBucketName); // don't delete
+                    newUser.UserImage = firebaseUrl;
+                    
                 }
                 // Thêm người dùng vào cơ sở dữ liệu và lưu thay đổi
                 await _userRepository.AddUserWithServices(newUser);
@@ -390,35 +387,28 @@ namespace study4_be.Controllers.API
             }
             var firebaseBucketName = _fireBaseServices.GetFirebaseBucketName();
             // Update the user's avatar URL in the database
-            if (!(userAvatar == null || userAvatar.Length == 0))
+            if (!(userAvatar == null || userAvatar.Length == 0) && !string.IsNullOrEmpty(userExist.UserImage))
             {
-                // Delete the old avatar image from Firebase Storage if it exists
-                if (!string.IsNullOrEmpty(userExist.UserImage))
-                {
-                    // Upload the new avatar image to Firebase Storage
-                    var uniqueId = Guid.NewGuid().ToString();
-                    var imgFilePath = $"IMG{uniqueId}.jpg";
-                    string firebaseUrl = await _fireBaseServices.UploadFileToFirebaseStorageAsync(userAvatar, imgFilePath, firebaseBucketName);
-                    // Extract the file name from the URL
-                    var oldFileName = Path.GetFileName(new Uri(userExist.UserImage).LocalPath);
-                    await _fireBaseServices.DeleteFileFromFirebaseStorageAsync(oldFileName, firebaseBucketName);
-                    userExist.UserImage = firebaseUrl;
-                }
+                // Upload the new avatar image to Firebase Storage
+                var uniqueId = Guid.NewGuid().ToString();
+                var imgFilePath = $"IMG{uniqueId}.jpg";
+                string firebaseUrl = await _fireBaseServices.UploadFileToFirebaseStorageAsync(userAvatar, imgFilePath, firebaseBucketName);
+                // Extract the file name from the URL
+                var oldFileName = Path.GetFileName(new Uri(userExist.UserImage).LocalPath);
+                await _fireBaseServices.DeleteFileFromFirebaseStorageAsync(oldFileName, firebaseBucketName);
+                userExist.UserImage = firebaseUrl;
+                
             }
-            if (!(userBanner == null || userBanner.Length == 0))
+            if (!(userBanner == null || userBanner.Length == 0) && !string.IsNullOrEmpty(userExist.UserBanner))
             {
-                // Delete the old avatar image from Firebase Storage if it exists
-                if (!string.IsNullOrEmpty(userExist.UserBanner))
-                {
-                    // Upload the new avatar image to Firebase Storage
-                    var uniqueId = Guid.NewGuid().ToString();
-                    var imgFilePath = $"IMG{uniqueId}.jpg";
-                    string firebaseUrl = await _fireBaseServices.UploadFileToFirebaseStorageAsync(userBanner, imgFilePath, firebaseBucketName);
-                    // Extract the file name from the URL
-                    var oldFileName = Path.GetFileName(new Uri(userExist.UserBanner).LocalPath);
-                    await _fireBaseServices.DeleteFileFromFirebaseStorageAsync(oldFileName, firebaseBucketName);
-                    userExist.UserBanner = firebaseUrl;
-                }
+                // Upload the new avatar image to Firebase Storage
+                var uniqueId = Guid.NewGuid().ToString();
+                var imgFilePath = $"IMG{uniqueId}.jpg";
+                string firebaseUrl = await _fireBaseServices.UploadFileToFirebaseStorageAsync(userBanner, imgFilePath, firebaseBucketName);
+                // Extract the file name from the URL
+                var oldFileName = Path.GetFileName(new Uri(userExist.UserBanner).LocalPath);
+                await _fireBaseServices.DeleteFileFromFirebaseStorageAsync(oldFileName, firebaseBucketName);
+                userExist.UserBanner = firebaseUrl;
             }
             try
             {
@@ -427,7 +417,7 @@ namespace study4_be.Controllers.API
             }
             catch (Exception ex)
             {
-                _logger.LogError("Error updating user avatar: {Message}", ex.Message);
+                _logger.LogError(ex, "Error updating user avatar.");
                 return StatusCode(500, new { status = 500, message = "An error occurred while updating the avatar" });
             }
         }

@@ -12,8 +12,8 @@ namespace study4_be.Controllers.Admin
     public class QuestionController : Controller
     {
         private readonly ILogger<QuestionController> _logger;
-        private FireBaseServices _firebaseServices;
-        private GeneralAiAudioServices _generalAiAudioServices;
+        private readonly FireBaseServices _firebaseServices;
+        private readonly GeneralAiAudioServices _generalAiAudioServices;
         private readonly QuestionRepository _questionsRepository;
         private readonly Study4Context _context;
         public QuestionController(ILogger<QuestionController> logger, FireBaseServices firebaseServices,Study4Context context)

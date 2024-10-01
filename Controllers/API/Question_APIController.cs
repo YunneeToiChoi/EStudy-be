@@ -12,7 +12,7 @@ namespace study4_be.Controllers.API
     public class Question_APIController : Controller
     {
         private readonly Study4Context _context;
-        private QuestionRepository _questionRepo;
+        private readonly QuestionRepository _questionRepo;
         private readonly ILogger<Question_APIController> _logger;
         public Question_APIController(ILogger<Question_APIController> logger, Study4Context context)
         {

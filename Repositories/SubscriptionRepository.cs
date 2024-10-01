@@ -25,7 +25,7 @@ namespace study4_be.Repositories
 
             if (userSubs == null || !userSubs.Any())
             {
-                throw new Exception("User does not have any subscriptions.");
+                throw new InvalidOperationException("User does not have any subscriptions.");
             }
 
             // Assuming UserSubs has a property named SubscriptionPlanId or similar

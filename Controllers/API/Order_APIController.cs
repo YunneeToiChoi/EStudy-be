@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Org.BouncyCastle.Asn1.Crmf;
 using study4_be.Models;
 using study4_be.Repositories;
@@ -14,8 +15,8 @@ namespace study4_be.Controllers.API
 	[ApiController]
 	public class Order_APIController : Controller
 	{
-		private OrderRepository ordRepo;
-		private Study4Context _context;
+		private readonly OrderRepository ordRepo;
+		private readonly Study4Context _context;
 		public Order_APIController(Study4Context context)
 		{
 			this._context = context;
@@ -70,12 +71,16 @@ namespace study4_be.Controllers.API
 		[HttpPost("Buy_Course")] // thieu number phone va tru thoi gian
 		public async Task<IActionResult> Buy_Course([FromBody] BuyCourseRequest request)
 		{
-			if (request == null || request.UserId == null || request.CourseId == null)
-			{
-				return BadRequest("Invalid user or course information.");
-			}
+            if (request == null)
+            {
+                return BadRequest("Request cannot be null.");
+            }
 
-			var existingUser = await _context.Users.FindAsync(request.UserId);
+            if (string.IsNullOrEmpty(request.UserId) || request.CourseId <= 0)
+            {
+                return BadRequest("Invalid user or course information.");
+            }
+            var existingUser = await _context.Users.FindAsync(request.UserId);
 			if (existingUser == null)
 			{
 				return NotFound("User not found.");

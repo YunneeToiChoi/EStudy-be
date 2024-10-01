@@ -133,7 +133,7 @@ namespace study4_be.Controllers.Admin
                 }
                 catch (Exception ex)
                 {
-                    _logger.LogError($"Error updating course: {ex.Message}");
+                    _logger.LogError(ex, "Error updating course");
                     ModelState.AddModelError(string.Empty, "An error occurred while updating the course.");
                 }
             }

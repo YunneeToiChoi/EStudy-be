@@ -11,11 +11,11 @@ namespace study4_be.Controllers.API
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UserSubs_APIController : Controller
+    public class UserSubs_APIController : ControllerBase
     {
         private readonly DateTimeService _datetimeService = new();
         private readonly Study4Context _context;
-        private SubscriptionRepository _subscriptionRepository;
+        private readonly SubscriptionRepository _subscriptionRepository;
 
         public UserSubs_APIController(Study4Context context)
         {

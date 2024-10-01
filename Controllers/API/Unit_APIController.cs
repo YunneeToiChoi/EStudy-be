@@ -9,10 +9,10 @@ namespace study4_be.Controllers.API
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class Unit_APIController : Controller
+    public class Unit_APIController : ControllerBase
     {
-        private UnitRepository _unitRepo;
-        private Study4Context _context;
+        private readonly UnitRepository _unitRepo;
+        private readonly Study4Context _context;
 
         public Unit_APIController(Study4Context context) 
         { 

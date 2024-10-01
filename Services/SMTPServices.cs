@@ -66,7 +66,7 @@ namespace study4_be.Services
             catch (Exception ex)
             {
                 // Handle other exceptions (e.g., MimeKit exceptions) appropriately
-                throw new Exception($"An error occurred while sending email: {ex.Message}", ex);
+                throw new InvalidOperationException($"An error occurred while sending email: {ex.Message}", ex);
             }
         }
 

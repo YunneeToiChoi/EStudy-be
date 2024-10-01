@@ -104,7 +104,6 @@ namespace study4_be.Controllers.API
             await _context.SaveChangesAsync();
             var newlyAddedOrderId = order.UsersubsId; // Lấy giá trị ID vừa được thêm vào
             return Ok(new { status = 200, orderId = newlyAddedOrderId, message = "Plan purchased successfully" });
-            //return JsonResult(new { status = 200, orderId = newlyAddedOrderId, message = "Course purchased successfully." });
         }
         [HttpGet("Get_AllPlans")]
         public async Task<ActionResult<IEnumerable<Subscriptionplan>>> Get_AllPlans()

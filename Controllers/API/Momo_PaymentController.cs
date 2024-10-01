@@ -27,9 +27,9 @@ namespace study4_be.Controllers.API
         private readonly ILogger<Momo_PaymentController> _logger;
         private readonly MomoConfig _momoConfig;
         private readonly HashHelper _hashHelper;
-        private readonly ContractPOServices _contractPOServices;
-        private SMTPServices _smtpServices;
-        private Study4Context _context;
+        //private readonly ContractPOServices _contractPOServices;
+        private readonly SMTPServices _smtpServices;
+        private readonly Study4Context _context;
         public Momo_PaymentController(ILogger<Momo_PaymentController> logger,
                                      IOptions<MomoConfig> momoPaymentSettings,
                                      SMTPServices sMTPServices,
@@ -41,7 +41,7 @@ namespace study4_be.Controllers.API
             _hashHelper = new HashHelper();
             _momoConfig = momoPaymentSettings.Value;
             _smtpServices = sMTPServices;
-            _contractPOServices = contractPOServices; // DI will inject this
+            //_contractPOServices = contractPOServices; // DI will inject this
         }
 
         [HttpPost("MakePayment")]

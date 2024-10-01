@@ -17,11 +17,11 @@ namespace study4_be.Controllers.API
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class UserDocumentAPIController : Controller
+    public class UserDocumentAPIController : ControllerBase
     {
         private readonly UserRepository _userRepository;
-        private Study4Context _context;
-        private UserRegistrationValidator _userRegistrationValidator;
+        private readonly Study4Context _context;
+        private readonly UserRegistrationValidator _userRegistrationValidator;
         private readonly FireBaseServices _fireBaseServices;
 
         public UserDocumentAPIController(FireBaseServices fireBaseServices, Study4Context context)
@@ -36,11 +36,10 @@ namespace study4_be.Controllers.API
         [HttpPost("GetDocByCourse")]
         public async Task<IActionResult> GetDocByCourse(OfCourseIdRequest _req)
         {
-            if (_req.courseId == null || _req.courseId <= 0)
+            if (_req.courseId <= 0)
             {
                 return BadRequest($"Course id is invalid: {_req.courseId}");
             }
-
             try
             {
                 // Check if the course exists

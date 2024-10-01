@@ -14,7 +14,7 @@ namespace study4_be.Controllers.API
     [ApiController]
     public class Exam_APIController : Controller
     {
-        private Study4Context _context;
+        private readonly Study4Context _context;
 
         public Exam_APIController(Study4Context context) { _context = context; }
         [HttpGet("Get_AllExams")]
@@ -74,7 +74,7 @@ namespace study4_be.Controllers.API
                        .Select(ue => ue.UserId).Distinct().CountAsync();
 
                 var amountTest = await _context.UsersExams.Where(e => e.ExamId == _req.examId).CountAsync();
-                if (userExam != null && userExam.Count()>0)
+                if (userExam != null && userExam.Count > 0)
                 {
 
                     var userExamResponse = userExam.Select(ue => new UserExamResponse

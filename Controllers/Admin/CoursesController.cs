@@ -11,7 +11,7 @@ namespace study4_be.Controllers.Admin
     {
         private readonly ILogger<CoursesController> _logger;
         public  readonly  Study4Context _context;
-        private FireBaseServices _fireBaseServices;
+        private readonly FireBaseServices _fireBaseServices;
         private readonly CourseRepository _coursesRepository;
         public CoursesController(ILogger<CoursesController> logger, FireBaseServices fireBaseServices, Study4Context context)
         {

@@ -13,8 +13,8 @@ namespace study4_be.Controllers.API
     [ApiController]
     public class UserCourses_APIController : Controller
     {
-        private Study4Context _context;
-        private UserCoursesRepository _userCoursesRepo;
+        private readonly Study4Context _context;
+        private readonly UserCoursesRepository _userCoursesRepo;
 
         public UserCourses_APIController(Study4Context context)
         {

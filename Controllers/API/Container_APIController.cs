@@ -10,7 +10,7 @@ namespace study4_be.Controllers.API
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class Container_APIController : Controller
+    public class Container_APIController : ControllerBase
     {
         private ContainerRepository _containerRepo;
         private readonly Study4Context _context;
