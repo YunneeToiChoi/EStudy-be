@@ -10,6 +10,7 @@ using System.Collections.Immutable;
 using PdfSharpCore.Pdf;
 using System.Drawing.Imaging;
 using PdfiumViewer;
+using Microsoft.CodeAnalysis;
 
 namespace study4_be.Controllers.API
 {
@@ -223,7 +224,85 @@ namespace study4_be.Controllers.API
                 return BadRequest($"Error occurred: {e.Message}");
             }
         }
+        [HttpPost("DownloadDocument")]
+        public async Task<IActionResult> DownloadDocument(OfDocumentIdRequest _req) /// missing check price
+        {
+            try
+            {
+                // Check if the document exists in the database
+                var document = await _context.Documents.FindAsync(_req.documentId);
+                if (document == null)
+                {
+                    return NotFound($"Document with Id {_req.documentId} does not exist.");
+                }
 
+                // Increment the download count
+                document.DownloadCount++;
+                _context.Documents.Update(document);
+                await _context.SaveChangesAsync();
+
+                // Get the file URL from Firebase (assuming documents are stored in Firebase)
+                var fileUrl = document.FileUrl;
+
+                if (string.IsNullOrEmpty(fileUrl))
+                {
+                    return BadRequest("File URL is not valid.");
+                }
+
+                // Redirect to the Firebase file URL for download
+                return Ok(new { status = 200, fileUrl });
+
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"An error occurred while downloading the document: {ex.Message}");
+            }
+        }
+        [HttpPost("GetUserDocumentProfile/{userId}")]
+        public async Task<IActionResult> GetUserDocumentProfile(string userId) // missing db user document 
+        {
+            try
+            {
+                // Lấy thông tin người dùng từ cơ sở dữ liệu
+                var user = await _context.Users
+                    .Include(u => u.Documents)
+                    .FirstOrDefaultAsync(u => u.UserId == userId);
+
+                if (user == null)
+                {
+                    return NotFound($"User with ID {userId} not found.");
+                }
+
+                // Tạo đối tượng UserProfileDto
+                var userProfileDto = new UserProfileDto
+                {
+                    UserId = user.UserId,
+                    UserName = user.UserName,
+                    UserEmail = user.UserEmail,
+                    UserDescription = user.UserDescription,
+                    UserImage = user.UserImage,
+                    UserBanner = user.UserBanner,
+                    PhoneNumber = user.PhoneNumber,
+                    Documents = user.Documents.Select(doc => new DocumentDto
+                    {
+                        DocumentId = doc.DocumentId,
+                        Title = doc.Title,
+                        Description = doc.Description,
+                        FileUrl = doc.FileUrl,
+                        UploadDate = doc.UploadDate,
+                        FileType = doc.FileType,
+                        DownloadCount = doc.DownloadCount,
+                        ThumbnailUrl = doc.ThumbnailUrl
+                    }).ToList()
+                };
+
+                return Ok(userProfileDto);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"An error occurred: {ex.Message}");
+            }
+        }
         //################################################### BASE #############################################//
         //################################################### UPLOAD ##########################################//
         [HttpPost("GetCourseOfUser")]
@@ -343,7 +422,7 @@ namespace study4_be.Controllers.API
                             }
 
                             // Save document data to the database
-                            var userDoc = new Document
+                            var userDoc = new Models.Document
                             {
                                 UserId = _req.userId,
                                 DownloadCount = 0,
@@ -378,6 +457,7 @@ namespace study4_be.Controllers.API
                 return BadRequest($"Error occurred: {e.Message}");
             }
         }
+     
 
         private Stream ExtractFirstPageAsImage(Stream pdfStream)
         {
