@@ -58,6 +58,7 @@ namespace study4_be.Controllers.API
                                   documentPublic = doc.IsPublic,
                                   documentUploadDate = doc.UploadDate,
                                   documentType = doc.FileType,
+                                  thumbnailUrl = doc.ThumbnailUrl,
                                   userId = user.UserId,
                                   userName = user.UserName,       
                                   userImage = user.UserImage    
@@ -71,6 +72,7 @@ namespace study4_be.Controllers.API
                         documentTotalDownload = c.documentTotalDownload,
                         documentName = c.documentName,
                         documentPublic = c.documentPublic,
+                        thumbnailUrl = c.thumbnailUrl,
                         userId = c.userId,
                         userName = c.userName,            
                         userImage = c.userImage           
@@ -158,6 +160,8 @@ namespace study4_be.Controllers.API
                     documentType= c.FileType,
                     documentUploadDate= c.UploadDate,
                     documentPrice = c.Price,
+                    documentDescription = c.Description,
+                    thumbnailUrl = c.ThumbnailUrl
 
                 }).ToList();
                 return Ok(new
@@ -197,7 +201,8 @@ namespace study4_be.Controllers.API
                         categoryName = doc.Category?.CategoryName ?? string.Empty,
                         courseId = doc.CourseId,
                         courseName = doc.Course?.CourseName ?? string.Empty,
-                        description = doc.Description,
+                        documentDescription = doc.Description,
+                        thumbnailUrl = doc.ThumbnailUrl,
                         documentSize = doc.DocumentSize,
                         downloadCount = doc.DownloadCount,
                         fileType = doc.FileType,
@@ -434,7 +439,7 @@ namespace study4_be.Controllers.API
                                 DocumentSize = fileSizeInBytes
                             };
 
-                            _context.Documents.Add(userDoc);
+                            await _context.Documents.AddAsync(userDoc);
                             await _context.SaveChangesAsync();
 
                             // Add both FileUrl and DocumentId to the response
