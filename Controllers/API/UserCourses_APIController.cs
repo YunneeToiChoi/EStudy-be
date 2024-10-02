@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Google.Api;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualBasic;
 using study4_be.Models;
@@ -26,6 +27,18 @@ namespace study4_be.Controllers.API
         public async Task<ActionResult<IEnumerable<Course>>> Get_AllCoursesByUser(GetAllCoursesByUserRequest request)
         {
             var courseListId = await _userCoursesRepo.Get_AllCoursesByUser(request.userId);
+            var planCourseList = await (from pc in _context.PlanCourses
+                                        join us in _context.UserSubs
+                                        on pc.PlanId equals us.PlanId
+                                        join sp in _context.Subscriptionplans
+                                        on us.PlanId equals sp.PlanId
+                                        where us.UserId == request.userId
+                                        select new
+                                        {
+                                            pc.CourseId,
+                                            sp.PlanName
+                                        }).ToListAsync();
+
             if (!courseListId.Any())
             {
                 return Json(new { status = 404, message = "No courses found for the user" });
@@ -34,16 +47,31 @@ namespace study4_be.Controllers.API
             var courses = await _context.Courses
                 .Where(c => courseListId.Contains(c.CourseId))  // So sánh trực tiếp với danh sách int
                 .ToListAsync();
-            return Json(new { status = 200, message = "Get All Courses By User Successful", courses });
+            return Json(new { status = 200, message = "Get All Courses By User Successful", courses , planCourseId = planCourseList});
         }
 
         [HttpPost("Get_DetailCourseAndUserBought")]
         public async Task<ActionResult<IEnumerable<User>>> Get_DetailCourseAndUserBought(GetAllUsersBuyCourse request)
         {
+            // Lấy danh sách người dùng đã mua riêng course này
             var userList = await _userCoursesRepo.Get_DetailCourseAndUserBought(request.courseId);
-            var totalAmount = userList.Count();
+            // Lấy danh sách tất cả các plan mà course này thuộc về
+            var plansContainingCourse = await _context.PlanCourses
+                .Where(pc => pc.CourseId == request.courseId)
+                .Select(pc => pc.PlanId)
+                .ToListAsync();
+            // Lấy danh sách người dùng đã đăng ký các plan chứa course này
+            var usersWithPlanForCourse = await _context.UserSubs
+                .Where(us => plansContainingCourse.Contains(us.PlanId))
+                .Select(us => us.UserId)
+                .Distinct() // Đảm bảo không tính trùng người dùng đã đăng ký nhiều plan
+                .ToListAsync();
+            // Gộp danh sách người dùng mua riêng course với người dùng đăng ký plan chứa course
+            var totalAmount = userList.Count() + usersWithPlanForCourse.Count();
+            // Lấy chi tiết khóa học
             var courseDetail = await _context.Courses.FindAsync(request.courseId);
-            var finalPrice =  courseDetail.CoursePrice - (courseDetail.CoursePrice * courseDetail.CourseSale / 100);
+            // Tính giá cuối cùng của khóa học
+            var finalPrice = courseDetail.CoursePrice - (courseDetail.CoursePrice * courseDetail.CourseSale / 100);
             return Json(new { status = 200, message = "Get Detail course and user Bought course", courseDetail,finalPrice, totalAmount, userList });
         }
         [HttpGet("Get_AllUserCourses")]

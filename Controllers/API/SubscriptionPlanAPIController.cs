@@ -105,25 +105,62 @@ namespace study4_be.Controllers.API
             var newlyAddedOrderId = order.UsersubsId; // Lấy giá trị ID vừa được thêm vào
             return Ok(new { status = 200, orderId = newlyAddedOrderId, message = "Plan purchased successfully" });
         }
-        [HttpGet("Get_AllPlans")]
-        public async Task<ActionResult<IEnumerable<Subscriptionplan>>> Get_AllPlans()
+        [HttpPost("Get_AllPlans")]
+        public async Task<ActionResult<IEnumerable<Subscriptionplan>>> Get_AllPlans(UserRequest request)
         {
             try
             {
-                var plans = await _subscriptionRepository.GetAllPlans();
-                if(plans == null)
+                if (string.IsNullOrWhiteSpace(request.userId)) 
                 {
-                    return NotFound(new {status = 404, message = "No subscription plans found." });
+                    var plans = await _subscriptionRepository.GetAllPlans();
+                    if (plans == null)
+                    {
+                        return NotFound(new { status = 404, message = "No subscription plans found." });
+                    }
+                    var plansResponse = plans.Select(plans => new PlanResponse
+                    {
+                        PlanId = plans.PlanId,
+                        PlanName = plans.PlanName,
+                        PlanDescription = plans.PlanDescription,
+                        PlanDuration = plans.PlanDuration,
+                        PlanPrice = plans.PlanPrice,
+                    });
+                    return Ok(new { status = 200, message = "Success", data = plansResponse });
                 }
-                var plansResponse = plans.Select(plans => new PlanResponse
+                else
                 {
-                    PlanId = plans.PlanId,
-                    PlanName = plans.PlanName,
-                    PlanDescription = plans.PlanDescription,
-                    PlanDuration = plans.PlanDuration,
-                    PlanPrice = plans.PlanPrice,
-                });
-                return Ok(new { status = 200, message = "Success", data = plansResponse });
+                    // Bắt các plan user đã đăng ký
+                    var userSubscriptions = await _subscriptionRepository.Get_PlanFromUser(request.userId);
+
+                    // Tạo list các planId user đã đăng ký
+                    var planIds = userSubscriptions.Select(us => us.PlanId).ToList();
+
+                    // Bắt tất cả các plan tồn tại trong database
+                    var subscriptionPlans = await _context.Subscriptionplans
+                        .Select(sp => new
+                        {
+                            sp.PlanId,
+                            sp.PlanName,
+                            sp.PlanDescription,
+                            sp.PlanDuration,
+                            sp.PlanPrice
+                        })
+                        .ToListAsync();
+
+                    // Kết hợp với state
+                    var result = subscriptionPlans.Select(sp => new
+                    {
+                        sp.PlanId,
+                        sp.PlanName,
+                        sp.PlanDescription,
+                        sp.PlanDuration,
+                        sp.PlanPrice,
+                        userSubscriptions.FirstOrDefault(us => us.PlanId == sp.PlanId)?.State // Trả về state nếu user đã mua plan, ngược lại null
+                    });
+
+                    return Ok(new { message = "Retrieved all plans", plans = result });
+                }
+
             }
             catch (Exception ex)
             {
