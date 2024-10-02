@@ -12,7 +12,7 @@ namespace study4_be.Controllers.API
     [ApiController]
     public class Container_APIController : ControllerBase
     {
-        private ContainerRepository _containerRepo;
+        private readonly ContainerRepository _containerRepo;
         private readonly Study4Context _context;
 
         public Container_APIController(Study4Context context) { _context = context; _containerRepo = new(context); }
