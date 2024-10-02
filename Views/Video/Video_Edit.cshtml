@@ -16,12 +16,12 @@
         <form asp-action="Video_Edit" method="post" enctype="multipart/form-data" class="forms-sample">
             <input type="hidden" asp-for="video.VideoId" />
             <div class="form-group">
-                <label asp-for="video.VideoUrl">VideoUrl</label>
+                <label for="video.VideoUrl">VideoUrl</label>
                 <input asp-for="video.VideoUrl" class="form-control" />
                 <span asp-validation-for="video.VideoUrl" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="video.LessonId">Tag Tittle</label>
+                <label for="video.LessonId">Tag Tittle</label>
                 <select asp-for="video.LessonId" class="form-control" asp-items="Model.lesson"></select>
                 <span asp-validation-for="video.LessonId" class="text-danger"></span>
             </div>

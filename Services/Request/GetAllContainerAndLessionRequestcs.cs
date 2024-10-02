@@ -1,7 +1,10 @@
-﻿namespace study4_be.Services.Request
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace study4_be.Services.Request
 {
     public class GetAllContainerAndLessionRequestcs
     {
-        public int unitId { get; set; }
+        [Required]
+        public required int unitId { get; set; }
     }
 }

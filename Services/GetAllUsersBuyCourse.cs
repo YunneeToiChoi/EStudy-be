@@ -1,7 +1,10 @@
-﻿namespace study4_be.Services
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace study4_be.Services
 {
     public class GetAllUsersBuyCourse
     {
-        public int courseId { get; set; }
+        [Required]
+        public required int courseId { get; set; }
     }
 }

@@ -10826,28 +10826,29 @@ textarea.form-control-lg {
 
 /* Animation Mixins */
 @-webkit-keyframes dropdownAnimation {
-  from {
-    opacity: 0;
-    -webkit-transform: translate3d(0, -30px, 0);
-    transform: translate3d(0, -30px, 0); }
-  to {
-    opacity: 1;
-    -webkit-transform: none;
-    transform: none;
-    -webkit-transform: translate3d(0, 0px, 0);
-    transform: translate3d(0, 0px, 0); } }
+    from {
+        opacity: 0;
+        -webkit-transform: translate3d(0, -30px, 0);
+        transform: translate3d(0, -30px, 0);
+    }
+    to {
+        opacity: 1;
+        -webkit-transform: translate3d(0, 0px, 0);
+        transform: translate3d(0, 0px, 0);
+    }
+}
 @keyframes dropdownAnimation {
-  from {
-    opacity: 0;
-    -webkit-transform: translate3d(0, -30px, 0);
-    transform: translate3d(0, -30px, 0); }
-  to {
-    opacity: 1;
-    -webkit-transform: none;
-    transform: none;
-    -webkit-transform: translate3d(0, 0px, 0);
-    transform: translate3d(0, 0px, 0); } }
-
+    from {
+        opacity: 0;
+        -webkit-transform: translate3d(0, -30px, 0);
+        transform: translate3d(0, -30px, 0);
+    }
+    to {
+        opacity: 1;
+        -webkit-transform: translate3d(0, 0px, 0);
+        transform: translate3d(0, 0px, 0);
+    }
+}
 .dropdownAnimation, .navbar .navbar-menu-wrapper .navbar-nav .nav-item.dropdown .dropdown-menu {
   -webkit-animation-name: dropdownAnimation;
   animation-name: dropdownAnimation;
@@ -11645,7 +11646,6 @@ code {
     color: #88b6ff;
     border-radius: 10px;
     padding: 1rem 0;
-    border-radius: 4px;
     font-weight: bold;
     font-size: 1rem; }
     @media (max-width: 766px) {
@@ -13082,32 +13082,29 @@ code {
         left: auto;
         right: 0; }
     .form-check .form-check-label input[type="checkbox"] + .input-helper:before {
-      content: "";
-      width: 18px;
-      height: 18px;
-      border-radius: 2px;
-      border: solid #b66dff;
-      border-width: 2px;
-      -webkit-transition: all;
-      transition: all;
-      transition-duration: 0s;
-      -webkit-transition-duration: 250ms;
-      transition-duration: 250ms; }
+        content: "";
+        width: 18px;
+        height: 18px;
+        border-radius: 2px;
+        border: solid #b66dff;
+        border-width: 2px;
+        -webkit-transition: all 250ms;
+        transition: all 250ms;
+    }
+
     .form-check .form-check-label input[type="checkbox"] + .input-helper:after {
-      -webkit-transition: all;
-      transition: all;
-      transition-duration: 0s;
-      -webkit-transition-duration: 250ms;
-      transition-duration: 250ms;
-      font-family: Material Design Icons;
-      opacity: 0;
-      filter: alpha(opacity=0);
-      -webkit-transform: scale(0);
-      transform: scale(0);
-      content: '\F12C';
-      font-size: .9375rem;
-      font-weight: bold;
-      color: #ffffff; }
+        -webkit-transition: all 250ms;
+        transition: all 250ms;
+        font-family: "Material Design Icons", sans-serif;
+        opacity: 0;
+        filter: alpha(opacity=0);
+        -webkit-transform: scale(0);
+        transform: scale(0);
+        content: '\F12C';
+        font-size: .9375rem;
+        font-weight: bold;
+        color: #ffffff;
+    }
     .form-check .form-check-label input[type="checkbox"]:checked + .input-helper:before {
       background: -webkit-gradient(linear, left top, right top, from(#da8cff), to(#9a55ff));
       background: linear-gradient(to right, #da8cff, #9a55ff);
@@ -13136,7 +13133,6 @@ code {
       border-radius: 50%;
       -webkit-transition: all;
       transition: all;
-      transition-duration: 0s;
       -webkit-transition-duration: 250ms;
       transition-duration: 250ms; }
       .rtl .form-check .form-check-label input[type="radio"] + .input-helper:before {
@@ -13152,7 +13148,6 @@ code {
       left: 6px;
       -webkit-transition: all;
       transition: all;
-      transition-duration: 0s;
       -webkit-transition-duration: 250ms;
       transition-duration: 250ms;
       opacity: 0;
@@ -13257,7 +13252,6 @@ code {
   border-right: 0;
   border-left: 0;
   border-bottom: 0;
-  font: normal normal normal 24px/1 "Material Design Icons";
   content: "\f140";
   width: auto;
   height: auto;
@@ -13404,7 +13398,6 @@ dl {
     .list-ticked li:before,
     .list-arrow li:before,
     .list-star li:before {
-      font-family: "Material Design Icons";
       margin-left: -1.5rem;
       width: 1.5rem;
       margin-right: .5rem; }
@@ -14160,7 +14153,6 @@ dl {
             .sidebar .nav .nav-item .nav-link i.menu-icon:before {
               vertical-align: middle; }
           .sidebar .nav .nav-item .nav-link i.menu-arrow {
-            font: normal normal normal 24px/1 "Material Design Icons";
             line-height: 1;
             font-size: 1.125rem;
             margin-left: auto;
@@ -14248,7 +14240,6 @@ dl {
           border-top: 0; }
           .sidebar .nav.sub-menu .nav-item .nav-link:before {
             content: "\F054";
-            font-family: "Material Design Icons";
             display: block;
             position: absolute;
             left: 0px;

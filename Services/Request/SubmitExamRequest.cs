@@ -1,13 +1,17 @@
-﻿using System.Drawing.Text;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Drawing.Text;
 
 namespace study4_be.Services.Request
 {
     public class SubmitExamRequest
     {
-        public string examId { get;set; }
-        public string userId { get;set; }
+        [Required]
+        public required string examId { get;set; }
+        [Required]
+        public required string userId { get;set; }
         public int? score { get;set; }
-        public int userTime { get; set; }
+        [Required]
+        public required int userTime { get; set; }
         public List<AnswerDto> answer { get; set; }
 
     }

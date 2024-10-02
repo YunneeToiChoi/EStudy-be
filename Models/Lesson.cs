@@ -7,9 +7,9 @@ public partial class Lesson
 {
     public int LessonId { get; set; }
 
-    public string? LessonType { get; set; }
+    public string LessonType { get; set; } = null!;
 
-    public string? LessonTitle { get; set; }
+    public string LessonTitle { get; set; } = null!;
 
     public int? ContainerId { get; set; }
 

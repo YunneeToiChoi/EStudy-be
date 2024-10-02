@@ -52,7 +52,7 @@ namespace study4_be.Services
 
 
             // Create the StorageClient with the credential
-            var storageClient = StorageClient.Create(credential);
+            var storageClient = await StorageClient.CreateAsync(credential);
 
             // Determine the content type based on the file extension
             var contentType = GetContentType(fileName);
@@ -131,7 +131,7 @@ namespace study4_be.Services
             var credential = GoogleCredential.FromFile(serviceAccountPath);
 
             // Tạo đối tượng StorageClient
-            var storage = StorageClient.Create(credential);
+            var storage = await StorageClient.CreateAsync(credential);
 
             try
             {
@@ -161,7 +161,7 @@ namespace study4_be.Services
                 throw;
             }
         }
-
+        //## must ref bucket name ##//
         public async Task<string> UploadFileToFirebaseStorageAsync(IFormFile file, string fileName, string bucketName)
         {
             // Đường dẫn tới tệp tin serviceAccount.json
@@ -171,7 +171,7 @@ namespace study4_be.Services
             var credential = GoogleCredential.FromFile(serviceAccountPath);
 
             // Tạo đối tượng StorageClient
-            var storage = StorageClient.Create(credential);
+            var storage = await StorageClient.CreateAsync(credential);
 
             try
             {
@@ -193,6 +193,36 @@ namespace study4_be.Services
                 throw;
             }
         }
+        public async Task<string> UploadImageRatingToFirebaseStorageAsync(IFormFile file, string userId, string fileName)
+        {
+            var bucketName = _firebaseBucketName;
+            string serviceAccountPath = Path.Combine(Directory.GetCurrentDirectory(), "firebase_config.json");
+
+            var credential = GoogleCredential.FromFile(serviceAccountPath);
+            var storage = await StorageClient.CreateAsync(credential);
+            string filePath = $"UserRatings/{userId}/{fileName}";
+
+            try
+            {
+                // Reuse the same MemoryStream for performance and to avoid memory leaks
+                using (var memoryStream = new MemoryStream())
+                {
+                    await file.CopyToAsync(memoryStream);
+                    memoryStream.Position = 0; // Reset stream position
+
+                    // Upload file to Firebase
+                    await storage.UploadObjectAsync(bucketName, filePath, null, memoryStream);
+
+                    // Return the public URL for the file
+                    return $"https://firebasestorage.googleapis.com/v0/b/{bucketName}/o/{Uri.EscapeDataString(filePath)}?alt=media";
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error uploading file: {ex.Message}");
+                throw new InvalidOperationException("Failed to upload image to Firebase", ex);
+            }
+        }
         public async Task DeleteFileFromFirebaseStorageAsync(string fileName, string bucketName)
         {
             // Đường dẫn tới tệp tin serviceAccount.json
@@ -202,7 +232,7 @@ namespace study4_be.Services
             var credential = GoogleCredential.FromFile(serviceAccountPath);
 
             // Tạo đối tượng StorageClient
-            var storage = StorageClient.Create(credential);
+            var storage = await StorageClient.CreateAsync(credential);
 
             try
             {

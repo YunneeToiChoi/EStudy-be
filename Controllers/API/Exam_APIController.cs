@@ -14,7 +14,9 @@ namespace study4_be.Controllers.API
     [ApiController]
     public class Exam_APIController : Controller
     {
-        private Study4Context _context = new Study4Context();
+        private readonly Study4Context _context;
+
+        public Exam_APIController(Study4Context context) { _context = context; }
         [HttpGet("Get_AllExams")]
         public async Task<ActionResult<IEnumerable<Exam>>> Get_AllExams()
         {
@@ -67,12 +69,12 @@ namespace study4_be.Controllers.API
             {
                 var exams = await _context.Exams.Where(u => u.ExamId == _req.examId).FirstOrDefaultAsync();
                 var userExam = await _context.UsersExams.Where(u => u.UserId == _req.userId && u.ExamId == _req.examId).ToListAsync();
-                var distinctUserCount = _context.UsersExams
+                var distinctUserCount = await _context.UsersExams
                        .Where(e => e.ExamId == _req.examId)
-                       .Select(ue => ue.UserId).Distinct().Count();
+                       .Select(ue => ue.UserId).Distinct().CountAsync();
 
-                var amountTest = _context.UsersExams.Where(e => e.ExamId == _req.examId).Count();
-                if (userExam != null && userExam.Count()>0)
+                var amountTest = await _context.UsersExams.Where(e => e.ExamId == _req.examId).CountAsync();
+                if (userExam != null && userExam.Count > 0)
                 {
 
                     var userExamResponse = userExam.Select(ue => new UserExamResponse

@@ -11,11 +11,17 @@ namespace study4_be.Controllers.API
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UserSubs_APIController : Controller
+    public class UserSubs_APIController : ControllerBase
     {
         private readonly DateTimeService _datetimeService = new();
-        private readonly Study4Context _context = new();
-        private SubscriptionRepository _subscriptionRepository = new();
+        private readonly Study4Context _context;
+        private readonly SubscriptionRepository _subscriptionRepository;
+
+        public UserSubs_APIController(Study4Context context)
+        {
+            _context = context;
+            _subscriptionRepository = new(context);
+        }
 
         [HttpPost("Check_Expire")]
         public async Task<IActionResult> CheckExpireSubscription(UserRequest request)

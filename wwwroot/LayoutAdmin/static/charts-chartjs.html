@@ -395,7 +395,7 @@
 	<script>
 		document.addEventListener("DOMContentLoaded", function() {
 			// Line chart
-			new Chart(document.getElementById("chartjs-line"), {
+            const line = new Chart(document.getElementById("chartjs-line"), {
 				type: "line",
 				data: {
 					labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
@@ -456,7 +456,7 @@
 	<script>
 		document.addEventListener("DOMContentLoaded", function() {
 			// Bar chart
-			new Chart(document.getElementById("chartjs-bar"), {
+			const bar = new Chart(document.getElementById("chartjs-bar"), {
 				type: "bar",
 				data: {
 					labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
@@ -509,7 +509,7 @@
 	<script>
 		document.addEventListener("DOMContentLoaded", function() {
 			// Doughnut chart
-			new Chart(document.getElementById("chartjs-doughnut"), {
+			const doughNut = new Chart(document.getElementById("chartjs-doughnut"), {
 				type: "doughnut",
 				data: {
 					labels: ["Social", "Search Engines", "Direct", "Other"],
@@ -537,7 +537,7 @@
 	<script>
 		document.addEventListener("DOMContentLoaded", function() {
 			// Pie chart
-			new Chart(document.getElementById("chartjs-pie"), {
+			const pieChart = new Chart(document.getElementById("chartjs-pie"), {
 				type: "pie",
 				data: {
 					labels: ["Social", "Search Engines", "Direct", "Other"],
@@ -564,7 +564,7 @@
 	<script>
 		document.addEventListener("DOMContentLoaded", function() {
 			// Radar chart
-			new Chart(document.getElementById("chartjs-radar"), {
+			const radarChart = new Chart(document.getElementById("chartjs-radar"), {
 				type: "radar",
 				data: {
 					labels: ["Speed", "Reliability", "Comfort", "Safety", "Efficiency"],
@@ -597,7 +597,7 @@
 	<script>
 		document.addEventListener("DOMContentLoaded", function() {
 			// Polar Area chart
-			new Chart(document.getElementById("chartjs-polar-area"), {
+			const polarAreaChart = new Chart(document.getElementById("chartjs-polar-area"), {
 				type: "polarArea",
 				data: {
 					labels: ["Speed", "Reliability", "Comfort", "Safety", "Efficiency"],

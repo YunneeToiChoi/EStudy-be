@@ -9,11 +9,13 @@ namespace study4_be.Controllers.Admin
     public class TagsController : Controller
     {
         private readonly ILogger<TagsController> _logger;
-        public TagsController(ILogger<TagsController> logger)
+        private readonly Study4Context _context;
+        public TagsController(ILogger<TagsController> logger, Study4Context context)
         {
             _logger = logger;
+            _context = context;
         }
-        public Study4Context _context = new Study4Context();
+        
 
         public async Task<IActionResult> Tag_List()
         {
@@ -43,22 +45,25 @@ namespace study4_be.Controllers.Admin
                 catch (Exception e)
                 {
                     CreatedAtAction(nameof(GetTagById), new { id = tag.TagId }, tag);
-                    _logger.LogError(e, "Error occurred while creating new course.");
+                    _logger.LogError(e, "Error occurred while creating new tag.");
                 }
                 return RedirectToAction("Tag_List", "Tags"); // nav to main home when add successfull, after change nav to index create Courses
             }
             catch (Exception ex)
             {
                 // show log
-                _logger.LogError(ex, "Error occurred while creating new course.");
+                _logger.LogError(ex, "Error occurred while creating new tag.");
                 ModelState.AddModelError("", "An error occurred while processing your request. Please try again later.");
                 return View(tag);
             }
         }
 
-        [HttpGet("{id}")]
         public async Task<IActionResult> GetTagById(int id)
         {
+            if (!ModelState.IsValid)
+            {
+                return NotFound(new { message = "Id is invalid" });
+            }
             var tag = await _context.Tags.FindAsync(id);
             if (tag == null)
             {
@@ -69,9 +74,13 @@ namespace study4_be.Controllers.Admin
         }
 
         [HttpGet]
-        public IActionResult Tag_Edit(string id)
+        public async Task<IActionResult> Tag_Edit(string id)
         {
-            var tag = _context.Tags.FirstOrDefault(c => c.TagId == id);
+            if (!ModelState.IsValid)
+            {
+                return NotFound(new { message = "tagId is invalid" });
+            }
+            var tag = await _context.Tags.FirstOrDefaultAsync(c => c.TagId == id);
             if (tag == null)
             {
                 return NotFound();
@@ -93,52 +102,78 @@ namespace study4_be.Controllers.Admin
                 }
                 catch (Exception ex)
                 {
-                    _logger.LogError($"Error updating course with ID {tag.TagId}: {ex.Message}");
-                    ModelState.AddModelError(string.Empty, "An error occurred while updating the course.");
+                    _logger.LogError($"Error updating tag: {ex.Message}");
+                    ModelState.AddModelError(string.Empty, "An error occurred while updating the tag.");
                 }
             }
             return View(tag);
         }
 
         [HttpGet]
-        public IActionResult Tag_Delete(string id)
+        public async Task<IActionResult> Tag_Delete(string id)
         {
-            var tag = _context.Tags.FirstOrDefault(c => c.TagId == id);
+            if (!ModelState.IsValid)
+            {
+                _logger.LogError($"Staff not found for deletion.");
+                return NotFound($"Staff not found.");
+            }
+            var tag = await _context.Tags.FirstOrDefaultAsync(c => c.TagId == id);
             if (tag == null)
             {
-                _logger.LogError($"Course with ID {id} not found for delete.");
-                return NotFound($"Course with ID {id} not found.");
+                _logger.LogError($"Tag not found for delete.");
+                return NotFound($"Tag not found.");
             }
             return View(tag);
         }
 
         [HttpPost, ActionName("Tag_Delete")]
-        public IActionResult Tag_DeleteConfirmed(string id)
+        public async Task<IActionResult> Tag_DeleteConfirmed(string id)
         {
-            var tag = _context.Tags.FirstOrDefault(c => c.TagId == id);
+            if (!ModelState.IsValid)
+            {
+                _logger.LogError($"Tag not found for deletion.");
+                return NotFound($"Tag not found.");
+            }
+            var tag = await _context.Tags.FirstOrDefaultAsync(c => c.TagId == id);
             if (tag == null)
             {
-                _logger.LogError($"Course with ID {id} not found for deletion.");
-                return NotFound($"Course with ID {id} not found.");
+                _logger.LogError($"Tag not found for deletion.");
+                return NotFound($"Tag not found.");
             }
 
             try
             {
                 _context.Tags.Remove(tag);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
                 return RedirectToAction("Tag_List");
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Error deleting course with ID {id}: {ex.Message}");
-                ModelState.AddModelError(string.Empty, "An error occurred while deleting the course.");
+                _logger.LogError($"Error deleting tag: {ex.Message}");
+                ModelState.AddModelError(string.Empty, "An error occurred while deleting the tag.");
                 return View(tag);
             }
         }
 
-        public IActionResult Tag_Details(string id)
+        public async Task<IActionResult> Tag_Details(string id)
         {
-            return View(_context.Tags.FirstOrDefault(c => c.TagId == id));
+            // Check if the ID is invalid (e.g., not positive)
+            if (!ModelState.IsValid)
+            {
+                ModelState.AddModelError("", "Invalid Tag ID.");
+                TempData["ErrorMessage"] = "The specified Tag was not found.";
+                return RedirectToAction("Tag_List", "Tag");
+            }
+
+            var tag = await _context.Tags.FirstOrDefaultAsync(c => c.TagId == id);
+
+            // If no container is found, return to the list with an error
+            if (tag == null)
+            {
+                TempData["ErrorMessage"] = "The specified Tag was not found.";
+                return RedirectToAction("Tag_List", "Tag");
+            }
+            return View(tag);
         }
     }
 }

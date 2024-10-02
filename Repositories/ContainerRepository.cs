@@ -6,11 +6,8 @@ namespace study4_be.Repositories
 {
     public class ContainerRepository
     {
-        private readonly Study4Context _context = new Study4Context();
-        //public async Task<UnitDetail> GetAllContainersAndLessonsByUnitAsync(int unitId)
-        //{
-        
-        //}
+        private readonly Study4Context _context;
+        public ContainerRepository(Study4Context context) { _context = context; }
         public async Task DeleteAllUnitsAsync()
         {
             var units = await _context.Units.ToListAsync();

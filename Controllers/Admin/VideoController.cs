@@ -11,12 +11,15 @@ namespace study4_be.Controllers.Admin
     public class VideoController : Controller
     {
         private readonly ILogger<VideoController> _logger;
-        public VideoController(ILogger<VideoController> logger)
+        private readonly VideoRepository _videosRepository;
+        private readonly Study4Context _context;
+        public VideoController(ILogger<VideoController> logger, Study4Context context)
         {
             _logger = logger;
+            _context = context;
+            _videosRepository = new(context);
         }
-        private readonly VideoRepository _videosRepository = new VideoRepository();
-        public Study4Context _context = new Study4Context();
+        
         public async Task<IActionResult> Video_List()
         {
             try
@@ -72,7 +75,19 @@ namespace study4_be.Controllers.Admin
         [HttpPost]
         public async Task<IActionResult> Video_Create(VideoCreateViewModel videoViewMode)
         {
+            if (!ModelState.IsValid)
+            {
+                _logger.LogError("Error occurred while creating new videos.");
+                ModelState.AddModelError("", "An error occurred while processing your request. Please try again later.");
 
+                videoViewMode.Lessons = await _context.Lessons.Select(c => new SelectListItem
+                {
+                    Value = c.LessonId.ToString(),
+                    Text = c.LessonTitle.ToString()
+                }).ToListAsync();
+
+                return View(videoViewMode);
+            }
             try
             {
                 var video = new Video
@@ -89,22 +104,25 @@ namespace study4_be.Controllers.Admin
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error occurred while creating new unit.");
+                _logger.LogError(ex, "Error occurred while creating new video.");
                 ModelState.AddModelError("", "An error occurred while processing your request. Please try again later.");
 
-                videoViewMode.Lessons = _context.Lessons.Select(c => new SelectListItem
+                videoViewMode.Lessons = await _context.Lessons.Select(c => new SelectListItem
                 {
                     Value = c.LessonId.ToString(),
                     Text = c.LessonTitle.ToString()
-                }).ToList();
+                }).ToListAsync();
 
                 return View(videoViewMode);
             }
         }
 
-        [HttpGet("{id}")]
         public async Task<IActionResult> GetVideoById(int id)
         {
+            if (!ModelState.IsValid)
+            {
+                return NotFound(new { message = "Id is invalid" });
+            }
             var video = await _context.Videos.FindAsync(id);
             if (video == null)
             {
@@ -115,14 +133,18 @@ namespace study4_be.Controllers.Admin
         }
 
         [HttpGet]
-        public IActionResult Video_Edit(int id)
+        public async Task<IActionResult> Video_Edit(int id)
         {
-            var video = _context.Videos.FirstOrDefault(c => c.VideoId == id);
+            if (!ModelState.IsValid)
+            {
+                return NotFound(new { message = "videoId is invalid" });
+            }
+            var video = await _context.Videos.FirstOrDefaultAsync(c => c.VideoId == id);
             if (video == null)
             {
                 return NotFound();
             }
-            var lessons = _context.Lessons.ToList();
+            var lessons = await _context.Lessons.ToListAsync();
             var selectListLessons = lessons.Select(lesson => new SelectListItem
             {
                 Value = lesson.LessonId.ToString(),
@@ -142,62 +164,88 @@ namespace study4_be.Controllers.Admin
         {
             if (ModelState.IsValid)
             {
-                var courseToUpdate = _context.Videos.FirstOrDefault(c => c.VideoId == videoViewModel.video.VideoId);
+                var courseToUpdate = await _context.Videos.FirstOrDefaultAsync(c => c.VideoId == videoViewModel.video.VideoId);
                 courseToUpdate.VideoUrl = videoViewModel.video.VideoUrl;
                 courseToUpdate.LessonId = videoViewModel.video.LessonId;
                 try
                 {
-                    _context.SaveChanges();
+                    await _context.SaveChangesAsync();
                     return RedirectToAction("Video_List");
                 }
                 catch (Exception ex)
                 {
-                    _logger.LogError($"Error updating course with ID {videoViewModel.video.VideoId}: {ex.Message}");
-                    ModelState.AddModelError(string.Empty, "An error occurred while updating the course.");
+                    _logger.LogError($"Error updating video: {ex.Message}");
+                    ModelState.AddModelError(string.Empty, "An error occurred while updating the video.");
                 }
             }
             return View(videoViewModel);
         }
 
         [HttpGet]
-        public IActionResult Video_Delete(int id)
+        public async Task<IActionResult> Video_Delete(int id)
         {
-            var video = _context.Videos.FirstOrDefault(c => c.VideoId == id);
+            if (!ModelState.IsValid)
+            {
+                _logger.LogError($"Video not found for deletion.");
+                return NotFound($"Video not found.");
+            }
+            var video = await _context.Videos.FirstOrDefaultAsync(c => c.VideoId == id);
             if (video == null)
             {
-                _logger.LogError($"Course with ID {id} not found for delete.");
-                return NotFound($"Course with ID {id} not found.");
+                _logger.LogError($"Video not found for delete.");
+                return NotFound($"Video not found.");
             }
             return View(video);
         }
 
         [HttpPost, ActionName("Video_Delete")]
-        public IActionResult Video_DeleteConfirmed(int id)
+        public async Task<IActionResult> Video_DeleteConfirmed(int id)
         {
-            var video = _context.Videos.FirstOrDefault(c => c.VideoId == id);
+            if (!ModelState.IsValid)
+            {
+                _logger.LogError($"Video not found for deletion.");
+                return NotFound($"Video not found.");
+            }
+            var video = await _context.Videos.FirstOrDefaultAsync(c => c.VideoId == id);
             if (video == null)
             {
-                _logger.LogError($"Course with ID {id} not found for deletion.");
-                return NotFound($"Course with ID {id} not found.");
+                _logger.LogError($"Video not found for deletion.");
+                return NotFound($"Video not found.");
             }
 
             try
             {
                 _context.Videos.Remove(video);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
                 return RedirectToAction("Video_List");
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Error deleting course with ID {id}: {ex.Message}");
-                ModelState.AddModelError(string.Empty, "An error occurred while deleting the course.");
+                _logger.LogError($"Error deleting video: {ex.Message}");
+                ModelState.AddModelError(string.Empty, "An error occurred while deleting the video.");
                 return View(video);
             }
         }
 
-        public IActionResult Video_Details(int id)
+        public async Task<IActionResult> Video_Details(int id)
         {
-            return View(_context.Videos.FirstOrDefault(c => c.VideoId == id));
+            // Check if the ID is invalid (e.g., not positive)
+            if (!ModelState.IsValid)
+            {
+                ModelState.AddModelError("", "Invalid Video ID.");
+                TempData["ErrorMessage"] = "The specified Video was not found.";
+                return RedirectToAction("Video_List", "Video");
+            }
+
+            var video = await _context.Videos.FirstOrDefaultAsync(c => c.VideoId == id);
+
+            // If no container is found, return to the list with an error
+            if (video == null)
+            {
+                TempData["ErrorMessage"] = "The specified video was not found.";
+                return RedirectToAction("Video_List", "Video");
+            }
+            return View(video);
         }
     }
 }

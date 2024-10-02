@@ -51,6 +51,8 @@ public partial class Study4Context : DbContext
 
     public virtual DbSet<Rating> Ratings { get; set; }
 
+    public virtual DbSet<RatingImage> RatingImages { get; set; }
+
     public virtual DbSet<Role> Roles { get; set; }
 
     public virtual DbSet<Schema> Schemas { get; set; }
@@ -82,10 +84,6 @@ public partial class Study4Context : DbContext
     public virtual DbSet<Video> Videos { get; set; }
 
     public virtual DbSet<Vocabulary> Vocabularies { get; set; }
-
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Data Source=LAPTOP-62MKG1UJ;Initial Catalog=STUDY4;Integrated Security=True;Trust Server Certificate=True");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -170,7 +168,7 @@ public partial class Study4Context : DbContext
 
         modelBuilder.Entity<Document>(entity =>
         {
-            entity.HasKey(e => e.DocumentId).HasName("PK__Document__1ABEEF0FCC94F262");
+            entity.HasKey(e => e.DocumentId).HasName("PK__Document__1ABEEF0F33228537");
 
             entity.Property(e => e.Description).HasColumnType("text");
             entity.Property(e => e.DownloadCount).HasDefaultValue(0);
@@ -209,7 +207,7 @@ public partial class Study4Context : DbContext
 
         modelBuilder.Entity<Exam>(entity =>
         {
-            entity.HasKey(e => e.ExamId).HasName("PK__Exam__C782CA590DBAF893");
+            entity.HasKey(e => e.ExamId).HasName("PK__Exam__C782CA59F05D32C8");
 
             entity.ToTable("Exam");
 
@@ -319,7 +317,7 @@ public partial class Study4Context : DbContext
 
         modelBuilder.Entity<Order>(entity =>
         {
-            entity.HasKey(e => e.OrderId).HasName("PK__Orders__F1FF8453BD17363A");
+            entity.HasKey(e => e.OrderId).HasName("PK__Orders__F1FF845342FF3C31");
 
             entity.Property(e => e.OrderId)
                 .HasMaxLength(255)
@@ -358,7 +356,7 @@ public partial class Study4Context : DbContext
 
         modelBuilder.Entity<PlanCourse>(entity =>
         {
-            entity.HasKey(e => new { e.PlanId, e.CourseId }).HasName("PK__PLAN_COU__47E48A7C1C56332A");
+            entity.HasKey(e => new { e.PlanId, e.CourseId }).HasName("PK__PLAN_COU__47E48A7C68EEA804");
 
             entity.ToTable("PLAN_COURSES");
 
@@ -425,10 +423,15 @@ public partial class Study4Context : DbContext
 
         modelBuilder.Entity<Rating>(entity =>
         {
+            entity.HasKey(e => e.Id).HasName("PK__RATING__3214EC27FC591F28");
+
             entity.ToTable("RATING");
 
-            entity.Property(e => e.RatingId).HasColumnName("RATING_ID");
-            entity.Property(e => e.CourseId).HasColumnName("COURSE_ID");
+            entity.Property(e => e.Id).HasColumnName("ID");
+            entity.Property(e => e.EntityId).HasColumnName("ENTITY_ID");
+            entity.Property(e => e.EntityType)
+                .HasMaxLength(10)
+                .HasColumnName("ENTITY_TYPE");
             entity.Property(e => e.RatingDate)
                 .HasColumnType("datetime")
                 .HasColumnName("RATING_DATE");
@@ -439,9 +442,33 @@ public partial class Study4Context : DbContext
                 .IsUnicode(false)
                 .HasColumnName("USER_ID");
 
-            entity.HasOne(d => d.UserCourse).WithMany(p => p.Ratings)
-                .HasForeignKey(d => new { d.UserId, d.CourseId })
-                .HasConstraintName("FK_RATING_RATING1");
+            entity.HasOne(d => d.Entity).WithMany(p => p.Ratings)
+                .HasForeignKey(d => d.EntityId)
+                .HasConstraintName("FK_Course");
+
+            entity.HasOne(d => d.EntityNavigation).WithMany(p => p.Ratings)
+                .HasForeignKey(d => d.EntityId)
+                .HasConstraintName("FK_Document");
+
+            entity.HasOne(d => d.User).WithMany(p => p.Ratings)
+                .HasForeignKey(d => d.UserId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__RATING__USER_ID__367C1819");
+        });
+
+        modelBuilder.Entity<RatingImage>(entity =>
+        {
+            entity.HasKey(e => e.ImageId).HasName("PK__RATING_I__7EA98689F3675B78");
+
+            entity.ToTable("RATING_IMAGES");
+
+            entity.Property(e => e.ImageId).HasColumnName("IMAGE_ID");
+            entity.Property(e => e.ImageUrl).HasColumnName("IMAGE_URL");
+            entity.Property(e => e.RatingId).HasColumnName("RATING_ID");
+
+            entity.HasOne(d => d.Rating).WithMany(p => p.RatingImages)
+                .HasForeignKey(d => d.RatingId)
+                .HasConstraintName("FK__RATING_IM__RATIN__3B40CD36");
         });
 
         modelBuilder.Entity<Role>(entity =>
@@ -623,7 +650,7 @@ public partial class Study4Context : DbContext
 
         modelBuilder.Entity<UserAnswer>(entity =>
         {
-            entity.HasKey(e => e.UserAnswerId).HasName("PK__UserAnsw__47CE237F743204DB");
+            entity.HasKey(e => e.UserAnswerId).HasName("PK__UserAnsw__47CE237FD04C0B77");
 
             entity.Property(e => e.QuestionId).HasColumnName("QUESTION_ID");
             entity.Property(e => e.UserExamId)
@@ -668,7 +695,7 @@ public partial class Study4Context : DbContext
 
         modelBuilder.Entity<UserSub>(entity =>
         {
-            entity.HasKey(e => e.UsersubsId).HasName("PK__USER_SUB__ECB467F3B0076C54");
+            entity.HasKey(e => e.UsersubsId).HasName("PK__USER_SUB__ECB467F396E30B02");
 
             entity.ToTable("USER_SUBS");
 
@@ -692,12 +719,12 @@ public partial class Study4Context : DbContext
             entity.HasOne(d => d.Plan).WithMany(p => p.UserSubs)
                 .HasForeignKey(d => d.PlanId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__USER_SUBS__PLAN___74AE54BC");
+                .HasConstraintName("FK__USER_SUBS__PLAN___58BC2184");
 
             entity.HasOne(d => d.User).WithMany(p => p.UserSubs)
                 .HasForeignKey(d => d.UserId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__USER_SUBS__USER___75A278F5");
+                .HasConstraintName("FK__USER_SUBS__USER___59B045BD");
         });
 
         modelBuilder.Entity<UsersExam>(entity =>
@@ -770,6 +797,7 @@ public partial class Study4Context : DbContext
 
             entity.HasOne(d => d.Lesson).WithMany(p => p.Vocabularies)
                 .HasForeignKey(d => d.LessonId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_VOCABULARY_LESSON");
         });
 

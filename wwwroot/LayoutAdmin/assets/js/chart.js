@@ -4,7 +4,7 @@ $(function () {
    * Data and config for chartjs
    */
   'use strict';
-  var data = {
+  const data = {
     labels: ["2013", "2014", "2014", "2015", "2016", "2017"],
     datasets: [{
       label: '# of Votes',
@@ -29,7 +29,7 @@ $(function () {
       fill: false
     }]
   };
-  var dataDark = {
+  const dataDark = {
     labels: ["2013", "2014", "2014", "2015", "2016", "2017"],
     datasets: [{
       label: '# of Votes',
@@ -54,7 +54,7 @@ $(function () {
       fill: false
     }]
   };
-  var multiLineData = {
+  const multiLineData = {
     labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
     datasets: [{
       label: 'Dataset 1',
@@ -85,7 +85,7 @@ $(function () {
     }
     ]
   };
-  var options = {
+  const options = {
     scales: {
       yAxes: [{
         ticks: {
@@ -103,7 +103,7 @@ $(function () {
     }
 
   };
-  var optionsDark = {
+  const optionsDark = {
     scales: {
       yAxes: [{
         ticks: {
@@ -133,7 +133,7 @@ $(function () {
     }
 
   };
-  var doughnutPieData = {
+  const doughnutPieData = {
     datasets: [{
       data: [30, 40, 30],
       backgroundColor: [
@@ -161,14 +161,14 @@ $(function () {
       'Yellow',
     ]
   };
-  var doughnutPieOptions = {
+  const doughnutPieOptions = {
     responsive: true,
     animation: {
       animateScale: true,
       animateRotate: true
     }
   };
-  var areaData = {
+  const areaData = {
     labels: ["2013", "2014", "2015", "2016", "2017"],
     datasets: [{
       label: '# of Votes',
@@ -194,7 +194,7 @@ $(function () {
     }]
   };
 
-  var areaDataDark = {
+  const areaDataDark = {
     labels: ["2013", "2014", "2015", "2016", "2017"],
     datasets: [{
       label: '# of Votes',
@@ -220,7 +220,7 @@ $(function () {
     }]
   };
 
-  var areaOptions = {
+  const areaOptions = {
     plugins: {
       filler: {
         propagate: true
@@ -228,7 +228,7 @@ $(function () {
     }
   }
 
-  var areaOptionsDark = {
+  const areaOptionsDark = {
     scales: {
       yAxes: [{
         ticks: {
@@ -255,7 +255,7 @@ $(function () {
     }
   }
 
-  var multiAreaData = {
+  const multiAreaData = {
     labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
     datasets: [{
       label: 'Facebook',
@@ -284,7 +284,7 @@ $(function () {
     ]
   };
 
-  var multiAreaOptions = {
+  const multiAreaOptions = {
     plugins: {
       filler: {
         propagate: true
@@ -309,7 +309,7 @@ $(function () {
     }
   }
 
-  var scatterChartData = {
+  const scatterChartData = {
     datasets: [{
       label: 'First Dataset',
       data: [{
@@ -367,7 +367,7 @@ $(function () {
     ]
   }
 
-  var scatterChartDataDark = {
+  const scatterChartDataDark = {
     datasets: [{
       label: 'First Dataset',
       data: [{
@@ -425,7 +425,7 @@ $(function () {
     ]
   }
 
-  var scatterChartOptions = {
+  const scatterChartOptions = {
     scales: {
       xAxes: [{
         type: 'linear',
@@ -434,7 +434,7 @@ $(function () {
     }
   }
 
-  var scatterChartOptionsDark = {
+  const scatterChartOptionsDark = {
     scales: {
       xAxes: [{
         type: 'linear',
@@ -454,9 +454,9 @@ $(function () {
   }
   // Get context with jQuery - using jQuery's .get() method.
   if ($("#barChart").length) {
-    var barChartCanvas = $("#barChart").get(0).getContext("2d");
+    const barChartCanvas = $("#barChart").get(0).getContext("2d");
     // This will get the first returned node in the jQuery collection.
-    var barChart = new Chart(barChartCanvas, {
+    const barChart = new Chart(barChartCanvas, {
       type: 'bar',
       data: data,
       options: options
@@ -464,9 +464,9 @@ $(function () {
   }
 
   if ($("#barChartDark").length) {
-    var barChartCanvasDark = $("#barChartDark").get(0).getContext("2d");
+    const barChartCanvasDark = $("#barChartDark").get(0).getContext("2d");
     // This will get the first returned node in the jQuery collection.
-    var barChartDark = new Chart(barChartCanvasDark, {
+    const barChartDark = new Chart(barChartCanvasDark, {
       type: 'bar',
       data: dataDark,
       options: optionsDark
@@ -474,8 +474,8 @@ $(function () {
   }
 
   if ($("#lineChart").length) {
-    var lineChartCanvas = $("#lineChart").get(0).getContext("2d");
-    var lineChart = new Chart(lineChartCanvas, {
+    const lineChartCanvas = $("#lineChart").get(0).getContext("2d");
+    const lineChart = new Chart(lineChartCanvas, {
       type: 'line',
       data: data,
       options: options
@@ -483,8 +483,8 @@ $(function () {
   }
 
   if ($("#lineChartDark").length) {
-    var lineChartCanvasDark = $("#lineChartDark").get(0).getContext("2d");
-    var lineChartDark = new Chart(lineChartCanvasDark, {
+    const lineChartCanvasDark = $("#lineChartDark").get(0).getContext("2d");
+    const lineChartDark = new Chart(lineChartCanvasDark, {
       type: 'line',
       data: dataDark,
       options: optionsDark
@@ -492,8 +492,8 @@ $(function () {
   }
 
   if ($("#linechart-multi").length) {
-    var multiLineCanvas = $("#linechart-multi").get(0).getContext("2d");
-    var lineChart = new Chart(multiLineCanvas, {
+    const multiLineCanvas = $("#linechart-multi").get(0).getContext("2d");
+    const lineChart = new Chart(multiLineCanvas, {
       type: 'line',
       data: multiLineData,
       options: options
@@ -501,8 +501,8 @@ $(function () {
   }
 
   if ($("#areachart-multi").length) {
-    var multiAreaCanvas = $("#areachart-multi").get(0).getContext("2d");
-    var multiAreaChart = new Chart(multiAreaCanvas, {
+    const multiAreaCanvas = $("#areachart-multi").get(0).getContext("2d");
+    const multiAreaChart = new Chart(multiAreaCanvas, {
       type: 'line',
       data: multiAreaData,
       options: multiAreaOptions
@@ -510,8 +510,8 @@ $(function () {
   }
 
   if ($("#doughnutChart").length) {
-    var doughnutChartCanvas = $("#doughnutChart").get(0).getContext("2d");
-    var doughnutChart = new Chart(doughnutChartCanvas, {
+    const doughnutChartCanvas = $("#doughnutChart").get(0).getContext("2d");
+    const doughnutChart = new Chart(doughnutChartCanvas, {
       type: 'doughnut',
       data: doughnutPieData,
       options: doughnutPieOptions
@@ -519,8 +519,8 @@ $(function () {
   }
 
   if ($("#pieChart").length) {
-    var pieChartCanvas = $("#pieChart").get(0).getContext("2d");
-    var pieChart = new Chart(pieChartCanvas, {
+    const pieChartCanvas = $("#pieChart").get(0).getContext("2d");
+    const pieChart = new Chart(pieChartCanvas, {
       type: 'pie',
       data: doughnutPieData,
       options: doughnutPieOptions
@@ -528,8 +528,8 @@ $(function () {
   }
 
   if ($("#areaChart").length) {
-    var areaChartCanvas = $("#areaChart").get(0).getContext("2d");
-    var areaChart = new Chart(areaChartCanvas, {
+    const areaChartCanvas = $("#areaChart").get(0).getContext("2d");
+    const areaChart = new Chart(areaChartCanvas, {
       type: 'line',
       data: areaData,
       options: areaOptions
@@ -537,8 +537,8 @@ $(function () {
   }
 
   if ($("#areaChartDark").length) {
-    var areaChartCanvas = $("#areaChartDark").get(0).getContext("2d");
-    var areaChart = new Chart(areaChartCanvas, {
+    const areaChartCanvas = $("#areaChartDark").get(0).getContext("2d");
+    const areaChart = new Chart(areaChartCanvas, {
       type: 'line',
       data: areaDataDark,
       options: areaOptionsDark
@@ -546,8 +546,8 @@ $(function () {
   }
 
   if ($("#scatterChart").length) {
-    var scatterChartCanvas = $("#scatterChart").get(0).getContext("2d");
-    var scatterChart = new Chart(scatterChartCanvas, {
+    const scatterChartCanvas = $("#scatterChart").get(0).getContext("2d");
+    const scatterChart = new Chart(scatterChartCanvas, {
       type: 'scatter',
       data: scatterChartData,
       options: scatterChartOptions
@@ -555,8 +555,8 @@ $(function () {
   }
 
   if ($("#scatterChartDark").length) {
-    var scatterChartCanvas = $("#scatterChartDark").get(0).getContext("2d");
-    var scatterChart = new Chart(scatterChartCanvas, {
+    const scatterChartCanvas = $("#scatterChartDark").get(0).getContext("2d");
+    const scatterChart = new Chart(scatterChartCanvas, {
       type: 'scatter',
       data: scatterChartDataDark,
       options: scatterChartOptionsDark
@@ -564,8 +564,8 @@ $(function () {
   }
 
   if ($("#browserTrafficChart").length) {
-    var doughnutChartCanvas = $("#browserTrafficChart").get(0).getContext("2d");
-    var doughnutChart = new Chart(doughnutChartCanvas, {
+    const doughnutChartCanvas = $("#browserTrafficChart").get(0).getContext("2d");
+    const doughnutChart = new Chart(doughnutChartCanvas, {
       type: 'doughnut',
       data: browserTrafficData,
       options: doughnutPieOptions

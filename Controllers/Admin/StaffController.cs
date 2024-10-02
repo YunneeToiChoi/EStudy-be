@@ -10,20 +10,23 @@ namespace study4_be.Controllers.Admin
     public class StaffController : Controller
     {
         private readonly ILogger<StaffController> _logger;
-        public StaffController(ILogger<StaffController> logger)
+        private readonly StaffRepository _staffsRepository;
+        private readonly Study4Context _context;
+        public StaffController(ILogger<StaffController> logger, Study4Context context)
         {
             _logger = logger;
+            _context = context;
+            _staffsRepository = new(context);
         }
-        private readonly StaffRepository _staffsRepository = new StaffRepository();
-        public Study4Context _context = new Study4Context();
+        
         public async Task<IActionResult> Staff_List()
         {
             var staffs = await _context.Staff.ToListAsync();
             return View(staffs);
         }
-        public IActionResult Staff_Create()
+        public async Task<IActionResult> Staff_Create()
         {
-            var departments = _context.Departments.ToList();
+            var departments = await _context.Departments.ToListAsync();
             var model = new StaffCreateViewModel
             {
                 Staffs = new Staff(),
@@ -38,7 +41,19 @@ namespace study4_be.Controllers.Admin
         [HttpPost]
         public async Task<IActionResult> Staff_Create(StaffCreateViewModel staffViewModel)
         {
+            if (!ModelState.IsValid)
+            {
+                _logger.LogError("Error occurred while creating new staff.");
+                ModelState.AddModelError("", "An error occurred while processing your request. Please try again later.");
 
+                staffViewModel.Departments = await _context.Departments.Select(c => new SelectListItem
+                {
+                    Value = c.DepartmentId.ToString(),
+                    Text = c.DepartmentName
+                }).ToListAsync();
+
+                return View(staffViewModel);
+            }
             try
             {
                 var staff = new Staff
@@ -58,22 +73,25 @@ namespace study4_be.Controllers.Admin
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error occurred while creating new unit.");
+                _logger.LogError(ex, "Error occurred while creating new staff.");
                 ModelState.AddModelError("", "An error occurred while processing your request. Please try again later.");
 
-                staffViewModel.Departments = _context.Departments.Select(c => new SelectListItem
+                staffViewModel.Departments = await _context.Departments.Select(c => new SelectListItem
                 {
                     Value = c.DepartmentId.ToString(),
                     Text = c.DepartmentName
-                }).ToList();
+                }).ToListAsync();
 
                 return View(staffViewModel);
             }
         }
 
-        [HttpGet("{id}")]
         public async Task<IActionResult> GetStaffById(int id)
         {
+            if (!ModelState.IsValid)
+            {
+                return NotFound(new { message = "Id is invalid" });
+            }
             var staff = await _context.Staff.FindAsync(id);
             if (staff == null)
             {
@@ -83,9 +101,13 @@ namespace study4_be.Controllers.Admin
             return Ok(staff);
         }
 
-        public IActionResult Staff_Edit(int id)
+        public async Task<IActionResult> Staff_Edit(int id)
         {
-            var staff = _context.Staff.FirstOrDefault(c => c.StaffId == id);
+            if (!ModelState.IsValid)
+            {
+                return NotFound(new { message = "staffId is invalid" });
+            }
+            var staff = await _context.Staff.FirstOrDefaultAsync(c => c.StaffId == id);
             if (staff == null)
             {
                 return NotFound();
@@ -98,7 +120,7 @@ namespace study4_be.Controllers.Admin
         {
             if (ModelState.IsValid)
             {
-                var courseToUpdate = _context.Staff.FirstOrDefault(c => c.StaffId == staff.StaffId);
+                var courseToUpdate = await _context.Staff.FirstOrDefaultAsync(c => c.StaffId == staff.StaffId);
                 courseToUpdate.StaffName = staff.StaffName;
                 courseToUpdate.StaffEmail = staff.StaffEmail;
                 courseToUpdate.StaffType = staff.StaffName;
@@ -106,57 +128,83 @@ namespace study4_be.Controllers.Admin
                 courseToUpdate.Department = staff.Department;
                 try
                 {
-                    _context.SaveChanges();
+                    await _context.SaveChangesAsync();
                     return RedirectToAction("Staff_List");
                 }
                 catch (Exception ex)
                 {
-                    _logger.LogError($"Error updating course with ID {staff.StaffId}: {ex.Message}");
-                    ModelState.AddModelError(string.Empty, "An error occurred while updating the course.");
+                    _logger.LogError($"Error updating staff : {ex.Message}");
+                    ModelState.AddModelError(string.Empty, "An error occurred while updating the staff.");
                 }
             }
             return View(staff);
         }
 
         [HttpGet]
-        public IActionResult Staff_Delete(int id)
+        public async Task<IActionResult> Staff_Delete(int id)
         {
-            var staff = _context.Staff.FirstOrDefault(c => c.StaffId == id);
+            if (!ModelState.IsValid)
+            {
+                _logger.LogError($"Staff not found for deletion.");
+                return NotFound($"Staff not found.");
+            }
+            var staff = await _context.Staff.FirstOrDefaultAsync(c => c.StaffId == id);
             if (staff == null)
             {
-                _logger.LogError($"Course with ID {id} not found for delete.");
-                return NotFound($"Course with ID {id} not found.");
+                _logger.LogError($"Staff not found for delete.");
+                return NotFound($"Staff not found.");
             }
             return View(staff);
         }
 
         [HttpPost, ActionName("Staff_Delete")]
-        public IActionResult Staff_DeleteConfirmed(int id)
+        public async Task<IActionResult> Staff_DeleteConfirmed(int id)
         {
-            var staff = _context.Staff.FirstOrDefault(c => c.StaffId == id);
+            if (!ModelState.IsValid)
+            {
+                _logger.LogError($"Staff not found for deletion.");
+                return NotFound($"Staff not found.");
+            }
+            var staff = await _context.Staff.FirstOrDefaultAsync(c => c.StaffId == id);
             if (staff == null)
             {
-                _logger.LogError($"Course with ID {id} not found for deletion.");
-                return NotFound($"Course with ID {id} not found.");
+                _logger.LogError($"Staff not found for deletion.");
+                return NotFound($"Staff not found.");
             }
 
             try
             {
                 _context.Staff.Remove(staff);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
                 return RedirectToAction("Staff_List");
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Error deleting course with ID {id}: {ex.Message}");
-                ModelState.AddModelError(string.Empty, "An error occurred while deleting the course.");
+                _logger.LogError($"Error deleting staff: {ex.Message}");
+                ModelState.AddModelError(string.Empty, "An error occurred while deleting the staff.");
                 return View(staff);
             }
         }
 
-        public IActionResult Staff_Details(int id)
+        public async Task<IActionResult> Staff_Details(int id)
         {
-            return View(_context.Staff.FirstOrDefault(c => c.StaffId == id));
+            // Check if the ID is invalid (e.g., not positive)
+            if (!ModelState.IsValid)
+            {
+                ModelState.AddModelError("", "Invalid Staff ID.");
+                TempData["ErrorMessage"] = "The specified Staff was not found.";
+                return RedirectToAction("Staff_List", "Staff");
+            }
+
+            var staff = await _context.Staff.FirstOrDefaultAsync(c => c.StaffId == id);
+
+            // If no container is found, return to the list with an error
+            if (staff == null)
+            {
+                TempData["ErrorMessage"] = "The specified Staff was not found.";
+                return RedirectToAction("Staff_List", "Staff");
+            }
+            return View(staff);
         }
     }
 }

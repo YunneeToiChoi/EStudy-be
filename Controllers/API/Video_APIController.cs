@@ -10,7 +10,9 @@ namespace study4_be.Controllers.API
     [ApiController]
     public class Video_APIController : Controller
     {
-        public Study4Context _context = new Study4Context();
+        public Study4Context _context;
+
+        public Video_APIController(Study4Context context) { _context = context; }
 
         [HttpPost("Get_AllVideoOfLesson")]
         public async Task<IActionResult> Get_AllVideoOfLesson(OfLessonRequest _req)

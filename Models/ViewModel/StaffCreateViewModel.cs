@@ -6,6 +6,6 @@ namespace study4_be.Models.ViewModel
     {
         public Staff Staffs { get; set; }
 
-        public List<SelectListItem> Departments { get; set; }
+        public List<SelectListItem>? Departments { get; set; }
     }
 }

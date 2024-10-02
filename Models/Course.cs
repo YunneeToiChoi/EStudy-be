@@ -23,6 +23,8 @@ public partial class Course
 
     public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
 
+    public virtual ICollection<Rating> Ratings { get; set; } = new List<Rating>();
+
     public virtual ICollection<Unit> Units { get; set; } = new List<Unit>();
 
     public virtual ICollection<UserCourse> UserCourses { get; set; } = new List<UserCourse>();

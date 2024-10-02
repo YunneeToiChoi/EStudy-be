@@ -5,7 +5,8 @@ namespace study4_be.Repositories
 {
 	public class OrderRepository
 	{
-		private readonly Study4Context _context = new Study4Context();
+		private readonly Study4Context _context;
+		public OrderRepository(Study4Context context) { _context = context; }
 		public async Task<IEnumerable<Order>> GetAllOrdersAsync()
 		{
 			return await _context.Orders.ToListAsync();

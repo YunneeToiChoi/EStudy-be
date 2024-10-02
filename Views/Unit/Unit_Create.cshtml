@@ -13,12 +13,12 @@
             <p class="card-description">Create</p>
             <form asp-action="Unit_Create" method="post" enctype="multipart/form-data" class="forms-sample">
                 <div class="form-group">
-                    <label asp-for="Units.UnitTittle">Unit Title</label>
+                    <label for="Units.UnitTittle">Unit Title</label>
                     <input asp-for="Units.UnitTittle" class="form-control" />
                     <span asp-validation-for="Units.UnitTittle" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label asp-for="Units.CourseId">Course</label>
+                    <label for="Units.CourseId">Course</label>
                     <select asp-for="Units.CourseId" class="form-control" asp-items="Model.Courses"></select>
                     <span asp-validation-for="Units.CourseId" class="text-danger"></span>
                 </div>

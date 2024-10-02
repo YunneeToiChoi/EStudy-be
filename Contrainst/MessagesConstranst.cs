@@ -1,6 +1,6 @@
 ﻿namespace study4_be.Contrainst
 {
-    public class MessagesConstranst
+    public static class MessagesConstranst
     {
         public static string OK => "OK";
         public static string Cancel => "Cancel";

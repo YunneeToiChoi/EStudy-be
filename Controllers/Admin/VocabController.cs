@@ -17,15 +17,17 @@ namespace study4_be.Controllers.Admin
         private readonly ILogger<VocabController> _logger;
         private FireBaseServices _firebaseServices;
         private GeneralAiAudioServices _generalAiAudioServices;
-        public VocabController(ILogger<VocabController> logger, FireBaseServices firebaseServices)
+        private readonly VocabRepository _vocabsRepository;
+        private readonly Study4Context _context;
+        public VocabController(ILogger<VocabController> logger, FireBaseServices firebaseServices, Study4Context context)
         {
             _logger = logger;
             _generalAiAudioServices = new GeneralAiAudioServices();
             _firebaseServices = firebaseServices;
+            _context = context;
+            _vocabsRepository = new(context);
         }
-        private readonly VocabRepository _vocabsRepository = new VocabRepository();
-        public Study4Context _context = new Study4Context();
-        [HttpDelete("DeleteAllVocabs")]
+        
         public async Task<IActionResult> DeleteAllVocabs()
         {
             await _vocabsRepository.DeleteAllVocabAsync();
@@ -87,6 +89,19 @@ namespace study4_be.Controllers.Admin
         [HttpPost]
         public async Task<IActionResult> Vocab_Create(VocabCreateViewModel vocabViewModel)
         {
+            if (!ModelState.IsValid)
+            {
+                _logger.LogError("Error occurred while creating new vocab.");
+                ModelState.AddModelError("", "An error occurred while processing your request. Please try again later.");
+
+                vocabViewModel.lesson = await _context.Lessons.Select(c => new SelectListItem
+                {
+                    Value = c.LessonId.ToString(),
+                    Text = c.LessonTitle.ToString()
+                }).ToListAsync();
+
+                return View(vocabViewModel);
+            }
             var firebaseBucketName = _firebaseServices.GetFirebaseBucketName();
             // Generate and upload audio to Firebase Storage
             var uniqueId = Guid.NewGuid().ToString(); // Tạo một UUID ngẫu nhiên
@@ -94,7 +109,7 @@ namespace study4_be.Controllers.Admin
             //var audioFilePath = Path.Combine(Path.GetTempPath(), $"VOCAB({vocabViewModel.vocab.VocabId}).wav");
             _generalAiAudioServices.GenerateAudio(vocabViewModel.vocab.VocabTitle, audioFilePath);
 
-            var audioBytes = System.IO.File.ReadAllBytes(audioFilePath);
+            var audioBytes = await System.IO.File.ReadAllBytesAsync(audioFilePath);
             var audioUrl = await _generalAiAudioServices.UploadFileToFirebaseStorageAsync(audioBytes, $"VOCAB({uniqueId}).wav", firebaseBucketName);
             // Delete the temporary file after uploading
             System.IO.File.Delete(audioFilePath);
@@ -120,22 +135,25 @@ namespace study4_be.Controllers.Admin
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error occurred while creating new unit.");
+                _logger.LogError(ex, "Error occurred while creating new vocab.");
                 ModelState.AddModelError("", "An error occurred while processing your request. Please try again later.");
 
-                vocabViewModel.lesson = _context.Lessons.Select(c => new SelectListItem
+                vocabViewModel.lesson = await _context.Lessons.Select(c => new SelectListItem
                 {
                     Value = c.LessonId.ToString(),
                     Text = c.LessonTitle.ToString()
-                }).ToList();
+                }).ToListAsync();
 
                 return View(vocabViewModel);
             }
         }
 
-        [HttpGet("{id}")]
         public async Task<IActionResult> GetVocabById(int id)
         {
+            if (!ModelState.IsValid)
+            {
+                return NotFound(new { message = "Id is invalid" });
+            }
             var vocab = await _context.Vocabularies.FindAsync(id);
             if (vocab == null)
             {
@@ -146,44 +164,57 @@ namespace study4_be.Controllers.Admin
         }
 
         [HttpGet]
-        public IActionResult Vocab_Delete(int id)
+        public async Task<IActionResult> Vocab_Delete(int id)
         {
-            var vocab = _context.Vocabularies.FirstOrDefault(c => c.VocabId == id);
+            if (!ModelState.IsValid)
+            {
+                _logger.LogError($"Vocab not found for deletion.");
+                return NotFound($"Vocab not found.");
+            }
+            var vocab = await _context.Vocabularies.FirstOrDefaultAsync(c => c.VocabId == id);
             if (vocab == null)
             {
-                _logger.LogError($"Course with ID {id} not found for delete.");
-                return NotFound($"Course with ID {id} not found.");
+                _logger.LogError($"Vocab with ID {id} not found for delete.");
+                return NotFound($"Vocab with ID {id} not found.");
             }
             return View(vocab);
         }
 
         [HttpPost, ActionName("Vocab_Delete")]
-        public IActionResult Vocab_DeleteConfirmed(int id)
+        public async Task<IActionResult> Vocab_DeleteConfirmed(int id)
         {
-            var vocab = _context.Vocabularies.FirstOrDefault(c => c.VocabId == id);
+            if (!ModelState.IsValid)
+            {
+                _logger.LogError($"Vocab not found for deletion.");
+                return NotFound($"Vocab not found.");
+            }
+            var vocab = await _context.Vocabularies.FirstOrDefaultAsync(c => c.VocabId == id);
             if (vocab == null)
             {
-                _logger.LogError($"Course with ID {id} not found for deletion.");
-                return NotFound($"Course with ID {id} not found.");
+                _logger.LogError($"Vocab not found for deletion.");
+                return NotFound($"Vocab not found.");
             }
-
             try
             {
                 _context.Vocabularies.Remove(vocab);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
                 return RedirectToAction("Vocab_List");
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Error deleting course with ID {id}: {ex.Message}");
-                ModelState.AddModelError(string.Empty, "An error occurred while deleting the course.");
+                _logger.LogError($"Error deleting vocab: {ex.Message}");
+                ModelState.AddModelError(string.Empty, "An error occurred while deleting the vocab.");
                 return View(vocab);
             }
         }
         [HttpGet]
-        public IActionResult Vocab_Edit(int id)
+        public async Task<IActionResult> Vocab_Edit(int id)
         {
-            var vocab = _context.Vocabularies.FirstOrDefault(c => c.VocabId == id);
+            if (!ModelState.IsValid)
+            {
+                return NotFound(new { message = "Id is invalid" });
+            }
+            var vocab = await _context.Vocabularies.FirstOrDefaultAsync(c => c.VocabId == id);
             if (vocab == null)
             {
                 return NotFound();
@@ -196,7 +227,7 @@ namespace study4_be.Controllers.Admin
         {
             if (ModelState.IsValid)
             {
-                var courseToUpdate = _context.Vocabularies.FirstOrDefault(c => c.VocabId == vocab.VocabId);
+                var courseToUpdate = await _context.Vocabularies.FirstOrDefaultAsync(c => c.VocabId == vocab.VocabId);
                 courseToUpdate.VocabTitle = vocab.VocabTitle;
                 courseToUpdate.VocabType = vocab.VocabType;
                 courseToUpdate.Mean = vocab.Mean;
@@ -204,20 +235,36 @@ namespace study4_be.Controllers.Admin
                 courseToUpdate.Explanation = vocab.Explanation;
                 try
                 {
-                    _context.SaveChanges();
+                    await _context.SaveChangesAsync();
                     return RedirectToAction("Vocab_List");
                 }
                 catch (Exception ex)
                 {
-                    _logger.LogError($"Error updating course with ID {vocab.VocabId}: {ex.Message}");
-                    ModelState.AddModelError(string.Empty, "An error occurred while updating the course.");
+                    _logger.LogError($"Error updating vocab: {ex.Message}");
+                    ModelState.AddModelError(string.Empty, "An error occurred while updating the vocab.");
                 }
             }
             return View(vocab);
         }
-        public IActionResult Vocab_Details(int id)
+        public async Task<IActionResult> Vocab_Details(int id)
         {
-            return View(_context.Vocabularies.FirstOrDefault(c => c.VocabId == id));
+            // Check if the ID is invalid (e.g., not positive)
+            if (!ModelState.IsValid)
+            {
+                ModelState.AddModelError("", "Invalid Vocab ID.");
+                TempData["ErrorMessage"] = "The specified Vocab was not found.";
+                return RedirectToAction("Vocab_List", "Vocab");
+            }
+
+            var vocab = await _context.Vocabularies.FirstOrDefaultAsync(c => c.VocabId == id);
+
+            // If no container is found, return to the list with an error
+            if (vocab == null)
+            {
+                TempData["ErrorMessage"] = "The specified vocab was not found.";
+                return RedirectToAction("Vocab_List", "Vocab");
+            }
+            return View(vocab);
         }
     }
 }
