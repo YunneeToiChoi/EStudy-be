@@ -14,12 +14,6 @@ namespace study4_be.Repositories
         {
             return await _context.UserCourses.ToListAsync();
         }
-        public async Task DeleteAllUserCoursesAsync()
-        {
-            var userCourses = await _context.UserCourses.ToListAsync();
-            _context.UserCourses.RemoveRange(userCourses);
-            await _context.SaveChangesAsync();
-        }
         public async Task<IEnumerable<int>> Get_AllCoursesByUser(string idUser)
         {
             // Lấy danh sách các CourseId từ bảng UserCourses (các khóa học đã thanh toán)

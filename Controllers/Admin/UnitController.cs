@@ -125,7 +125,7 @@ namespace study4_be.Controllers.Admin
                 }
                 catch (Exception ex)
                 {
-                    _logger.LogError($"Error updating unit: {ex.Message}");
+                    _logger.LogError(ex, "Error updating unit");
                     ModelState.AddModelError(string.Empty, "An error occurred while updating the unit.");
                 }
             }
@@ -172,7 +172,7 @@ namespace study4_be.Controllers.Admin
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Error deleting unit: {ex.Message}");
+                _logger.LogError(ex, "Error deleting unit");
                 ModelState.AddModelError(string.Empty, "An error occurred while deleting the unit.");
                 return View(unit);
             }

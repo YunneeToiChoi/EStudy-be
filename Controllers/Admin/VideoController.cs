@@ -219,7 +219,7 @@ namespace study4_be.Controllers.Admin
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Error deleting video: {ex.Message}");
+                _logger.LogError(ex, "Error deleting video");
                 ModelState.AddModelError(string.Empty, "An error occurred while deleting the video.");
                 return View(video);
             }

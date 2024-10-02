@@ -104,7 +104,7 @@ namespace study4_be.Controllers.Admin
                 }
                 catch (Exception ex)
                 {
-                    _logger.LogError($"Error updating course: {ex.Message}");
+                    _logger.LogError(ex, "Error updating course");
                     ModelState.AddModelError(string.Empty, "An error occurred while updating the department.");
                 }
             }
@@ -151,7 +151,7 @@ namespace study4_be.Controllers.Admin
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Error deleting department: {ex.Message}");
+                _logger.LogError(ex, "Error deleting department");
                 ModelState.AddModelError(string.Empty, "An error occurred while deleting the department.");
                 return View(department);
             }

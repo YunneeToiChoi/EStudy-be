@@ -20,7 +20,6 @@ namespace study4_be.Controllers.API
     [Route("api/[controller]")]
     public class UserDocumentAPIController : ControllerBase
     {
-        private readonly UserRepository _userRepository;
         private readonly Study4Context _context;
         private readonly FireBaseServices _fireBaseServices;
 
@@ -28,7 +27,6 @@ namespace study4_be.Controllers.API
         {
             _fireBaseServices = fireBaseServices;
             _context = context;
-            _userRepository = new(context);
         }
         //################################################### DOCUMENT ##########################################//
 

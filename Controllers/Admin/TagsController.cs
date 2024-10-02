@@ -102,7 +102,7 @@ namespace study4_be.Controllers.Admin
                 }
                 catch (Exception ex)
                 {
-                    _logger.LogError($"Error updating tag: {ex.Message}");
+                    _logger.LogError(ex, "Error updating tag");
                     ModelState.AddModelError(string.Empty, "An error occurred while updating the tag.");
                 }
             }
@@ -149,7 +149,7 @@ namespace study4_be.Controllers.Admin
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Error deleting tag: {ex.Message}");
+                _logger.LogError(ex, "Error deleting tag");
                 ModelState.AddModelError(string.Empty, "An error occurred while deleting the tag.");
                 return View(tag);
             }

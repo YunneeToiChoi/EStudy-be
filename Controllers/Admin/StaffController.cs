@@ -131,7 +131,7 @@ namespace study4_be.Controllers.Admin
                 }
                 catch (Exception ex)
                 {
-                    _logger.LogError($"Error updating staff : {ex.Message}");
+                    _logger.LogError(ex, "Error updating staff ");
                     ModelState.AddModelError(string.Empty, "An error occurred while updating the staff.");
                 }
             }
@@ -178,7 +178,7 @@ namespace study4_be.Controllers.Admin
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Error deleting staff: {ex.Message}");
+                _logger.LogError(ex, "Error deleting staff");
                 ModelState.AddModelError(string.Empty, "An error occurred while deleting the staff.");
                 return View(staff);
             }

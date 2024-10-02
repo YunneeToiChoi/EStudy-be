@@ -242,7 +242,7 @@ namespace study4_be.Controllers.Admin
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Error deleting Question: {ex.Message}");
+                _logger.LogError(ex, "Error deleting Question");
                 ModelState.AddModelError(string.Empty, "An error occurred while deleting the Question.");
                 return View(question);
             }
@@ -324,7 +324,7 @@ namespace study4_be.Controllers.Admin
                 }
                 catch (Exception ex)
                 {
-                    _logger.LogError($"Error updating Question: {ex.Message}");
+                    _logger.LogError(ex, "Error updating Question");
                     ModelState.AddModelError(string.Empty, "An error occurred while updating the Question.");
                 }
             }

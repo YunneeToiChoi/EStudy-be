@@ -144,14 +144,14 @@ namespace study4_be.Controllers.Admin
         {
             if (!ModelState.IsValid)
             {
-                _logger.LogError($"Lesson with ID {id} not found for deletion.");
-                return NotFound($"Lesson with ID {id} not found.");
+                _logger.LogError($"Lesson not found for deletion.");
+                return NotFound($"Lesson not found.");
             }
             var lesson = await _context.Lessons.FirstOrDefaultAsync(c => c.LessonId == id);
             if (lesson == null)
             {
-                _logger.LogError($"Lesson with ID {id} not found for delete.");
-                return NotFound($"Lesson with ID {id} not found.");
+                _logger.LogError($"Lesson not found for delete.");
+                return NotFound($"Lesson not found.");
             }
             return View(lesson);
         }
@@ -161,14 +161,14 @@ namespace study4_be.Controllers.Admin
         {
             if (!ModelState.IsValid)
             {
-                _logger.LogError($"Lesson with ID {id} not found for deletion.");
-                return NotFound($"Lesson with ID {id} not found.");
+                _logger.LogError($"Lesson not found for deletion.");
+                return NotFound($"Lesson not found.");
             }
             var lesson = await _context.Lessons.FirstOrDefaultAsync(c => c.LessonId == id);
             if (lesson == null)
             {
-                _logger.LogError($"Lesson with ID {id} not found for deletion.");
-                return NotFound($"Lesson with ID {id} not found.");
+                _logger.LogError($"Lesson not found for deletion.");
+                return NotFound($"Lesson not found.");
             }
 
             try
@@ -179,7 +179,7 @@ namespace study4_be.Controllers.Admin
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Error deleting course with ID {id}: {ex.Message}");
+                _logger.LogError(ex, "Error deleting course");
                 ModelState.AddModelError(string.Empty, "An error occurred while deleting the course.");
                 return View(lesson);
             }
@@ -229,7 +229,7 @@ namespace study4_be.Controllers.Admin
                 }
                 catch (Exception ex)
                 {
-                    _logger.LogError($"Error updating course with ID {lessonViewModel.lesson.LessonId}: {ex.Message}");
+                    _logger.LogError(ex, "Error updating course");
                     ModelState.AddModelError(string.Empty, "An error occurred while updating the course.");
                 }
             }
