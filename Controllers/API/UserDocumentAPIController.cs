@@ -12,6 +12,7 @@ using PdfSharpCore.Pdf;
 using System.Drawing.Imaging;
 using PdfiumViewer;
 using Microsoft.CodeAnalysis;
+using study4_be.Models.DTO;
 
 namespace study4_be.Controllers.API
 {
@@ -55,16 +56,18 @@ namespace study4_be.Controllers.API
                               (doc, user) => new
                               {
                                   documentId = doc.DocumentId,
-                                  documentPrice = doc.Price,
-                                  documentTotalDownload = doc.DownloadCount,
-                                  documentName = doc.Title,
-                                  documentPublic = doc.IsPublic,
-                                  documentUploadDate = doc.UploadDate,
-                                  documentType = doc.FileType,
+                                  price = doc.Price,
+                                  downloadCount = doc.DownloadCount,
+                                  title = doc.Title,
+                                  isPublic = doc.IsPublic,
+                                  uploadDate = doc.UploadDate,
+                                  fileType = doc.FileType,
                                   thumbnailUrl = doc.ThumbnailUrl,
                                   userId = user.UserId,
                                   userName = user.UserName,       
-                                  userImage = user.UserImage    
+                                  userImage = user.UserImage ,
+                                  documentDescription = doc.Description,
+
                               })
                         .ToListAsync();
 
@@ -72,13 +75,15 @@ namespace study4_be.Controllers.API
                     var documentResponse = docByCourse.Select(c => new
                     {
                         documentId = c.documentId,
-                        documentTotalDownload = c.documentTotalDownload,
-                        documentName = c.documentName,
-                        documentPublic = c.documentPublic,
+                        downloadCount = c.downloadCount,
+                        title = c.title,
+                        isPublic = c.isPublic,
+                        fileType = c.fileType,
                         thumbnailUrl = c.thumbnailUrl,
                         userId = c.userId,
                         userName = c.userName,            
-                        userImage = c.userImage           
+                        userImage = c.userImage,
+                        documentDescription = c.documentDescription,
                     }).ToList();
 
                     return Ok(new
@@ -153,19 +158,27 @@ namespace study4_be.Controllers.API
         {
             try
             {
-                var document = await _context.Documents.ToListAsync();
+                var document = await _context.Documents
+                       .Include(c => c.Category) // Assuming a relationship exists
+                       .Include(c => c.Course)   // Assuming a relationship exists
+                       .ToListAsync();
                 var documentResponse = document.Select(c => new
                 {
                     documentId = c.DocumentId,
-                    documentName = c.Title,
+                    title = c.Title,
                     documentPublic = c.IsPublic,
                     //documentFileUrl = c.FileUrl, // needn't return file url , will private 
-                    documentType= c.FileType,
-                    documentUploadDate= c.UploadDate,
-                    documentPrice = c.Price,
+                    uploadDate= c.UploadDate,
+                    price = c.Price,
+                    fileType = c.FileType,
+                    isPublic = c.IsPublic,
+                    downloadCount = c.DownloadCount,
+                    categoryId = c.CategoryId,
+                    categoryName = c.Category != null ? c.Category.CategoryName : "Unknown", // Assuming Category has a Name
+                    courseId = c.Course,
+                    courseName = c.Course != null ? c.Course.CourseName : "Unknown", // Assuming Course has a Name
                     documentDescription = c.Description,
                     thumbnailUrl = c.ThumbnailUrl
-
                 }).ToList();
                 return Ok(new
                 {
