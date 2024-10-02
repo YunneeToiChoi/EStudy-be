@@ -21,10 +21,10 @@ namespace study4_be.Controllers.API
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class RatingAPI : Controller
+    public class RatingAPI : ControllerBase
     {
         private readonly UserRepository _userRepository = new UserRepository();
-        private Study4Context _context;
+        private readonly Study4Context _context;
         private readonly FireBaseServices _fireBaseServices;
         public RatingAPI(FireBaseServices fireBaseServices, Study4Context context)
         {

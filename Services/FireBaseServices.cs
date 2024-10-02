@@ -172,7 +172,7 @@ namespace study4_be.Services
             string serviceAccountPath = Path.Combine(Directory.GetCurrentDirectory(), "firebase_config.json");
 
             var credential = GoogleCredential.FromFile(serviceAccountPath);
-            var storage = StorageClient.Create(credential);
+            var storage = await StorageClient.CreateAsync(credential);
             string filePath = $"UserRatings/{userId}/{fileName}";
 
             try
