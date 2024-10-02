@@ -599,11 +599,7 @@ namespace study4_be.Controllers.API
         [HttpPost("ResendLink")]
         public async Task<IActionResult> ResendLink([FromBody] ResendLinkActive _req)
         {
-           
-            // Thực hiện kiểm tra xác thực userId và verificationCode
-            // Ví dụ đơn giản: Kiểm tra trong cơ sở dữ liệu
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.UserEmail == _req.userEmail);
-
+            var user = await _context.Users.FindAsync(_req.userEmail);
             if (user == null)
             {
                 return NotFound("User not found");
@@ -611,7 +607,6 @@ namespace study4_be.Controllers.API
             if (user.Isverified == true)
             {
                 return BadRequest("User had actived");
-
             }
             string beUrl = _configuration["Url:BackEnd"];
             var link = $"{beUrl}/api/Auth_API/userEmail=l={user.UserEmail}/verification={false}";

@@ -11,6 +11,7 @@ using PdfSharpCore.Pdf;
 using System.Drawing.Imaging;
 using PdfiumViewer;
 using Microsoft.CodeAnalysis;
+using study4_be.Models.DTO;
 
 namespace study4_be.Controllers.API
 {
@@ -58,9 +59,12 @@ namespace study4_be.Controllers.API
                                   isPublic = doc.IsPublic,
                                   uploadDate = doc.UploadDate,
                                   fileType = doc.FileType,
+                                  thumbnailUrl = doc.ThumbnailUrl,
                                   userId = user.UserId,
                                   userName = user.UserName,       
-                                  userImage = user.UserImage 
+                                  userImage = user.UserImage ,
+                                  documentDescription = doc.Description,
+
                               })
                         .ToListAsync();
 
@@ -72,9 +76,11 @@ namespace study4_be.Controllers.API
                         title = c.title,
                         isPublic = c.isPublic,
                         fileType = c.fileType,
+                        thumbnailUrl = c.thumbnailUrl,
                         userId = c.userId,
                         userName = c.userName,            
-                        userImage = c.userImage           
+                        userImage = c.userImage,
+                        documentDescription = c.documentDescription,
                     }).ToList();
 
                     return Ok(new
@@ -159,7 +165,6 @@ namespace study4_be.Controllers.API
                     title = c.Title,
                     documentPublic = c.IsPublic,
                     //documentFileUrl = c.FileUrl, // needn't return file url , will private 
-                    documentType= c.FileType,
                     uploadDate= c.UploadDate,
                     price = c.Price,
                     fileType = c.FileType,
@@ -168,8 +173,9 @@ namespace study4_be.Controllers.API
                     categoryId = c.CategoryId,
                     categoryName = c.Category != null ? c.Category.CategoryName : "Unknown", // Assuming Category has a Name
                     courseId = c.Course,
-                    courseName = c.Course != null ? c.Course.CourseName : "Unknown" // Assuming Course has a Name
-
+                    courseName = c.Course != null ? c.Course.CourseName : "Unknown", // Assuming Course has a Name
+                    documentDescription = c.Description,
+                    thumbnailUrl = c.ThumbnailUrl
                 }).ToList();
                 return Ok(new
                 {
@@ -208,7 +214,8 @@ namespace study4_be.Controllers.API
                         categoryName = doc.Category?.CategoryName ?? string.Empty,
                         courseId = doc.CourseId,
                         courseName = doc.Course?.CourseName ?? string.Empty,
-                        description = doc.Description,
+                        documentDescription = doc.Description,
+                        thumbnailUrl = doc.ThumbnailUrl,
                         documentSize = doc.DocumentSize,
                         downloadCount = doc.DownloadCount,
                         fileType = doc.FileType,
@@ -445,7 +452,7 @@ namespace study4_be.Controllers.API
                                 DocumentSize = fileSizeInBytes
                             };
 
-                            _context.Documents.Add(userDoc);
+                            await _context.Documents.AddAsync(userDoc);
                             await _context.SaveChangesAsync();
 
                             // Add both FileUrl and DocumentId to the response
