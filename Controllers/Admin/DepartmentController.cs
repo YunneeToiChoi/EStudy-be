@@ -17,8 +17,6 @@ namespace study4_be.Controllers.Admin
             _context = context;
             _departmentsRepository = new(context);
         }
-        
-
         public async Task<ActionResult<IEnumerable<Department>>> GetAllDepartments()
         {
             var departments = await _departmentsRepository.GetAllDepartmentsAsync();

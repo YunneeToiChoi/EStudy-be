@@ -12,14 +12,12 @@ namespace study4_be.Controllers.Admin
     {
         private readonly ILogger<Question_ExamController> _logger;
         private readonly FireBaseServices _firebaseServices;
-        private readonly QuestionRepository _questionsRepository;
         private readonly Study4Context _context;
         public Question_ExamController(ILogger<Question_ExamController> logger, FireBaseServices firebaseServices,Study4Context context)
         {
             _logger = logger;
             _firebaseServices = firebaseServices;
             _context = context;
-            _questionsRepository = new(context);
         }
         
         public async Task<IActionResult> Question_Exam_List()
@@ -196,7 +194,7 @@ namespace study4_be.Controllers.Admin
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Error deleting question: {ex.Message}");
+                _logger.LogError(ex, "Error deleting question");
                 ModelState.AddModelError(string.Empty, "An error occurred while deleting the question.");
                 return View(question);
             }
@@ -284,7 +282,7 @@ namespace study4_be.Controllers.Admin
 
                 catch (Exception ex)
                 {
-                    _logger.LogError($"Error updating question: {ex.Message}");
+                    _logger.LogError(ex, "Error updating question");
                     ModelState.AddModelError(string.Empty, "An error occurred while updating the question.");
                 }
             }

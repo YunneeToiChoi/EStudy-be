@@ -11,13 +11,11 @@ namespace study4_be.Controllers.Admin
     public class VideoController : Controller
     {
         private readonly ILogger<VideoController> _logger;
-        private readonly VideoRepository _videosRepository;
         private readonly Study4Context _context;
         public VideoController(ILogger<VideoController> logger, Study4Context context)
         {
             _logger = logger;
             _context = context;
-            _videosRepository = new(context);
         }
         
         public async Task<IActionResult> Video_List()
@@ -174,7 +172,7 @@ namespace study4_be.Controllers.Admin
                 }
                 catch (Exception ex)
                 {
-                    _logger.LogError($"Error updating video: {ex.Message}");
+                    _logger.LogError(ex, "Error updating video");
                     ModelState.AddModelError(string.Empty, "An error occurred while updating the video.");
                 }
             }

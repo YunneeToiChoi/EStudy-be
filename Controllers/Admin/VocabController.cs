@@ -174,8 +174,8 @@ namespace study4_be.Controllers.Admin
             var vocab = await _context.Vocabularies.FirstOrDefaultAsync(c => c.VocabId == id);
             if (vocab == null)
             {
-                _logger.LogError($"Vocab with ID {id} not found for delete.");
-                return NotFound($"Vocab with ID {id} not found.");
+                _logger.LogError($"Vocab not found for delete.");
+                return NotFound($"Vocab not found.");
             }
             return View(vocab);
         }
@@ -202,7 +202,7 @@ namespace study4_be.Controllers.Admin
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Error deleting vocab: {ex.Message}");
+                _logger.LogError(ex, "Error deleting vocab");
                 ModelState.AddModelError(string.Empty, "An error occurred while deleting the vocab.");
                 return View(vocab);
             }
@@ -240,7 +240,7 @@ namespace study4_be.Controllers.Admin
                 }
                 catch (Exception ex)
                 {
-                    _logger.LogError($"Error updating vocab: {ex.Message}");
+                    _logger.LogError(ex, "Error updating vocab");
                     ModelState.AddModelError(string.Empty, "An error occurred while updating the vocab.");
                 }
             }

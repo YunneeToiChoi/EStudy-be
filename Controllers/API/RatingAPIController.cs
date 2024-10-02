@@ -23,14 +23,12 @@ namespace study4_be.Controllers.API
     [ApiController]
     public class RatingAPI : ControllerBase
     {
-        private readonly UserRepository _userRepository;
         private readonly Study4Context _context;
         private readonly FireBaseServices _fireBaseServices;
         public RatingAPI(FireBaseServices fireBaseServices, Study4Context context)
         {
             _fireBaseServices = fireBaseServices;
             _context = context;
-            _userRepository = new(context);
         }
         [HttpGet("GetAllRating")]
         public async Task<IActionResult> GetRatingsOfDocument()

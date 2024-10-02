@@ -67,7 +67,7 @@ namespace study4_be.Controllers.API
                 .Distinct() // Đảm bảo không tính trùng người dùng đã đăng ký nhiều plan
                 .ToListAsync();
             // Gộp danh sách người dùng mua riêng course với người dùng đăng ký plan chứa course
-            var totalAmount = userList.Count() + usersWithPlanForCourse.Count();
+            var totalAmount = userList.Count() + usersWithPlanForCourse.Count;
             // Lấy chi tiết khóa học
             var courseDetail = await _context.Courses.FindAsync(request.courseId);
             // Tính giá cuối cùng của khóa học

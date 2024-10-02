@@ -22,7 +22,6 @@ namespace study4_be.Controllers.API
     {
         private readonly UserRepository _userRepository;
         private readonly Study4Context _context;
-        private readonly UserRegistrationValidator _userRegistrationValidator;
         private readonly FireBaseServices _fireBaseServices;
 
         public UserDocumentAPIController(FireBaseServices fireBaseServices, Study4Context context)
@@ -30,7 +29,6 @@ namespace study4_be.Controllers.API
             _fireBaseServices = fireBaseServices;
             _context = context;
             _userRepository = new(context);
-            _userRegistrationValidator = new(_userRepository);
         }
         //################################################### DOCUMENT ##########################################//
 

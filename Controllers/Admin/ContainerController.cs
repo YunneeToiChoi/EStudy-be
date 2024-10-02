@@ -12,13 +12,11 @@ namespace study4_be.Controllers.Admin
     public class ContainerController : Controller
     {
         private readonly Study4Context _context;
-        private readonly ContainerRepository _containersRepository;
         private readonly ILogger<ContainerController> _logger;
         public ContainerController(ILogger<ContainerController> logger, Study4Context context)
         {
             _logger = logger;
             _context = context;
-            _containersRepository = new(context);
         }
         
         public async Task<IActionResult> Container_List()
@@ -94,7 +92,10 @@ namespace study4_be.Controllers.Admin
         [HttpGet("{id}")]
         public async Task<IActionResult> GetContainerById(int id)
         {
-
+            if (!ModelState.IsValid)
+            {
+                return NotFound(new { message = "Id is invalid" });
+            }
             var container = await _context.Containers.FindAsync(id);
             if (container == null)
             {
@@ -179,7 +180,7 @@ namespace study4_be.Controllers.Admin
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Error deleting container: {ex.Message}");
+                _logger.LogError(ex, "Error deleting container");
                 ModelState.AddModelError(string.Empty, "An error occurred while deleting the container.");
                 return View(container);
             }

@@ -12,10 +12,9 @@ namespace study4_be.Controllers.API
     [ApiController]
     public class Container_APIController : ControllerBase
     {
-        private readonly ContainerRepository _containerRepo;
         private readonly Study4Context _context;
 
-        public Container_APIController(Study4Context context) { _context = context; _containerRepo = new(context); }
+        public Container_APIController(Study4Context context) { _context = context; }
         [HttpPost("Get_AllContainerAndLessonByUnit")]
         public async Task<ActionResult<UnitDetailResponse>> Get_AllContainerAndLessonByUnit(GetAllContainerAndLessionRequestcs unit)
         {

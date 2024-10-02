@@ -10,13 +10,11 @@ namespace study4_be.Controllers.Admin
     public class StaffController : Controller
     {
         private readonly ILogger<StaffController> _logger;
-        private readonly StaffRepository _staffsRepository;
         private readonly Study4Context _context;
         public StaffController(ILogger<StaffController> logger, Study4Context context)
         {
             _logger = logger;
             _context = context;
-            _staffsRepository = new(context);
         }
         
         public async Task<IActionResult> Staff_List()
