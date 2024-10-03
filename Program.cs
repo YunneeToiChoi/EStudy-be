@@ -134,7 +134,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-app.UseCors("AllowAll");
+app.UseCors("AllowAll"); //remember fix this problem
 
 // Thêm middleware xác thực và phân quyền
 app.UseAuthentication();
