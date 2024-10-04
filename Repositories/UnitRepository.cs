@@ -5,7 +5,11 @@ namespace study4_be.Repositories
 {
     public class UnitRepository
     {
-        private readonly Study4Context _context = new Study4Context();
+        private readonly Study4Context _context;
+        public UnitRepository(Study4Context context)
+        {
+            _context = context;
+        }
         public async Task<IEnumerable<Unit>> GetAllUnitsByCourseAsync(int idCourse)
         {
             var units = await _context.Units.Where(u => u.CourseId == idCourse).ToListAsync();

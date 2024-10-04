@@ -4,6 +4,7 @@ using study4_be.Models;
 using study4_be.Repositories;
 using study4_be.Services;
 using study4_be.Services.Request;
+using study4_be.Services.Response;
 using study4_be.Services.Request.Document;
 using study4_be.Validation;
 using System.Collections.Immutable;
@@ -17,27 +18,25 @@ namespace study4_be.Controllers.API
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class UserDocumentAPIController : Controller
+    public class UserDocumentAPIController : ControllerBase
     {
-        private readonly UserRepository _userRepository = new UserRepository();
-        private readonly Study4Context _context = new Study4Context();
-        private readonly UserRegistrationValidator _userRegistrationValidator = new UserRegistrationValidator();
+        private readonly Study4Context _context;
         private readonly FireBaseServices _fireBaseServices;
 
-        public UserDocumentAPIController(FireBaseServices fireBaseServices)
+        public UserDocumentAPIController(FireBaseServices fireBaseServices, Study4Context context)
         {
             _fireBaseServices = fireBaseServices;
+            _context = context;
         }
         //################################################### DOCUMENT ##########################################//
 
         [HttpPost("GetDocByCourse")]
         public async Task<IActionResult> GetDocByCourse(OfCourseIdRequest _req)
         {
-            if (_req.courseId == null || _req.courseId <= 0)
+            if (_req.courseId <= 0)
             {
                 return BadRequest($"Course id is invalid: {_req.courseId}");
             }
-
             try
             {
                 // Check if the course exists
@@ -172,7 +171,7 @@ namespace study4_be.Controllers.API
                     downloadCount = c.DownloadCount,
                     categoryId = c.CategoryId,
                     categoryName = c.Category != null ? c.Category.CategoryName : "Unknown", // Assuming Category has a Name
-                    courseId = c.Course,
+                    courseId = c.Course.CourseId,
                     courseName = c.Course != null ? c.Course.CourseName : "Unknown", // Assuming Course has a Name
                     documentDescription = c.Description,
                     thumbnailUrl = c.ThumbnailUrl

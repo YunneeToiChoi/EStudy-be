@@ -23,8 +23,8 @@
                     <span asp-validation-for="ExamAudio" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label>File upload</label>
-                    <img src="https://thesavvyimg.co.uk/wp-content/uploads/2022/08/the-savvy-img-online-courses-masterclass-shortcut-plab-gmc-registration.png" height="150" width="150" id="previewImg" />
+                    <label for="ExamImage">File upload</label>
+                    <img src="https://thesavvyimg.co.uk/wp-content/uploads/2022/08/the-savvy-img-online-courses-masterclass-shortcut-plab-gmc-registration.png" height="150" width="150" id="previewImg" alt="Exam-Img" />
                     <input asp-for="ExamImage" type="file" name="ExamImage" onchange="ChangeImage(this, document.getElementById('previewImg'))" />
                 </div>
                 <div class="flex">

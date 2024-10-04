@@ -6,7 +6,8 @@ namespace study4_be.Validation
 {
     public class UserRegistrationValidator
     {
-        private readonly UserRepository _userRepository = new UserRepository();
+        private readonly UserRepository _userRepository;
+        public UserRegistrationValidator(UserRepository repository) { _userRepository = repository; }
         public bool Validate(User user, out string errorMessage)
         {
             if (string.IsNullOrEmpty(user.UserEmail) || !IsValidEmail(user.UserEmail))

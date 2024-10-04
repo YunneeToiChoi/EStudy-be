@@ -12,12 +12,12 @@ namespace study4_be.Controllers.API
     public class Question_APIController : Controller
     {
         private readonly Study4Context _context;
-        private QuestionRepository _questionRepo;
+        private readonly QuestionRepository _questionRepo;
         private readonly ILogger<Question_APIController> _logger;
-        public Question_APIController(ILogger<Question_APIController> logger)
+        public Question_APIController(ILogger<Question_APIController> logger, Study4Context context)
         {
-            _questionRepo = new QuestionRepository();
-            _context = new Study4Context();
+            _context = context;
+            _questionRepo = new(context);
             _logger = logger;
         }
 
@@ -29,7 +29,6 @@ namespace study4_be.Controllers.API
                 _logger.LogWarning("LessonId is null or empty in the request.");
                 return BadRequest(new { status = 400, message = "LessonId is null or empty" });
             }
-
             try
             {
                 var lessonTag = await _context.Lessons

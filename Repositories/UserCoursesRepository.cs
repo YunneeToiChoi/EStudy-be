@@ -7,16 +7,12 @@ namespace study4_be.Repositories
 {
     public class UserCoursesRepository
     {
-        private readonly Study4Context _context = new Study4Context();
+        private readonly Study4Context _context;
+
+        public UserCoursesRepository(Study4Context context) { _context = context; }
         public async Task<IEnumerable<UserCourse>> GetAllUserCoursesAsync()
         {
             return await _context.UserCourses.ToListAsync();
-        }
-        public async Task DeleteAllUserCoursesAsync()
-        {
-            var userCourses = await _context.UserCourses.ToListAsync();
-            _context.UserCourses.RemoveRange(userCourses);
-            await _context.SaveChangesAsync();
         }
         public async Task<IEnumerable<int>> Get_AllCoursesByUser(string idUser)
         {

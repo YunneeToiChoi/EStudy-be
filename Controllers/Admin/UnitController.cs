@@ -11,12 +11,13 @@ namespace study4_be.Controllers.Admin
     public class UnitController : Controller
     {
         private readonly ILogger<UnitController> _logger;
-        public UnitController(ILogger<UnitController> logger)
+        private  readonly Study4Context _context;
+        public UnitController(ILogger<UnitController> logger, Study4Context context)
         {
             _logger = logger;
+            _context = context;
         }
-        private readonly UnitRepository _unitsRepository = new UnitRepository();
-        public Study4Context _context = new Study4Context();
+        
         public async Task<IActionResult> Unit_List()
         {
             var units = await _context.Units.ToListAsync();
@@ -39,7 +40,19 @@ namespace study4_be.Controllers.Admin
         [HttpPost]
         public async Task<IActionResult> Unit_Create(UnitCreateViewModel unitViewModel)
         {
+            if (!ModelState.IsValid)
+            {
+                _logger.LogError("Error occurred while creating new unit.");
+                ModelState.AddModelError("", "An error occurred while processing your request. Please try again later.");
 
+                unitViewModel.Courses = await _context.Courses.Select(c => new SelectListItem
+                {
+                    Value = c.CourseId.ToString(),
+                    Text = c.CourseName
+                }).ToListAsync();
+
+                return View(unitViewModel);
+            }
             try
             {
                 var unit = new Unit
@@ -59,17 +72,21 @@ namespace study4_be.Controllers.Admin
                 _logger.LogError(ex, "Error occurred while creating new unit.");
                 ModelState.AddModelError("", "An error occurred while processing your request. Please try again later.");
 
-                unitViewModel.Courses = _context.Courses.Select(c => new SelectListItem
+                unitViewModel.Courses = await _context.Courses.Select(c => new SelectListItem
                 {
                     Value = c.CourseId.ToString(),
                     Text = c.CourseName
-                }).ToList();
+                }).ToListAsync();
 
                 return View(unitViewModel);
             }
         }
         public async Task<IActionResult> GetUnitById(int id)
         {
+            if (!ModelState.IsValid)
+            {
+                return NotFound(new { message = "Id is invalid" });
+            }
             var unit = await _context.Units.FindAsync(id);
             if (unit == null)
             {
@@ -79,9 +96,13 @@ namespace study4_be.Controllers.Admin
             return Ok(unit);
         }
         [HttpGet]
-        public IActionResult Unit_Edit(int id)
+        public async Task<IActionResult> Unit_Edit(int id)
         {
-            var unit = _context.Units.FirstOrDefault(c => c.UnitId == id);
+            if (!ModelState.IsValid)
+            {
+                return NotFound(new { message = "unitId is invalid" });
+            }
+            var unit = await _context.Units.FirstOrDefaultAsync(c => c.UnitId == id);
             if (unit == null)
             {
                 return NotFound();
@@ -94,62 +115,88 @@ namespace study4_be.Controllers.Admin
         {
             if (ModelState.IsValid)
             {
-                var courseToUpdate = _context.Units.FirstOrDefault(c => c.UnitId == unit.UnitId);
+                var courseToUpdate = await _context.Units.FirstOrDefaultAsync(c => c.UnitId == unit.UnitId);
                 courseToUpdate.UnitTittle = unit.UnitTittle;
                 courseToUpdate.Course = unit.Course;
                 try
                 {
-                    _context.SaveChanges();
+                    await _context.SaveChangesAsync();
                     return RedirectToAction("Unit_List");
                 }
                 catch (Exception ex)
                 {
-                    _logger.LogError($"Error updating course with ID {unit.UnitId}: {ex.Message}");
-                    ModelState.AddModelError(string.Empty, "An error occurred while updating the course.");
+                    _logger.LogError(ex, "Error updating unit");
+                    ModelState.AddModelError(string.Empty, "An error occurred while updating the unit.");
                 }
             }
             return View(unit);
         }
 
         [HttpGet]
-        public IActionResult Unit_Delete(int id)
+        public async Task<IActionResult> Unit_Delete(int id)
         {
-            var unit = _context.Units.FirstOrDefault(c => c.UnitId == id);
+            if (!ModelState.IsValid)
+            {
+                _logger.LogError($"Unit not found for deletion.");
+                return NotFound($"Unit not found.");
+            }
+            var unit = await _context.Units.FirstOrDefaultAsync(c => c.UnitId == id);
             if (unit == null)
             {
-                _logger.LogError($"Course with ID {id} not found for delete.");
-                return NotFound($"Course with ID {id} not found.");
+                _logger.LogError($"Unit not found for deletion.");
+                return NotFound($"Unit not found.");
             }
             return View(unit);
         }
 
         [HttpPost, ActionName("Unit_Delete")]
-        public IActionResult Unit_DeleteConfirmed(int id)
+        public async Task<IActionResult> Unit_DeleteConfirmed(int id)
         {
-            var unit = _context.Units.FirstOrDefault(c => c.UnitId == id);
+            if (!ModelState.IsValid)
+            {
+                _logger.LogError($"Unit not found for deletion.");
+                return NotFound($"Unit not found.");
+            }
+            var unit = await _context.Units.FirstOrDefaultAsync(c => c.UnitId == id);
             if (unit == null)
             {
-                _logger.LogError($"Course with ID {id} not found for deletion.");
-                return NotFound($"Course with ID {id} not found.");
+                _logger.LogError($"Unit not found for deletion.");
+                return NotFound($"Unit not found.");
             }
 
             try
             {
                 _context.Units.Remove(unit);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
                 return RedirectToAction("Unit_List");
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Error deleting course with ID {id}: {ex.Message}");
-                ModelState.AddModelError(string.Empty, "An error occurred while deleting the course.");
+                _logger.LogError(ex, "Error deleting unit");
+                ModelState.AddModelError(string.Empty, "An error occurred while deleting the unit.");
                 return View(unit);
             }
         }
 
-        public IActionResult Unit_Details(int id)
+        public async Task<IActionResult> Unit_Details(int id)
         {
-            return View(_context.Units.FirstOrDefault(c => c.UnitId == id));
+            // Check if the ID is invalid (e.g., not positive)
+            if (!ModelState.IsValid)
+            {
+                ModelState.AddModelError("", "Invalid Unit ID.");
+                TempData["ErrorMessage"] = "The specified Unit was not found.";
+                return RedirectToAction("Unit_List", "Unit");
+            }
+
+            var unit = await _context.Units.FirstOrDefaultAsync(c => c.UnitId == id);
+
+            // If no container is found, return to the list with an error
+            if (unit == null)
+            {
+                TempData["ErrorMessage"] = "The specified unit was not found.";
+                return RedirectToAction("Unit_List", "Unit");
+            }
+            return View(unit);
         }
     }
 }

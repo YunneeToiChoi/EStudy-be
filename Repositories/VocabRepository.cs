@@ -5,7 +5,11 @@ namespace study4_be.Repositories
 {
     public class VocabRepository
     {
-        private readonly Study4Context _context = new Study4Context();
+        private readonly Study4Context _context;
+        public VocabRepository(Study4Context context)
+        {
+            _context = context;
+        }
         public async Task<IEnumerable<Vocabulary>> GetAllVocabAsync()
         {
             return await _context.Vocabularies.ToListAsync();

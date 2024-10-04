@@ -44,7 +44,7 @@
                 {
                     <tr>
                         <td>
-                            <img style="border-radius:0%!important" src="@Url.Content(course.CourseImage)" height="150" width="150" id="previewImg" />
+                            <img style="border-radius:0%!important" src="@Url.Content(course.CourseImage)" height="150" width="150" id="previewImg" alt="Course-Img" />
                         </td>
                         <td>
                             @course.CourseId
@@ -53,24 +53,24 @@
                             @course.CourseName
                         </td>
                         <td class="item">
-                            <label class="badge badge-danger">
+                            <span class="badge badge-danger">
                                 @course.CourseDescription
-                            </label>
+                            </span>
                         </td>
                         <td>
-                            <label>
+                            <span>
                                 @course.CoursePrice
-                            </label>
+                            </span>
                         </td>
                         <td>
-                            <label>
+                            <span>
                                 @course.CourseSale<span>%</span>
-                            </label>
+                            </span>
                         </td>
                         <td class="item">
-                            <label>
+                            <span>
                                 @course.CourseTag
-                            </label>
+                            </span>
                         </td>
                         <td>
                             <a href="@Url.Action("Course_Edit", "Courses", new { id = course.CourseId })" class="text-link-action">Sửa</a>

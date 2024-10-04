@@ -21,10 +21,10 @@ namespace study4_be.Controllers.API
         private readonly Study4Context _context;
         private readonly VocabFlashCardRepository _vocabFlashCardRepo;
         private readonly ILogger<VocabFlashCard_APIController> _logger;
-        public VocabFlashCard_APIController(ILogger<VocabFlashCard_APIController> logger)
+        public VocabFlashCard_APIController(ILogger<VocabFlashCard_APIController> logger, Study4Context context)
         {
-            _context = new Study4Context();
-            _vocabFlashCardRepo = new VocabFlashCardRepository();
+            _context = context;
+            _vocabFlashCardRepo = new(context);
             _logger = logger;
         }
         [HttpPost("Get_AllVocabOfLesson")]
@@ -228,7 +228,7 @@ namespace study4_be.Controllers.API
         [HttpPost("Get_AllVocabFillWorld")]
         public async Task<IActionResult> Get_AllVocabFillWorld ([FromBody] OfLessonRequest _req)
         {
-            if(_req.lessonId==0 || _req.lessonId == null)
+            if(_req.lessonId == 0)
             {
                 _logger.LogWarning("LessonId is null or empty in the request.");
                 return BadRequest(new { status = 400, message = "LessonId is null or empty" });

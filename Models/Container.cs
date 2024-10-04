@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace study4_be.Models;
 
 public partial class Container
 {
-    public int ContainerId { get; set; }
+    [JsonRequired]
+    public int ContainerId { get; set; } 
 
     public string? ContainerTitle { get; set; }
 

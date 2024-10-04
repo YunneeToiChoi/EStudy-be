@@ -66,7 +66,7 @@ namespace study4_be.Services
             catch (Exception ex)
             {
                 // Handle other exceptions (e.g., MimeKit exceptions) appropriately
-                throw new Exception($"An error occurred while sending email: {ex.Message}", ex);
+                throw new InvalidOperationException($"An error occurred while sending email: {ex.Message}", ex);
             }
         }
 
@@ -82,42 +82,56 @@ namespace study4_be.Services
                 return false;
             }
         }
-        public string GenerateCodeByEmailContent(string username, string orderDate, string orderId, string nameCourse, string codeActiveCourse, string contractUrl)
+        public string GenerateCodeByEmailContent(string username, string orderDate, string orderId, string nameCourse, string codeActiveCourse, string invoiceUrl)
         {
-            var logo = _config["Firebase:Logo"];//default img
+            var stamp = _config["Firebase:Stamp"];
+            var signatureImage = _config["Firebase:SignatureImage"];
+            var logo = _config["Firebase:Logo"]; // default img
             var sb = new StringBuilder();
             sb.AppendLine("<html>");
+            sb.AppendLine("<head>");
+            sb.AppendLine("<style>");
+            sb.AppendLine("body { font-family: Arial, sans-serif; background-color: #f4f4f4; margin: 0; padding: 20px; }");
+            sb.AppendLine(".container { background-color: #fff; padding: 20px; border-radius: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }");
+            sb.AppendLine("h3 { color: #333; }");
+            sb.AppendLine(".header { text-align: center; }");
+            sb.AppendLine(".order-details { margin: 20px 0; }");
+            sb.AppendLine("table { width: 100%; border-collapse: collapse; }");
+            sb.AppendLine("th, td { padding: 10px; text-align: left; border: 1px solid #ddd; }");
+            sb.AppendLine("th { background-color: #007BFF; color: white; }");
+            sb.AppendLine(".footer { margin-top: 20px; }");
+            sb.AppendLine("</style>");
+            sb.AppendLine("</head>");
             sb.AppendLine("<body>");
-            sb.AppendLine("<div style='text-align: center;'>");
-            sb.AppendLine($"<img src='{logo}' alt='Logo' width='150'/>");
-            sb.AppendLine("</div>");
-            sb.AppendLine($"<p>Xin chào {username}, đơn hàng của bạn đã đặt thành công vào ngày {orderDate}</p>");
+            sb.AppendLine("<div class='container'>");
+            sb.AppendLine($"<div class='header'><img src='{logo}' alt='Logo' width='150'/></div>");
+            sb.AppendLine($"<p>Xin chào <strong>{username}</strong>, đơn hàng của bạn đã đặt thành công vào ngày <strong>{orderDate}</strong></p>");
             sb.AppendLine("<h3>Thông tin đơn hàng:</h3>");
-            sb.AppendLine("<ul>");
-            sb.AppendLine($"<li>Mã đơn hàng: {orderId}</li>");
-            sb.AppendLine($"<li>Tên khoá học: {nameCourse}</li>");
-            sb.AppendLine("</ul>");
-            sb.AppendLine("<div style='border: 1px solid #ccc; padding: 10px; width: 200px; margin: 0 auto;'>");
-            sb.AppendLine($"<p style='text-align: center;'> {codeActiveCourse} </p>");
+            sb.AppendLine("<div class='order-details'>");
+            sb.AppendLine("<table>");
+            sb.AppendLine("<tr><th>Mã đơn hàng</th><th>Tên khoá học</th><th>Mã kích hoạt</th></tr>");
+            sb.AppendLine($"<tr><td>{orderId}</td><td>{nameCourse}</td><td>{codeActiveCourse}</td></tr>");
+            sb.AppendLine("</table>");
             sb.AppendLine("</div>");
             sb.AppendLine("<p>Xin chân thành cảm ơn và chúc quý học viên có một khoá học thành công và hiệu quả.</p>");
             sb.AppendLine("<p>Trân trọng,</p>");
             sb.AppendLine("<p>Đội ngũ EStudy</p>");
+            sb.AppendLine("<div class='footer'>");
             sb.AppendLine("<h4>Liên hệ hỗ trợ:</h4>");
             sb.AppendLine("<ul>");
             sb.AppendLine("<li>Email: contact.nangphanvan@gmail.com</li>");
             sb.AppendLine("<li>Số điện thoại: (+84) 902250149</li>");
             sb.AppendLine("</ul>");
-            sb.AppendLine($"<h4>Hợp đồng (PO): <a href='{contractUrl}' target='_blank'>Tải về</a></h4>");
-
-            // Thêm hình ảnh dấu mộc và chữ ký
-            sb.AppendLine("<p><img src='URL_TO_SEAL_IMAGE' alt='Dấu mộc' width='100' /></p>"); // fix header
-            sb.AppendLine("<p><img src='URL_TO_SIGNATURE_IMAGE' alt='Chữ ký' width='100' /></p>"); // fix header
-
+            sb.AppendLine($"<h4>Hóa đơn (INVOICE) : <a href='{invoiceUrl}' target='_blank'>Tải về</a></h4>");
+            sb.AppendLine($"<p><img src='{stamp}' alt='Dấu mộc' width='100' /></p>");
+            sb.AppendLine($"<p><img src='{signatureImage}' alt='Chữ ký' width='100' /></p>");
+            sb.AppendLine("</div>");
+            sb.AppendLine("</div>");
             sb.AppendLine("</body>");
             sb.AppendLine("</html>");
             return sb.ToString();
-        } 
+        }
+
         public string GenerateCodeByEmailContent(string username, string orderDate, string orderId, string nameCourse, string codeActiveCourse)
         {
             var logo = _config["Firebase:Logo"];//default img

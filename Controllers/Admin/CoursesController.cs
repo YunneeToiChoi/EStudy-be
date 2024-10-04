@@ -10,14 +10,17 @@ namespace study4_be.Controllers.Admin
     public class CoursesController : Controller
     {
         private readonly ILogger<CoursesController> _logger;
-        private FireBaseServices _fireBaseServices;
-        public CoursesController(ILogger<CoursesController> logger, FireBaseServices fireBaseServices)
+        public  readonly  Study4Context _context;
+        private readonly FireBaseServices _fireBaseServices;
+        private readonly CourseRepository _coursesRepository;
+        public CoursesController(ILogger<CoursesController> logger, FireBaseServices fireBaseServices, Study4Context context)
         {
             _logger = logger;
             _fireBaseServices = fireBaseServices;
+            _context = context;
+            _coursesRepository = new(context);
         }
-        private readonly CourseRepository _coursesRepository = new CourseRepository();
-        public Study4Context _context = new Study4Context();
+        
         public async Task<ActionResult<IEnumerable<Course>>> GetAllCourses()
         {
             var courses = await _coursesRepository.GetAllCoursesAsync();
@@ -93,13 +96,13 @@ namespace study4_be.Controllers.Admin
             return Ok(course);
         }
         [HttpGet]
-        public IActionResult Course_Edit(int id)
+        public async Task<IActionResult> Course_Edit(int id)
         {
             if (!ModelState.IsValid)
             {
                 return NotFound(new { message = "courseId is invalid" });
             }
-            var course = _context.Courses.FirstOrDefault(c => c.CourseId == id);
+            var course = await _context.Courses.FirstOrDefaultAsync(c => c.CourseId == id);
             if (course == null)
             {
                 return NotFound(new {message = "Course is not found"});
@@ -115,7 +118,7 @@ namespace study4_be.Controllers.Admin
                 _logger.LogError("Course not found");
                 return NotFound();
             }
-            var courseToUpdate = _context.Courses.FirstOrDefault(c => c.CourseId == course.CourseId);
+            var courseToUpdate = await _context.Courses.FirstOrDefaultAsync(c => c.CourseId == course.CourseId);
             if (courseToUpdate == null)
             {
                 _logger.LogError($"Course not found");
@@ -155,24 +158,24 @@ namespace study4_be.Controllers.Admin
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Error updating course with ID {course.CourseId}: {ex.Message}");
+                _logger.LogError(ex, "Error updating course");
                 ModelState.AddModelError(string.Empty, "An error occurred while updating the course.");
             }
             return View(course);
         }
         [HttpGet]
-        public IActionResult Course_Delete(int id)
+        public async Task<IActionResult> Course_Delete(int id)
         {
             if (!ModelState.IsValid)
             {
-                _logger.LogError($"Course with ID {id} not found for deletion.");
-                return NotFound($"Course with ID {id} not found.");
+                _logger.LogError($"Course not found for deletion.");
+                return NotFound($"Course not found.");
             }
-            var course = _context.Courses.FirstOrDefault(c => c.CourseId == id);
+            var course = await _context.Courses.FirstOrDefaultAsync(c => c.CourseId == id);
             if (course == null)
             {
-                _logger.LogError($"Course with ID {id} not found for delete.");
-                return NotFound($"Course with ID {id} not found.");
+                _logger.LogError($"Course not found for delete.");
+                return NotFound($"Course not found.");
             }
             return View(course);
         }
@@ -182,14 +185,14 @@ namespace study4_be.Controllers.Admin
         {
             if (!ModelState.IsValid)
             {
-                _logger.LogError($"Course with ID {id} not found for deletion.");
-                return NotFound($"Course with ID {id} not found.");
+                _logger.LogError($"Course not found for deletion.");
+                return NotFound($"Course not found.");
             }
             var course = await _context.Courses.FirstOrDefaultAsync(c => c.CourseId == id);
             if (course == null)
             {
-                _logger.LogError($"Course with ID {id} not found for deletion.");
-                return NotFound($"Course with ID {id} not found.");
+                _logger.LogError($"Course not found for deletion.");
+                return NotFound($"Course not found.");
             }
             try
             {
@@ -199,14 +202,14 @@ namespace study4_be.Controllers.Admin
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Error deleting course with ID {id}: {ex.Message}");
+                _logger.LogError(ex, "Error deleting course");
                 ModelState.AddModelError(string.Empty, "An error occurred while deleting the course.");
                 return View(course);
             }
         }
 
 
-        public IActionResult Course_Details(int id)
+        public async Task<IActionResult> Course_Details(int id)
         {
             // Check if the ID is invalid (e.g., not positive)
             if (!ModelState.IsValid)
@@ -216,7 +219,7 @@ namespace study4_be.Controllers.Admin
                 return RedirectToAction("Course_List", "Course");
             }
 
-            var course = _context.Courses.FirstOrDefault(c => c.CourseId == id);
+            var course = await _context.Courses.FirstOrDefaultAsync(c => c.CourseId == id);
 
             // If no container is found, return to the list with an error
             if (course == null)

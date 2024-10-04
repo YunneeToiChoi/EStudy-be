@@ -19,8 +19,8 @@
                 </div>
 
                 <div class="form-group">
-                    <label asp-for="containers.UnitId">Unit id</label>
-                    <select asp-for="containers.UnitId" class="form-control" asp-items="Model.listUnits"></select>
+                    <label for="containers_UnitId">Unit id</label>
+                    <select id="containers_UnitId" name="containers.UnitId" class="form-control" asp-items="Model.listUnits"></select>
                     <span asp-validation-for="containers.UnitId" class="text-danger"></span>
                 </div>
 

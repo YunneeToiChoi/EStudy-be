@@ -28,11 +28,11 @@ namespace study4_be.Services
 
                 // Lập lịch công việc để xóa các khóa học của người dùng sau một năm
                 var jobId = BackgroundJob.Schedule(() => DeleteUserCourses(userId), currentTime.AddSeconds(5) - currentTime);
-                _logger.LogInformation($"Đã lập lịch công việc xóa các khóa học của người dùng với ID {userId} sau một năm. Job ID: {jobId}");
+                _logger.LogInformation($"Đã lập lịch công việc xóa các khóa học của người dùng sau một năm.");
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Lỗi khi lập lịch công việc xóa các khóa học của người dùng: {ex.Message}");
+                _logger.LogError(ex, "Lỗi khi lập lịch công việc xóa các khóa học của người dùng");
             }
         }
 
@@ -47,11 +47,11 @@ namespace study4_be.Services
                 _context.UserCourses.RemoveRange(userCourses);
                 await _context.SaveChangesAsync();
 
-                _logger.LogInformation($"Đã xóa {userCourses.Count} khóa học của người dùng với ID {userId}");
+                _logger.LogInformation($"Đã xóa {userCourses.Count} khóa học của người dùng");
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Lỗi khi xóa các khóa học của người dùng với ID {userId}: {ex.Message}");
+                _logger.LogError(ex, "Lỗi khi xóa các khóa học của người dùng");
             }
         }
     }

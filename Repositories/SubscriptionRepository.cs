@@ -5,7 +5,12 @@ namespace study4_be.Repositories
 {
     public class SubscriptionRepository
     {
-        private readonly Study4Context _context = new();
+        private readonly Study4Context _context;
+
+        public SubscriptionRepository(Study4Context context)
+        {
+            _context = context;
+        }
 
         public async Task<IEnumerable<Subscriptionplan>> GetAllPlans()
         {
@@ -17,11 +22,6 @@ namespace study4_be.Repositories
             var userSubs = await _context.UserSubs
                 .Where(us => us.UserId == idUser)
                 .ToListAsync();
-
-            if (userSubs == null || !userSubs.Any())
-            {
-                throw new Exception("User does not have any subscriptions.");
-            }
 
             // Assuming UserSubs has a property named SubscriptionPlanId or similar
             return userSubs;

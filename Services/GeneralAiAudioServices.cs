@@ -15,7 +15,7 @@ namespace study4_be.Services
             var credential = GoogleCredential.FromFile(serviceAccountPath);
 
             // Create a StorageClient object
-            var storage = StorageClient.Create(credential);
+            var storage = await StorageClient.CreateAsync(credential);
             string correctedBucketName = "estudy-426108.appspot.com"; // Assuming the correct name is 'estudy426108'
             // Create a MemoryStream object from the file bytes
             using (var memoryStream = new MemoryStream(fileBytes))
@@ -37,11 +37,15 @@ namespace study4_be.Services
             var startInfo = new ProcessStartInfo
             {
                 FileName = @"C:\Program Files\eSpeak NG\espeak-ng.exe",
-                Arguments = $"-w \"{filePath}\" \"{text}\"",
                 RedirectStandardOutput = true,
                 UseShellExecute = false,
                 CreateNoWindow = true
             };
+
+            // Use ArgumentList to safely pass arguments without string concatenation
+            startInfo.ArgumentList.Add("-w");
+            startInfo.ArgumentList.Add(filePath);  // Safe passing of file path
+            startInfo.ArgumentList.Add(text);      // Safe passing of user-provided text
 
             using (var process = new Process { StartInfo = startInfo })
             {

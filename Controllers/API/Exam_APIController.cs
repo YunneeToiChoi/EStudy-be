@@ -14,7 +14,9 @@ namespace study4_be.Controllers.API
     [ApiController]
     public class Exam_APIController : Controller
     {
-        private Study4Context _context = new Study4Context();
+        private readonly Study4Context _context;
+
+        public Exam_APIController(Study4Context context) { _context = context; }
         [HttpGet("Get_AllExams")]
         public async Task<ActionResult<IEnumerable<Exam>>> Get_AllExams()
         {
@@ -72,7 +74,7 @@ namespace study4_be.Controllers.API
                        .Select(ue => ue.UserId).Distinct().CountAsync();
 
                 var amountTest = await _context.UsersExams.Where(e => e.ExamId == _req.examId).CountAsync();
-                if (userExam != null && userExam.Count()>0)
+                if (userExam != null && userExam.Count > 0)
                 {
 
                     var userExamResponse = userExam.Select(ue => new UserExamResponse
@@ -505,7 +507,8 @@ namespace study4_be.Controllers.API
                     score = newUserExam.Score,
                     userId = newUserExam.UserId,
                     userExamId = newUserExam.UserExamId, 
-                    userTime = newUserExam.UserTime
+                    userTime = newUserExam.UserTime,
+                    incorrectAnswers
                 };
                 return Json(new { status = 200, message = "Submit Exam Successful", responseUserExam });
             }
@@ -570,8 +573,8 @@ namespace study4_be.Controllers.API
                        optionC =  q.OptionC,
                        optionD =  q.OptionD,
                        correctAnswer = q.CorrectAnswer,
-                       userAnswer = userAnswers.FirstOrDefault(ua => ua.QuestionId == q.QuestionId)?.Answer,
-                       state = userAnswers.FirstOrDefault(ua => ua.QuestionId == q.QuestionId)?.Answer == q.CorrectAnswer
+                       userAnswer = userAnswers.Find(ua => ua.QuestionId == q.QuestionId)?.Answer,
+                       state = userAnswers.Find(ua => ua.QuestionId == q.QuestionId)?.Answer == q.CorrectAnswer
                     }).ToList()
                 };
                 return Ok(reviewData);
@@ -581,7 +584,7 @@ namespace study4_be.Controllers.API
                 return BadRequest($"Đã xảy ra lỗi: {ex.Message}");
             }
         }
-        private string ConvertSecondsToHMS(int totalSeconds)
+        private static string ConvertSecondsToHMS(int totalSeconds)
         {
             int hours = totalSeconds / 3600;
             int minutes = (totalSeconds % 3600) / 60;
@@ -611,7 +614,7 @@ namespace study4_be.Controllers.API
             return totalWritingScore;
         }
 
-        private int GetLengthScore(string answer)
+        private static int GetLengthScore(string answer)
         {
             // Ví dụ tính điểm dựa trên độ dài của câu trả lời
             if (answer.Length > 200)
@@ -628,7 +631,7 @@ namespace study4_be.Controllers.API
             }
         }
 
-        private int GetGrammarScore(string answer)
+        private static int GetGrammarScore(string answer)
         {
             // Ví dụ tính điểm dựa trên ngữ pháp
             // Đoạn này có thể được tích hợp với các thư viện kiểm tra ngữ pháp
@@ -636,7 +639,7 @@ namespace study4_be.Controllers.API
             return 5;
         }
 
-        private int GetContentScore(string answer)
+        private static int GetContentScore(string answer)
         {
             // Ví dụ tính điểm dựa trên sự chính xác của nội dung
             // Đoạn này có thể sử dụng các thuật toán xử lý ngôn ngữ tự nhiên để kiểm tra

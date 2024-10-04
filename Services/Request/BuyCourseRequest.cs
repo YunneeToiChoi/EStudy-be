@@ -6,7 +6,7 @@ namespace study4_be.Services.Request
     {
         public string? UserId { get; set; }
         [Required]
-        public int CourseId { get; set; }
+        public required int CourseId { get; set; }
         public DateTime? OrderDate { get; set; }
         public double? TotalAmount { get; set; }
         public string? Address { get; set; }

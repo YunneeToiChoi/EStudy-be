@@ -71,12 +71,12 @@
                 <span asp-validation-for="question.QuestionTag" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label>File upload</label>
-                <img src="question.QuestionImage" height="150" width="150" id="previewImg" />
+                <label for="question.QuestionImage">File upload</label>
+                <img src="question.QuestionImage" height="150" width="150" id="previewImg" alt="Question-Exam-Img" />
                 <input asp-for="question.QuestionImage" type="file" name="QuestionImage" onchange="ChangeImage(this, document.getElementById('previewImg'))" />
             </div>
             <div class="form-group">
-                <label asp-for="question.ExamId">Exam</label>
+                <label for="question.ExamId">Exam</label>
                 <select asp-for="question.ExamId" class="form-control" asp-items="Model.exam"></select>
                 <span asp-validation-for="question.ExamId" class="text-danger"></span>
             </div>

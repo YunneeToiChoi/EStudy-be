@@ -23,13 +23,12 @@ namespace study4_be.Controllers.API
     [ApiController]
     public class RatingAPI : ControllerBase
     {
-        private readonly UserRepository _userRepository = new UserRepository();
         private readonly Study4Context _context;
         private readonly FireBaseServices _fireBaseServices;
         public RatingAPI(FireBaseServices fireBaseServices, Study4Context context)
         {
             _fireBaseServices = fireBaseServices;
-            _context = context; 
+            _context = context;
         }
         [HttpGet("GetAllRating")]
         public async Task<IActionResult> GetRatingsOfDocument()
@@ -145,7 +144,7 @@ namespace study4_be.Controllers.API
             {
                 return BadRequest(new { message = "Dữ liệu không hợp lệ.", errors = ModelState });
             }
-            if (ratingImages.Count > 5 || ratingImages.Count < 0)
+            if (ratingImages.Count > 5)
             {
                 return BadRequest(new { message = "Chỉ cho phép đăng từ 0 - 5 ảnh" });
             }

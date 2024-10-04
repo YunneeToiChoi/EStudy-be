@@ -13,7 +13,7 @@ public partial class UserCourse
 
     public int? Process { get; set; }
 
-    public bool? State { get; set; }
+    public bool State { get; set; }
 
     public virtual Course Course { get; set; } = null!;
 

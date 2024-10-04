@@ -6,6 +6,6 @@ namespace study4_be.Services.Request
     {
         public string? UserId { get; set; }
         [Required]
-        public int PlanId { get; set; }
+        public required int PlanId { get; set; }
     }
 }

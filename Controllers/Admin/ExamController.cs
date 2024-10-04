@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using study4_be.Models;
 using study4_be.Repositories;
 using study4_be.Services;
@@ -9,30 +10,32 @@ namespace study4_be.Controllers.Admin
     {
         private readonly ILogger<ExamController> _logger;
         private FireBaseServices _fireBaseServices;
-        public ExamController(ILogger<ExamController> logger, FireBaseServices fireBaseServices)
+        private readonly ExamRepository _examsRepository;
+        private  readonly Study4Context _context;
+        public ExamController(ILogger<ExamController> logger, FireBaseServices fireBaseServices,Study4Context context)
         {
             _logger = logger;
             _fireBaseServices = fireBaseServices;
-
+            _context = context;
+            _examsRepository = new(context);
         }
-        private readonly ExamRepository _examsRepository = new ExamRepository();
-        public Study4Context _context = new Study4Context();
+        
 
         public async Task<ActionResult<IEnumerable<Course>>> GetAllExams()
         {
-            var courses = await _examsRepository.GetAllExamsAsync();
-            return Json(new { status = 200, message = "Get Courses Successful", courses });
+            var exams = await _examsRepository.GetAllExamsAsync();
+            return Json(new { status = 200, message = "Get Exam Successful", exams });
 
         }
         public async Task<IActionResult> DeleteAllCourses()
         {
             await _examsRepository.DeleteAllExamsAsync();
-            return Json(new { status = 200, message = "Delete Courses Successful" });
+            return Json(new { status = 200, message = "Delete Exam Successful" });
         }
         public async Task<IActionResult> Exam_List()
         {
-            var courses = await _examsRepository.GetAllExamsAsync(); // Retrieve list of courses from repository
-            return View(courses); // Pass the list of courses to the view
+            var exams = await _examsRepository.GetAllExamsAsync();
+            return View(exams);
         }
         public IActionResult Exam_Create()
         {
@@ -41,6 +44,13 @@ namespace study4_be.Controllers.Admin
         [HttpPost]
         public async Task<IActionResult> Exam_Create(Exam exam, IFormFile ExamImage)
         {
+            if (!ModelState.IsValid)
+            {
+                // show log
+                _logger.LogError("Error occurred while creating new exam.");
+                ModelState.AddModelError("", "An error occurred while processing your request. Please try again later.");
+                return View(exam);
+            }
             try
             {
                 // Handle file upload to Firebase Storage
@@ -63,7 +73,7 @@ namespace study4_be.Controllers.Admin
             catch (Exception ex)
             {
                 // show log
-                _logger.LogError(ex, "Error occurred while creating new course.");
+                _logger.LogError(ex, "Error occurred while creating new exam.");
                 ModelState.AddModelError("", "An error occurred while processing your request. Please try again later.");
                 return View(exam);
             }
@@ -84,13 +94,13 @@ namespace study4_be.Controllers.Admin
             return Ok(exam);
         }
         [HttpGet]
-        public IActionResult Exam_Edit(string id)
+        public async Task<IActionResult> Exam_Edit(string id)
         {
             if (!ModelState.IsValid)
             {
                 return NotFound(new { message = "examId is invalid" });
             }
-            var exam = _context.Exams.FirstOrDefault(c => c.ExamId == id);
+            var exam = await _context.Exams.FirstOrDefaultAsync(c => c.ExamId == id);
             if (exam == null)
             {
                 return NotFound();
@@ -103,15 +113,15 @@ namespace study4_be.Controllers.Admin
         {
             if (ModelState.IsValid)
             {
-                var courseToUpdate = _context.Exams.FirstOrDefault(c => c.ExamId == exam.ExamId);
+                var examToUpdate = _context.Exams.FirstOrDefault(c => c.ExamId == exam.ExamId);
                 if (ExamImage != null && ExamImage.Length > 0)
                 {
                     var firebaseBucketName = _fireBaseServices.GetFirebaseBucketName();
                     // Delete the old image from Firebase Storage
-                    if (!string.IsNullOrEmpty(courseToUpdate.ExamImage))
+                    if (!string.IsNullOrEmpty(examToUpdate.ExamImage))
                     {
                         // Extract the file name from the URL
-                        var oldFileName = Path.GetFileName(new Uri(courseToUpdate.ExamImage).LocalPath);
+                        var oldFileName = Path.GetFileName(new Uri(examToUpdate.ExamImage).LocalPath);
                         await _fireBaseServices.DeleteFileFromFirebaseStorageAsync(oldFileName, firebaseBucketName);
                     }
                     var uniqueId = Guid.NewGuid().ToString();
@@ -119,9 +129,9 @@ namespace study4_be.Controllers.Admin
                     string firebaseUrl = await _fireBaseServices.UploadFileToFirebaseStorageAsync(ExamImage, imgFilePath, firebaseBucketName);
                     exam.ExamImage = firebaseUrl;
                 }
-                courseToUpdate.ExamName = exam.ExamName;
-                courseToUpdate.ExamImage = exam.ExamImage;
-                courseToUpdate.ExamAudio = exam.ExamAudio;
+                examToUpdate.ExamName = exam.ExamName;
+                examToUpdate.ExamImage = exam.ExamImage;
+                examToUpdate.ExamAudio = exam.ExamAudio;
                 try
                 {
                     _context.SaveChanges();
@@ -129,32 +139,42 @@ namespace study4_be.Controllers.Admin
                 }
                 catch (Exception ex)
                 {
-                    _logger.LogError($"Error updating Exam with ID {ex.Message}");
-                    ModelState.AddModelError(string.Empty, "An error occurred while updating the course.");
+                    _logger.LogError(ex, "Error updating exam");
+                    ModelState.AddModelError(string.Empty, "An error occurred while updating the exam.");
                 }
             }
             return View(exam);
         }
         [HttpGet]
-        public IActionResult Exam_Delete(string id)
+        public async Task<IActionResult> Exam_Delete(string id)
         {
-            var exam = _context.Exams.FirstOrDefault(c => c.ExamId == id);
+            if (!ModelState.IsValid)
+            {
+                _logger.LogError($"Exam not found for deletion.");
+                return NotFound($"Exam not found.");
+            }
+            var exam = await _context.Exams.FirstOrDefaultAsync(c => c.ExamId == id);
             if (exam == null)
             {
-                _logger.LogError($"Exam with ID not found for delete.");
-                return NotFound($"Exam with ID not found.");
+                _logger.LogError($"Exam not found for delete.");
+                return NotFound($"Exam not found.");
             }
             return View(exam);
         }
 
         [HttpPost, ActionName("Exam_Delete")]
-        public IActionResult Exam_DeleteConfirmed(string id)
+        public async Task<IActionResult> Exam_DeleteConfirmed(string id)
         {
-            var exam = _context.Exams.FirstOrDefault(c => c.ExamId == id);
+            if (!ModelState.IsValid)
+            {
+                _logger.LogError($"Exam not found for deletion.");
+                return NotFound($"Exam not found.");
+            }
+            var exam = await _context.Exams.FirstOrDefaultAsync(c => c.ExamId == id);
             if (exam == null)
             {
-                _logger.LogError($"Exam with ID not found for delete.");
-                return NotFound($"Exam with ID not found.");
+                _logger.LogError($"Exam not found for deletion.");
+                return NotFound($"Exam not found.");
             }
 
             try
@@ -165,16 +185,32 @@ namespace study4_be.Controllers.Admin
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Error deleting course with ID {id}: {ex.Message}");
-                ModelState.AddModelError(string.Empty, "An error occurred while deleting the course.");
+                _logger.LogError(ex, "Error deleting Exam");
+                ModelState.AddModelError(string.Empty, "An error occurred while deleting the Exam.");
                 return View(exam);
             }
         }
 
 
-        public IActionResult Exam_Details(string id)
+        public async Task<IActionResult> Exam_Details(string id)
         {
-            return View(_context.Exams.FirstOrDefault(c => c.ExamId == id));
+            // Check if the ID is invalid (e.g., not positive)
+            if (!ModelState.IsValid)
+            {
+                ModelState.AddModelError("", "Invalid Exam ID.");
+                TempData["ErrorMessage"] = "The specified Exam was not found.";
+                return RedirectToAction("Exam_List", "Exam");
+            }
+
+            var exam = await _context.Exams.FirstOrDefaultAsync(c => c.ExamId == id);
+
+            // If no container is found, return to the list with an error
+            if (exam == null)
+            {
+                TempData["ErrorMessage"] = "The specified exam was not found.";
+                return RedirectToAction("Exam_List", "Exam");
+            }
+            return View(exam);
         }
     }
 }
