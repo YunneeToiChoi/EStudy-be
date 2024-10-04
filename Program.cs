@@ -115,6 +115,8 @@ builder.Services.AddHangfire(config => {
 
 builder.Services.AddHangfireServer();
 
+builder.Services.AddTransient<study4_be.Services.DateTimeService>(); // or AddTransient if the service needs a shorter lifespan
+
 var app = builder.Build();
 // Cấu hình sử dụng Hangfire dashboard
 app.UseHangfireDashboard();
@@ -123,7 +125,24 @@ app.UseHangfireDashboard();
 app.UseHangfireServer();
 
 // Thiết lập RecurringJob để chạy job xóa đơn hàng hết hạn sau 15 phút mỗi 5 phút
-RecurringJob.AddOrUpdate<DateTimeService>(dateTimeService => dateTimeService.CheckAndDeleteExpiredOrders(), Cron.MinuteInterval(5));
+RecurringJob.AddOrUpdate<DateTimeService>(
+    "CheckAndDeleteExpiredOrders",
+    service => service.CheckAndDeleteExpiredOrders(),
+    Cron.MinuteInterval(5)
+);
+
+//Thiết lập RecurringJob để chạy job set các user's course và user's plan có state = false
+RecurringJob.AddOrUpdate<DateTimeService>(
+    "CheckAndExpireSubscriptions",
+    service => service.CheckAndExpireSubscriptions(),
+    Cron.Hourly
+);
+
+RecurringJob.AddOrUpdate<DateTimeService>(
+    "CheckAndExpireUserCourse",
+    service => service.CheckAndExpireUserCourse(),
+    Cron.Hourly
+    );
 // Cấu hình HTTP request pipeline
 if (!app.Environment.IsDevelopment())
 {

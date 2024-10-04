@@ -251,19 +251,25 @@ namespace study4_be.Controllers.API
                     return StatusCode(500, new { status = 500, message = "Unhandled response code from MoMo. Please contact support." });
             }
         }
-        private async Task<IActionResult> Buy_Success(string orderId)
-        {
 
+        [HttpPost("test")]
+        public async Task<IActionResult> Buy_Success([FromQuery]string orderId)
+        {
             try
             {
-                var existingOrderCourse = await _context.Orders.FirstOrDefaultAsync(o => o.OrderId == orderId);
+                // Tìm order với orderId và kiểm tra course_id khác null
+                var existingOrderCourse = await _context.Orders
+                    .FirstOrDefaultAsync(o => o.OrderId == orderId && o.CourseId != null);
 
                 if (existingOrderCourse != null)
                 {
                     return await HandleCourseOrder(existingOrderCourse);
                 }
 
-                var newOrderPlan = await _context.UserSubs.FirstOrDefaultAsync(o => o.UsersubsId == orderId);
+                // Tìm order với orderId và kiểm tra plan_id khác null
+                var newOrderPlan = await _context.Orders
+                    .FirstOrDefaultAsync(o => o.OrderId == orderId && o.PlanId != null);
+
                 if (newOrderPlan != null)
                 {
                     return await HandleSubscriptionPlan(newOrderPlan);
@@ -281,39 +287,126 @@ namespace study4_be.Controllers.API
         {
             if (existingOrderCourse.State == false)
             {
-                await SendCodeActiveByEmail(existingOrderCourse.Email, existingOrderCourse.OrderId);
-                existingOrderCourse.State = true;
-                await _context.SaveChangesAsync();
-                return Ok(new
+                var existingUserCourse = await _context.UserCourses.FindAsync(existingOrderCourse.UserId, existingOrderCourse.CourseId);
+                if (existingUserCourse == null)
                 {
-                    status = 200,
-                    order = existingOrderCourse,
-                    message = "Update Order State Successful and send email success"
-                });
+                    existingOrderCourse.State = true;
+                    await _context.SaveChangesAsync();
+                    await SendCodeActiveByEmail(existingOrderCourse.Email, existingOrderCourse.OrderId);
+                    var respone = new
+                    {
+                        existingOrderCourse.OrderId,
+                        existingOrderCourse.UserId,
+                        existingOrderCourse.CourseId,
+                        existingOrderCourse.OrderDate,
+                        existingOrderCourse.State,
+                        existingOrderCourse.TotalAmount,
+                        existingOrderCourse.Code,
+                        existingOrderCourse.Email,
+
+                    };
+                    return Ok(new
+                    {
+                        status = 200,
+                        order = respone,
+                        message = "Update Order State Successful and send email success"
+                    });
+                }
+                else
+                {
+                    existingOrderCourse.State = true;
+                    var newUserCourse = new UserCourse
+                    {
+                        UserId = existingUserCourse.UserId,
+                        CourseId = (int)existingUserCourse.CourseId,
+                        Date = DateTime.Now,
+                        Process = existingUserCourse.Process,
+                        State = true
+                    };
+                    _context.UserCourses.RemoveRange(existingUserCourse);
+                    await _context.UserCourses.AddRangeAsync(newUserCourse);
+                    await _context.SaveChangesAsync();
+
+                    var respone = new
+                    {
+                        existingOrderCourse.OrderId,
+                        existingOrderCourse.UserId,
+                        existingOrderCourse.CourseId,
+                        existingOrderCourse.OrderDate,
+                        existingOrderCourse.State,
+                        existingOrderCourse.TotalAmount
+
+                    };
+                    return Ok(new
+                    {
+                        status = 200,
+                        order = respone,
+                        message = "Update Order State Successful and renew course"
+                    });
+                }
             }
 
             return BadRequest("You Had Bought Before");
         }
-        private async Task<IActionResult> HandleSubscriptionPlan(UserSub newOrderPlan)
+        private async Task<IActionResult> HandleSubscriptionPlan(Order newOrderPlan)
         {
-            var existingPlan = await _context.UserSubs
-                .Where(u => u.UserId == newOrderPlan.UserId)
-                .FirstOrDefaultAsync();
-
-            if (existingPlan != null)
+            if (newOrderPlan.State == false)
             {
-                _context.UserSubs.Remove(existingPlan);
+                // Find the existing subscription plan details
+                var existingPlan = await _context.Subscriptionplans.FindAsync(newOrderPlan.PlanId);
+                if (existingPlan == null)
+                {
+                    return NotFound(new { message = "Subscription plan not found" });
+                }
+
+                // Update the order state to indicate successful payment
+                newOrderPlan.State = true;
+
+                // Create a new user subscription record
+                var newUserSub = new UserSub
+                {
+                    UserId = newOrderPlan.UserId,
+                    PlanId = (int)newOrderPlan.PlanId,
+                    UsersubsStartdate = DateTime.Now,
+                    UsersubsEnddate = DateTime.Now.AddDays(existingPlan.PlanDuration),
+                    State = true,
+                };
+
+                // Find the old subscription for the user, if it exists
+                var oldPlan = await _context.UserSubs
+                                             .FirstOrDefaultAsync(us => us.UserId == newUserSub.UserId && us.State == true);
+
+                // Remove the old plan if it exists
+                if (oldPlan != null)
+                {
+                    _context.UserSubs.Remove(oldPlan);
+                }
+
+                // Add the new user subscription
+                await _context.UserSubs.AddAsync(newUserSub);
+
+                // Save all changes in one transaction
+                await _context.SaveChangesAsync();
+
+                var respon = new
+                {
+                    newOrderPlan.OrderId,
+                    newOrderPlan.PlanId,
+                    newOrderPlan.UserId,
+                    newOrderPlan.TotalAmount,
+                    newOrderPlan.CreatedAt,
+                    newOrderPlan.State
+                };
+                return Ok(new
+                {
+                    status = 200,
+                    order = respon,
+                    message = "Subscription plan renewed and order state updated successfully"
+                });
             }
 
-            newOrderPlan.State = true;
-            await _context.SaveChangesAsync();
-
-            return Ok(new
-            {
-                status = 200,
-                order = newOrderPlan,
-                message = "Update Order State Successful"
-            });
+            // If the order state was already true, return a bad request
+            return BadRequest(new { message = "Order is already completed or invalid" });
         }
 
         private async Task<IActionResult> SendCodeActiveByEmail(string userEmail, string orderId)
@@ -336,7 +429,6 @@ namespace study4_be.Controllers.API
                 var subject = "[EStudy] - Thông tin đơn hàng và mã kích hoạt khóa học";
                 var userName = await _context.Users.Where(u => u.UserId == existOrder.UserId).Select(u => u.UserName).FirstOrDefaultAsync();
                 var courseName = await _context.Courses.Where(u => u.CourseId == existOrder.CourseId).Select(u => u.CourseName).FirstOrDefaultAsync();
-
                 // Generate email content with the invoice URL
                 var emailContent = _smtpServices.GenerateCodeByEmailContent(userName, existOrder.OrderDate.ToString(), orderId, courseName, codeActiveCourse, invoiceResult);
 
@@ -358,7 +450,6 @@ namespace study4_be.Controllers.API
                 return StatusCode(500, new { status = 500, message = $"An error occurred while sending the email: {ex.Message}" });
             }
         }
-        [HttpPost("test")]
         public async Task<IActionResult> SendCodeActiveByEmail(LogTestRequest _req) // unit test 
         {
             try

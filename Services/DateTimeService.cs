@@ -7,8 +7,9 @@ namespace study4_be.Services
 {
     public class DateTimeService
     {
-        private readonly Study4Context _study4Context = new();
+        private readonly Study4Context _study4Context;
 
+        public DateTimeService(Study4Context study4Context) { _study4Context = study4Context; }
         public async Task<TimeRemainingRespone?> GetPlanTimeRemaining(string userId)
         {
             var userSubscription = await _study4Context.UserSubs
@@ -29,7 +30,7 @@ namespace study4_be.Services
 
         public async Task CheckAndDeleteExpiredOrders()
         {
-            var expirationTime = DateTime.Now.AddMinutes(-15);
+            var expirationTime = DateTime.Now.AddMinutes(-1);
 
             // Lấy ra các đơn hàng quá 15 phút và vẫn đang ở trạng thái chưa thanh toán
             var expiredOrders = await _study4Context.Orders
@@ -43,6 +44,46 @@ namespace study4_be.Services
                 await _study4Context.SaveChangesAsync();
             }
         }
+        public async Task CheckAndExpireSubscriptions()
+        {
+            var currentDate = DateTime.Now;
 
+            // Lấy các subscriptions đã hết hạn
+            var expiringSubscriptions = await _study4Context.UserSubs
+                                        .Where(us => us.UsersubsEnddate < currentDate && us.State == true)
+                                        .ToListAsync();
+
+            if (expiringSubscriptions.Any())
+            {
+                foreach (var sub in expiringSubscriptions)
+                {
+                    // Cập nhật state thành false
+                    sub.State = false;
+                }
+
+                await _study4Context.SaveChangesAsync();
+            }
+        }
+        public async Task CheckAndExpireUserCourse()
+        {
+            // Calculate the date one year ago from today
+            var oneYearAgo = DateTime.UtcNow.AddYears(-1);
+
+            // Query for all user_course records where the course has been active for more than a year
+            var expiredCourses = await _study4Context.UserCourses
+                                    .Where(uc => uc.Date < oneYearAgo && uc.State == true)
+                                    .ToListAsync();
+
+            // If any courses are found, update their state to false
+            if (expiredCourses.Any())
+            {
+                foreach (var course in expiredCourses)
+                {
+                    course.State = false;
+                }
+                // Save the changes to the database
+                await _study4Context.SaveChangesAsync();
+            }
+        }
     }
 }

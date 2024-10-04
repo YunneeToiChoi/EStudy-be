@@ -35,7 +35,7 @@ namespace study4_be.Controllers.API
         [HttpGet]
         private string ToBase32String(byte[] bytes)
         {
-            const string alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567";
+            const string alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXY1Z23456789";
             StringBuilder result = new StringBuilder((bytes.Length + 4) / 5 * 8);
             int bitIndex = 0;
             int currentByte = 0;
@@ -116,6 +116,116 @@ namespace study4_be.Controllers.API
 			var newlyAddedOrderId = order.OrderId; // Lấy giá trị ID vừa được thêm vào
 			return Json(new { status = 200, orderId = newlyAddedOrderId, message = "Course purchased successfully." });
 		}
+
+        [HttpPost("Order_Plan")]
+        public async Task<IActionResult> Order_Plan([FromBody] OrderPlanRequest request)
+        {
+            if (request == null || request.UserId == null)
+            {
+                return BadRequest("Invalid user or plan information.");
+            }
+
+            var existingUser = await _context.Users.FindAsync(request.UserId);
+            if (existingUser == null)
+            {
+                return NotFound("User not found.");
+            }
+            var existingOrder = await _context.UserSubs
+               .FirstOrDefaultAsync(o => o.UserId == request.UserId && o.PlanId == request.PlanId);
+
+            if (existingOrder != null)
+            {
+                return BadRequest("You have already ordered this plan.");
+            }
+
+            var existingPlan = await _context.Subscriptionplans.FindAsync(request.PlanId);
+            if (existingPlan == null)
+            {
+                return NotFound("Plan not found.");
+            }
+            var orderId = GenerateOrderId(request.UserId, request.PlanId);
+            var order = new Order
+            {
+                OrderId = orderId,
+                UserId = existingUser.UserId,
+                PlanId = existingPlan.PlanId,
+                TotalAmount = existingPlan.PlanPrice,
+                OrderDate = DateTime.Now,
+                CreatedAt = DateTime.Now,
+                State = false
+            };
+            _context.Orders.Add(order);
+            await _context.SaveChangesAsync();
+            var newlyAddedOrderId = order.OrderId; // Lấy giá trị ID vừa được thêm vào
+            return Ok(new { status = 200, orderId = newlyAddedOrderId, message = "Plan purchased successfully" });
+        }
+        [HttpPost("Renew_Plan")]
+        public async Task<IActionResult> Renew_Plan([FromBody] OrderPlanRequest request)
+        {
+            var existingUserSub = await _context.UserSubs.FindAsync(request.UserId, request.PlanId);
+            if(existingUserSub == null)
+            {
+                return NotFound(new { message = "User's subscription plan is not found" });
+            }
+
+            var existingPlan = await _context.Subscriptionplans.FindAsync(request.PlanId);
+            if (existingPlan == null)
+            {
+                return NotFound("Plan not found.");
+            }
+            if (existingUserSub.State)
+            {
+                return BadRequest(new { message = "User's subsciption plan still available" });
+            }
+            var orderId = GenerateOrderId(existingUserSub.UserId, existingUserSub.PlanId);
+            var order = new Order
+            {
+                OrderId = orderId,
+                UserId = existingUserSub.UserId,
+                PlanId = existingUserSub.PlanId,
+                TotalAmount = existingPlan.PlanPrice,
+                OrderDate = DateTime.Now,
+                CreatedAt = DateTime.Now,
+                State = false
+            };
+            _context.Orders.Add(order);
+            await _context.SaveChangesAsync();
+            var newlyAddedOrderId = order.OrderId; // Lấy giá trị ID vừa được thêm vào
+            return Ok(new { status = 200, orderId = newlyAddedOrderId, message = "Renew Plan successfully" });
+        }
+        [HttpPost("Renew_Course")]
+        public async Task<IActionResult> Renew_Course([FromBody] BuyCourseRequest request)
+        {
+            var existingUserCourse = await _context.UserCourses.FindAsync(request.UserId, request.CourseId);
+            if (existingUserCourse == null) 
+            {
+                return NotFound(new { message = "User's course is not found" });
+            }
+            var existingCourse = await _context.Courses.FindAsync(request.CourseId);
+            if (existingCourse == null)
+            {
+                return NotFound("Course not found.");
+            }
+            if (existingUserCourse.State)
+            {
+                return BadRequest(new { message = "User's course still available" });
+            }
+            var orderId = GenerateOrderId(existingUserCourse.UserId, existingUserCourse.CourseId);
+            var order = new Order
+            {
+                OrderId = orderId,
+                UserId = existingUserCourse.UserId,
+                CourseId = existingUserCourse.CourseId,
+                TotalAmount = existingCourse.CoursePrice,
+                OrderDate = DateTime.Now,
+                CreatedAt = DateTime.Now,
+                State = false
+            };
+            _context.Orders.Add(order);
+            await _context.SaveChangesAsync();
+            var newlyAddedOrderId = order.OrderId; // Lấy giá trị ID vừa được thêm vào
+            return Json(new { status = 200, orderId = newlyAddedOrderId, message = "Renew Course successfully." });
+        }
         [HttpPost("Get_AllOrders")]
         public async Task<IActionResult> Get_AllOrders()
         {

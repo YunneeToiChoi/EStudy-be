@@ -24,87 +24,8 @@ namespace study4_be.Controllers.API
             _logger = logger;
         }
 
-        private string GenerateOrderId(string userId, int planId)
-        {
-            using (var sha256 = SHA256.Create())
-            {
-                var baseString = $"{userId}-{planId}-{DateTime.UtcNow.Ticks}-{Guid.NewGuid()}";
-                var hashBytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(baseString));
-                return ToBase32String(hashBytes).Substring(0, 32); // Increase length to 32 characters
-            }
-        }
-        [HttpGet]
-        private string ToBase32String(byte[] bytes)
-        {
-            const string alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789";
-            StringBuilder result = new StringBuilder((bytes.Length + 4) / 5 * 8);
-            int bitIndex = 0;
-            int currentByte = 0;
 
-            while (bitIndex < bytes.Length * 8)
-            {
-                if (bitIndex % 8 == 0)
-                {
-                    currentByte = bytes[bitIndex / 8];
-                }
-
-                int dualByte = currentByte << 8;
-                if ((bitIndex / 8) + 1 < bytes.Length)
-                {
-                    dualByte |= bytes[(bitIndex / 8) + 1];
-                }
-
-                int index = (dualByte >> (16 - (bitIndex % 8 + 5))) & 31;
-                result.Append(alphabet[index]);
-
-                bitIndex += 5;
-            }
-
-            return result.ToString();
-        }
-
-        [HttpPost("Order_Plan")]
-        public async Task<IActionResult> Order_Plan([FromBody] OrderPlanRequest request)
-        {
-            if (request == null || request.UserId == null)
-            {
-                return BadRequest("Invalid user or plan information.");
-            }
-
-            var existingUser = await _context.Users.FindAsync(request.UserId);
-            if (existingUser == null)
-            {
-                return NotFound("User not found.");
-            }
-            var existingOrder = await _context.UserSubs
-               .FirstOrDefaultAsync(o => o.UserId == request.UserId && o.PlanId == request.PlanId);
-
-            if (existingOrder != null)
-            {
-                return BadRequest("You have already ordered this plan.");
-            }
-
-            var existingPlan = await _context.Subscriptionplans.FindAsync(request.PlanId);
-            if (existingPlan == null)
-            {
-                return NotFound("Plan not found.");
-            }
-            var orderId = GenerateOrderId(request.UserId, request.PlanId);
-            var order = new UserSub
-            {
-               UsersubsId = orderId,
-               UserId = existingUser.UserId,
-               PlanId = existingPlan.PlanId,
-               UsersubsTotal = existingPlan.PlanPrice,
-               UsersubsStartdate = DateTime.Now,
-               UsersubsEnddate = DateTime.Now.AddDays(existingPlan.PlanDuration),
-               State = false
-            };
-            _context.UserSubs.Add(order);
-            await _context.SaveChangesAsync();
-            var newlyAddedOrderId = order.UsersubsId; // Lấy giá trị ID vừa được thêm vào
-            return Ok(new { status = 200, orderId = newlyAddedOrderId, message = "Plan purchased successfully" });
-        }
+       
         [HttpPost("Get_AllPlans")]
         public async Task<ActionResult<IEnumerable<Subscriptionplan>>> Get_AllPlans(UserRequest request)
         {

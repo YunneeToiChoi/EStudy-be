@@ -25,7 +25,11 @@ public partial class Order
 
     public DateTime? CreatedAt { get; set; }
 
+    public int? PlanId { get; set; }
+
     public virtual Course? Course { get; set; }
+
+    public virtual Subscriptionplan? Plan { get; set; }
 
     public virtual User? User { get; set; }
 }
