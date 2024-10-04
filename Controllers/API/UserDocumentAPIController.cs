@@ -171,7 +171,7 @@ namespace study4_be.Controllers.API
                     downloadCount = c.DownloadCount,
                     categoryId = c.CategoryId,
                     categoryName = c.Category != null ? c.Category.CategoryName : "Unknown", // Assuming Category has a Name
-                    courseId = c.Course,
+                    courseId = c.Course.CourseId,
                     courseName = c.Course != null ? c.Course.CourseName : "Unknown", // Assuming Course has a Name
                     documentDescription = c.Description,
                     thumbnailUrl = c.ThumbnailUrl
