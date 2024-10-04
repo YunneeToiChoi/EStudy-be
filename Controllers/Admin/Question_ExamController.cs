@@ -235,6 +235,10 @@ namespace study4_be.Controllers.Admin
                 try
                 {
                     var courseToUpdate = _context.Questions.FirstOrDefault(c => c.QuestionId == questionViewModel.question.QuestionId);
+                    if (courseToUpdate == null)
+                    {
+                        return RedirectToAction("Question_Exam_List");
+                    }
                     if (QuestionImage != null && QuestionImage.Length > 0)
                     {
                         var firebaseBucketName = _firebaseServices.GetFirebaseBucketName();
@@ -275,7 +279,7 @@ namespace study4_be.Controllers.Admin
                         courseToUpdate.QuestionTag = questionViewModel.question.QuestionTag;
                         courseToUpdate.CorrectAnswer = questionViewModel.question.CorrectAnswer;
                         courseToUpdate.LessonId = questionViewModel.question.LessonId;
-                        _context.SaveChanges();
+                        await _context.SaveChangesAsync();
                         return RedirectToAction("Question_Exam_List");
                     }
                 }

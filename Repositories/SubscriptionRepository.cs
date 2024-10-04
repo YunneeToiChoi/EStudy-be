@@ -23,11 +23,6 @@ namespace study4_be.Repositories
                 .Where(us => us.UserId == idUser)
                 .ToListAsync();
 
-            if (userSubs == null || !userSubs.Any())
-            {
-                throw new InvalidOperationException("User does not have any subscriptions.");
-            }
-
             // Assuming UserSubs has a property named SubscriptionPlanId or similar
             return userSubs;
         }
