@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Text.Json.Serialization;
 
 namespace study4_be.Models;
 
 public partial class Question
 {
-    [JsonRequired]
     public int QuestionId { get; set; }
 
     public int? LessonId { get; set; }

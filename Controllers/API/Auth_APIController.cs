@@ -157,16 +157,6 @@ namespace study4_be.Controllers.API
 
         //############ GOOGLE ############// 
 
-        [HttpGet("signin-google")]
-        public IActionResult SignInGoogle()
-        {
-            var properties = new AuthenticationProperties
-            {
-                RedirectUri = Url.Action("GoogleResponse", "Auth_API")
-            };
-            return Challenge(properties, GoogleDefaults.AuthenticationScheme);
-        }
-
         [HttpGet("google-response")]
         public async Task<IActionResult> GoogleResponse()
         {

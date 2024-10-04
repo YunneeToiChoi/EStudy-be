@@ -17,6 +17,10 @@ using study4_be.Services.Request.Rating;
 using study4_be.Services.Request.Document;
 using Microsoft.CodeAnalysis;
 using study4_be.Services.Response;
+using iText.IO.Image;
+using study4_be.Models.DTO;
+using SendGrid.Helpers.Errors.Model;
+using study4_be.Interface;
 namespace study4_be.Controllers.API
 {
     [Route("api/[controller]")]
@@ -25,28 +29,31 @@ namespace study4_be.Controllers.API
     {
         private readonly Study4Context _context;
         private readonly FireBaseServices _fireBaseServices;
-        public RatingAPI(FireBaseServices fireBaseServices, Study4Context context)
+        private readonly IRatingService _ratingService;
+        public RatingAPI(FireBaseServices fireBaseServices, Study4Context context, IRatingService ratingService)
         {
             _fireBaseServices = fireBaseServices;
             _context = context;
+            _ratingService = ratingService;
         }
         [HttpGet("GetAllRating")]
-        public async Task<IActionResult> GetRatingsOfDocument()
+        public async Task<IActionResult> GetAllRating()
         {
+          
             var ratings = await _context.Ratings
-                .Include(r => r.RatingImages) 
-                .Select(r => new
-                {
-                    ratingId = r.Id,
-                    userId = r.UserId,
-                    ratingEntityType = r.EntityType,
-                    ratingEntityId = r.EntityId,
-                    ratingValue = r.RatingValue,
-                    ratingReview = r.Review,
-                    ratingDate = r.RatingDate,
-                    ratingImageUrls = r.RatingImages.Select(ri => ri.ImageUrl).ToList() 
-                })
-                .ToListAsync();
+               .Select(r => new
+               {
+                   ratingId = r.Id,
+                   userId = r.UserId,
+                   ratingEntityType = r.EntityType,
+                   ratingEntityId = r.EntityId,
+                   ratingValue = r.RatingValue,
+                   ratingReview = r.Review,
+                   ratingDate = r.RatingDate,
+                   ratingImageUrls = r.RatingImages.Select(ri => ri.ImageUrl).ToList(), // Chỉ lấy hình ảnh từ RatingImages
+                   replyExist = _context.RatingReplies.Any(rr => rr.RatingId == r.Id) // Kiểm tra xem có phản hồi không
+               })
+               .ToListAsync();
 
             return Ok(new
             {
@@ -54,7 +61,7 @@ namespace study4_be.Controllers.API
                 message = "Đánh giá tài liệu được lấy thành công.",
                 data = ratings
             });
-        }
+        } 
         [HttpPost("RatingOfDocument")]
         public async Task<IActionResult> GetRatingsOfDocument(OfDocumentIdRequest _req)
         {
@@ -64,15 +71,19 @@ namespace study4_be.Controllers.API
                .Where(r => r.EntityType == "Document" && r.EntityId == _req.documentId)
                    .Select(r => new RatingDocumentResponse
                 {
-                    ratingId = r.EntityId,
+                    ratingId = r.Id,
                     userId = r.UserId,
                     userImage = r.User.UserImage,
                     documentId = r.EntityId,
                     ratingValue = r.RatingValue,
                     ratingReview = r.Review,
                     ratingDate = r.RatingDate,
-                    ratingImageUrls = r.RatingImages.Select(ri => ri.ImageUrl).ToList()
-                })
+                       ratingImageUrls = r.RatingImages
+                    .Where(ri => ri.ReferenceType == "RATING")
+                    .Select(ri => ri.ImageUrl)
+                    .ToList(),
+                    replyExist = _context.RatingReplies.Any(rp => rp.RatingId == r.Id) // Kiểm tra sự tồn tại của phản hồi
+                   })
                 .ToListAsync();
 
             return Ok(new
@@ -91,14 +102,18 @@ namespace study4_be.Controllers.API
                 .Where(r => r.EntityType == "Course" && r.EntityId == _req.courseId)
                 .Select(r => new RatingCourseResponse
                 {
-                    ratingId = r.EntityId,
+                    ratingId = r.Id,
                     userId = r.UserId,
                     userImage = r.User.UserImage,
                     courseId = r.EntityId,
                     ratingValue = r.RatingValue,
                     ratingReview = r.Review,
                     ratingRatingDate = r.RatingDate,
-                    ratingImageUrls = r.RatingImages.Select(ri => ri.ImageUrl).ToList()
+                    ratingImageUrls = r.RatingImages
+                    .Where(ri=>ri.ReferenceType=="RATING")
+                    .Select(ri => ri.ImageUrl)
+                    .ToList(),
+                    replyExist = _context.RatingReplies.Any(rp => rp.RatingId == r.Id) // Kiểm tra sự tồn tại của phản hồi
                 })
                 .ToListAsync();
 
@@ -137,90 +152,121 @@ namespace study4_be.Controllers.API
                 data = ratings
             });
         }
-        [HttpPost("SubmitRating")]
-        public async Task<IActionResult> PostRating([FromForm] RatingSubmitRequest _req, [FromForm] List<IFormFile> ratingImages)
+        [HttpPost("SubmitRatingOrReply")]
+        public async Task<IActionResult> SubmitRatingOrReply([FromForm] RatingOrReplySubmitRequest request, [FromForm] List<IFormFile> ratingImages)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(new { message = "Dữ liệu không hợp lệ.", errors = ModelState });
             }
+
             if (ratingImages.Count > 5)
             {
                 return BadRequest(new { message = "Chỉ cho phép đăng từ 0 - 5 ảnh" });
             }
+
             try
             {
-                // Kiểm tra xem người dùng có tồn tại không
-                var user = await _context.Users.FindAsync(_req.userId);
-                if (user == null)
-                {
-                    return NotFound(new { message = "Người dùng không tồn tại." });
-                }
-
-                // Bắt đầu một giao dịch
-                using (var transaction = await _context.Database.BeginTransactionAsync())
-                {
-                    // Tạo một Rating mới
-                    var rating = new Rating
-                    {
-                        UserId = _req.userId,
-                        EntityType = _req.ratingEntityType,
-                        EntityId = _req.ratingEntityId,
-                        RatingValue = _req.ratingValue,
-                        Review = _req.ratingReview,
-                        RatingDate = DateTime.Now
-                    };
-
-                    // Thêm Rating vào cơ sở dữ liệu
-                    await _context.Ratings.AddAsync(rating);
-                    await _context.SaveChangesAsync(); // Lưu để nhận Id mới
-
-                    // Giờ đây, chúng ta có thể an toàn thêm các RatingImages
-                    var imageUrls = new List<string>(); // Danh sách để lưu URL hình ảnh
-                    foreach (var image in ratingImages)
-                    {
-                        // Tải lên hình ảnh và nhận URL
-                        string fileName = Path.GetFileName(image.FileName);
-                        string imageUrl = await _fireBaseServices.UploadImageRatingToFirebaseStorageAsync(image, _req.userId, fileName);
-                        imageUrls.Add(imageUrl); // Thêm URL vào danh sách
-
-                        // Tạo RatingImage và liên kết nó với Rating mới
-                        var ratingImage = new RatingImage
-                        {
-                            RatingId = rating.Id, // Sử dụng Id của Rating mới tạo
-                            ImageUrl = imageUrl
-                        };
-
-                        await _context.RatingImages.AddAsync(ratingImage);
-                    }
-                    // Cam kết giao dịch
-                    await transaction.CommitAsync();
-                    await _context.SaveChangesAsync();
-
-                    // Tạo đối tượng RatingResponse
-                    var response = new RatingResponse
-                    {
-                        ratingId = rating.Id,
-                        userId = rating.UserId,
-                        ratingEntityType = rating.EntityType,
-                        ratingEntityId = rating.EntityId,
-                        ratingValue = rating.RatingValue,
-                        ratingReview = rating.Review,
-                        ratingDate = rating.RatingDate,
-                        ratingImages = imageUrls 
-                    };
-
-                    return Ok(new { message = "Đánh giá đã được gửi thành công!", rating = response });
-                }
+                var result = await _ratingService.SubmitRatingOrReplyAsync(request, ratingImages);
+                return Ok(new { message = "Dữ liệu đã được gửi thành công!", data = result });
             }
-            catch (DbUpdateException ex)
+            catch (NotFoundException ex)
             {
-                Console.WriteLine($"Lỗi cập nhật cơ sở dữ liệu: {ex.InnerException?.Message}");
-                return StatusCode(500, new { message = "Đã xảy ra lỗi khi gửi đánh giá. Vui lòng thử lại sau." });
+                return NotFound(new { message = ex.Message });
+            }
+            catch (BadRequestException ex)
+            {
+                return BadRequest(new { message = ex.Message });
             }
             catch (Exception ex)
             {
                 return StatusCode(500, new { message = "Đã xảy ra lỗi không xác định.", details = ex.Message });
+            }
+        }
+        [HttpPost("ShowReply")]
+        public async Task<IActionResult> ShowReply(ShowReplyRequest _req)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new { message = "Data is not valid", errors = ModelState });
+            }
+
+            try
+            {
+                var rating = await _context.Ratings
+                    .AsNoTracking()
+                    .FirstOrDefaultAsync(r => r.Id == _req.ratingId);
+
+                if (rating == null)
+                {
+                    return NotFound(new { message = "Rating not found" });
+                }
+
+                // Xác định số trang và số phản hồi mỗi trang (mặc định là 5)
+                int pageNumber = _req.pageNumber > 0 ? _req.pageNumber : 1;
+                int pageSize = _req.pageSize > 0 ? _req.pageSize : 5;
+
+                List<RatingReply> replies;
+
+                if (_req.parentId < 0 || _req.parentId == 0 ) // case reply of rating
+                {
+                    // Lấy phản hồi chính cho rating với phân trang
+                    replies = await _context.RatingReplies
+                        .AsNoTracking()
+                        .Where(rp => rp.RatingId == _req.ratingId)
+                        .Include(rp => rp.RatingImages)
+                        .Include(rp => rp.User)
+                        .Skip((pageNumber - 1) * pageSize) // Bỏ qua các phản hồi của trang trước
+                        .Take(pageSize) // Lấy số lượng phản hồi theo yêu cầu
+                        .ToListAsync();
+                }
+                else
+                {
+                    // Lấy phản hồi con với phân trang dựa trên parentId
+                    replies = await _context.RatingReplies
+                        .AsNoTracking()
+                        .Where(rp => rp.RatingId == _req.ratingId && rp.ParentReplyId == _req.parentId)
+                        .Include(rp => rp.RatingImages)
+                        .Include(rp => rp.User)
+                        .Skip((pageNumber - 1) * pageSize) // Bỏ qua các phản hồi của trang trước
+                        .Take(pageSize) // Lấy số lượng phản hồi theo yêu cầu
+                        .ToListAsync();
+                }
+
+                // Sử dụng DTO để trả về
+                var response = new ShowReplyResponse
+                {
+                    RatingId = rating.Id,
+                    RatingContent = rating.Review,
+                    Replies = replies.Select(rp => new ReplyDto
+                    {
+                        ReplyId = rp.ReplyId,
+                        RatingId = rp.RatingId,
+                        ReplyContent = rp.ReplyContent,
+                        ReplyDate = rp.ReplyDate,
+                        ParentReplyId = rp.ParentReplyId,
+                        User = new UserDto
+                        {
+                            UserId = rp.User.UserId,
+                            UserName = rp.User.UserName,
+                            UserImage = rp.User.UserImage
+                        },
+                        Images = rp.RatingImages.Select(img => new ImageDto
+                        {
+                            ImageUrl = img.ImageUrl
+                        }).ToList()
+                    }).ToList()
+                };
+
+                return Ok(response);
+            }
+            catch (DbUpdateException ex)
+            {
+                return StatusCode(500, new { message = "Database error, please try again later.", details = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "An unexpected error occurred.", details = ex.Message });
             }
         }
     }

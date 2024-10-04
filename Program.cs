@@ -41,6 +41,7 @@ builder.Services.AddDbContext<Study4Context>(options =>
 builder.Services.AddScoped<UserCourseExpirationService>();
 builder.Services.AddTransient<ICurrentUserServices, CurrentUserServices>();
 builder.Services.AddTransient<ISqlService, SqlService>();
+builder.Services.AddTransient<IRatingService, RatingService>();
 builder.Services.Configure<MomoConfig>(builder.Configuration.GetSection(MomoConfig.ConfigName));
 builder.Services.AddScoped<ContractPOServices>();
 // Dịch vụ Firebase và SMTP

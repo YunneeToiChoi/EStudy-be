@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Text.Json.Serialization;
 
 namespace study4_be.Models;
 
 public partial class Vocabulary
 {
-    [JsonRequired]
     public int VocabId { get; set; }
 
     public string VocabType { get; set; } = null!;
@@ -21,7 +18,7 @@ public partial class Vocabulary
     public string? AudioUrlUs { get; set; }
 
     public string? AudioUrlUk { get; set; }
-    [JsonRequired]
+
     public int LessonId { get; set; }
 
     public string VocabTitle { get; set; } = null!;

@@ -25,5 +25,7 @@ public partial class Rating
 
     public virtual ICollection<RatingImage> RatingImages { get; set; } = new List<RatingImage>();
 
+    public virtual ICollection<RatingReply> RatingReplies { get; set; } = new List<RatingReply>();
+
     public virtual User User { get; set; } = null!;
 }
