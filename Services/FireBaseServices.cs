@@ -79,7 +79,7 @@ namespace study4_be.Services
             var credential = GoogleCredential.FromFile(serviceAccountPath);
 
             // Create the StorageClient with the credential
-            var storageClient = StorageClient.Create(credential);
+            var storageClient = await StorageClient.CreateAsync(credential);
 
             // Determine the content type based on the file extension
             var contentType = GetContentType(invoiceFileName);

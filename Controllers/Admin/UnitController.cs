@@ -45,11 +45,11 @@ namespace study4_be.Controllers.Admin
                 _logger.LogError("Error occurred while creating new unit.");
                 ModelState.AddModelError("", "An error occurred while processing your request. Please try again later.");
 
-                unitViewModel.Courses = _context.Courses.Select(c => new SelectListItem
+                unitViewModel.Courses = await _context.Courses.Select(c => new SelectListItem
                 {
                     Value = c.CourseId.ToString(),
                     Text = c.CourseName
-                }).ToList();
+                }).ToListAsync();
 
                 return View(unitViewModel);
             }
@@ -72,11 +72,11 @@ namespace study4_be.Controllers.Admin
                 _logger.LogError(ex, "Error occurred while creating new unit.");
                 ModelState.AddModelError("", "An error occurred while processing your request. Please try again later.");
 
-                unitViewModel.Courses = _context.Courses.Select(c => new SelectListItem
+                unitViewModel.Courses = await _context.Courses.Select(c => new SelectListItem
                 {
                     Value = c.CourseId.ToString(),
                     Text = c.CourseName
-                }).ToList();
+                }).ToListAsync();
 
                 return View(unitViewModel);
             }

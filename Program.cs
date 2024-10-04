@@ -184,4 +184,4 @@ app.Use(async (context, next) =>
 
 app.MapControllers();
 
-app.Run();
+await app.RunAsync();

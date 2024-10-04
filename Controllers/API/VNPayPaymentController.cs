@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using study4_be.Services.Request;
+using study4_be.Services.Response;
 using System;
 using System.Collections.Generic;
 using System.Security.Cryptography;
@@ -118,20 +120,5 @@ namespace study4_be.Controllers.API
                 return hex.ToString();
             }
         }
-    }
-
-    public class VnPayPaymentRequest
-    {
-        public decimal Amount { get; set; }
-        public string IpAddr { get; set; }
-        public string OrderInfo { get; set; }
-        public string OrderType { get; set; }
-        public string TxnRef { get; set; }
-        public string ExpireDate { get; set; }
-    }
-
-    public class VnPayPaymentReturn
-    {
-        public string vnp_ResponseCode { get; set; }
     }
 }

@@ -93,11 +93,11 @@ namespace study4_be.Controllers.Admin
         {
             if (ModelState.IsValid)
             {
-                var courseToUpdate = _context.Tags.FirstOrDefault(c => c.TagId == tag.TagId);
+                var courseToUpdate = await _context.Tags.FirstOrDefaultAsync(c => c.TagId == tag.TagId);
                 courseToUpdate.TagId = tag.TagId;
                 try
                 {
-                    _context.SaveChanges();
+                    await _context.SaveChangesAsync();
                     return RedirectToAction("Tag_List");
                 }
                 catch (Exception ex)
