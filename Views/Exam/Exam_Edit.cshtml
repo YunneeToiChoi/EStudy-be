@@ -27,7 +27,7 @@
             </div>
             <div class="form-group">
                 <label for="ExamImage">File upload</label>
-                <img src="@Model.ExamImage" height="150" width="150" id="previewImg" />
+                <img src="@Model.ExamImage" height="150" width="150" id="previewImg" alt="Exam-Img" />
                 <input asp-for="ExamImage" type="file" name="ExamImage" onchange="ChangeImage(this, document.getElementById('previewImg'))" />
             </div>
             <div class="flex">
