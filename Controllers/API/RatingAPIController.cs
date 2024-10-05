@@ -46,7 +46,6 @@ namespace study4_be.Controllers.API
                    ratingId = r.Id,
                    userId = r.UserId,
                    ratingEntityType = r.EntityType,
-                   ratingEntityId = r.EntityId,
                    ratingValue = r.RatingValue,
                    ratingReview = r.Review,
                    ratingDate = r.RatingDate,
@@ -68,13 +67,13 @@ namespace study4_be.Controllers.API
                 var ratings = await _context.Ratings
                .Include(r => r.RatingImages) // Nạp dữ liệu liên quan
                .Include(r => r.User) // Nạp dữ liệu người dùng
-               .Where(r => r.EntityType == "Document" && r.EntityId == _req.documentId)
+               .Where(r => r.EntityType == "Document" && r.DocumentId == _req.documentId)
                    .Select(r => new RatingDocumentResponse
                 {
                     ratingId = r.Id,
                     userId = r.UserId,
                     userImage = r.User.UserImage,
-                    documentId = r.EntityId,
+                    documentId = r.DocumentId,
                     ratingValue = r.RatingValue,
                     ratingReview = r.Review,
                     ratingDate = r.RatingDate,
@@ -99,13 +98,13 @@ namespace study4_be.Controllers.API
         public async Task<IActionResult> GetRatingsOfCourse(OfCourseIdRequest _req)
         {
             var ratings = await _context.Ratings
-                .Where(r => r.EntityType == "Course" && r.EntityId == _req.courseId)
+                .Where(r => r.EntityType == "Course" && r.CourseId == _req.courseId)
                 .Select(r => new RatingCourseResponse
                 {
                     ratingId = r.Id,
                     userId = r.UserId,
                     userImage = r.User.UserImage,
-                    courseId = r.EntityId,
+                    courseId = r.CourseId,
                     ratingValue = r.RatingValue,
                     ratingReview = r.Review,
                     ratingRatingDate = r.RatingDate,
@@ -136,7 +135,6 @@ namespace study4_be.Controllers.API
                     ratingId = r.Id,
                     userId = r.UserId,
                     userImage = r.User.UserImage,
-                    ratingEntityId = r.EntityId,
                     ratingEntityType = r.EntityType,
                     ratingValue = r.RatingValue,
                     ratingReview = r.Review,

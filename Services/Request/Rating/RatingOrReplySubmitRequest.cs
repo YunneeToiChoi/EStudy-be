@@ -9,8 +9,8 @@ namespace study4_be.Services.Request.Rating
         public string userId { get; set; }
         [Required]
         public string ratingEntityType { get; set; } // "Document" hoặc "Course"
-        [JsonRequired]
-        public int ratingEntityId { get; set; }
+        public int? documentId { get;set; } 
+        public int? courseId { get; set; }
         [JsonRequired]
         public short ratingValue { get; set; } // Giá trị từ 1-5
         [Required]
