@@ -65,7 +65,8 @@ namespace study4_be.Services
             {
                 UserId = request.userId,
                 EntityType = request.ratingEntityType,
-                EntityId = request.ratingEntityId,
+                CourseId = request.courseId,
+                DocumentId = request.documentId, 
                 RatingValue = request.ratingValue,
                 Review = request.ratingReview,
                 RatingDate = DateTime.Now

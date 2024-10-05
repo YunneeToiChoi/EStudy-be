@@ -11,17 +11,19 @@ public partial class Rating
 
     public string EntityType { get; set; } = null!;
 
-    public int EntityId { get; set; }
-
     public DateTime RatingDate { get; set; }
 
     public short RatingValue { get; set; }
 
     public string? Review { get; set; }
 
-    public virtual Course Entity { get; set; } = null!;
+    public int? CourseId { get; set; }
 
-    public virtual Document EntityNavigation { get; set; } = null!;
+    public int? DocumentId { get; set; }
+
+    public virtual Course? Course { get; set; }
+
+    public virtual Document? Document { get; set; }
 
     public virtual ICollection<RatingImage> RatingImages { get; set; } = new List<RatingImage>();
 
