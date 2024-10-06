@@ -1,0 +1,19 @@
+﻿@model study4_be.Models.Subscriptionplan
+
+<h4>Delete Subscriptionplan</h4>
+<hr />
+<div class="card-body">
+    <p>Are you sure you want to delete this?</p>
+    <div>
+        <h4>@Model.PlanName</h4>
+        <p>@Model.PlanDescription</p>
+        <p>@Model.PlanPrice</p>
+        <p>@Model.PlanDuration</p>
+    </div>
+    <form asp-action="Subscriptionplan_Delete">
+        <input type="hidden" asp-for="PlanId" />
+        <button type="submit" class="btn btn-danger">Delete</button>
+        @Html.ActionLink("Cancel", "Subscriptionplan_List", null, new { @class = "btn btn-light" })
+    </form>
+    <div asp-validation-summary="All" class="text-danger"></div>
+</div>

@@ -1,0 +1,42 @@
+﻿@model study4_be.Models.Subscriptionplan
+
+@{
+    ViewData["Title"] = "Create SubscriptionPlan";
+}
+
+<h2>Course SubscriptionPlan</h2>
+
+<div class="form-horizontal">
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="card">
+        <div class="card-body">
+            <p class="card-description">Create</p>
+            <form asp-action="Subscriptionplan_Create" method="post" enctype="multipart/form-data" class="forms-sample">
+                <div class="form-group">
+                    <label for="PlanName">Name</label>
+                    <input asp-for="PlanName" class="form-control" />
+                    <span asp-validation-for="PlanName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label for="PlanDescription">Description</label>
+                    <input asp-for="PlanDescription" class="form-control" />
+                    <span asp-validation-for="PlanDescription" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label for="PlanPrice">Price</label>
+                    <input asp-for="PlanPrice" class="form-control" />
+                    <span asp-validation-for="PlanPrice" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label for="PlanDuration">Duration</label>
+                    <input asp-for="PlanDuration" class="form-control" />
+                    <span asp-validation-for="PlanDuration" class="text-danger"></span>
+                </div>
+                <div class="flex">
+                    <button type="submit" class="btn btn-gradient-primary me-2">Submit</button>
+                    @Html.ActionLink("Cancel", "Subscriptionplan_List", "Subscriptionplan", null, new { @class = "btn btn-light" })
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

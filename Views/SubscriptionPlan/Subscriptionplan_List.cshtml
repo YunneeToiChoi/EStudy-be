@@ -1,0 +1,99 @@
+﻿@model IEnumerable<study4_be.Models.Subscriptionplan>
+@{
+    ViewData["Title"] = "plan List";
+}
+<style>
+    .item {
+        overflow: hidden;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+        max-width: 100px
+    }
+
+    .text-btn-admin {
+        text-decoration: none;
+        color: white;
+    }
+
+    .search__input {
+        width: 100%;
+        padding: 10px;
+    }
+</style>
+
+<h2 style="text-align:center">LIST Subscriptionplan</h2>
+<input id="searchInput" class="search__input col-11" type="text" placeholder="Search anything you want..." />
+<button class="btn btn-block btn-lg btn-gradient-primary mt-4"> @Html.ActionLink("+ Add Plans", "Subscriptionplan_Create", "Subscriptionplan", null, new { @class = "text-btn-admin" })</button>
+<div class="card">
+    <div class="card-body">
+        <table class="table">
+            <thead class="table-info">
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Price</th>
+                    <th>Duration</th>
+                    <th>Options</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var plan in Model)
+                {
+                    <tr>
+                        <td>
+                            @plan.PlanId
+                        </td>
+                        <td class="item">
+                            @plan.PlanName
+                        </td>
+                        <td class="item">
+                            <span class="badge badge-danger">
+                                @plan.PlanDescription
+                            </span>
+                        </td>
+                        <td>
+                            <span>
+                                @plan.PlanPrice
+                            </span>
+                        </td>
+                        <td>
+                            <span>
+                                @plan.PlanDuration
+                            </span>
+                        </td>
+                        <td>
+                            <a href="@Url.Action("Subscriptionplan_Edit", "Subscriptionplan", new { id = plan.PlanId })" class="text-link-action">Sửa</a>
+                            <span style="padding:0 8px">|</span>
+                            <a href="@Url.Action("Subscriptionplan_Delete", "Subscriptionplan", new { id = plan.PlanId })" class="text-link-action">Xóa</a>
+                            <span style="padding:0 8px">|</span>
+                            <a href="@Url.Action("Subscriptionplan_Details", "Subscriptionplan", new { id = plan.PlanId })" class="text-link-action">Chi tiết</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    document.getElementById('searchInput').addEventListener('keyup', function () {
+        var input, filter, table, tr, td, i, txtValue;
+        input = document.getElementById('searchInput');
+        filter = input.value.toUpperCase();
+        table = document.querySelector('.table tbody');
+        tr = table.getElementsByTagName('tr');
+
+        for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName('td')[2];
+            if (td) {
+                txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    });
+</script>
