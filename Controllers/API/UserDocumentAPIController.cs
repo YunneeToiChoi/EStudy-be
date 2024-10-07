@@ -163,16 +163,15 @@ namespace study4_be.Controllers.API
                     documentId = c.DocumentId,
                     title = c.Title,
                     documentPublic = c.IsPublic,
-                    //documentFileUrl = c.FileUrl, // needn't return file url , will private 
-                    uploadDate= c.UploadDate,
+                    uploadDate = c.UploadDate,
                     price = c.Price,
                     fileType = c.FileType,
                     isPublic = c.IsPublic,
                     downloadCount = c.DownloadCount,
                     categoryId = c.CategoryId,
-                    categoryName = c.Category != null ? c.Category.CategoryName : "Unknown", // Assuming Category has a Name
-                    courseId = c.Course.CourseId,
-                    courseName = c.Course != null ? c.Course.CourseName : "Unknown", // Assuming Course has a Name
+                    categoryName = c.Category != null ? c.Category.CategoryName : "Unknown",
+                    courseId = c.Course != null ? c.Course.CourseId : (int?)null, // Sử dụng kiểu nullable int
+                    courseName = c.Course != null ? c.Course.CourseName : "Unknown",
                     documentDescription = c.Description,
                     thumbnailUrl = c.ThumbnailUrl
                 }).ToList();

@@ -8,7 +8,6 @@ using study4_be.Services.Request.Rating;
 
 namespace study4_be.Services
 {
-
     public class RatingService : IRatingService
     {
         private readonly Study4Context _context;

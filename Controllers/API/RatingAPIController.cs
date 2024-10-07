@@ -30,16 +30,18 @@ namespace study4_be.Controllers.API
         private readonly Study4Context _context;
         private readonly FireBaseServices _fireBaseServices;
         private readonly IRatingService _ratingService;
-        public RatingAPI(FireBaseServices fireBaseServices, Study4Context context, IRatingService ratingService)
+        private readonly IReplyService _replyService;
+        public RatingAPI(FireBaseServices fireBaseServices, Study4Context context, IRatingService ratingService, IReplyService replyService)
         {
             _fireBaseServices = fireBaseServices;
             _context = context;
             _ratingService = ratingService;
+            _replyService = replyService;
         }
         [HttpGet("GetAllRating")]
         public async Task<IActionResult> GetAllRating()
         {
-          
+
             var ratings = await _context.Ratings
                .Select(r => new
                {
@@ -60,30 +62,30 @@ namespace study4_be.Controllers.API
                 message = "Đánh giá tài liệu được lấy thành công.",
                 data = ratings
             });
-        } 
+        }
         [HttpPost("RatingOfDocument")]
         public async Task<IActionResult> GetRatingsOfDocument(OfDocumentIdRequest _req)
         {
-                var ratings = await _context.Ratings
-               .Include(r => r.RatingImages) // Nạp dữ liệu liên quan
-               .Include(r => r.User) // Nạp dữ liệu người dùng
-               .Where(r => r.EntityType == "Document" && r.DocumentId == _req.documentId)
-                   .Select(r => new RatingDocumentResponse
-                {
-                    ratingId = r.Id,
-                    userId = r.UserId,
-                    userImage = r.User.UserImage,
-                    documentId = r.DocumentId,
-                    ratingValue = r.RatingValue,
-                    ratingReview = r.Review,
-                    ratingDate = r.RatingDate,
-                       ratingImageUrls = r.RatingImages
-                    .Where(ri => ri.ReferenceType == "RATING")
-                    .Select(ri => ri.ImageUrl)
-                    .ToList(),
-                    replyExist = _context.RatingReplies.Any(rp => rp.RatingId == r.Id) // Kiểm tra sự tồn tại của phản hồi
-                   })
-                .ToListAsync();
+            var ratings = await _context.Ratings
+           .Include(r => r.RatingImages) // Nạp dữ liệu liên quan
+           .Include(r => r.User) // Nạp dữ liệu người dùng
+           .Where(r => r.EntityType == "Document" && r.DocumentId == _req.documentId)
+               .Select(r => new RatingDocumentResponse
+               {
+                   ratingId = r.Id,
+                   userId = r.UserId,
+                   userImage = r.User.UserImage,
+                   documentId = r.DocumentId,
+                   ratingValue = r.RatingValue,
+                   ratingReview = r.Review,
+                   ratingDate = r.RatingDate,
+                   ratingImageUrls = r.RatingImages
+                .Where(ri => ri.ReferenceType == "RATING")
+                .Select(ri => ri.ImageUrl)
+                .ToList(),
+                   replyExist = _context.RatingReplies.Any(rp => rp.RatingId == r.Id) // Kiểm tra sự tồn tại của phản hồi
+               })
+            .ToListAsync();
 
             return Ok(new
             {
@@ -109,7 +111,7 @@ namespace study4_be.Controllers.API
                     ratingReview = r.Review,
                     ratingRatingDate = r.RatingDate,
                     ratingImageUrls = r.RatingImages
-                    .Where(ri=>ri.ReferenceType=="RATING")
+                    .Where(ri => ri.ReferenceType == "RATING")
                     .Select(ri => ri.ImageUrl)
                     .ToList(),
                     replyExist = _context.RatingReplies.Any(rp => rp.RatingId == r.Id) // Kiểm tra sự tồn tại của phản hồi
@@ -188,75 +190,14 @@ namespace study4_be.Controllers.API
             {
                 return BadRequest(new { message = "Data is not valid", errors = ModelState });
             }
-
             try
             {
-                var rating = await _context.Ratings
-                    .AsNoTracking()
-                    .FirstOrDefaultAsync(r => r.Id == _req.ratingId);
-
-                if (rating == null)
-                {
-                    return NotFound(new { message = "Rating not found" });
-                }
-
-                // Xác định số trang và số phản hồi mỗi trang (mặc định là 5)
-                int pageNumber = _req.pageNumber > 0 ? _req.pageNumber : 1;
-                int pageSize = _req.pageSize > 0 ? _req.pageSize : 5;
-
-                List<RatingReply> replies;
-
-                if (_req.parentId < 0 || _req.parentId == 0 ) // case reply of rating
-                {
-                    // Lấy phản hồi chính cho rating với phân trang
-                    replies = await _context.RatingReplies
-                        .AsNoTracking()
-                        .Where(rp => rp.RatingId == _req.ratingId)
-                        .Include(rp => rp.RatingImages)
-                        .Include(rp => rp.User)
-                        .Skip((pageNumber - 1) * pageSize) // Bỏ qua các phản hồi của trang trước
-                        .Take(pageSize) // Lấy số lượng phản hồi theo yêu cầu
-                        .ToListAsync();
-                }
-                else
-                {
-                    // Lấy phản hồi con với phân trang dựa trên parentId
-                    replies = await _context.RatingReplies
-                        .AsNoTracking()
-                        .Where(rp => rp.RatingId == _req.ratingId && rp.ParentReplyId == _req.parentId)
-                        .Include(rp => rp.RatingImages)
-                        .Include(rp => rp.User)
-                        .Skip((pageNumber - 1) * pageSize) // Bỏ qua các phản hồi của trang trước
-                        .Take(pageSize) // Lấy số lượng phản hồi theo yêu cầu
-                        .ToListAsync();
-                }
-
-                // Sử dụng DTO để trả về
-                var response = new ShowReplyResponse
-                {
-                    RatingId = rating.Id,
-                    RatingContent = rating.Review,
-                    Replies = replies.Select(rp => new ReplyDto
-                    {
-                        ReplyId = rp.ReplyId,
-                        RatingId = rp.RatingId,
-                        ReplyContent = rp.ReplyContent,
-                        ReplyDate = rp.ReplyDate,
-                        ParentReplyId = rp.ParentReplyId,
-                        User = new UserDto
-                        {
-                            UserId = rp.User.UserId,
-                            UserName = rp.User.UserName,
-                            UserImage = rp.User.UserImage
-                        },
-                        Images = rp.RatingImages.Select(img => new ImageDto
-                        {
-                            ImageUrl = img.ImageUrl
-                        }).ToList()
-                    }).ToList()
-                };
-
+                var response = await _replyService.ShowReplyAsync(_req);
                 return Ok(response);
+            }
+            catch (NotFoundException ex)
+            {
+                return NotFound(new { message = ex.Message });
             }
             catch (DbUpdateException ex)
             {
