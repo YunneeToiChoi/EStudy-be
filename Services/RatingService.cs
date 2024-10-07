@@ -4,7 +4,9 @@ using SendGrid.Helpers.Errors.Model;
 using study4_be.Interface;
 using study4_be.Models;
 using study4_be.Services.Request;
+using study4_be.Services.Request.Document;
 using study4_be.Services.Request.Rating;
+using study4_be.Services.Response;
 
 namespace study4_be.Services
 {
@@ -162,6 +164,92 @@ namespace study4_be.Services
                 await _context.SaveChangesAsync();
                 return imageUrls;
             }
+        }
+
+        public async Task<IEnumerable<object>> GetAllRatingsAsync()
+        {
+            var ratings = await _context.Ratings
+               .Select(r => new
+               {
+                   ratingId = r.Id,
+                   userId = r.UserId,
+                   ratingEntityType = r.EntityType,
+                   ratingValue = r.RatingValue,
+                   ratingReview = r.Review,
+                   ratingDate = r.RatingDate,
+                   ratingImageUrls = r.RatingImages.Select(ri => ri.ImageUrl).ToList(),
+                   replyExist = _context.RatingReplies.Any(rr => rr.RatingId == r.Id)
+               })
+               .ToListAsync();
+
+            return ratings;
+        }
+
+        public async Task<IEnumerable<RatingDocumentResponse>> GetRatingsOfDocumentAsync(OfDocumentIdRequest _req)
+        {
+            var ratings = await _context.Ratings
+               .Include(r => r.RatingImages)
+               .Include(r => r.User)
+               .Where(r => r.EntityType == "Document" && r.DocumentId == _req.documentId)
+               .Select(r => new RatingDocumentResponse
+               {
+                   ratingId = r.Id,
+                   userId = r.UserId,
+                   userImage = r.User.UserImage,
+                   documentId = r.DocumentId,
+                   ratingValue = r.RatingValue,
+                   ratingReview = r.Review,
+                   ratingDate = r.RatingDate,
+                   ratingImageUrls = r.RatingImages
+                    .Where(ri => ri.ReferenceType == "RATING")
+                    .Select(ri => ri.ImageUrl).ToList(),
+                   replyExist = _context.RatingReplies.Any(rp => rp.RatingId == r.Id)
+               })
+               .ToListAsync();
+
+            return ratings;
+        }
+
+        public async Task<IEnumerable<RatingCourseResponse>> GetRatingsOfCourseAsync(OfCourseIdRequest _req)
+        {
+            var ratings = await _context.Ratings
+                .Where(r => r.EntityType == "Course" && r.CourseId == _req.courseId)
+                .Select(r => new RatingCourseResponse
+                {
+                    ratingId = r.Id,
+                    userId = r.UserId,
+                    userImage = r.User.UserImage,
+                    courseId = r.CourseId,
+                    ratingValue = r.RatingValue,
+                    ratingReview = r.Review,
+                    ratingRatingDate = r.RatingDate,
+                    ratingImageUrls = r.RatingImages
+                    .Where(ri => ri.ReferenceType == "RATING")
+                    .Select(ri => ri.ImageUrl).ToList(),
+                    replyExist = _context.RatingReplies.Any(rp => rp.RatingId == r.Id)
+                })
+                .ToListAsync();
+
+            return ratings;
+        }
+        public async Task<IEnumerable<RatingUserResponse>> GetRatingsOfUserAsync(OfUserIdRequest _req)
+        {
+            var ratings = await _context.Ratings
+                .Where(r => r.UserId == _req.userId)
+                .Select(r => new RatingUserResponse
+                {
+                    ratingId = r.Id,
+                    userId = r.UserId,
+                    userImage = r.User.UserImage,
+                    ratingEntityType = r.EntityType,
+                    ratingValue = r.RatingValue,
+                    ratingReview = r.Review,
+                    ratingDate = r.RatingDate,
+                    ratingImageUrls = r.RatingImages.Select(ri => ri.ImageUrl).ToList()
+                })
+                .ToListAsync();
+
+            return ratings;
         }
     }
 }
