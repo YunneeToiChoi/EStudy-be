@@ -41,21 +41,7 @@ namespace study4_be.Controllers.API
         [HttpGet("GetAllRating")]
         public async Task<IActionResult> GetAllRating()
         {
-
-            var ratings = await _context.Ratings
-               .Select(r => new
-               {
-                   ratingId = r.Id,
-                   userId = r.UserId,
-                   ratingEntityType = r.EntityType,
-                   ratingValue = r.RatingValue,
-                   ratingReview = r.Review,
-                   ratingDate = r.RatingDate,
-                   ratingImageUrls = r.RatingImages.Select(ri => ri.ImageUrl).ToList(), // Chỉ lấy hình ảnh từ RatingImages
-                   replyExist = _context.RatingReplies.Any(rr => rr.RatingId == r.Id) // Kiểm tra xem có phản hồi không
-               })
-               .ToListAsync();
-
+            var ratings = await _ratingService.GetAllRatingsAsync();
             return Ok(new
             {
                 success = true,
@@ -63,30 +49,11 @@ namespace study4_be.Controllers.API
                 data = ratings
             });
         }
+
         [HttpPost("RatingOfDocument")]
         public async Task<IActionResult> GetRatingsOfDocument(OfDocumentIdRequest _req)
         {
-            var ratings = await _context.Ratings
-           .Include(r => r.RatingImages) // Nạp dữ liệu liên quan
-           .Include(r => r.User) // Nạp dữ liệu người dùng
-           .Where(r => r.EntityType == "Document" && r.DocumentId == _req.documentId)
-               .Select(r => new RatingDocumentResponse
-               {
-                   ratingId = r.Id,
-                   userId = r.UserId,
-                   userImage = r.User.UserImage,
-                   documentId = r.DocumentId,
-                   ratingValue = r.RatingValue,
-                   ratingReview = r.Review,
-                   ratingDate = r.RatingDate,
-                   ratingImageUrls = r.RatingImages
-                .Where(ri => ri.ReferenceType == "RATING")
-                .Select(ri => ri.ImageUrl)
-                .ToList(),
-                   replyExist = _context.RatingReplies.Any(rp => rp.RatingId == r.Id) // Kiểm tra sự tồn tại của phản hồi
-               })
-            .ToListAsync();
-
+            var ratings = await _ratingService.GetRatingsOfDocumentAsync(_req);
             return Ok(new
             {
                 success = true,
@@ -95,29 +62,10 @@ namespace study4_be.Controllers.API
             });
         }
 
-        // Lấy đánh giá của khóa học
         [HttpPost("RatingOfCourse")]
         public async Task<IActionResult> GetRatingsOfCourse(OfCourseIdRequest _req)
         {
-            var ratings = await _context.Ratings
-                .Where(r => r.EntityType == "Course" && r.CourseId == _req.courseId)
-                .Select(r => new RatingCourseResponse
-                {
-                    ratingId = r.Id,
-                    userId = r.UserId,
-                    userImage = r.User.UserImage,
-                    courseId = r.CourseId,
-                    ratingValue = r.RatingValue,
-                    ratingReview = r.Review,
-                    ratingRatingDate = r.RatingDate,
-                    ratingImageUrls = r.RatingImages
-                    .Where(ri => ri.ReferenceType == "RATING")
-                    .Select(ri => ri.ImageUrl)
-                    .ToList(),
-                    replyExist = _context.RatingReplies.Any(rp => rp.RatingId == r.Id) // Kiểm tra sự tồn tại của phản hồi
-                })
-                .ToListAsync();
-
+            var ratings = await _ratingService.GetRatingsOfCourseAsync(_req);
             return Ok(new
             {
                 success = true,
@@ -126,25 +74,10 @@ namespace study4_be.Controllers.API
             });
         }
 
-        // Lấy đánh giá của người dùng
         [HttpPost("RatingOfUser")]
         public async Task<IActionResult> GetRatingsOfUser(OfUserIdRequest _req)
         {
-            var ratings = await _context.Ratings
-                .Where(r => r.UserId == _req.userId)
-                .Select(r => new RatingUserResponse
-                {
-                    ratingId = r.Id,
-                    userId = r.UserId,
-                    userImage = r.User.UserImage,
-                    ratingEntityType = r.EntityType,
-                    ratingValue = r.RatingValue,
-                    ratingReview = r.Review,
-                    ratingDate = r.RatingDate,
-                    ratingImageUrls = r.RatingImages.Select(ri => ri.ImageUrl).ToList()
-                })
-                .ToListAsync();
-
+            var ratings = await _ratingService.GetRatingsOfUserAsync(_req);
             return Ok(new
             {
                 success = true,
