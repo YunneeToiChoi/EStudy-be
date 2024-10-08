@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using study4_be.Models;
 using study4_be.Repositories;
-using study4_be.Services.Request;
+using study4_be.Services.Lesson;
 
 namespace study4_be.Controllers.API
 {

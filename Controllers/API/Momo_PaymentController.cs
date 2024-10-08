@@ -4,8 +4,6 @@ using study4_be.Helper;
 using study4_be.Models;
 using study4_be.Payment.MomoPayment;
 using study4_be.PaymentServices.Momo.Config;
-using study4_be.services.Request;
-using study4_be.Services.Request;
 using study4_be.Validation;
 using System;
 
@@ -16,7 +14,7 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using study4_be.Services;
 using Microsoft.EntityFrameworkCore;
-using study4_be.Services.Response;
+using study4_be.Services.Payment;
 
 namespace study4_be.Controllers.API
 {

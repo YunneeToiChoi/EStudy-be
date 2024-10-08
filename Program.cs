@@ -16,6 +16,10 @@ using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Hangfire;
 using Hangfire.SqlServer;
+using study4_be.Interface.Rating;
+using study4_be.Services.Rating;
+using Google.Api;
+using study4_be.Services.User;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -42,11 +46,19 @@ builder.Services.AddScoped<UserCourseExpirationService>();
 builder.Services.AddTransient<ICurrentUserServices, CurrentUserServices>();
 builder.Services.AddTransient<ISqlService, SqlService>();
 builder.Services.AddTransient<IRatingService, RatingService>();
+builder.Services.AddTransient<IReplyService, ReplyService>();
+builder.Services.AddTransient<IDocumentService, DocumentService>();
+builder.Services.AddTransient<ICategoryService, CategoryService>();
+builder.Services.AddTransient<ICourseService, CourseService>();
+
 builder.Services.Configure<MomoConfig>(builder.Configuration.GetSection(MomoConfig.ConfigName));
 builder.Services.AddScoped<ContractPOServices>();
 // Dịch vụ Firebase và SMTP
 builder.Services.AddSingleton<FireBaseServices>();
 builder.Services.AddSingleton<SMTPServices>();
+
+
+
 
 // Thêm IHttpContextAccessor
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();

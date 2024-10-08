@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using study4_be.Services.Request;
-using study4_be.Services.Response;
+using study4_be.Services.Payment;
 using System;
 using System.Collections.Generic;
 using System.Security.Cryptography;

@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
 using study4_be.Models;
-using study4_be.Services.Response;
+using study4_be.Services.Exam;
 
 namespace study4_be.Services
 {
@@ -84,6 +84,12 @@ namespace study4_be.Services
                 // Save the changes to the database
                 await _study4Context.SaveChangesAsync();
             }
+        }
+        public static DateTime ConvertToVietnamTime(DateTime utcDateTime)
+        {
+            var vietnamTimeZone = TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time");
+            var vietnamTime = TimeZoneInfo.ConvertTimeFromUtc(utcDateTime, vietnamTimeZone);
+            return vietnamTime;
         }
     }
 }

@@ -2,13 +2,18 @@ namespace study4_be.Models.DTO
 {
     public class DocumentDto
     {
-        public int DocumentId { get; set; }
-        public string Title { get; set; }
-        public string? Description { get; set; }
-        public string FileUrl { get; set; }
-        public DateTime? UploadDate { get; set; }
-        public string? FileType { get; set; }
-        public int? DownloadCount { get; set; }
-        public string? ThumbnailUrl { get; set; }
+        public int documentId { get; set; }
+        public int? downloadCount { get; set; }
+        public string title { get; set; }
+        public bool? isPublic { get; set; }
+        public string fileType { get; set; }
+        public string fileUrl { get; set; }
+        public double? price { get; set; }
+        public string thumbnailUrl { get; set; }
+        public DateTime? uploadDate { get; set; }  
+        public string userId { get; set; }
+        public string userName { get; set; }
+        public string userImage { get; set; }
+        public string documentDescription { get; set; }
     }
 }
