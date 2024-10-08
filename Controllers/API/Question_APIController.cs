@@ -24,7 +24,7 @@ namespace study4_be.Controllers.API
         [HttpPost("Get_AllQuestionOfLesson")]
         public async Task<IActionResult> Get_AllQuestionOfLesson(QuestionRequest _questionRequest)
         {
-            if (_questionRequest.lessonId == null)
+            if (_questionRequest == null)
             {
                 _logger.LogWarning("LessonId is null or empty in the request.");
                 return BadRequest(new { status = 400, message = "LessonId is null or empty" });
@@ -35,6 +35,10 @@ namespace study4_be.Controllers.API
                          .Where(l => l.LessonId == _questionRequest.lessonId)
                          .Select(l => l.Tag)
                          .FirstAsync();
+                if (lessonTag == null)
+                {
+                    return BadRequest(new { status = 400, message = "LessonTag is null" });
+                }
                 var lessonTagResponse = new
                 {
                     lessonTag = lessonTag.TagId
@@ -51,7 +55,7 @@ namespace study4_be.Controllers.API
         [HttpPost("Get_AllListenPicture")]
         public async Task<IActionResult> Get_AllListenPicture(OfLessonRequest _req)
         {
-            if (_req.lessonId == null)
+            if (_req == null)
             {
                 _logger.LogWarning("LessonId is null or empty in the request.");
                 return BadRequest(new { status = 400, message = "LessonId is null or empty" });
@@ -63,6 +67,11 @@ namespace study4_be.Controllers.API
                          .Where(l => l.LessonId == _req.lessonId)
                          .Select(l => l.Tag)
                          .FirstAsync();
+
+                if( lessonTag == null)
+                {
+                    return BadRequest(new { status = 400, message = "LessonTag is null" });
+                }
                 var lessonTagResponse = new
                 {
                     lessonTag = lessonTag.TagId
@@ -97,7 +106,7 @@ namespace study4_be.Controllers.API
         [HttpPost("Get_AllListen_Quest_Res")]
         public async Task<IActionResult> Get_AllListen_Quest_Res(OfLessonRequest _req)
         {
-            if (_req.lessonId == null)
+            if (_req == null)
             {
                 _logger.LogWarning("LessonId is null or empty in the request.");
                 return BadRequest(new { status = 400, message = "LessonId is null or empty" });
@@ -109,6 +118,10 @@ namespace study4_be.Controllers.API
                          .Where(l => l.LessonId == _req.lessonId)
                          .Select(l => l.Tag)
                          .FirstAsync();
+                if (lessonTag == null)
+                {
+                    return BadRequest(new { status = 400, message = "LessonTag is null" });
+                }
                 var lessonTagResponse = new
                 {
                     lessonTag = lessonTag.TagId
@@ -143,7 +156,7 @@ namespace study4_be.Controllers.API
         [HttpPost("Get_AllListenSpeech")]
         public async Task<IActionResult> Get_AllListenSpeech(OfLessonRequest _req)
         {
-            if (_req.lessonId == null)
+            if (_req == null)
             {
                 _logger.LogWarning("LessonId is null or empty in the request.");
                 return BadRequest(new { status = 400, message = "LessonId is null or empty" });
@@ -155,6 +168,10 @@ namespace study4_be.Controllers.API
                          .Where(l => l.LessonId == _req.lessonId)
                          .Select(l => l.Tag)
                          .FirstAsync();
+                if (lessonTag == null)
+                {
+                    return BadRequest(new { status = 400, message = "LessonTag is null" });
+                }
                 var lessonTagResponse = new
                 {
                     lessonTag = lessonTag.TagId
@@ -190,7 +207,7 @@ namespace study4_be.Controllers.API
         [HttpPost("Get_AllQuestionDoubleChoice")]
         public async Task<IActionResult> Get_AllQuestionDoubleChoice(OfLessonRequest _req)
         {
-            if (_req.lessonId == null)
+            if (_req == null)
             {
                 _logger.LogWarning("LessonId is null or empty in the request.");
                 return BadRequest(new { status = 400, message = "LessonId is null or empty" });
@@ -202,6 +219,10 @@ namespace study4_be.Controllers.API
                          .Where(l => l.LessonId == _req.lessonId)
                          .Select(l => l.Tag)
                          .FirstAsync();
+                if (lessonTag == null)
+                {
+                    return BadRequest(new { status = 400, message = "LessonTag is null" });
+                }
                 var lessonTagResponse = new
                 {
                     lessonTag = lessonTag.TagId
@@ -230,7 +251,7 @@ namespace study4_be.Controllers.API
         [HttpPost("Get_AllQuestionReading")]
         public async Task<IActionResult> Get_AllQuestionReading(OfLessonRequest _req)
         {
-            if (_req.lessonId == null)
+            if (_req == null)
             {
                 _logger.LogWarning("LessonId is null or empty in the request.");
                 return BadRequest(new { status = 400, message = "LessonId is null or empty" });
@@ -242,6 +263,10 @@ namespace study4_be.Controllers.API
                          .Where(l => l.LessonId == _req.lessonId)
                          .Select(l => l.Tag)
                          .FirstAsync();
+                if (lessonTag == null)
+                {
+                    return BadRequest(new { status = 400, message = "LessonTag is null" });
+                }
                 var lessonTagResponse = new
                 {
                     lessonTag = lessonTag.TagId
@@ -277,7 +302,7 @@ namespace study4_be.Controllers.API
         [HttpPost("Get_AllQuestionReadingWithOutParagraph")]
         public async Task<IActionResult> Get_AllQuestionReadingWithOutParagraph(OfLessonRequest _req)
         {
-            if (_req.lessonId == null)
+            if (_req == null)
             {
                 _logger.LogWarning("LessonId is null or empty in the request.");
                 return BadRequest(new { status = 400, message = "LessonId is null or empty" });
@@ -289,6 +314,10 @@ namespace study4_be.Controllers.API
                          .Where(l => l.LessonId == _req.lessonId)
                          .Select(l => l.Tag)
                          .FirstAsync();
+                if (lessonTag == null)
+                {
+                    return BadRequest(new { status = 400, message = "LessonTag is null" });
+                }
                 var lessonTagResponse = new
                 {
                     lessonTag = lessonTag.TagId

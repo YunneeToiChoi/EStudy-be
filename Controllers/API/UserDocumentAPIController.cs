@@ -335,7 +335,7 @@ namespace study4_be.Controllers.API
                 {
                     // Lấy danh sách khóa học miễn phí
                     var courseFree = await _context.Courses
-                                                          .Where(c => c.CoursePrice == 0)
+                                                          .Where(c => c.CoursePrice <= 0)
                                                           .ToListAsync();
 
                     // Lấy danh sách khóa học đã thanh toán của người dùng

@@ -151,7 +151,6 @@ namespace study4_be.Controllers.Admin
                     courseToUpdate.CourseDescription = course.CourseDescription;
                     courseToUpdate.CoursePrice = course.CoursePrice;
                     courseToUpdate.CourseTag = course.CourseTag;
-                    courseToUpdate.CourseImage = courseToUpdate.CourseImage;
                 }
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Course_List");

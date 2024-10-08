@@ -130,7 +130,7 @@ namespace study4_be.Controllers.Admin
                     ModelState.AddModelError("", "Cannot generate AI question because there is no Paragraph.");
                 }
                 _generalAiAudioServices.GenerateAudio(questionViewModel.question.QuestionParagraph, audioFilePath);
-                var audioBytes = System.IO.File.ReadAllBytes(audioFilePath);
+                var audioBytes = await System.IO.File.ReadAllBytesAsync(audioFilePath);
                 var audioUrl = await _generalAiAudioServices.UploadFileToFirebaseStorageAsync(audioBytes, $"QUESTION({uniqueId}).wav", firebaseBucketName);
                 string firebaseUrl = null;
                 if(QuestionImage!=null)
@@ -298,12 +298,11 @@ namespace study4_be.Controllers.Admin
                         courseToUpdate.OptionD = question.OptionD;
                         courseToUpdate.OptionMeanD = question.OptionMeanD;
                         courseToUpdate.CorrectAnswer = question.CorrectAnswer;
-                        _context.SaveChanges();
+                        await _context.SaveChangesAsync();
                         return RedirectToAction("Question_List");
                     }
                     else
                     {
-                        courseToUpdate.QuestionImage = courseToUpdate.QuestionImage;
                         courseToUpdate.QuestionText = question.QuestionText;
                         courseToUpdate.QuestionTextMean = question.QuestionTextMean;
                         courseToUpdate.QuestionParagraph = question.QuestionParagraph;

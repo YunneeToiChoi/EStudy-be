@@ -29,7 +29,7 @@ namespace study4_be.Controllers.API
         }
         [HttpPost("Get_AllVocabOfLesson")]
         public async Task<IActionResult> Get_AllVocabOfLesson([FromBody] VocabFlashCardRequest _vocabRequest) {
-            if (_vocabRequest.lessonId == null)
+            if (_vocabRequest == null)
             {
                 _logger.LogWarning("LessonId is null or empty in the request.");
                 return BadRequest(new { status = 400, message = "LessonId is null or empty" });

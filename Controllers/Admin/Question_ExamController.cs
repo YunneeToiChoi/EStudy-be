@@ -189,7 +189,7 @@ namespace study4_be.Controllers.Admin
             try
             {
                 _context.Questions.Remove(question);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
                 return RedirectToAction("Question_Exam_List");
             }
             catch (Exception ex)
@@ -211,7 +211,7 @@ namespace study4_be.Controllers.Admin
             {
                 return NotFound();
             }
-            var exams = _context.Exams.ToList();
+            var exams = await _context.Exams.ToListAsync();
             var selectListTags = exams.Select(exams => new SelectListItem
             {
                 Value = exams.ExamId.ToString(),
@@ -234,7 +234,7 @@ namespace study4_be.Controllers.Admin
             {
                 try
                 {
-                    var courseToUpdate = _context.Questions.FirstOrDefault(c => c.QuestionId == questionViewModel.question.QuestionId);
+                    var courseToUpdate = await _context.Questions.FirstOrDefaultAsync(c => c.QuestionId == questionViewModel.question.QuestionId);
                     if (courseToUpdate == null)
                     {
                         return RedirectToAction("Question_Exam_List");
@@ -263,7 +263,7 @@ namespace study4_be.Controllers.Admin
                         courseToUpdate.QuestionTag = questionViewModel.question.QuestionTag;
                         courseToUpdate.CorrectAnswer = questionViewModel.question.CorrectAnswer;
                         courseToUpdate.LessonId = questionViewModel.question.LessonId;
-                        _context.SaveChanges();
+                        await _context.SaveChangesAsync();
                         return RedirectToAction("Question_Exam_List");
                     }
                     else

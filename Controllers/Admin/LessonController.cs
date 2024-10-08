@@ -85,11 +85,11 @@ namespace study4_be.Controllers.Admin
                 _logger.LogError("Error occurred while creating new lesson.");
                 ModelState.AddModelError("", "An error occurred while processing your request. Please try again later.");
 
-                lessonViewModel.container = _context.Containers.Select(c => new SelectListItem
+                lessonViewModel.container = await _context.Containers.Select(c => new SelectListItem
                 {
                     Value = c.ContainerId.ToString(),
                     Text = c.ContainerId.ToString()
-                }).ToList();
+                }).ToListAsync();
 
                 return View(lessonViewModel);
             }
@@ -114,11 +114,11 @@ namespace study4_be.Controllers.Admin
                 _logger.LogError(ex, "Error occurred while creating new lesson.");
                 ModelState.AddModelError("", "An error occurred while processing your request. Please try again later.");
 
-                lessonViewModel.container = _context.Containers.Select(c => new SelectListItem
+                lessonViewModel.container = await _context.Containers.Select(c => new SelectListItem
                 {
                     Value = c.ContainerId.ToString(),
                     Text = c.ContainerId.ToString()
-                }).ToList();
+                }).ToListAsync();
 
                 return View(lessonViewModel);
             }
@@ -174,7 +174,7 @@ namespace study4_be.Controllers.Admin
             try
             {
                 _context.Lessons.Remove(lesson);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
                 return RedirectToAction("Lesson_List");
             }
             catch (Exception ex)
@@ -197,7 +197,7 @@ namespace study4_be.Controllers.Admin
                 return NotFound();
             }
 
-            var tags = _context.Tags.ToList();
+            var tags = await _context.Tags.ToListAsync();
             var selectListTags = tags.Select(tag => new SelectListItem
             {
                 Value = tag.TagId.ToString(),

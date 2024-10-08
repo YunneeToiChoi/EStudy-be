@@ -30,6 +30,7 @@ namespace study4_be.Controllers.API
         private readonly ContractPOServices _contractPOServices;
         private readonly SMTPServices _smtpServices;
         private readonly Study4Context _context;
+        private HttpClient _httpClient = new();
         public Momo_PaymentController(ILogger<Momo_PaymentController> logger,
                                      IOptions<MomoConfig> momoPaymentSettings,
                                      SMTPServices sMTPServices,
@@ -92,12 +93,8 @@ namespace study4_be.Controllers.API
                 lang = request.Lang,
                 signature = signature
             };
-
-            using (var client = new HttpClient())
-            {
-                var content = new StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(paymentData), Encoding.UTF8, "application/json");
-                return await client.PostAsync(_momoConfig.PaymentUrl, content);
-            }
+            var content = new StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(paymentData), Encoding.UTF8, "application/json");
+            return await _httpClient.PostAsync(_momoConfig.PaymentUrl, content);
         }
 
         [HttpPost("GetIpnFromMomo")]
@@ -147,32 +144,29 @@ namespace study4_be.Controllers.API
                 lang = trackingQuery.lang,
                 signature = signature
             };
-            string aa = "https://payment.momo.vn/v2/gateway/api/query";
-            using (var client = new HttpClient())
+            string aa = "https://payment.momo.vn/v2/gateway/api/query"; 
+            var content = new StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(dataRequest), Encoding.UTF8, "application/json");
+            var response = await _httpClient.PostAsync(aa, content);
+            var responseContent = await response.Content.ReadAsStringAsync();
+            var existOrder = await _context.Orders.Where(o => o.OrderId == req.orderId).SingleOrDefaultAsync();
+            if (response.IsSuccessStatusCode)
             {
-                var content = new StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(dataRequest), Encoding.UTF8, "application/json");
-                var response = await client.PostAsync(aa, content);
-                var responseContent = await response.Content.ReadAsStringAsync();
-                var existOrder = await _context.Orders.Where(o => o.OrderId == req.orderId).SingleOrDefaultAsync();
-                if (response.IsSuccessStatusCode)
-                {
-                    var responseData = Newtonsoft.Json.JsonConvert.DeserializeObject<TrackingMomoResponse>(responseContent);
+                var responseData = Newtonsoft.Json.JsonConvert.DeserializeObject<TrackingMomoResponse>(responseContent);
 
-                    // Assuming TrackingResponse has a property named resultCode to capture the MoMo API response code
-                    if (responseData.resultCode == 0)
-                    {
-                        return await Buy_Success(req.orderId);
-                    }
-                    else
-                    {
-                        return HandleMoMoErrorResponse(responseData.resultCode);
-                    }
+                // Assuming TrackingResponse has a property named resultCode to capture the MoMo API response code
+                if (responseData.resultCode == 0)
+                {
+                    return await Buy_Success(req.orderId);
                 }
                 else
                 {
-                    // Handle unsuccessful response with error message from MoMo API
-                    return StatusCode((int)response.StatusCode, await response.Content.ReadAsStringAsync());
+                    return HandleMoMoErrorResponse(responseData.resultCode);
                 }
+            }
+            else
+            {
+                // Handle unsuccessful response with error message from MoMo API
+                return StatusCode((int)response.StatusCode, await response.Content.ReadAsStringAsync());
             }
         }
         private IActionResult HandleMoMoErrorResponse(int resultCode)

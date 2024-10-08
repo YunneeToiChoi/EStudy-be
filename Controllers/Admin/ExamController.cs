@@ -113,28 +113,36 @@ namespace study4_be.Controllers.Admin
         {
             if (ModelState.IsValid)
             {
-                var examToUpdate = _context.Exams.FirstOrDefault(c => c.ExamId == exam.ExamId);
-                if (ExamImage != null && ExamImage.Length > 0)
-                {
-                    var firebaseBucketName = _fireBaseServices.GetFirebaseBucketName();
-                    // Delete the old image from Firebase Storage
-                    if (!string.IsNullOrEmpty(examToUpdate.ExamImage))
-                    {
-                        // Extract the file name from the URL
-                        var oldFileName = Path.GetFileName(new Uri(examToUpdate.ExamImage).LocalPath);
-                        await _fireBaseServices.DeleteFileFromFirebaseStorageAsync(oldFileName, firebaseBucketName);
-                    }
-                    var uniqueId = Guid.NewGuid().ToString();
-                    var imgFilePath = ($"IMG{uniqueId}.jpg");
-                    string firebaseUrl = await _fireBaseServices.UploadFileToFirebaseStorageAsync(ExamImage, imgFilePath, firebaseBucketName);
-                    exam.ExamImage = firebaseUrl;
-                }
-                examToUpdate.ExamName = exam.ExamName;
-                examToUpdate.ExamImage = exam.ExamImage;
-                examToUpdate.ExamAudio = exam.ExamAudio;
                 try
                 {
-                    _context.SaveChanges();
+                    var examToUpdate = await _context.Exams.FirstOrDefaultAsync(c => c.ExamId == exam.ExamId);
+                    if (examToUpdate == null)
+                    {
+                        _logger.LogError("Error updating exam");
+                        ModelState.AddModelError(string.Empty, "Exam to update is null");
+                        return RedirectToAction("Exam_List");
+                    }
+                    if (ExamImage != null && ExamImage.Length > 0)
+                    {
+                        var firebaseBucketName = _fireBaseServices.GetFirebaseBucketName();
+                        // Delete the old image from Firebase Storage
+                        if (!string.IsNullOrEmpty(examToUpdate.ExamImage))
+                        {
+                            // Extract the file name from the URL
+                            var oldFileName = Path.GetFileName(new Uri(examToUpdate.ExamImage).LocalPath);
+                            await _fireBaseServices.DeleteFileFromFirebaseStorageAsync(oldFileName, firebaseBucketName);
+                        }
+                        var uniqueId = Guid.NewGuid().ToString();
+                        var imgFilePath = ($"IMG{uniqueId}.jpg");
+                        string firebaseUrl = await _fireBaseServices.UploadFileToFirebaseStorageAsync(ExamImage, imgFilePath, firebaseBucketName);
+                        exam.ExamImage = firebaseUrl;
+                    }
+                    examToUpdate.ExamName = exam.ExamName;
+                    examToUpdate.ExamImage = exam.ExamImage;
+                    examToUpdate.ExamAudio = exam.ExamAudio;
+
+
+                    await _context.SaveChangesAsync();
                     return RedirectToAction("Exam_List");
                 }
                 catch (Exception ex)
@@ -180,7 +188,7 @@ namespace study4_be.Controllers.Admin
             try
             {
                 _context.Exams.Remove(exam);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
                 return RedirectToAction("Exam_List");
             }
             catch (Exception ex)
