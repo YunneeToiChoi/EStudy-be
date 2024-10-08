@@ -5,6 +5,7 @@
         public int ratingId { get; set; }
         public string userId { get; set; } = null!;
         public string userImage { get; set; } = null!;
+        public string userName { get; set; } = null!;
         public int? courseId { get; set; }
         public int childAmount { get; set; }    
         public int ratingValue { get; set; } // Giá trị đánh giá từ 0 đến 5
