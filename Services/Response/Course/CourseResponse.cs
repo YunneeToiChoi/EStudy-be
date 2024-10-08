@@ -1,4 +1,6 @@
-﻿namespace study4_be.Services.Response.Course
+﻿using study4_be.Models;
+
+namespace study4_be.Services.Response.Course
 {
     public class CourseResponse
     {
@@ -10,5 +12,7 @@
         public double? CoursePrice { get; set; }
         public int? CourseSale { get; set; }
         public double? LastPrice { get; set; }
+        public List<Models.Course> FreeCourses { get; set; }
+        public List<Models.Course> PaidCourses { get; set; }
     }
 }

@@ -47,6 +47,9 @@ builder.Services.AddTransient<ISqlService, SqlService>();
 builder.Services.AddTransient<IRatingService, RatingService>();
 builder.Services.AddTransient<IReplyService, ReplyService>();
 builder.Services.AddTransient<IDocumentService, DocumentService>();
+builder.Services.AddTransient<ICategoryService, CategoryService>();
+builder.Services.AddTransient<ICourseService, CourseService>();
+
 builder.Services.Configure<MomoConfig>(builder.Configuration.GetSection(MomoConfig.ConfigName));
 builder.Services.AddScoped<ContractPOServices>();
 // Dịch vụ Firebase và SMTP

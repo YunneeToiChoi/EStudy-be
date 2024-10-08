@@ -47,7 +47,6 @@
     <None Include="wwwroot\LayoutAdmin\.github\PULL_REQUEST_TEMPLATE.md" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Services\Jwt\" />
     <Folder Include="wwwroot\LayoutAdmin\pages\charts\" />
     <Folder Include="wwwroot\LayoutAdmin\pages\ui-features\" />
   </ItemGroup>
