@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using study4_be.Models;
 using study4_be.Repositories;
 using study4_be.Services;
-using study4_be.Services.Request;
 using study4_be.Services.Response;
 using study4_be.Services.Request.Document;
 using study4_be.Validation;
@@ -13,6 +12,9 @@ using System.Drawing.Imaging;
 using PdfiumViewer;
 using Microsoft.CodeAnalysis;
 using study4_be.Models.DTO;
+using study4_be.Services.Request.User;
+using study4_be.Services.Request.Course;
+using study4_be.Services.Response.User;
 
 namespace study4_be.Controllers.API
 {

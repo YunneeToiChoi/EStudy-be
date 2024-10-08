@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using study4_be.Models;
 using study4_be.Repositories;
-using study4_be.Services.Request;
-using study4_be.Services.Response;
 using Microsoft.Extensions.Logging;
 using System.Diagnostics;
 using Google.Cloud.Storage.V1;
@@ -11,6 +9,9 @@ using Google.Apis.Auth.OAuth2;
 using Microsoft.EntityFrameworkCore;
 using Org.BouncyCastle.Ocsp;
 using Microsoft.CodeAnalysis.FlowAnalysis.DataFlow.ValueContentAnalysis;
+using study4_be.Services.Request.Lesson;
+using study4_be.Services.Request.Question;
+using study4_be.Services.Response.Question;
 
 namespace study4_be.Controllers.API
 {

@@ -3,8 +3,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using study4_be.Models;
 using study4_be.Repositories;
-using study4_be.Services.Request;
+using study4_be.Services.Request.Plan;
+using study4_be.Services.Request.User;
 using study4_be.Services.Response;
+using study4_be.Services.Response.Plan;
 using System.Security.Cryptography;
 using System.Text;
 

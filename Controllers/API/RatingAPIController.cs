@@ -5,7 +5,6 @@ using study4_be.Validation;
 using NuGet.Protocol.Core.Types;
 using System.IO;
 using System.Text.Json;
-using study4_be.Services.Request;
 using study4_be.Services;
 using Microsoft.EntityFrameworkCore;
 using study4_be.Models.ViewModel;
@@ -21,6 +20,8 @@ using iText.IO.Image;
 using study4_be.Models.DTO;
 using SendGrid.Helpers.Errors.Model;
 using study4_be.Interface.Rating;
+using study4_be.Services.Request.User;
+using study4_be.Services.Request.Course;
 namespace study4_be.Controllers.API
 {
     [Route("api/[controller]")]

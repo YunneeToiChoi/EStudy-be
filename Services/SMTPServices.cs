@@ -189,7 +189,7 @@ namespace study4_be.Services
             sb.AppendLine("</body>");
             sb.AppendLine("</html>");
             return sb.ToString();
-        } 
+        }
         public string GenerateLinkToResetPassword(string userEmail, string link)
         {
             var logo = _config["Firebase:Logo"];//default img
