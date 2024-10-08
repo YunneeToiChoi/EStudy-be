@@ -1,14 +1,14 @@
 ﻿
 using Microsoft.EntityFrameworkCore;
 using SendGrid.Helpers.Errors.Model;
-using study4_be.Interface;
+using study4_be.Interface.Rating;
 using study4_be.Models;
 using study4_be.Models.DTO;
 using study4_be.Services.Request;
 using study4_be.Services.Request.Rating;
 using study4_be.Services.Response;
 
-namespace study4_be.Services
+namespace study4_be.Services.Rating
 {
     public class ReplyService : IReplyService
     {
@@ -37,22 +37,22 @@ namespace study4_be.Services
 
             List<RatingReply> replies;
 
-            if (_req.parentId < 0 || _req.parentId == 0) // case reply of rating
+            if (_req.parentId == 0) // trường hợp hiển thị các phản hồi cấp 1 (trả lời trực tiếp rating)
             {
                 replies = await _context.RatingReplies
                     .AsNoTracking()
-                    .Where(rp => rp.RatingId == _req.ratingId)
+                    .Where(rp => rp.RatingId == _req.ratingId && rp.ParentReplyId == null) // parentId null để lọc các phản hồi cấp 1
                     .Include(rp => rp.RatingImages)
                     .Include(rp => rp.User)
                     .Skip((pageNumber - 1) * pageSize)
                     .Take(pageSize)
                     .ToListAsync();
             }
-            else
+            else // nếu có parentId thì hiển thị các phản hồi cấp 2 hoặc cấp 3
             {
                 replies = await _context.RatingReplies
                     .AsNoTracking()
-                    .Where(rp => rp.RatingId == _req.ratingId && rp.ParentReplyId == _req.parentId)
+                    .Where(rp => rp.RatingId == _req.ratingId && rp.ParentReplyId == _req.parentId) // lọc các phản hồi cấp 2 hoặc cấp 3
                     .Include(rp => rp.RatingImages)
                     .Include(rp => rp.User)
                     .Skip((pageNumber - 1) * pageSize)
@@ -60,7 +60,7 @@ namespace study4_be.Services
                     .ToListAsync();
             }
 
-            // Check if replies have child replies and set replyExist flag
+            // Chuẩn bị response
             var response = new ShowReplyResponse
             {
                 RatingId = rating.Id,
@@ -82,8 +82,9 @@ namespace study4_be.Services
                     {
                         ImageUrl = img.ImageUrl
                     }).ToList(),
-                    // Check if the reply has any child replies
-                    ReplyExist = _context.RatingReplies.Any(child => child.ParentReplyId == rp.ReplyId)
+                    // Check if the reply has any child replies (cấp dưới)
+                    ReplyExist = _context.RatingReplies.Any(child => child.ParentReplyId == rp.ReplyId),
+                    childAmount = _context.RatingReplies.Count(child => child.ParentReplyId == rp.ReplyId)
                 }).ToList()
             };
 

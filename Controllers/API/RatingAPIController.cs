@@ -20,7 +20,7 @@ using study4_be.Services.Response;
 using iText.IO.Image;
 using study4_be.Models.DTO;
 using SendGrid.Helpers.Errors.Model;
-using study4_be.Interface;
+using study4_be.Interface.Rating;
 namespace study4_be.Controllers.API
 {
     [Route("api/[controller]")]

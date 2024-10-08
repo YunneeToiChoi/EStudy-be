@@ -10,6 +10,7 @@ namespace study4_be.Models.DTO
         public DateTime ReplyDate { get; set; }
         public int? ParentReplyId { get; set; }
         public bool ReplyExist { get; set; }
+        public int childAmount {  get; set; }
         public UserDto User { get; set; }
         public List<ImageDto> Images { get; set; }
     }

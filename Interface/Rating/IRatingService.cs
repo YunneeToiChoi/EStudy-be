@@ -3,7 +3,7 @@ using study4_be.Services.Request;
 using study4_be.Services.Request.Rating;
 using study4_be.Services.Response;
 
-namespace study4_be.Interface
+namespace study4_be.Interface.Rating
 {
     public interface IRatingService
     {

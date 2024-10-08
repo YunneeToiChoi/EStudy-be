@@ -1,14 +1,14 @@
 ﻿
 using Microsoft.EntityFrameworkCore;
 using SendGrid.Helpers.Errors.Model;
-using study4_be.Interface;
+using study4_be.Interface.Rating;
 using study4_be.Models;
 using study4_be.Services.Request;
 using study4_be.Services.Request.Document;
 using study4_be.Services.Request.Rating;
 using study4_be.Services.Response;
 
-namespace study4_be.Services
+namespace study4_be.Services.Rating
 {
     public class RatingService : IRatingService
     {
@@ -44,7 +44,7 @@ namespace study4_be.Services
                     referenceType = "REPLY";
                 }
                 // Tải lên hình ảnh
-                var imageUrls = await UploadImages(ratingImages, referenceId,request.rootId, referenceType);
+                var imageUrls = await UploadImages(ratingImages, referenceId, request.rootId, referenceType);
 
                 // Cam kết giao dịch
                 await transaction.CommitAsync();
@@ -62,12 +62,12 @@ namespace study4_be.Services
 
         private async Task<int> CreateRating(RatingOrReplySubmitRequest request)
         {
-            var rating = new Rating
+            var rating = new Models.Rating
             {
                 UserId = request.userId,
                 EntityType = request.ratingEntityType,
                 CourseId = request.courseId,
-                DocumentId = request.documentId, 
+                DocumentId = request.documentId,
                 RatingValue = request.ratingValue,
                 Review = request.ratingReview,
                 RatingDate = DateTime.Now
@@ -119,9 +119,9 @@ namespace study4_be.Services
 
             return reply.ReplyId;
         }
-        private async Task<List<string>> UploadImages(List<IFormFile> images, int reference,int rootId ,string referenceType)
+        private async Task<List<string>> UploadImages(List<IFormFile> images, int reference, int rootId, string referenceType)
         {
-            if(referenceType == "RATING" && rootId == 0)
+            if (referenceType == "RATING" && rootId == 0)
             {
                 var imageUrls = new List<string>();
                 foreach (var image in images)
@@ -178,7 +178,8 @@ namespace study4_be.Services
                    ratingReview = r.Review,
                    ratingDate = r.RatingDate,
                    ratingImageUrls = r.RatingImages.Select(ri => ri.ImageUrl).ToList(),
-                   replyExist = _context.RatingReplies.Any(rr => rr.RatingId == r.Id)
+                   replyExist = _context.RatingReplies.Any(rr => rr.RatingId == r.Id),
+                   childAmount = _context.RatingReplies.Count(rr => rr.RatingId == r.Id),
                })
                .ToListAsync();
 
@@ -203,7 +204,8 @@ namespace study4_be.Services
                    ratingImageUrls = r.RatingImages
                     .Where(ri => ri.ReferenceType == "RATING")
                     .Select(ri => ri.ImageUrl).ToList(),
-                   replyExist = _context.RatingReplies.Any(rp => rp.RatingId == r.Id)
+                   replyExist = _context.RatingReplies.Any(rp => rp.RatingId == r.Id),
+                   childAmount = _context.RatingReplies.Count(rr => rr.RatingId == r.Id),
                })
                .ToListAsync();
 
@@ -226,7 +228,8 @@ namespace study4_be.Services
                     ratingImageUrls = r.RatingImages
                     .Where(ri => ri.ReferenceType == "RATING")
                     .Select(ri => ri.ImageUrl).ToList(),
-                    replyExist = _context.RatingReplies.Any(rp => rp.RatingId == r.Id)
+                    replyExist = _context.RatingReplies.Any(rp => rp.RatingId == r.Id),
+                    childAmount = _context.RatingReplies.Count(rr => rr.RatingId == r.Id),
                 })
                 .ToListAsync();
 
