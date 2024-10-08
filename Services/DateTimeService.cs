@@ -85,5 +85,11 @@ namespace study4_be.Services
                 await _study4Context.SaveChangesAsync();
             }
         }
+        public static DateTime ConvertToVietnamTime(DateTime utcDateTime)
+        {
+            var vietnamTimeZone = TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time");
+            var vietnamTime = TimeZoneInfo.ConvertTimeFromUtc(utcDateTime, vietnamTimeZone);
+            return vietnamTime;
+        }
     }
 }

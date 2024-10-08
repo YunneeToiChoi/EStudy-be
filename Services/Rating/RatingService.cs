@@ -15,11 +15,13 @@ namespace study4_be.Services.Rating
     {
         private readonly Study4Context _context;
         private readonly FireBaseServices _fireBaseServices;
+        private readonly DateTimeService _dateService;
 
-        public RatingService(Study4Context context, FireBaseServices fireBaseServices)
+        public RatingService(Study4Context context, FireBaseServices fireBaseServices, DateTimeService dateService)
         {
             _context = context;
             _fireBaseServices = fireBaseServices;
+            _dateService = dateService;
         }
 
         public async Task<object> SubmitRatingOrReplyAsync(RatingOrReplySubmitRequest request, List<IFormFile> ratingImages)
@@ -71,7 +73,7 @@ namespace study4_be.Services.Rating
                 DocumentId = request.documentId,
                 RatingValue = request.ratingValue,
                 Review = request.ratingReview,
-                RatingDate = DateTime.Now
+                RatingDate = DateTimeService.ConvertToVietnamTime(DateTime.UtcNow),     
             };
 
             await _context.Ratings.AddAsync(rating);
@@ -111,10 +113,9 @@ namespace study4_be.Services.Rating
                 RatingId = request.rootId,
                 UserId = request.userId,
                 ReplyContent = request.ratingReview,
-                ReplyDate = DateTime.UtcNow, // Sử dụng UTC để đảm bảo tính nhất quán
+                ReplyDate = DateTimeService.ConvertToVietnamTime(DateTime.UtcNow),
                 ParentReplyId = request.parentReply ?? null // Trả về null nếu đang reply cho rating
             };
-
             await _context.RatingReplies.AddAsync(reply);
             await _context.SaveChangesAsync();
 
