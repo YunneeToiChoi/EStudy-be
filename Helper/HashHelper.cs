@@ -2,7 +2,7 @@
 using study4_be.Payment.MomoPayment;
 using study4_be.PaymentServices.Momo.Config;
 using study4_be.Services;
-using study4_be.Services.Request.Payment;
+using study4_be.Services.Payment;
 using System.Security.Cryptography;
 using System.Text;
 

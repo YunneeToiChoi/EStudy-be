@@ -9,9 +9,7 @@ using System.Threading.Tasks;
 using study4_be.Services;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
-using study4_be.Services.Response;
-using study4_be.Services.Request.Course;
-using study4_be.Services.Response.Course;
+using study4_be.Services.Course;
 namespace study4_be.Controllers.API
 {
     [Route("api/[controller]")]

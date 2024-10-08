@@ -12,16 +12,15 @@ using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Authentication;
 using Newtonsoft.Json.Linq;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using study4_be.Services.Request.Rating;
-using study4_be.Services.Request.Document;
 using Microsoft.CodeAnalysis;
-using study4_be.Services.Response;
 using iText.IO.Image;
 using study4_be.Models.DTO;
 using SendGrid.Helpers.Errors.Model;
 using study4_be.Interface.Rating;
-using study4_be.Services.Request.User;
-using study4_be.Services.Request.Course;
+using study4_be.Services.Course;
+using study4_be.Services.Document;
+using study4_be.Services.Rating;
+using study4_be.Services.User;
 namespace study4_be.Controllers.API
 {
     [Route("api/[controller]")]

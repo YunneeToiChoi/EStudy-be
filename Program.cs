@@ -19,6 +19,7 @@ using Hangfire.SqlServer;
 using study4_be.Interface.Rating;
 using study4_be.Services.Rating;
 using Google.Api;
+using study4_be.Services.User;
 
 var builder = WebApplication.CreateBuilder(args);
 

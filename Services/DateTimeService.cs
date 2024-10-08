@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
 using study4_be.Models;
-using study4_be.Services.Response.Exam;
+using study4_be.Services.Exam;
 
 namespace study4_be.Services
 {

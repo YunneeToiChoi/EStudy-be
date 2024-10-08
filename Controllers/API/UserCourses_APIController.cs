@@ -4,8 +4,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualBasic;
 using study4_be.Models;
 using study4_be.Repositories;
-using study4_be.Services.Request.Course;
-using study4_be.Services.Request.User;
+using study4_be.Services.Course;
+using study4_be.Services.User;
 using System.Linq;
 
 namespace study4_be.Controllers.API

@@ -4,13 +4,11 @@ using Microsoft.EntityFrameworkCore;
 using study4_be.Interface;
 using study4_be.Models;
 using study4_be.Models.DTO;
-using study4_be.Services.Request;
-using study4_be.Services.Request.Course;
-using study4_be.Services.Request.Document;
-using study4_be.Services.Request.Rating;
-using study4_be.Services.Response;
-using study4_be.Services.Response.Course;
-using study4_be.Services.Response.User;
+using study4_be.Services.Course;
+using study4_be.Services.Document;
+using study4_be.Services;
+using study4_be.Services.Rating;
+using study4_be.Services.User;
 using System.Drawing.Imaging;
 
 namespace study4_be.Services.Rating

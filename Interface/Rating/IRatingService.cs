@@ -1,8 +1,7 @@
-using study4_be.Services.Request.Document;
-using study4_be.Services.Request.Rating;
-using study4_be.Services.Response;
-using study4_be.Services.Request.User;
-using study4_be.Services.Request.Course;
+using study4_be.Services.Rating;
+using study4_be.Services.Course;
+using study4_be.Services.Document;
+using study4_be.Services.User;
 
 namespace study4_be.Interface.Rating
 {

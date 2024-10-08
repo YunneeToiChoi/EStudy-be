@@ -9,9 +9,8 @@ using Google.Apis.Auth.OAuth2;
 using Microsoft.EntityFrameworkCore;
 using Org.BouncyCastle.Ocsp;
 using Microsoft.CodeAnalysis.FlowAnalysis.DataFlow.ValueContentAnalysis;
-using study4_be.Services.Request.Lesson;
-using study4_be.Services.Request.Question;
-using study4_be.Services.Response.Question;
+using study4_be.Services.Question;
+using study4_be.Services.Lesson;
 
 namespace study4_be.Controllers.API
 {

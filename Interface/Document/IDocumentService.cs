@@ -1,10 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using study4_be.Models.DTO;
-using study4_be.Services.Request.Course;
-using study4_be.Services.Request.Document;
-using study4_be.Services.Response;
-using study4_be.Services.Response.Course;
-using study4_be.Services.Response.User;
+using study4_be.Services.Course;
+using study4_be.Services.Document;
+using study4_be.Services.User;
 
 namespace study4_be.Interface
 {

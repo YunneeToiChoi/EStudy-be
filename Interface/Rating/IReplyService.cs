@@ -1,5 +1,4 @@
-using study4_be.Services.Request.Rating;
-using study4_be.Services.Response;
+using study4_be.Services.Rating;
 
 namespace study4_be.Interface.Rating
 {

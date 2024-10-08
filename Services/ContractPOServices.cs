@@ -42,7 +42,7 @@ namespace study4_be.Services
                 {
                     var writer = new PdfWriter(outputStream);
                     var pdf = new PdfDocument(writer);
-                    var document = new Document(pdf);
+                    var document = new iText.Layout.Document(pdf);
 
                     // Thêm font hỗ trợ tiếng Việt
                     var fontPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "fonts", "arial-unicode-ms.ttf");

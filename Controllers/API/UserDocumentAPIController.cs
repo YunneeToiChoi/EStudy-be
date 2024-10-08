@@ -3,8 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using study4_be.Models;
 using study4_be.Repositories;
 using study4_be.Services;
-using study4_be.Services.Response;
-using study4_be.Services.Request.Document;
 using study4_be.Validation;
 using System.Collections.Immutable;
 using PdfSharpCore.Pdf;
@@ -12,13 +10,13 @@ using System.Drawing.Imaging;
 using PdfiumViewer;
 using Microsoft.CodeAnalysis;
 using study4_be.Models.DTO;
-using study4_be.Services.Request.User;
-using study4_be.Services.Request.Course;
-using study4_be.Services.Response.User;
+using study4_be.Services.User;
 using study4_be.Interface;
 using study4_be.Interface.Rating;
 using study4_be.Services.Rating;
 using System.Security.Claims;
+using study4_be.Services.Course;
+using study4_be.Services.Document;
 
 namespace study4_be.Controllers.API
 {

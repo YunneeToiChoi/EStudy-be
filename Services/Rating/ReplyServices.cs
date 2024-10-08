@@ -4,9 +4,7 @@ using SendGrid.Helpers.Errors.Model;
 using study4_be.Interface.Rating;
 using study4_be.Models;
 using study4_be.Models.DTO;
-using study4_be.Services.Request;
-using study4_be.Services.Request.Rating;
-using study4_be.Services.Response;
+using study4_be.Services;
 
 namespace study4_be.Services.Rating
 {

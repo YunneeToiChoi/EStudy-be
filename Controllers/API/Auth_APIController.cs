@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Authentication;
 using Newtonsoft.Json.Linq;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using study4_be.Services.Request.User;
+using study4_be.Services.User;
 namespace study4_be.Controllers.API
 {
     [Route("api/[controller]")]
