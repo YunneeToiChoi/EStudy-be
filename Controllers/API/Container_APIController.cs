@@ -1,6 +1,8 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using SendGrid.Helpers.Errors.Model;
+using study4_be.Interface.Rating;
 using study4_be.Models;
 using study4_be.Repositories;
 using study4_be.Services.Container;
@@ -13,59 +15,31 @@ namespace study4_be.Controllers.API
     [ApiController]
     public class Container_APIController : ControllerBase
     {
-        private readonly Study4Context _context;
+        private readonly IContainerService _containerService;
 
-        public Container_APIController(Study4Context context) { _context = context; }
+        public Container_APIController(IContainerService containerService) { _containerService = containerService; }
         [HttpPost("Get_AllContainerAndLessonByUnit")]
-        public async Task<ActionResult<UnitDetailResponse>> Get_AllContainerAndLessonByUnit(GetAllContainerAndLessionRequestcs unit)
+        public async Task<ActionResult> Get_AllContainerAndLessonByUnit(GetAllContainerAndLessionRequestcs unit)
         {
-            // Get the unit by ID
-            var unitExist = await _context.Units.FindAsync(unit.unitId);
-            if (unitExist == null)
+            try
             {
-                return NotFound(new { status = 404, message = "Unit not found" });
-            }
+                var unitDetail = await _containerService.GetAllContainerAndLessonByUnitAsync(unit);
 
-            // Get the list of containers based on unitId
-            var containers = await _context.Containers
-                                            .Where(c => c.UnitId == unit.unitId)
-                                            .ToListAsync();
-
-            // Loop through each container and get its lessons
-            foreach (var container in containers)
-            {
-                var containerLessons = await _context.Lessons
-                                                    .Where(l => l.ContainerId == container.ContainerId)
-                                                    .ToListAsync();
-                container.Lessons = containerLessons;
-            }
-
-            // Create the response object
-            var unitDetail = new UnitDetailResponse
-            {
-                unitId = unit.unitId,
-                unitName = unitExist.UnitTittle,
-                Containers = containers.Select(c => new ContainerResponse
+                return Ok(new
                 {
-                    ContainerId = c.ContainerId,
-                    ContainerTitle = c.ContainerTitle,
-                    Lessons = c.Lessons.Select(l => new LessonResponse
-                    {
-                        LessonId = l.LessonId,
-                        LessonTitle = l.LessonTitle,
-                        LessonType = l.LessonType,
-                        tagId = l.TagId,    
-                    }).ToList()
-                }).ToList()
-            };
-
-            // Return the formatted response
-            return Ok(new
+                    status = 200,
+                    message = "Get All Units and Containers Successful",
+                    unitDetail
+                });
+            }
+            catch (NotFoundException ex)
             {
-                status = 200,
-                message = "Get All Units and Containers Successful",
-                unitDetail
-            });
+                return NotFound(new { status = 404, message = ex.Message });
+            }
+            catch (Exception ex) // General exception handling
+            {
+                return StatusCode(500, new { status = 500, message = "An unexpected error occurred", error = ex.Message });
+            }
         }
     }
 }

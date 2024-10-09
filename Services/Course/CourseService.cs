@@ -20,15 +20,151 @@ namespace study4_be.Services.Rating
             _context = context;
         }
 
-        public async Task<IEnumerable<CourseDto>> GetAllCoursesAsync()
+        public async Task<IEnumerable<CourseResponse>> GetAllCoursesAsync()
         {
             var courses = await _context.Courses.ToListAsync();
-            return courses.Select(c => new CourseDto
+            if (courses == null || !courses.Any())
             {
-                courseId = c.CourseId,
-                courseName = c.CourseName
-            });
+                throw new Exception("No courses found.");
+            }
+            return courses.Select(course => new CourseResponse
+            {
+                CourseId = course.CourseId,
+                CourseName = course.CourseName,
+                CourseDescription = course.CourseDescription,
+                CourseImage = course.CourseImage,
+                CoursePrice = course.CoursePrice,
+                CourseSale = course.CourseSale,
+                LastPrice = course.CoursePrice - (course.CoursePrice * course.CourseSale / 100),
+            }).ToList();
         }
-   
+
+        public async Task<IEnumerable<CourseResponse>> GetUnregisteredCoursesAsync(GetUserCoursesRequest request)
+        {
+            if (string.IsNullOrEmpty(request.userId))
+            {
+                throw new ArgumentException("User ID cannot be null or empty.");
+            }
+
+            List<int> registeredCourseIds = await GetCoursesUserHasPurchasedAsync(request.userId);
+            var unregisteredCourses = await _context.Courses
+                .Where(c => !registeredCourseIds.Contains(c.CourseId))
+                .ToListAsync();
+
+            if (unregisteredCourses == null || !unregisteredCourses.Any())
+            {
+                throw new Exception("No unregistered courses found.");
+            }
+
+            return unregisteredCourses.Select(course => new CourseResponse
+            {
+                CourseId = course.CourseId,
+                CourseName = course.CourseName,
+                CourseDescription = course.CourseDescription,
+                CourseImage = course.CourseImage,
+                CoursePrice = course.CoursePrice,
+                CourseSale = course.CourseSale,
+                LastPrice = course.CoursePrice - (course.CoursePrice * course.CourseSale / 100),
+            }).ToList();
+        }
+
+        public async Task<IEnumerable<CourseResponse>> GetOutstandingCoursesForGuestAsync(int amountOutstanding)
+        {
+            if (amountOutstanding <= 0)
+            {
+                throw new ArgumentException("AmountOutstanding must be greater than zero.");
+            }
+
+            var outstandingCoursesForGuest = await _context.UserCourses
+                .GroupBy(uc => uc.CourseId)
+                .Take(amountOutstanding)
+                .Select(g => g.Key)
+                .ToListAsync();
+
+            if (outstandingCoursesForGuest == null || !outstandingCoursesForGuest.Any())
+            {
+                throw new Exception("No outstanding courses found for guest.");
+            }
+
+            var detailedOutstandingCoursesForGuest = await _context.Courses
+                .Where(c => outstandingCoursesForGuest.Contains(c.CourseId))
+                .ToListAsync();
+
+            return detailedOutstandingCoursesForGuest.Select(course => new CourseResponse
+            {
+                CourseId = course.CourseId,
+                CourseName = course.CourseName,
+                CourseDescription = course.CourseDescription,
+                CourseImage = course.CourseImage,
+                CoursePrice = course.CoursePrice,
+                CourseSale = course.CourseSale,
+                LastPrice = course.CoursePrice - (course.CoursePrice * course.CourseSale / 100),
+            }).ToList();
+        }
+
+        public async Task<IEnumerable<CourseResponse>> GetOutstandingCoursesUserNotBoughtAsync(GetUserCoursesRequest request)
+        {
+            if (string.IsNullOrEmpty(request.userId))
+            {
+                throw new ArgumentException("User ID cannot be null or empty.");
+            }
+
+            List<int> userPurchasedCourses = await GetCoursesUserHasPurchasedAsync(request.userId);
+
+            var outstandingCourses = await _context.UserCourses
+                .Where(uc => !userPurchasedCourses.Contains(uc.CourseId))
+                .GroupBy(uc => uc.CourseId)
+                .OrderByDescending(g => g.Count())
+                .Select(g => g.Key)
+                .Take(request.amountOutstanding)
+                .ToListAsync();
+
+            if (outstandingCourses == null || !outstandingCourses.Any())
+            {
+                throw new Exception("No outstanding courses found.");
+            }
+
+            var detailedOutstandingCourses = await _context.Courses
+                .Where(c => outstandingCourses.Contains(c.CourseId))
+                .ToListAsync();
+
+            return detailedOutstandingCourses.Select(course => new CourseResponse
+            {
+                CourseId = course.CourseId,
+                CourseName = course.CourseName,
+                CourseDescription = course.CourseDescription,
+                CourseImage = course.CourseImage,
+                CoursePrice = course.CoursePrice,
+                CourseSale = course.CourseSale,
+                LastPrice = course.CoursePrice - (course.CoursePrice * course.CourseSale / 100),
+            }).ToList();
+        }
+
+        public async Task<List<int>> GetCoursesUserHasPurchasedAsync(string userId)
+        {
+            if (string.IsNullOrEmpty(userId))
+            {
+                throw new ArgumentException("User ID cannot be null or empty.");
+            }
+
+            var userPurchasedCourses = await _context.UserCourses
+                .Where(uc => uc.UserId == userId)
+                .Select(uc => uc.CourseId)
+                .ToListAsync();
+
+            return userPurchasedCourses;
+        }
+
+        public async Task DeleteAllCoursesAsync()
+        {
+            var courses = await _context.Courses.ToListAsync();
+            if (courses == null || !courses.Any())
+            {
+                throw new Exception("No courses available to delete.");
+            }
+            _context.Courses.RemoveRange(courses);
+            await _context.SaveChangesAsync();
+        }
+
     }
 }

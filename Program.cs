@@ -49,6 +49,7 @@ builder.Services.AddScoped<UserCourseExpirationService>();
 builder.Services.AddTransient<ICurrentUserServices, CurrentUserServices>();
 builder.Services.AddTransient<UserRegistrationValidator>();
 builder.Services.AddTransient<IUserService, UserService>();
+builder.Services.AddTransient<IContainerService, ContainerService>();
 builder.Services.AddTransient<UserRepository>();
 builder.Services.AddTransient<ISqlService, SqlService>();
 builder.Services.AddTransient<IRatingService, RatingService>();
