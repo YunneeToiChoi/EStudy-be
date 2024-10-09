@@ -8,7 +8,6 @@ namespace study4_be.Repositories
     public class UserRepository
     {
         private readonly Study4Context _context;
-
         public UserRepository(Study4Context context) { _context = context; }
         public async Task<IEnumerable<User>> GetAllUsersAsync()
         {
@@ -28,13 +27,12 @@ namespace study4_be.Repositories
         {
             return _context.Users.FirstOrDefault(u => u.UserEmail == email);
         }
-
-        public async Task AddUser(User user)
+        public async Task AddUserAsync(User user)
         {
             // Tạo ID ngẫu nhiên cho người dùng
             user.UserId = Guid.NewGuid().ToString();
             HashPassword(user);
-            _context.Users.Add(user);
+            await _context.Users.AddAsync(user);
             user.UserBanner = null;
             user.UserImage = "https://firebasestorage.googleapis.com/v0/b/estudy-426108.appspot.com/o/avtDefaultUser.jfif?alt=media&token=8dabba5f-cccb-4a4c-9ab4-69049c769bdf";
             user.Isverified = false;

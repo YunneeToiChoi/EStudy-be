@@ -1,4 +1,4 @@
-﻿using study4_be.Interface;
+﻿using study4_be.Interface.User;
 using System.Security.Claims;
 
 namespace study4_be.Services.User

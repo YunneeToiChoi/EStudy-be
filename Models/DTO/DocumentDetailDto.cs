@@ -1,5 +1,4 @@
-﻿using study4_be.Models.DTO;
-namespace study4_be.Interface
+﻿namespace study4_be.Models.DTO
 {
     public class DocumentDetailDto
     {

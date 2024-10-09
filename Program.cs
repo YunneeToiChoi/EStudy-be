@@ -20,6 +20,9 @@ using study4_be.Interface.Rating;
 using study4_be.Services.Rating;
 using Google.Api;
 using study4_be.Services.User;
+using study4_be.Interface.User;
+using study4_be.Repositories;
+using study4_be.Validation;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -44,6 +47,9 @@ builder.Services.AddDbContext<Study4Context>(options =>
 // Đăng ký các dịch vụ
 builder.Services.AddScoped<UserCourseExpirationService>();
 builder.Services.AddTransient<ICurrentUserServices, CurrentUserServices>();
+builder.Services.AddTransient<UserRegistrationValidator>();
+builder.Services.AddTransient<IUserService, UserService>();
+builder.Services.AddTransient<UserRepository>();
 builder.Services.AddTransient<ISqlService, SqlService>();
 builder.Services.AddTransient<IRatingService, RatingService>();
 builder.Services.AddTransient<IReplyService, ReplyService>();

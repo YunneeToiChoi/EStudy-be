@@ -58,7 +58,19 @@ namespace study4_be.Services.Rating
                     .ToListAsync();
             }
 
-            // Chuẩn bị response
+            // Lấy danh sách các phản hồi để kiểm tra xem có child replies hay không và đếm số lượng
+            var replyIds = replies.Select(r => r.ReplyId).ToList();
+            var childReplies = await _context.RatingReplies
+                .Where(cr => replyIds.Contains(cr.ParentReplyId.Value))
+                .GroupBy(cr => cr.ParentReplyId)
+                .Select(g => new
+                {
+                    ParentReplyId = g.Key,
+                    ChildCount = g.Count()
+                })
+                .ToListAsync();
+
+            // Map số lượng child replies vào các phản hồi chính
             var response = new ShowReplyResponse
             {
                 RatingId = rating.Id,
@@ -80,9 +92,9 @@ namespace study4_be.Services.Rating
                     {
                         ImageUrl = img.ImageUrl
                     }).ToList(),
-                    // Check if the reply has any child replies (cấp dưới)
-                    ReplyExist = _context.RatingReplies.Any(child => child.ParentReplyId == rp.ReplyId),
-                    childAmount = _context.RatingReplies.Count(child => child.ParentReplyId == rp.ReplyId)
+                    // Check if the reply has any child replies (cấp dưới) and count them
+                    ReplyExist = childReplies.Any(cr => cr.ParentReplyId == rp.ReplyId),
+                    childAmount = childReplies.FirstOrDefault(cr => cr.ParentReplyId == rp.ReplyId)?.ChildCount ?? 0
                 }).ToList()
             };
 

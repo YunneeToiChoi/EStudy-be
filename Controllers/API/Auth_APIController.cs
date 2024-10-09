@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Authentication;
 using Newtonsoft.Json.Linq;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using study4_be.Services.User;
+using study4_be.Interface;
 namespace study4_be.Controllers.API
 {
     [Route("api/[controller]")]
@@ -27,9 +28,16 @@ namespace study4_be.Controllers.API
         private readonly ILogger<Auth_APIController> _logger;
         private readonly FireBaseServices _fireBaseServices;
         private readonly JwtTokenGenerator _jwtServices;
-
+        private readonly IUserService _userService;
         private readonly IHttpClientFactory _httpClientFactory;
-        public Auth_APIController(IConfiguration configuration ,ILogger<Auth_APIController> logger, FireBaseServices fireBaseServices, SMTPServices smtpServices, IHttpClientFactory httpClientFactory, JwtTokenGenerator jwtServices, Study4Context context)
+        public Auth_APIController(IConfiguration configuration ,
+            ILogger<Auth_APIController> logger, 
+            FireBaseServices fireBaseServices, 
+            SMTPServices smtpServices, 
+            IHttpClientFactory httpClientFactory, 
+            JwtTokenGenerator jwtServices, 
+            Study4Context context,
+            IUserService userService)
         {
             _configuration = configuration;
             _logger = logger;
@@ -38,6 +46,7 @@ namespace study4_be.Controllers.API
             _httpClientFactory = httpClientFactory;
             _jwtServices = jwtServices;
             _context = context;
+            _userService = userService; 
             _userRepository = new(context);
             _userRegistrationValidator = new(_userRepository);
         }
@@ -49,31 +58,23 @@ namespace study4_be.Controllers.API
                 var requestBody = await reader.ReadToEndAsync();
                 var user = JsonSerializer.Deserialize<User>(requestBody);
 
-                if (user != null)
-                {
-                    string errorMessage;
-                    if (_userRegistrationValidator.Validate(user, out errorMessage))
-                    {
-                        await _userRepository.AddUser(user);
-                        string beUrl = _configuration["Url:BackEnd"];
-                        var link = $"{beUrl}/api/Auth_API/userEmail={user.UserEmail}/verification={false}";
-                        var subject = "[EStudy] - Yêu cầu xác thực tài khoản của bạn";
-                        var emailContent = _smtpServices.GenerateLinkVerifiByEmailContent(user.UserEmail, link);
-                        await _smtpServices.SendEmailAsync(user.UserEmail, subject,emailContent,emailContent);
-                        return Json(new { status = 200, message = "User registered successfully", userData = user });
-                    }
-                    else
-                    {
-                        return BadRequest(errorMessage);
-                    }
-                }
-                else
+                if (user == null)
                 {
                     return BadRequest("Invalid user data");
                 }
+
+                try
+                {
+                    await _userService.RegisterUserAsync(user);
+                    return Ok(new { status = 200, message = "User registered successfully", userData = user });
+                }
+                catch (ArgumentException ex)
+                {
+                    return BadRequest(ex.Message);
+                }
             }
         }
-        [HttpPost("Login")]
+        [HttpPost("Login")] // missing interface in there 
         public async Task<IActionResult> Login()
         {
             using (var reader = new StreamReader(HttpContext.Request.Body))
@@ -93,7 +94,6 @@ namespace study4_be.Controllers.API
                             return Json(new { status = 200, message = "Login successful", user ,token});
                         }
                         return Unauthorized("User is not verification");
-                        // can resend it
                     }
                     else
                     {
@@ -153,11 +153,11 @@ namespace study4_be.Controllers.API
                 return user;
             }
             return userExist; // Trả về người dùng nếu đã tồn tại
-        }
+        } // missing interface in there 
 
         //############ GOOGLE ############// 
 
-        [HttpGet("google-response")]
+        [HttpGet("google-response")]// missing interface in there 
         public async Task<IActionResult> GoogleResponse()
         {
             var result = await HttpContext.AuthenticateAsync(CookieAuthenticationDefaults.AuthenticationScheme);
@@ -203,7 +203,7 @@ namespace study4_be.Controllers.API
 
 
         //############ FACEBOOK ############// 
-        [HttpPost("facebook-login")]
+        [HttpPost("facebook-login")] // missing interface in there 
         public async Task<IActionResult> FacebookLogin([FromBody] FacebookLoginModel model)
         {
             if (model == null || string.IsNullOrEmpty(model.accessToken))
@@ -244,74 +244,54 @@ namespace study4_be.Controllers.API
         }
 
         [HttpPost("Logout")]
-        public IActionResult Logout()
+        public async Task<IActionResult> Logout()
         {
-            // Xóa token từ client (xóa token từ local storage hoặc cookie)
-            return Ok(new { message = "Logged out successfully" });
+            var result = await _userService.LogoutAsync();
+            if (result)
+            {
+                // Invalidate the user session, clear cookies, etc., if needed
+                return Ok(new { message = "Logged out successfully" });
+            }
+
+            return BadRequest(new { message = "Logout failed" });
         }
+
         [HttpGet("Get_AllUsers")]
         public async Task<ActionResult<IEnumerable<User>>> Get_AllUsers()
         {
-            var users = await _userRepository.GetAllUsersAsync();
-            return Json(new { status = 200, message = "Get Users Successful", users });
-
+            var users = await _userService.GetAllUsersAsync();
+            return Ok(new { status = 200, message = "Get Users Successful", users });
         }
         [HttpPost("Get_UserProfile")]
-        public async Task<ActionResult<IEnumerable<User>>> Get_UserProfile([FromBody] OfUserIdRequest _req)
+        public async Task<ActionResult<UserProfileResponse>> Get_UserProfile([FromBody] OfUserIdRequest _req)
         {
             try
             {
-                var user = await _context.Users.Where(u => u.UserId == _req.userId).FirstOrDefaultAsync();
-                var response = new
+                var userProfile = await _userService.GetUserProfileAsync(_req.userId);
+                if (userProfile == null)
                 {
-                    userId = user.UserId,
-                    userName = user.UserName,
-                    userEmail = user.UserEmail,
-                    userDescription = user.UserDescription,
-                    PhoneNumber = user.PhoneNumber,
-                    UserBanner = user.UserBanner,
-                    UserImage = user.UserImage,
-                };
-                return Json(new { status = 200, message = "Get User Profile Successful", user = response });
+                    return NotFound(new { status = 404, message = "User not found" });
+                }
 
+                return Ok(new { status = 200, message = "Get User Profile Successful", user = userProfile });
             }
             catch (Exception e)
             {
                 return BadRequest(e.Message);
             }
         }
+
         [HttpPost("EditUserProfile")]
         public async Task<IActionResult> EditUserProfile([FromBody] EditUserProfileRequest request)
         {
             try
             {
-                var user = await _context.Users.Where(u => u.UserId == request.userId).FirstOrDefaultAsync();
-
-                if (user == null)
+                var result = await _userService.EditUserProfileAsync(request);
+                if (!result)
                 {
-                    return NotFound(new { status = 404, message = "User not found " });
+                    return NotFound(new { status = 404, message = "User not found" });
                 }
-                    if (!string.IsNullOrEmpty(request.userName))
-                    {
-                        user.UserName = request.userName;
-                    }
 
-                    if (!string.IsNullOrEmpty(request.userEmail))
-                    {
-                        user.UserEmail = request.userEmail;
-                    }
-
-                    if (!string.IsNullOrEmpty(request.userDescription))
-                    {
-                        user.UserDescription = request.userDescription;
-                    }
-
-                    if (!string.IsNullOrEmpty(request.phoneNumber))
-                    {
-                        user.PhoneNumber = request.phoneNumber;
-                    }
-                    _context.Users.Update(user);
-                    await _context.SaveChangesAsync();
                 return Ok(new { status = 200, message = "User profile updated successfully" });
             }
             catch (Exception e)
@@ -324,29 +304,17 @@ namespace study4_be.Controllers.API
         {
             try
             {
-                var user = await _context.Users.Where(u => u.UserId == request.userId).FirstOrDefaultAsync();
-
-                if (user == null)
+                var result = await _userService.EditPasswordAsync(request);
+                if (!result)
                 {
-                    return NotFound(new { status = 404, message = "User not found" });
+                    return BadRequest(new { status = 400, message = "Old password is incorrect or user not found" });
                 }
 
-                if (_userRepository.VerifyPassword(request.oldPassword, user.UserPassword))
-                {
-                    if (request.newPassword != request.confirmPassword)
-                    {
-                        return BadRequest(new { status = 400, message = "New password and confirm password do not match" });
-                    }
-                    user.UserPassword = request.newPassword;
-                    _userRepository.HashPassword(user);
-                    _context.Users.Update(user);
-                    await _context.SaveChangesAsync();
-                    return Ok(new { status = 200, message = "Password updated successfully" });
-                }
-                else
-                {
-                    return BadRequest(new { status = 400, message = "Old password is incorrect" });
-                }
+                return Ok(new { status = 200, message = "Password updated successfully" });
+            }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(new { status = 400, message = ex.Message });
             }
             catch (Exception e)
             {
@@ -354,258 +322,91 @@ namespace study4_be.Controllers.API
             }
         }
 
-        //development enviroment
         [HttpDelete("Delete_AllUsers")]
         public async Task<IActionResult> Delete_AllUsers()
         {
-            await _userRepository.DeleteAllUsersAsync();
+            await _userService.DeleteAllUsersAsync();
             return Json(new { status = 200, message = "Delete Users Successful" });
         }
         [HttpPost("User_UpdateImage")]
-        public async Task<IActionResult> User_UpdateImage([FromForm] UserUploadImageRequest _req, [FromForm] IFormFile userAvatar, [FromForm] IFormFile userBanner)
+        public async Task<IActionResult> User_UpdateImage([FromForm] UserUploadImageRequest request, [FromForm] IFormFile userAvatar, [FromForm] IFormFile userBanner)
         {
-            if (_req.userId == null)
+            var (success, message) = await _userService.UpdateUserImageAsync(request, userAvatar, userBanner);
+            if (!success)
             {
-                return BadRequest(new { status = 400, message = "User id is not valid" });
+                return BadRequest(new { status = 400, message });
             }
 
-            var userExist = await _context.Users.FirstOrDefaultAsync(u => u.UserId == _req.userId);
-
-            if (userExist == null)
-            {
-                return NotFound(new { status = 404, message = "User not found" });
-            }
-            var firebaseBucketName = _fireBaseServices.GetFirebaseBucketName();
-            // Update the user's avatar URL in the database
-            if (!(userAvatar == null || userAvatar.Length == 0) && !string.IsNullOrEmpty(userExist.UserImage))
-            {
-                // Upload the new avatar image to Firebase Storage
-                var uniqueId = Guid.NewGuid().ToString();
-                var imgFilePath = $"IMG{uniqueId}.jpg";
-                string firebaseUrl = await _fireBaseServices.UploadFileToFirebaseStorageAsync(userAvatar, imgFilePath, firebaseBucketName);
-                // Extract the file name from the URL
-                var oldFileName = Path.GetFileName(new Uri(userExist.UserImage).LocalPath);
-                await _fireBaseServices.DeleteFileFromFirebaseStorageAsync(oldFileName, firebaseBucketName);
-                userExist.UserImage = firebaseUrl;
-                
-            }
-            if (!(userBanner == null || userBanner.Length == 0) && !string.IsNullOrEmpty(userExist.UserBanner))
-            {
-                // Upload the new avatar image to Firebase Storage
-                var uniqueId = Guid.NewGuid().ToString();
-                var imgFilePath = $"IMG{uniqueId}.jpg";
-                string firebaseUrl = await _fireBaseServices.UploadFileToFirebaseStorageAsync(userBanner, imgFilePath, firebaseBucketName);
-                // Extract the file name from the URL
-                var oldFileName = Path.GetFileName(new Uri(userExist.UserBanner).LocalPath);
-                await _fireBaseServices.DeleteFileFromFirebaseStorageAsync(oldFileName, firebaseBucketName);
-                userExist.UserBanner = firebaseUrl;
-            }
-            try
-            {
-                await _context.SaveChangesAsync();
-                return Json(new { status = 200, message = "User avatar updated successfully" });
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error updating user avatar.");
-                return StatusCode(500, new { status = 500, message = "An error occurred while updating the avatar" });
-            }
+            return Ok(new { status = 200, message });
         }
-        [HttpPost("ActiveCode")] // active course // nam o user course
-        public async Task<IActionResult> ActiveCode(ActiveCodeRequest req)
+
+        [HttpPost("ActivateCode")]
+        public async Task<IActionResult> ActivateCode(ActiveCodeRequest request)
         {
-            var existingOrder = await _context.Orders
-                                              .Where(o => o.UserId == req.userId && o.Code == req.code)
-                                              .FirstOrDefaultAsync();
-
-            if (existingOrder == null)
+            var (success, message) = await _userService.ActivateCodeAsync(request);
+            if (!success)
             {
-                return BadRequest(new { status = 400, message = "Activation code is not valid or that code not for this user" });
+                return BadRequest(new { status = 400, message });
             }
-            try
-            {
-                if (existingOrder.State == true)
-                {
-                    var existingUserCourse = await _context.UserCourses
-                                                           .Where(uc => uc.UserId == existingOrder.UserId && uc.CourseId == existingOrder.CourseId)
-                                                           .FirstOrDefaultAsync();
 
-                    if (existingUserCourse != null) // thieu && state == true
-                    {
-                        return BadRequest(new { status = 400, message = "You have already activated this course" });
-                    }
-
-                    var newUserCourse = new UserCourse
-                    {
-                        UserId = existingOrder.UserId,
-                        CourseId = (int)existingOrder.CourseId,
-                        Date = DateTime.Now,
-                        Process = 0,
-                        State = true
-                    };
-
-                    await _context.UserCourses.AddAsync(newUserCourse);
-                    await _context.SaveChangesAsync();
-
-                    return Ok(new { status = 200, order = existingOrder, message = "Update User Course Successful" });
-                }
-                else
-                {
-                    return BadRequest(new { status = 400, message = "Order is not active" });
-                }
-            }
-            catch (Exception e)
-            {
-                return StatusCode(500, new { status = 500, message = "An error occurred while updating the state of the order", error = e.Message });
-            }
+            return Ok(new { status = 200, message });
         }
         [HttpPost("RequestForgotPassword")]
         public async Task<IActionResult> RequestForgotPassword(OfUserEmailRequest _req)
         {
-            if (_req.userEmail == null)
+            var result = await _userService.RequestForgotPasswordAsync(_req);
+            if (!result.success)
             {
-                return BadRequest("User Enail is not null");
+                return BadRequest(new { status = 400, message = result.message });
             }
-            try
-            {
-                var userExist = await _context.Users.Where(u => u.UserEmail == _req.userEmail).FirstOrDefaultAsync();
-                if (userExist == null)
-                {
-                    return BadRequest("User is not exist");
-                }
-                var urlPort = _configuration["Url:BackEnd"];
-                var currentTime = DateTime.Now.ToString("yyyyMMddHHmmss");
-                var link = $"{urlPort}/api/Auth_API/userEmail={userExist.UserEmail}/verification={false}/time={currentTime}";
-                var subject = "[EStudy] - Yêu cầu đặt lại mật khẩu của bạn";
-                var emailContent = _smtpServices.GenerateLinkVerifiByEmailContent(userExist.UserEmail, link);
-                _smtpServices.GenerateLinkToResetPassword(_req.userEmail, link);
-                await _smtpServices.SendEmailAsync(userExist.UserEmail, subject, emailContent, emailContent);
-                return Json(new { status = 200, message = "Send link to reset password successful" });
-            }
-            catch (Exception e)
-            {
-                return BadRequest($"{e.Message}");
-            }
+            return Ok(new { status = 200, message = result.message });
         }
         [HttpGet("userEmail={userEmail}/verification={false}")]
-        public IActionResult Verify(string userEmail)
+        public async Task<IActionResult> Verify(string userEmail)
         {
-            var user = _context.Users.FirstOrDefault(u => u.UserEmail == userEmail);
-
-            if (user == null)
+            var result = await _userService.VerifyUserEmailAsync(userEmail);
+            if (!result.success)
             {
-                return NotFound("User not found");
+                return NotFound(result.message);
             }
-            user.Isverified = true;
-            _context.SaveChanges();
 
             return View("Verification");
         }
         [HttpGet("userEmail={userEmail}/verification={false}/time={currentTime}")]
-        public IActionResult GetDataResetPassword(string userEmail, string currentTime)
+        public async Task<IActionResult> GetDataResetPassword(string userEmail, string currentTime)
         {
-            try
+            var result = await _userService.GetDataResetPasswordAsync(userEmail, currentTime);
+            if (!result.success)
             {
-                if (!DateTime.TryParseExact(currentTime, "yyyyMMddHHmmss",
-                                      System.Globalization.CultureInfo.InvariantCulture,
-                                      System.Globalization.DateTimeStyles.None,
-                                      out DateTime queryTime))
-                {
-                    return BadRequest("Invalid time format");
-                }
-                // Lấy thời gian hiện tại
-                DateTime currentTimeNow = DateTime.Now;
-
-                // Tính toán sự chênh lệch thời gian
-                TimeSpan timeDifference = currentTimeNow - queryTime;
-
-                // Kiểm tra nếu sự chênh lệch lớn hơn 10 phút
-                if (timeDifference.TotalMinutes > 10)
-                {
-                    return BadRequest("Reset password link expired");
-                }
-                else
-                {
-                    // Tìm kiếm người dùng bằng email
-                    var user = _context.Users.FirstOrDefault(u => u.UserEmail == userEmail);
-
-                    if (user == null)
-                    {
-                        return NotFound("User not found");
-                    }
-                    user.Isverified = true;
-                    _context.SaveChanges();
-                    // thieu view model reset and thieu save dâta
-                    var model = new ResetPasswordViewModel { userEmail = userEmail };
-                    return View("ResetPassword", model);
-                }
+                return BadRequest(result.message);
             }
-            catch (Exception e)
-            {
-                return BadRequest($"{e.Message}");
-            }
+
+            var model = new ResetPasswordViewModel { userEmail = userEmail };
+            return View("ResetPassword", model);
         }
+
         [HttpPost("ResetPassword")]
-        public IActionResult ResetPassword([FromBody] ResetPasswordViewModel model)
+        public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordViewModel model)
         {
-            try
+            var result = await _userService.ResetPasswordAsync(model);
+            if (!result.success)
             {
-                if (ModelState.IsValid)
-                {
-                    if (model.newPassword != model.confirmPassword)
-                    {
-                        ModelState.AddModelError("", "Passwords do not match.");
-                        return BadRequest("Passwords do not match");
-                    }
-
-                    var user = _context.Users.FirstOrDefault(u => u.UserEmail == model.userEmail);
-
-                    if (user == null)
-                    {
-                        return NotFound("User not found");
-                    }
-                    user.UserPassword = model.newPassword; 
-                    _userRepository.HashPassword(user);
-                    _context.SaveChanges();
-
-                    return Ok("Password has been reset successfully");
-                }
-
-                return View(model);
+                return BadRequest(result.message);
             }
-            catch(Exception e)
-            {
-                return BadRequest(e.Message);
-            }
+
+            return Ok(result.message);
         }
 
         [HttpPost("ResendLink")]
         public async Task<IActionResult> ResendLink([FromBody] ResendLinkActive _req)
         {
-
-            // Thực hiện kiểm tra xác thực userId và verificationCode
-            // Ví dụ đơn giản: Kiểm tra trong cơ sở dữ liệu
-            if (string.IsNullOrWhiteSpace(_req.userEmail))
+            var result = await _userService.ResendLinkAsync(_req);
+            if (!result.success)
             {
-                return BadRequest("User email must be provided");
+                return BadRequest(result.message);
             }
 
-            var user = await _context.Users.FindAsync(_req.userEmail);
-            if (user == null)
-            {
-                return NotFound("User not found");
-            }
-            if (user.Isverified == true)
-            {
-                return BadRequest("User had actived");
-            }
-            string beUrl = _configuration["Url:BackEnd"];
-            var link = $"{beUrl}/api/Auth_API/userEmail=l={user.UserEmail}/verification={false}";
-            var subject = "[EStudy] - Thông  tin đơn hàng và mã kích hoạt khóa học";
-            var emailContent = _smtpServices.GenerateLinkVerifiByEmailContent(user.UserEmail, link);
-            await _smtpServices.SendEmailAsync(user.UserEmail, subject, emailContent, emailContent);
-
-            return Ok("Resend link verification successful");
+            return Ok(result.message);
         }
     }
 }
