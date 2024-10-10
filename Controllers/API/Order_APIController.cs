@@ -5,6 +5,7 @@ using Microsoft.IdentityModel.Tokens;
 using Org.BouncyCastle.Asn1.Crmf;
 using study4_be.Models;
 using study4_be.Repositories;
+using study4_be.Services.Document;
 using study4_be.Services.Order;
 using study4_be.Services.Payment;
 using System.Security.Cryptography;
@@ -118,6 +119,47 @@ namespace study4_be.Controllers.API
 			return Json(new { status = 200, orderId = newlyAddedOrderId, message = "Course purchased successfully." });
 		}
 
+        [HttpPost("Order_Document")]
+        public async Task<IActionResult> Order_Document([FromBody] OrderDocumentRequest request)
+        {
+            if (request.documentId <= 0 || request.userId == null)
+            {
+                return BadRequest("Invalid user or plan information.");
+            }
+
+            var existingUser = await _context.Users.FindAsync(request.userId);
+            if (existingUser == null)
+            {
+                return NotFound("User not found.");
+            }
+
+            var existingDocument = await _context.Documents.FindAsync(request.documentId);
+            if (existingDocument == null)
+            {
+                return NotFound("Document not found.");
+            }
+
+            var existingOrder = await _context.UserDocuments.FirstOrDefaultAsync(o => o.UserId == request.userId && o.DocumentId == request.documentId);
+            if (existingOrder != null)
+            {
+                return BadRequest("You have already ordered this document.");
+            }
+            var orderId = GenerateOrderId(request.userId, request.documentId);
+            var order = new Order
+            {
+                OrderId = orderId,
+                UserId = existingUser.UserId,
+                DocumentId = existingDocument.DocumentId,
+                TotalAmount = existingDocument.Price,
+                OrderDate = DateTime.Now,
+                CreatedAt = DateTime.Now,
+                State = false
+            };
+            _context.Orders.Add(order);
+            await _context.SaveChangesAsync();
+            var newlyAddedOrderId = order.OrderId; // Lấy giá trị ID vừa được thêm vào
+            return Ok(new { status = 200, orderId = newlyAddedOrderId, message = "Document purchased successfully" });
+        }
         [HttpPost("Order_Plan")]
         public async Task<IActionResult> Order_Plan([FromBody] OrderPlanRequest request)
         {
@@ -131,18 +173,18 @@ namespace study4_be.Controllers.API
             {
                 return NotFound("User not found.");
             }
+
+            var existingPlan = await _context.Subscriptionplans.FindAsync(request.PlanId);
+            if (existingPlan == null)
+            {
+                return NotFound("Plan not found.");
+            }
             var existingOrder = await _context.UserSubs
                .FirstOrDefaultAsync(o => o.UserId == request.UserId && o.PlanId == request.PlanId);
 
             if (existingOrder != null)
             {
                 return BadRequest("You have already ordered this plan.");
-            }
-
-            var existingPlan = await _context.Subscriptionplans.FindAsync(request.PlanId);
-            if (existingPlan == null)
-            {
-                return NotFound("Plan not found.");
             }
             var orderId = GenerateOrderId(request.UserId, request.PlanId);
             var order = new Order

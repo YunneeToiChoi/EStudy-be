@@ -267,6 +267,13 @@ namespace study4_be.Controllers.API
                     return await HandleSubscriptionPlan(newOrderPlan);
                 }
 
+                var existingOrderDocument = await _context.Orders
+                    .FirstOrDefaultAsync(o => o.OrderId == orderId && o.DocumentId != null);
+
+                if (existingOrderDocument != null)
+                {
+                    return await HandleDocument(existingOrderDocument);
+                }
                 return BadRequest("Order not found");
             }
             catch (Exception e)
@@ -282,63 +289,72 @@ namespace study4_be.Controllers.API
                 var existingUserCourse = await _context.UserCourses.FindAsync(existingOrderCourse.UserId, existingOrderCourse.CourseId);
                 if (existingUserCourse == null)
                 {
-                    existingOrderCourse.State = true;
-                    await _context.SaveChangesAsync();
-                    await SendCodeActiveByEmail(existingOrderCourse.Email, existingOrderCourse.OrderId);
-                    var respone = new
-                    {
-                        existingOrderCourse.OrderId,
-                        existingOrderCourse.UserId,
-                        existingOrderCourse.CourseId,
-                        existingOrderCourse.OrderDate,
-                        existingOrderCourse.State,
-                        existingOrderCourse.TotalAmount,
-                        existingOrderCourse.Code,
-                        existingOrderCourse.Email,
-
-                    };
-                    return Ok(new
-                    {
-                        status = 200,
-                        order = respone,
-                        message = "Update Order State Successful and send email success"
-                    });
+                    return await HandleBuyNewCourse(existingOrderCourse);
                 }
                 else
                 {
-                    existingOrderCourse.State = true;
-                    var newUserCourse = new UserCourse
-                    {
-                        UserId = existingUserCourse.UserId,
-                        CourseId = (int)existingUserCourse.CourseId,
-                        Date = DateTime.Now,
-                        Process = existingUserCourse.Process,
-                        State = true
-                    };
-                    _context.UserCourses.RemoveRange(existingUserCourse);
-                    await _context.UserCourses.AddRangeAsync(newUserCourse);
-                    await _context.SaveChangesAsync();
-
-                    var respone = new
-                    {
-                        existingOrderCourse.OrderId,
-                        existingOrderCourse.UserId,
-                        existingOrderCourse.CourseId,
-                        existingOrderCourse.OrderDate,
-                        existingOrderCourse.State,
-                        existingOrderCourse.TotalAmount
-
-                    };
-                    return Ok(new
-                    {
-                        status = 200,
-                        order = respone,
-                        message = "Update Order State Successful and renew course"
-                    });
+                   return await HandleRenewCourse(existingOrderCourse, existingUserCourse);
                 }
             }
 
             return BadRequest("You Had Bought Before");
+        }
+
+        private async Task<IActionResult> HandleBuyNewCourse(Order existingOrderCourse)
+        {
+            existingOrderCourse.State = true;
+            await _context.SaveChangesAsync();
+            await SendCodeActiveByEmail(existingOrderCourse.Email, existingOrderCourse.OrderId);
+            var respone = new
+            {
+                existingOrderCourse.OrderId,
+                existingOrderCourse.UserId,
+                existingOrderCourse.CourseId,
+                existingOrderCourse.OrderDate,
+                existingOrderCourse.State,
+                existingOrderCourse.TotalAmount,
+                existingOrderCourse.Code,
+                existingOrderCourse.Email,
+
+            };
+            return Ok(new
+            {
+                status = 200,
+                order = respone,
+                message = "Update Order State Successful and send email success"
+            });
+        }
+        private async Task<IActionResult> HandleRenewCourse(Order existingOrderCourse, UserCourse existingUserCourse)
+        {
+            existingOrderCourse.State = true;
+            var newUserCourse = new UserCourse
+            {
+                UserId = existingUserCourse.UserId,
+                CourseId = (int)existingUserCourse.CourseId,
+                Date = DateTime.Now,
+                Process = existingUserCourse.Process,
+                State = true
+            };
+            _context.UserCourses.RemoveRange(existingUserCourse);
+            await _context.UserCourses.AddRangeAsync(newUserCourse);
+            await _context.SaveChangesAsync();
+
+            var respone = new
+            {
+                existingOrderCourse.OrderId,
+                existingOrderCourse.UserId,
+                existingOrderCourse.CourseId,
+                existingOrderCourse.OrderDate,
+                existingOrderCourse.State,
+                existingOrderCourse.TotalAmount
+
+            };
+            return Ok(new
+            {
+                status = 200,
+                order = respone,
+                message = "Update Order State Successful and renew course"
+            });
         }
         private async Task<IActionResult> HandleSubscriptionPlan(Order newOrderPlan)
         {
@@ -398,6 +414,38 @@ namespace study4_be.Controllers.API
             }
 
             // If the order state was already true, return a bad request
+            return BadRequest(new { message = "Order is already completed or invalid" });
+        }
+        private async Task<IActionResult> HandleDocument(Order existingOrderDocument)
+        {
+            if (existingOrderDocument.State == false)
+            {
+                existingOrderDocument.State = true;
+                var newUserDocument = new UserDocument
+                {
+                    DocumentId = (int)existingOrderDocument.DocumentId,
+                    UserId = existingOrderDocument.UserId,
+                    OrderDate = DateTime.Now,
+                    State = true,
+                };
+                await _context.UserDocuments.AddAsync(newUserDocument);
+                await _context.SaveChangesAsync();
+                var respone = new
+                {
+                    existingOrderDocument.OrderId,
+                    existingOrderDocument.DocumentId,
+                    existingOrderDocument.UserId,
+                    existingOrderDocument.OrderDate,
+                    existingOrderDocument.TotalAmount,
+                    existingOrderDocument.State,
+                };
+                return Ok(new
+                {
+                    status = 200,
+                    order = respone,
+                    message = "Update Order State Successful and send email success"
+                });
+            }
             return BadRequest(new { message = "Order is already completed or invalid" });
         }
 

@@ -11,6 +11,10 @@ public partial class Order
 
     public int? CourseId { get; set; }
 
+    public int? PlanId { get; set; }
+
+    public int? DocumentId { get; set; }
+
     public DateTime? OrderDate { get; set; }
 
     public double? TotalAmount { get; set; }
@@ -25,9 +29,9 @@ public partial class Order
 
     public DateTime? CreatedAt { get; set; }
 
-    public int? PlanId { get; set; }
-
     public virtual Course? Course { get; set; }
+
+    public virtual Document? Document { get; set; }
 
     public virtual Subscriptionplan? Plan { get; set; }
 
