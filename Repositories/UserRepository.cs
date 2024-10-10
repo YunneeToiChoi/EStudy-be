@@ -8,7 +8,10 @@ namespace study4_be.Repositories
     public class UserRepository
     {
         private readonly Study4Context _context;
-        public UserRepository(Study4Context context) { _context = context; }
+        private readonly IConfiguration _configuration;
+        public UserRepository(Study4Context context,IConfiguration configuration) { _context = context; _configuration = configuration; }
+       
+
         public async Task<IEnumerable<User>> GetAllUsersAsync()
         {
             return await _context.Users.ToListAsync();
@@ -29,12 +32,13 @@ namespace study4_be.Repositories
         }
         public async Task AddUserAsync(User user)
         {
+            string avtUserDefault = _configuration["Firebase:AvatarDefaultUser"];
             // Tạo ID ngẫu nhiên cho người dùng
             user.UserId = Guid.NewGuid().ToString();
             HashPassword(user);
             await _context.Users.AddAsync(user);
             user.UserBanner = null;
-            user.UserImage = "https://firebasestorage.googleapis.com/v0/b/estudy-426108.appspot.com/o/avtDefaultUser.jfif?alt=media&token=8dabba5f-cccb-4a4c-9ab4-69049c769bdf";
+            user.UserImage = avtUserDefault;
             user.Isverified = false;
             await _context.SaveChangesAsync();
 
@@ -45,8 +49,8 @@ namespace study4_be.Repositories
             _context.Users.Add(user);
             user.UserBanner = null;
             // add img to firebase
-
-            user.UserImage = user.UserImage ?? "https://firebasestorage.googleapis.com/v0/b/estudy-426108.appspot.com/o/avtDefaultUser.jfif?alt=media&token=8dabba5f-cccb-4a4c-9ab4-69049c769bdf";
+            string avtUserDefault = _configuration["Firebase:AvatarDefaultUser"];
+            user.UserImage = user.UserImage ?? avtUserDefault;
             user.Isverified = true; // is alway true if login with social services 
             await _context.SaveChangesAsync();
         }

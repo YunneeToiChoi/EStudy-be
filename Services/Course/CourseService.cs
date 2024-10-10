@@ -43,7 +43,7 @@ namespace study4_be.Services.Rating
         {
             if (string.IsNullOrEmpty(request.userId))
             {
-                throw new ArgumentException("User ID cannot be null or empty.");
+                return await GetAllCoursesAsync();
             }
 
             List<int> registeredCourseIds = await GetCoursesUserHasPurchasedAsync(request.userId);
@@ -68,7 +68,7 @@ namespace study4_be.Services.Rating
             }).ToList();
         }
 
-        public async Task<IEnumerable<CourseResponse>> GetOutstandingCoursesForGuestAsync(int amountOutstanding)
+        private async Task<IEnumerable<CourseResponse>> GetOutstandingCoursesForGuestAsync(int amountOutstanding)
         {
             if (amountOutstanding <= 0)
             {
@@ -106,7 +106,8 @@ namespace study4_be.Services.Rating
         {
             if (string.IsNullOrEmpty(request.userId))
             {
-                throw new ArgumentException("User ID cannot be null or empty.");
+                // User is null, show 4 outstanding courses
+                return await GetOutstandingCoursesForGuestAsync(4);
             }
 
             List<int> userPurchasedCourses = await GetCoursesUserHasPurchasedAsync(request.userId);
