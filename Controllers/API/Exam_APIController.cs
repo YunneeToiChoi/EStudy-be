@@ -116,7 +116,7 @@ namespace study4_be.Controllers.API
             }
         }
         [HttpPost("OutstandingExamsUserNotTest")]
-        public async Task<ActionResult<IEnumerable<Exam>>> OutstandingExamsUserNotTest(OfUserIdRequest _req)
+        public async Task<ActionResult<IEnumerable<Exam>>> OutstandingExamsUserNotTest(OfUserIdNotRequiredRequest _req)
         {
             try
             {

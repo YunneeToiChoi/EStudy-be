@@ -72,6 +72,11 @@ namespace study4_be.Controllers.API
                 {
                     return BadRequest(ex.Message);
                 }
+                catch (Exception ex)
+                {
+                    // Catch any other unexpected exceptions
+                    return StatusCode(500, new { status = 500, message = "An unexpected error occurred", details = ex.Message });
+                }
             }
         }
         [HttpPost("Login")] // missing interface in there 
@@ -350,7 +355,7 @@ namespace study4_be.Controllers.API
             return Ok(new { status = 200, message });
         }
 
-        [HttpPost("ActivateCode")]
+        [HttpPost("ActiveCode")]
         public async Task<IActionResult> ActivateCode(ActiveCodeRequest request)
         {
             var (success, message) = await _userService.ActivateCodeAsync(request);

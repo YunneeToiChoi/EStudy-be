@@ -110,8 +110,10 @@ namespace study4_be.Services.Rating
                 return await GetOutstandingCoursesForGuestAsync(4);
             }
 
+            // Fetch the list of courses the user has purchased
             List<int> userPurchasedCourses = await GetCoursesUserHasPurchasedAsync(request.userId);
 
+            // Find outstanding courses that the user has not bought
             var outstandingCourses = await _context.UserCourses
                 .Where(uc => !userPurchasedCourses.Contains(uc.CourseId))
                 .GroupBy(uc => uc.CourseId)
@@ -125,6 +127,7 @@ namespace study4_be.Services.Rating
                 throw new Exception("No outstanding courses found.");
             }
 
+            // Get the details of those outstanding courses
             var detailedOutstandingCourses = await _context.Courses
                 .Where(c => outstandingCourses.Contains(c.CourseId))
                 .ToListAsync();

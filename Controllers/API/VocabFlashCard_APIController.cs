@@ -70,16 +70,14 @@ namespace study4_be.Controllers.API
 
             try
             {
-                var vocabTask = _vocabFlashCardRepo.GetAllVocabDependLesson(_vocabRequest.lessonId);
-                var tagTask = _context.Lessons
-                                      .Where(l => l.LessonId == _vocabRequest.lessonId)
-                                      .Select(l => l.Tag)
-                                      .FirstOrDefaultAsync();
+                // Execute first query
+                var allVocabOfLesson = await _vocabFlashCardRepo.GetAllVocabDependLesson(_vocabRequest.lessonId);
 
-                await Task.WhenAll(vocabTask, tagTask);
-
-                var allVocabOfLesson = vocabTask.Result;
-                var lessonTag = tagTask.Result?.TagId;
+                // Execute second query after first one completes
+                var lessonTag = await _context.Lessons
+                                              .Where(l => l.LessonId == _vocabRequest.lessonId)
+                                              .Select(l => l.Tag)
+                                              .FirstOrDefaultAsync();
 
                 var responseData = allVocabOfLesson.Select(vocab => new VocabFindPairResponse
                 {
