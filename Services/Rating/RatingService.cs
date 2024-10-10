@@ -1,5 +1,7 @@
 ﻿
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
+using PusherServer;
 using SendGrid.Helpers.Errors.Model;
 using study4_be.Interface.Rating;
 using study4_be.Models;
@@ -14,14 +16,66 @@ namespace study4_be.Services.Rating
         private readonly Study4Context _context;
         private readonly FireBaseServices _fireBaseServices;
         private readonly DateTimeService _dateService;
+        private readonly PusherServer.Pusher _pusher;
 
-        public RatingService(Study4Context context, FireBaseServices fireBaseServices, DateTimeService dateService)
+        public RatingService(Study4Context context, 
+            FireBaseServices fireBaseServices, 
+            DateTimeService dateService,
+            IOptions<PusherOptions> options)
         {
             _context = context;
             _fireBaseServices = fireBaseServices;
             _dateService = dateService;
+            var pusherOptions = options.Value;
+            _pusher = new PusherServer.Pusher(
+            pusherOptions.AppId,
+            pusherOptions.Key,
+            pusherOptions.Secret,
+            new PusherServer.PusherOptions
+            {
+                Cluster = pusherOptions.Cluster,
+                Encrypted = true
+            }
+        );
         }
+        //public async Task<object> SubmitRatingOrReplyAsync(RatingOrReplySubmitRequest request, List<IFormFile> ratingImages)
+        //{
+        //    // Kiểm tra người dùng
+        //    var user = await _context.Users.FindAsync(request.userId);
+        //    if (user == null) throw new NotFoundException("Người dùng không tồn tại.");
 
+        //    // Bắt đầu giao dịch
+        //    using (var transaction = await _context.Database.BeginTransactionAsync())
+        //    {
+        //        int referenceId;
+        //        string referenceType;
+
+        //        if (request.isRating)
+        //        {
+        //            referenceId = await CreateRating(request);
+        //            referenceType = "RATING";
+        //        }
+        //        else
+        //        {
+        //            referenceId = await CreateReply(request);
+        //            referenceType = "REPLY";
+        //        }
+        //        // Tải lên hình ảnh
+        //        var imageUrls = await UploadImages(ratingImages, referenceId, request.rootId, referenceType);
+
+        //        // Cam kết giao dịch
+        //        await transaction.CommitAsync();
+
+        //        // Trả về phản hồi
+        //        return new
+        //        {
+        //            ReferenceId = referenceId,
+        //            UserId = request.userId,
+        //            ReferenceType = referenceType,
+        //            RatingImages = imageUrls
+        //        };
+        //    }
+        //}
         public async Task<object> SubmitRatingOrReplyAsync(RatingOrReplySubmitRequest request, List<IFormFile> ratingImages)
         {
             // Kiểm tra người dùng
@@ -44,11 +98,24 @@ namespace study4_be.Services.Rating
                     referenceId = await CreateReply(request);
                     referenceType = "REPLY";
                 }
+
                 // Tải lên hình ảnh
                 var imageUrls = await UploadImages(ratingImages, referenceId, request.rootId, referenceType);
 
                 // Cam kết giao dịch
                 await transaction.CommitAsync();
+
+                // Phát sự kiện real-time tới các client qua Pusher
+                await _pusher.TriggerAsync(
+                    "rating_channel", // Tên channel cho rating
+                    referenceType == "RATING" ? "new-rating" : "new-reply", // Event name
+                    new
+                    {
+                        ReferenceId = referenceId,
+                        UserId = request.userId,
+                        ReferenceType = referenceType,
+                        RatingImages = imageUrls
+                    });
 
                 // Trả về phản hồi
                 return new
@@ -60,6 +127,7 @@ namespace study4_be.Services.Rating
                 };
             }
         }
+
 
         private async Task<int> CreateRating(RatingOrReplySubmitRequest request)
         {
