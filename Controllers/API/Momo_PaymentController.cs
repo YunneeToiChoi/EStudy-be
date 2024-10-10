@@ -379,7 +379,7 @@ namespace study4_be.Controllers.API
 
                 // Save all changes in one transaction
                 await _context.SaveChangesAsync();
-
+                await SendCodeActiveByEmail(newOrderPlan.Email, newOrderPlan.OrderId);
                 var respon = new
                 {
                     newOrderPlan.OrderId,
