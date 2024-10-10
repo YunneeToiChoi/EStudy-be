@@ -1,0 +1,18 @@
+﻿@model study4_be.Models.PlanCourse
+
+<h4>Delete PlanCourse</h4>
+<hr />
+<div class="card-body">
+    <p>Are you sure you want to delete this?</p>
+    <div>
+        <h4>@Model.PlanId</h4>
+        <p>@Model.CourseId</p>
+    </div>
+    <form asp-action="Plan_Course_Delete">
+        <input type="hidden" asp-for="PlanId" />
+        <input type="hidden" asp-for="CourseId" />
+        <button type="submit" class="btn btn-danger">Delete</button>
+        @Html.ActionLink("Cancel", "Plan_Course_List", null, new { @class = "btn btn-light" })
+    </form>
+    <div asp-validation-summary="All" class="text-danger"></div>
+</div>

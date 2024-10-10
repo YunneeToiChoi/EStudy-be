@@ -1,0 +1,93 @@
+﻿@model IEnumerable<study4_be.Models.PlanCourse>
+
+
+<style>
+    .item {
+        overflow: hidden;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+        max-width: 100px
+    }
+
+    .text-btn-admin {
+        text-decoration: none;
+        color: white;
+    }
+
+    .search__input {
+        width: 100%;
+        padding: 10px;
+    }
+
+    .adSearch__container {
+        display: flex;
+        margin: 20px 0px;
+    }
+
+    #searchByContainerTitle, #searchByUnitTitle, #searchByCourseTitle, #searchByLessonTitle {
+        margin: 0px 10px;
+    }
+
+</style>
+
+<h2 style="text-align:center">LIST QUESTIONS EXAM</h2>
+<input id="searchInput" class="search__input col-11" type="text" placeholder="Search anything you want..." />
+<button class="btn btn-block btn-lg btn-gradient-primary mt-4"> @Html.ActionLink("+ Add Plan Course", "Plan_Course_Create", "PlanCourse", null, new { @class = "text-btn-admin" })</button>
+<div class="card">
+    <div class="card-body">
+        <table class="table">
+            <thead class="table-info">
+                <tr> 
+                    <th>Plan Id</th>
+                    <th>Course Id</th> 
+                    <th>Options</th>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            <p>@item.PlanId</p>
+                        </td>
+                        <td class="item">
+                            <p>@item.CourseId</p>
+                        </td>
+                        <td>
+                            <a href="@Url.ActionLink("Plan_Course_Edit","PlanCourse",new { planId = item.PlanId, courseId = item.CourseId })" class="text-link-action">Sửa</a>
+                            <span style="padding:0 8px">|</span>
+                            <a href="@Url.ActionLink("Plan_Course_Delete","PlanCourse",new { planId = item.PlanId, courseId = item.CourseId })" class="text-link-action">Xóa</a>
+                            <span style="padding:0 8px">|</span>
+                            <a href="@Url.ActionLink("Plan_Course_Details","PlanCourse",new { planId = item.PlanId, courseId = item.CourseId })" class="text-link-action">Chi tiết</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    function filterTable() {
+        var input, filter, table, tr, td, i, txtValue;
+        input = document.getElementById('searchInput');
+        filter = input.value.toUpperCase();
+        table = document.querySelector('.table tbody');
+        tr = table.getElementsByTagName('tr');
+
+        for (i = 0; i < tr.length; i++) {
+            tdQuestionId = tr[i].getElementsByTagName('td')[1];
+
+            if (tdQuestionId) {
+                txtValue = tdQuestionId.textContent || tdQuestionId.innerText;
+
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    }
+
+    document.getElementById('searchInput').addEventListener('keyup', filterTable);
+</script>

@@ -1,0 +1,35 @@
+﻿@model study4_be.Models.ViewModel.PlanCourseCreateViewModel
+
+<style>
+    .flex {
+        margin-top: 20px;
+        display: flex;
+        align-items: center;
+    }
+</style>
+
+<div class="form-horizontal">
+    <h4>PlanCourse</h4>
+    <hr />
+    <div class="card-body">
+        <p class="card-description"> Edit</p>
+        <form asp-action="Plan_Course_Edit" method="post" enctype="multipart/form-data" class="forms-sample">
+            <input type="hidden" asp-for="oldCourseid" />
+            <input type="hidden" asp-for="oldPlanid" />
+            <div class="form-group">
+                <label for="planCourse.PlanId">Plan id</label>
+                <select asp-for="planCourse.PlanId" class="form-control" asp-items="Model.plan"></select>
+                <span asp-validation-for="planCourse.PlanId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label for="planCourse.CourseId">Course id</label>
+                <select asp-for="planCourse.CourseId" class="form-control" asp-items="Model.course"></select>
+                <span asp-validation-for="planCourse.CourseId" class="text-danger"></span>
+            </div>
+            <div class="flex">
+                <button type="submit" class="btn btn-gradient-primary me-2">Submit</button>
+                @Html.ActionLink("Cancel", "Plan_Course_List", "PlanCourse", null, new { @class = "btn btn-light" })
+            </div>
+        </form>
+    </div>
+</div>
