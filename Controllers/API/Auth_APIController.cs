@@ -47,7 +47,7 @@ namespace study4_be.Controllers.API
             _jwtServices = jwtServices;
             _context = context;
             _userService = userService; 
-            _userRepository = new(context);
+            _userRepository = new(context,configuration);
             _userRegistrationValidator = new(_userRepository);
         }
         [HttpPost("Register")]
