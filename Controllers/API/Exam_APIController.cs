@@ -122,27 +122,15 @@ namespace study4_be.Controllers.API
             {
                 IEnumerable<Exam> outstandingExams;
 
-                if (_req.userId != null)
+                if (!string.IsNullOrEmpty(_req.userId))
                 {
-                    outstandingExams = await _context.Exams
-                        .Where(e => !_context.UsersExams.Any(ue => ue.UserId == _req.userId && ue.ExamId == e.ExamId))
-                        .GroupBy(e => e)
-                        .Select(g => new { Exam = g.Key, Count = g.Count() })
-                        .OrderByDescending(g => g.Count)
-                        .Take(4)
-                        .Select(g => g.Exam)
-                        .ToListAsync();
+                    // Get exams the user has not tested
+                    outstandingExams = await GetOutstandingExamsUserNotTestAsync(_req.userId);
                 }
                 else
                 {
-                    // Lấy 4 khóa học được nhiều người mua nhất
-                    outstandingExams = await _context.Exams
-                        .GroupBy(e => e)
-                        .Select(g => new { Exam = g.Key, Count = g.Count() })
-                        .OrderByDescending(g => g.Count)
-                        .Take(4)
-                        .Select(g => g.Exam)
-                        .ToListAsync();
+                    // If user ID is null, return the outstanding exams for guests
+                    outstandingExams = await GetOutstandingExamsForGuestAsync(4);
                 }
 
                 return Json(new { status = 200, message = "Get Outstanding Exams Success", outstandingExams });
@@ -153,6 +141,30 @@ namespace study4_be.Controllers.API
             }
         }
 
+        // Private method to get outstanding exams for guests
+        private async Task<IEnumerable<Exam>> GetOutstandingExamsForGuestAsync(int amountOutstanding)
+        {
+            return await _context.Exams
+                .GroupBy(e => e)
+                .Select(g => new { Exam = g.Key, Count = g.Count() })
+                .OrderByDescending(g => g.Count)
+                .Take(amountOutstanding)
+                .Select(g => g.Exam)
+                .ToListAsync();
+        }
+
+        // Private method to get outstanding exams the user hasn't tested
+        private async Task<IEnumerable<Exam>> GetOutstandingExamsUserNotTestAsync(string userId)
+        {
+            return await _context.Exams
+                .Where(e => !_context.UsersExams.Any(ue => ue.UserId == userId && ue.ExamId == e.ExamId))
+                .GroupBy(e => e)
+                .Select(g => new { Exam = g.Key, Count = g.Count() })
+                .OrderByDescending(g => g.Count)
+                .Take(4)
+                .Select(g => g.Exam)
+                .ToListAsync();
+        }
 
         [HttpPost("Get_AudioExam")]
         public async Task<ActionResult<IEnumerable<Exam>>> Get_AudioExam(OfExamIdRequest _req)

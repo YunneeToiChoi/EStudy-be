@@ -9,6 +9,7 @@ public class HomeController : Controller
     {
         return View();
     }
+    [HttpGet("google-response")]
     public IActionResult SignInGoogle()
     {
         return View(); // Trả về view SignInGoogle.cshtml

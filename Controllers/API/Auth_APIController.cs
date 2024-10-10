@@ -47,7 +47,7 @@ namespace study4_be.Controllers.API
             _jwtServices = jwtServices;
             _context = context;
             _userService = userService; 
-            _userRepository = new(context);
+            _userRepository = new(context,configuration);
             _userRegistrationValidator = new(_userRepository);
         }
         [HttpPost("Register")]
@@ -156,6 +156,16 @@ namespace study4_be.Controllers.API
         } // missing interface in there 
 
         //############ GOOGLE ############// 
+
+        [HttpGet("signin-google")]
+        public IActionResult SignInGoogle()
+        {
+            var properties = new AuthenticationProperties
+            {
+                RedirectUri = Url.Action("GoogleResponse", "Auth_API")
+            };
+            return Challenge(properties, GoogleDefaults.AuthenticationScheme);
+        }
 
         [HttpGet("google-response")]// missing interface in there 
         public async Task<IActionResult> GoogleResponse()

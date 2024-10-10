@@ -23,6 +23,7 @@ using study4_be.Services.User;
 using study4_be.Interface.User;
 using study4_be.Repositories;
 using study4_be.Validation;
+using PusherServer;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -63,6 +64,8 @@ builder.Services.AddScoped<ContractPOServices>();
 // Dịch vụ Firebase và SMTP
 builder.Services.AddSingleton<FireBaseServices>();
 builder.Services.AddSingleton<SMTPServices>();
+// Configure Pusher settings
+builder.Services.Configure<study4_be.Services.PusherOptions>(builder.Configuration.GetSection("Pusher"));
 
 
 
