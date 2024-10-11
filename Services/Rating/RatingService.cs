@@ -85,46 +85,78 @@ namespace study4_be.Services.Rating
             // Bắt đầu giao dịch
             using (var transaction = await _context.Database.BeginTransactionAsync())
             {
-                int referenceId;
-                string referenceType;
-
-                if (request.isRating)
+                try
                 {
-                    referenceId = await CreateRating(request);
-                    referenceType = "RATING";
-                }
-                else
-                {
-                    referenceId = await CreateReply(request);
-                    referenceType = "REPLY";
-                }
+                    int referenceId;
+                    string referenceType;
+                    int? parentId = null; // Sửa thành nullable để tránh lỗi khi chưa có giá trị
+                    int? rootId = null;
+                    string channelId; // Biến để lưu trữ channelId dựa trên courseId hoặc documentId
 
-                // Tải lên hình ảnh
-                var imageUrls = await UploadImages(ratingImages, referenceId, request.rootId, referenceType);
+                    if (request.isRating)
+                    {
+                        referenceId = await CreateRating(request);
+                        referenceType = "RATING";
+                    }
+                    else
+                    {
+                        referenceId = await CreateReply(request);
+                        referenceType = "REPLY";
+                        parentId = request.parentReply; // Gán giá trị parentId từ request khi là reply
+                        rootId = request.rootId;
+                    }
 
-                // Cam kết giao dịch
-                await transaction.CommitAsync();
+                    // Tải lên hình ảnh
+                    var imageUrls = await UploadImages(ratingImages, referenceId, request.rootId, referenceType);
 
-                // Phát sự kiện real-time tới các client qua Pusher
-                await _pusher.TriggerAsync(
-                    "rating_channel", // Tên channel cho rating
-                    referenceType == "RATING" ? "new-rating" : "new-reply", // Event name
-                    new
+                    // Xác định channelId theo courseId hoặc documentId
+                    if (request.courseId.HasValue)
+                    {
+                        channelId = $"course_{request.courseId.Value}";
+                    }
+                    else if (request.documentId.HasValue)
+                    {
+                        channelId = $"document_{request.documentId.Value}";
+                    }
+                    else
+                    {
+                        throw new Exception("courseId hoặc documentId không hợp lệ.");
+                    }
+
+                    // Cam kết giao dịch
+                    await transaction.CommitAsync();
+
+                    // Phát sự kiện real-time tới các client qua Pusher
+                    await _pusher.TriggerAsync(
+                        channelId, // Channel theo courseId hoặc documentId
+                        referenceType == "RATING" ? "new-rating" : "new-reply", // Event name
+                        new
+                        {
+                            ReferenceId = referenceId,
+                            UserId = request.userId,
+                            ParentId = parentId, // Trả về parentId nếu là reply
+                            RootId = rootId,
+                            ReferenceType = referenceType,
+                            RatingImages = imageUrls
+                        });
+
+                    // Trả về phản hồi
+                    return new
                     {
                         ReferenceId = referenceId,
+                        ParentId = parentId, // Trả về parentId nếu là reply
                         UserId = request.userId,
+                        RootId = rootId,
                         ReferenceType = referenceType,
                         RatingImages = imageUrls
-                    });
-
-                // Trả về phản hồi
-                return new
+                    };
+                }
+                catch (Exception ex)
                 {
-                    ReferenceId = referenceId,
-                    UserId = request.userId,
-                    ReferenceType = referenceType,
-                    RatingImages = imageUrls
-                };
+                    // Rollback giao dịch nếu có lỗi
+                    await transaction.RollbackAsync();
+                    throw;
+                }
             }
         }
 
