@@ -155,7 +155,7 @@ namespace study4_be.Services.Rating
                 {
                     // Rollback giao dịch nếu có lỗi
                     await transaction.RollbackAsync();
-                    throw;
+                    throw new Exception("Lỗi khi khởi tạo" , ex); ;
                 }
             }
         }
