@@ -46,7 +46,7 @@ namespace study4_be.Controllers.API
                         PlanDuration = plans.PlanDuration,
                         PlanPrice = plans.PlanPrice,
                     });
-                    return Ok(new { status = 200, message = "Success", data = plansResponse });
+                    return Ok(new { status = 200, message = "Success", plans = plansResponse });
                 }
                 else
                 {
