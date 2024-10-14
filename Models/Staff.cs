@@ -19,6 +19,8 @@ public partial class Staff
 
     public string StaffCmnd { get; set; } = null!;
 
+    public string? StaffPassword { get; set; }
+
     public virtual Department? Department { get; set; }
 
     public virtual Role? Role { get; set; }

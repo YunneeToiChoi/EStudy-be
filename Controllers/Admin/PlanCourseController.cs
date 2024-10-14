@@ -203,7 +203,7 @@ namespace study4_be.Controllers.Admin
             return View(planCourseCreate);
         }
 
-        public async Task<IActionResult> Plan_Course_Detail(int planId, int courseId)
+        public async Task<IActionResult> Plan_Course_Details(int planId, int courseId)
         {
             // Check if the ID is invalid (e.g., not positive)
             if (!ModelState.IsValid)

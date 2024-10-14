@@ -28,4 +28,8 @@ public partial class Course
     public virtual ICollection<Unit> Units { get; set; } = new List<Unit>();
 
     public virtual ICollection<UserCourse> UserCourses { get; set; } = new List<UserCourse>();
+
+    public virtual ICollection<Subscriptionplan> Plans { get; set; } = new List<Subscriptionplan>();
+
+    public virtual ICollection<PlanCourse> PlanCourses { get; set; } = new List<PlanCourse>();
 }
