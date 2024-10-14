@@ -1,14 +1,17 @@
 ﻿using System.Diagnostics;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using study4_be.Models;
 
 namespace study4_be.Controllers.Admin;
 public class HomeController : Controller
 {
+    [AllowAnonymous]
     public IActionResult Index()
     {
         return View();
     }
+    [AllowAnonymous]
     [HttpGet("google-response")]
     public IActionResult SignInGoogle()
     {

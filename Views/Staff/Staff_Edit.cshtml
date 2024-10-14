@@ -1,4 +1,4 @@
-﻿@model study4_be.Models.Staff
+﻿@model study4_be.Models.ViewModel.StaffEditViewModel
 <style>
     .flex {
         margin-top: 20px;
@@ -9,31 +9,30 @@
 
 
 <div class="form-horizontal">
-    <h4>Unit</h4>
+    <h4>Staff</h4>
     <hr />
     <div class="card-body">
-        <p class="card-description"> Edit</p>
         <form asp-action="Staff_Edit" method="post" enctype="multipart/form-data" class="forms-sample">
-            <input type="hidden" asp-for="StaffId" />
+            <input type="hidden" asp-for="Staff.StaffId" />
             <div class="form-group">
-                <label for="StaffName">StaffName</label>
-                <input asp-for="StaffName" class="form-control" />
-                <span asp-validation-for="StaffName" class="text-danger"></span>
+                <label for="StaffName">Name</label>
+                <input asp-for="Staff.StaffName" class="form-control" />
+                <span asp-validation-for="Staff.StaffName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label for="StaffType">StaffType</label>
-                <input asp-for="StaffType" class="form-control" />
-                <span asp-validation-for="StaffType" class="text-danger"></span>
+                <label for="StaffType">Type</label>
+                <input asp-for="Staff.StaffType" class="form-control" />
+                <span asp-validation-for="Staff.StaffType" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label for="StaffEmail">StaffEmail</label>
-                <input asp-for="StaffEmail" class="form-control" />
-                <span asp-validation-for="StaffEmail" class="text-danger"></span>
+                <label for="StaffEmail">Email</label>
+                <input asp-for="Staff.StaffEmail" class="form-control" />
+                <span asp-validation-for="Staff.StaffEmail" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label for="StaffCmnd">StaffCmnd</label>
-                <input asp-for="StaffCmnd" class="form-control" />
-                <span asp-validation-for="StaffCmnd" class="text-danger"></span>
+                <label for="StaffCmnd">CMND</label>
+                <input asp-for="Staff.StaffCmnd" class="form-control" />
+                <span asp-validation-for="Staff.StaffCmnd" class="text-danger"></span>
             </div>
 @*             <div class="form-group">
                 <label for="Department">Department</label>

@@ -113,7 +113,13 @@ builder.Services.AddAuthentication(options =>
         ValidateAudience = true,
         ValidAudience = jwtSettings["Audience"]
     };
-}); 
+});
+builder.Services.AddAuthentication("AdminCookieScheme")
+    .AddCookie("AdminCookieScheme", options =>
+    {
+        options.LoginPath = "/Admin/Auth/Login"; // Đường dẫn trang đăng nhập admin
+        options.AccessDeniedPath = "/Admin/Auth/AccessDenied"; // Đường dẫn khi bị từ chối quyền truy cập
+    });
 builder.Services.AddControllers();
 // Đăng ký JwtTokenGenerator
 builder.Services.AddSingleton<JwtTokenGenerator>();
@@ -185,9 +191,13 @@ app.UseAuthorization();
 // Đăng ký các route
 app.UseEndpoints(endpoints =>
 {
-    endpoints.MapControllerRoute(
-        name: "default",
-        pattern: "{controller=Home}/{action=Index}/{id?}");
+    //endpoints.MapControllerRoute(
+    //    name: "default",
+    //    pattern: "{controller=Home}/{action=Index}/{id?}");
+    // Route cho trang đăng nhập
+     endpoints.MapControllerRoute(
+            name: "default",
+            pattern: "{controller=Auth}/{action=Login}/{id?}"); // Chuyển hướng về Auth/Login nếu chưa đăng nhập
 });
 
 // Middleware để đọc body của request và lưu vào context
@@ -204,7 +214,23 @@ app.Use(async (context, next) =>
 
     await next();
 });
+app.Use(async (context, next) =>
+{
+    var path = context.Request.Path;
 
+    // Nếu yêu cầu đến từ admin
+    if (path.StartsWithSegments("/Admin"))
+    {
+        context.Items["AuthenticationScheme"] = "AdminCookieScheme";
+    }
+    // Nếu yêu cầu đến từ client
+    else
+    {
+        context.Items["AuthenticationScheme"] = "ClientCookieScheme";
+    }
+
+    await next();
+});
 app.MapControllers();
 
 await app.RunAsync();

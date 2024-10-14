@@ -19,12 +19,12 @@ namespace study4_be.Controllers.API
 	{
 		private readonly OrderRepository ordRepo;
 		private readonly Study4Context _context;
-		public Order_APIController(Study4Context context)
-		{
-			this._context = context;
-			ordRepo = new(context);
-		}
-		[HttpGet]
+        public Order_APIController(Study4Context context)
+        {
+            this._context = context;
+            ordRepo = new(context);
+        }
+        [HttpGet]
         private string GenerateOrderId(string userId, int courseId)
         {
             using (var sha256 = SHA256.Create())
@@ -65,14 +65,14 @@ namespace study4_be.Controllers.API
         }
         //development enviroment
         [HttpDelete("Delete_AllOrders")]
-		public async Task<IActionResult> Delete_AllOrders()
-		{
-			await ordRepo.DeleteAllOrdersAsync();
-			return Json(new { status = 200, message = "Delete All Orders Successful" });
-		}
-		[HttpPost("Buy_Course")] // thieu number phone va tru thoi gian
-		public async Task<IActionResult> Buy_Course([FromBody] BuyCourseRequest request)
-		{
+        public async Task<IActionResult> Delete_AllOrders()
+        {
+            await ordRepo.DeleteAllOrdersAsync();
+            return Json(new { status = 200, message = "Delete All Orders Successful" });
+        }
+        [HttpPost("Buy_Course")] // thieu number phone va tru thoi gian
+        public async Task<IActionResult> Buy_Course([FromBody] BuyCourseRequest request)
+        {
             if (request == null)
             {
                 return BadRequest("Request cannot be null.");
@@ -83,41 +83,41 @@ namespace study4_be.Controllers.API
                 return BadRequest("Invalid user or course information.");
             }
             var existingUser = await _context.Users.FindAsync(request.UserId);
-			if (existingUser == null)
-			{
-				return NotFound("User not found.");
-			}
-			var existingOrder = await _context.Orders
-			   .FirstOrDefaultAsync(o => o.UserId == request.UserId && o.CourseId == request.CourseId);
+            if (existingUser == null)
+            {
+                return NotFound("User not found.");
+            }
+            var existingOrder = await _context.Orders
+               .FirstOrDefaultAsync(o => o.UserId == request.UserId && o.CourseId == request.CourseId);
 
-			if (existingOrder != null)
-			{
-				return BadRequest("You have already ordered this course.");
-			}
+            if (existingOrder != null)
+            {
+                return BadRequest("You have already ordered this course.");
+            }
 
-			var existingCourse = await _context.Courses.FindAsync(request.CourseId);
-			if (existingCourse == null)
-			{
-				return NotFound("Course not found.");
-			}
+            var existingCourse = await _context.Courses.FindAsync(request.CourseId);
+            if (existingCourse == null)
+            {
+                return NotFound("Course not found.");
+            }
             var orderId = GenerateOrderId(request.UserId, request.CourseId);
             var order = new Order
-			{
+            {
                 OrderId = orderId,
                 UserId = existingUser.UserId,
-				CourseId = existingCourse.CourseId,
-				TotalAmount = existingCourse.CoursePrice,
-				OrderDate = DateTime.Now,
-				Email = request.Email,
-				Address = request.Address,
-				CreatedAt = DateTime.Now,
-				State = false
-			};
-			_context.Orders.Add(order);
-			await _context.SaveChangesAsync();
-			var newlyAddedOrderId = order.OrderId; // Lấy giá trị ID vừa được thêm vào
-			return Json(new { status = 200, orderId = newlyAddedOrderId, message = "Course purchased successfully." });
-		}
+                CourseId = existingCourse.CourseId,
+                TotalAmount = existingCourse.CoursePrice,
+                OrderDate = DateTime.Now,
+                Email = request.Email,
+                Address = request.Address,
+                CreatedAt = DateTime.Now,
+                State = false
+            };
+            _context.Orders.Add(order);
+            await _context.SaveChangesAsync();
+            var newlyAddedOrderId = order.OrderId; // Lấy giá trị ID vừa được thêm vào
+            return Json(new { status = 200, orderId = newlyAddedOrderId, message = "Course purchased successfully." });
+        }
 
         [HttpPost("Order_Document")]
         public async Task<IActionResult> Order_Document([FromBody] OrderDocumentRequest request)
@@ -206,7 +206,7 @@ namespace study4_be.Controllers.API
         public async Task<IActionResult> Renew_Plan([FromBody] OrderPlanRequest request)
         {
             var existingUserSub = await _context.UserSubs.FindAsync(request.UserId, request.PlanId);
-            if(existingUserSub == null)
+            if (existingUserSub == null)
             {
                 return NotFound(new { message = "User's subscription plan is not found" });
             }
@@ -240,7 +240,7 @@ namespace study4_be.Controllers.API
         public async Task<IActionResult> Renew_Course([FromBody] BuyCourseRequest request)
         {
             var existingUserCourse = await _context.UserCourses.FindAsync(request.UserId, request.CourseId);
-            if (existingUserCourse == null) 
+            if (existingUserCourse == null)
             {
                 return NotFound(new { message = "User's course is not found" });
             }
@@ -272,7 +272,7 @@ namespace study4_be.Controllers.API
         [HttpPost("Get_AllOrders")]
         public async Task<IActionResult> Get_AllOrders()
         {
-			var orderList = await ordRepo.GetAllOrdersAsync();
+            var orderList = await ordRepo.GetAllOrdersAsync();
             return Json(new { status = 200, orderList, message = "Get All Orders successfully." });
         }
     }

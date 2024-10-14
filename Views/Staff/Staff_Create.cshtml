@@ -37,6 +37,11 @@
                     <select asp-for="Staffs.DepartmentId" class="form-control" asp-items="Model.Departments"></select>
                     <span asp-validation-for="Staffs.DepartmentId" class="text-danger"></span>
                 </div>
+                <div class="form-group">
+                    <label for="Staffs.Role">Role</label>
+                    <select asp-for="Staffs.RoleId" class="form-control" asp-items="Model.Roles"></select>
+                    <span asp-validation-for="Staffs.RoleId" class="text-danger"></span>
+                </div>
                 <div class="flex">
                     <button type="submit" class="btn btn-gradient-primary me-2">Submit</button>
                     @Html.ActionLink("Cancel", "Staff_List", "Staff", null, new { @class = "btn btn-light" })

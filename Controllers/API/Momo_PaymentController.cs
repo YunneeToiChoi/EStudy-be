@@ -142,7 +142,7 @@ namespace study4_be.Controllers.API
                 lang = trackingQuery.lang,
                 signature = signature
             };
-            string aa = "https://payment.momo.vn/v2/gateway/api/query"; 
+            string aa = "https://payment.momo.vn/v2/gateway/api/query";
             var content = new StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(dataRequest), Encoding.UTF8, "application/json");
             var response = await _httpClient.PostAsync(aa, content);
             var responseContent = await response.Content.ReadAsStringAsync();
@@ -245,7 +245,7 @@ namespace study4_be.Controllers.API
         }
 
         [HttpPost("test")]
-        public async Task<IActionResult> Buy_Success([FromQuery]string orderId)
+        public async Task<IActionResult> Buy_Success([FromQuery] string orderId)
         {
             try
             {
@@ -293,7 +293,7 @@ namespace study4_be.Controllers.API
                 }
                 else
                 {
-                   return await HandleRenewCourse(existingOrderCourse, existingUserCourse);
+                    return await HandleRenewCourse(existingOrderCourse, existingUserCourse);
                 }
             }
 
