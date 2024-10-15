@@ -261,6 +261,23 @@ public partial class Study4Context : DbContext
                 .HasConstraintName("FK_Orders_USERS");
         });
 
+        modelBuilder.Entity<PlanCourse>(entity =>
+        {
+            entity.HasKey(e => new { e.PlanId, e.CourseId }).HasName("PK__PLAN_COU__47E48A7C05BA95D0");
+
+            entity.ToTable("PLAN_COURSES");
+
+            entity.Property(e => e.PlanId).HasColumnName("PLAN_ID");
+            entity.Property(e => e.CourseId).HasColumnName("COURSE_ID");
+            entity.HasOne(d => d.Course).WithMany(p => p.PlanCourses)
+                .HasForeignKey(d => d.CourseId)
+                .HasConstraintName("FK_PLAN_COURSES_COURSES");
+
+            entity.HasOne(d => d.Plan).WithMany(p => p.PlanCourses)
+                .HasForeignKey(d => d.PlanId)
+                .HasConstraintName("FK_PLAN_COURSES_SUBSCRIPTIONPLAN");
+        });
+
         modelBuilder.Entity<Question>(entity =>
         {
             entity.ToTable("QUESTION");
