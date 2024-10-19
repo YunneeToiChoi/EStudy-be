@@ -1,10 +1,13 @@
 ﻿using NuGet.Common;
+using Org.BouncyCastle.Asn1.X9;
+using study4_be.Controllers.API;
 using study4_be.Payment.MomoPayment;
 using study4_be.PaymentServices.Momo.Config;
 using study4_be.Services;
 using study4_be.Services.Payment;
 using System.Security.Cryptography;
 using System.Text;
+using static Google.Cloud.Firestore.V1.StructuredAggregationQuery.Types.Aggregation.Types;
 
 namespace study4_be.Helper
 {
@@ -19,6 +22,25 @@ namespace study4_be.Helper
             using (var hmac = new HMACSHA256(Encoding.UTF8.GetBytes(config.SecretKey)))
             {
                 var hash = hmac.ComputeHash(Encoding.UTF8.GetBytes(data));
+                return BitConverter.ToString(hash).Replace("-", "").ToLower();
+            }
+        }    
+        public string GenerateSignature(BankLinkRequest request,MomoConfig config)
+        {
+            var rawData = $"accessKey={config.AccessKey}&" +
+               $"amount={request.Amount}&" +
+               $"extraData={request.ExtraData}&" +
+               $"ipnUrl={request.IpnUrl}&" +
+               $"orderId={request.OrderId}&" +
+               $"orderInfo={request.OrderInfo}&" +
+               $"partnerClientId={request.partnerClientId}&" +
+               $"partnerCode={config.PartnerCode}&" +
+               $"redirectUrl={request.RedirectUrl}&" +
+               $"requestId={request.RequestId}&" +
+               $"requestType={request.RequestType}";
+            using (var hmac = new HMACSHA256(Encoding.UTF8.GetBytes(config.SecretKey)))
+            {
+                var hash = hmac.ComputeHash(Encoding.UTF8.GetBytes(rawData));
                 return BitConverter.ToString(hash).Replace("-", "").ToLower();
             }
         }  
