@@ -237,7 +237,7 @@ namespace study4_be.Services.Rating
         }
         private async Task<List<string>> UploadImages(List<IFormFile> images, int reference, int? rootId, string referenceType)
         {
-            if (referenceType == "RATING" && rootId == 0)
+            if (referenceType == "RATING" && (rootId == 0 || rootId == null))
             {
                 var imageUrls = new List<string>();
                 foreach (var image in images)
