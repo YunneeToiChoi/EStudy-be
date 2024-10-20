@@ -5,8 +5,6 @@ namespace study4_be.Models;
 
 public partial class Staff
 {
-    public int StaffId { get; set; }
-
     public int? RoleId { get; set; }
 
     public int? DepartmentId { get; set; }

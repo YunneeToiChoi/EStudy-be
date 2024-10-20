@@ -7,5 +7,7 @@ namespace study4_be.Services.Document
     {
         [Required]
         public int documentId { get; set; }
+        [Required]
+        public string userId { get; set; }
     }
 }

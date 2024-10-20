@@ -5,14 +5,13 @@
 <div class="card-body">
     <p>Are you sure you want to delete this?</p>
     <div>
-        <h4>@Model.StaffId</h4>
+        <h4>@Model.StaffCmnd</h4>
         <p>@Model.StaffName</p>
         <p>@Model.StaffType</p>
         <p>@Model.StaffEmail</p>
-        <p>@Model.StaffCmnd</p>
     </div>
     <form asp-action="Staff_Delete">
-        <input type="hidden" asp-for="StaffId" />
+        <input type="hidden" asp-for="StaffCmnd" />
         <button type="submit" class="btn btn-danger">Delete</button>
         @Html.ActionLink("Cancel", "Staff_List", null, new { @class = "btn btn-light" })
     </form>

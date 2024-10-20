@@ -162,7 +162,7 @@ namespace study4_be.Controllers.API
 
         //############ GOOGLE ############// 
 
-        [HttpGet("signin-google")]
+        [HttpGet("signin-google")] // unit test
         public IActionResult SignInGoogle()
         {
             var properties = new AuthenticationProperties

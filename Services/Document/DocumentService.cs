@@ -62,6 +62,46 @@ namespace study4_be.Services.Rating
                 return null; // return null on error
             }
         }
+        public async Task<IActionResult> GetDocumentIdAsync(string orderId)
+        {
+            var existingOrder = await _context.Orders.FindAsync(orderId);
+
+            if (existingOrder == null)
+            {
+                throw new KeyNotFoundException("Order not found");
+            }
+
+            var existingDocument = await _context.Documents.FindAsync(existingOrder.DocumentId);
+            if (existingDocument == null)
+            {
+                throw new KeyNotFoundException("Document not found");
+            }
+
+            var respon = new
+            {
+                documentId = existingDocument.DocumentId,
+            };
+
+            return new OkObjectResult(respon);
+        }
+        public async Task<IActionResult> GetDocumentsFromUserAsync(string userId)
+        {
+            var userDocument = await _context.UserDocuments
+                .Where(d => d.UserId == userId)
+                .ToListAsync();
+            if (userDocument == null || !userDocument.Any())
+            {
+                throw new KeyNotFoundException("User didn't buy any documents");
+            }
+            var documentIds = userDocument.Select(d => d.DocumentId).ToList();
+
+            var documents = await _context.Documents
+                .Where (d => documentIds.Contains(d.DocumentId))
+                .Select(d => new {d.DocumentId, d.Title, d.FileUrl })
+                .ToListAsync();
+           
+            return new OkObjectResult(new {documents});
+        }
         public async Task<IEnumerable<UserDocumentResponse>> GetDocumentsByUserIdAsync(string userId)
         {
             if (string.IsNullOrEmpty(userId))
@@ -103,7 +143,7 @@ namespace study4_be.Services.Rating
                 uploadDate = doc.UploadDate,
             }).ToList();
         }
-        public async Task<IActionResult> DownloadDocumentAsync(int documentId)
+        public async Task<IActionResult> DownloadDocumentAsync(int documentId, string userId)
         {
             try
             {
@@ -114,18 +154,33 @@ namespace study4_be.Services.Rating
                     return new NotFoundObjectResult($"Document with Id {documentId} does not exist.");
                 }
 
+                if (document.Price <= 0)
+                {
+                    var newUserDocument = new UserDocument
+                    {
+                        DocumentId = documentId,
+                        UserId = userId,
+                        OrderDate = DateTime.Now,
+                        State = true,
+                    };
+                    await _context.UserDocuments.AddAsync(newUserDocument);
+                    await _context.SaveChangesAsync();
+                }
                 // Check if the document is free or the price is 0
                 if (document.Price > 0)
                 {
-                    // Nếu cần kiểm tra giá, bạn có thể thêm logic ở đây
-                    return new BadRequestObjectResult("Document is not free. Please pay to download.");
+                    var existingUserDocument = await _context.UserDocuments.FindAsync(userId, documentId);
+                    if (existingUserDocument == null) 
+                    {
+                        // Nếu cần kiểm tra giá, bạn có thể thêm logic ở đây
+                        return new BadRequestObjectResult("Document is not free. Please pay to download.");
+                    }
                 }
-
                 // Increment the download count
                 document.DownloadCount++;
                 _context.Documents.Update(document);
                 await _context.SaveChangesAsync();
-
+                
                 // Get the file URL from Firebase (assuming documents are stored in Firebase)
                 var fileUrl = document.FileUrl;
 
@@ -222,6 +277,8 @@ namespace study4_be.Services.Rating
                                             firstPageImage.Seek(0, SeekOrigin.Begin);
                                             var thumbnailFileName = Path.GetFileNameWithoutExtension(fileName) + "_thumbnail.jpg";
                                             thumbnailUrl = await _fireBaseServices.UploadFileDocAsync(firstPageImage, thumbnailFileName, _req.userId);
+                                            // trang 2, 3 - > 5
+                                            // _temp 
                                         }
                                     }
                                 }

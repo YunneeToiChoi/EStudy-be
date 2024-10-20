@@ -17,6 +17,7 @@ using study4_be.Services.Rating;
 using System.Security.Claims;
 using study4_be.Services.Course;
 using study4_be.Services.Document;
+using System.Reflection.Metadata.Ecma335;
 
 namespace study4_be.Controllers.API
 {
@@ -183,7 +184,7 @@ namespace study4_be.Controllers.API
         [HttpPost("DownloadDocument")]
         public async Task<IActionResult> DownloadDocument([FromBody] OfDocumentIdRequest _req)
         {
-            var result = await _documentService.DownloadDocumentAsync(_req.documentId);
+            var result = await _documentService.DownloadDocumentAsync(_req.documentId, _req.userId);
             return result;
         }
         [HttpPost("GetUserDocumentProfile/{userId}")]
@@ -252,6 +253,33 @@ namespace study4_be.Controllers.API
             catch (Exception e)
             {
                 return BadRequest($"Error occurred: {e.Message}");
+            }
+        }
+        [HttpPost("GetDocumentId")]
+        public async Task<IActionResult> GetDocumentId(string orderId)
+        {
+            try
+            {
+                var documentId = await _documentService.GetDocumentIdAsync(orderId);
+                return Ok(new { documentId });
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        [HttpPost("GetDocumentFromUser")]
+        public async Task<IActionResult> GetDocumentFromUser(UserRequest request)
+        {
+            try
+            {
+                var userDocument = await _documentService.GetDocumentsFromUserAsync(request.userId);
+
+                return Ok(userDocument);
+            }
+            catch (Exception ex) 
+            {
+                return BadRequest($"Error occurred: {ex.Message}");
             }
         }
         [HttpPost("Upload")]
