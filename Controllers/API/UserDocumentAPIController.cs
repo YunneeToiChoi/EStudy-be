@@ -256,7 +256,7 @@ namespace study4_be.Controllers.API
             }
         }
         [HttpPost("GetDocumentId")]
-        public async Task<IActionResult> GetDocumentId(string orderId)
+        public async Task<IActionResult> GetDocumentId(string orderId)  
         {
             try
             {

@@ -59,7 +59,9 @@ namespace study4_be.Controllers.API
                 .Select(sp => new
                 {
                     sp.PlanId,
-                    sp.PlanName
+                    sp.PlanName,
+                    sp.PlanPrice,
+                    sp.PlanDescription,     
                 })
                 .ToListAsync();
 

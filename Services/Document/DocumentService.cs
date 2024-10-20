@@ -261,6 +261,7 @@ namespace study4_be.Services.Rating
                             var fileUrl = await _fireBaseServices.UploadFileDocAsync(memoryStream, fileName, _req.userId);
 
                             string thumbnailUrl = null;
+                            string extractedPdfUrl = null;
 
                             if (fileExtension.Equals(".pdf", StringComparison.OrdinalIgnoreCase))
                             {
@@ -280,6 +281,16 @@ namespace study4_be.Services.Rating
                                             // trang 2, 3 - > 5
                                             // _temp 
                                         }
+                                    }
+                                }
+
+                                // Extract the first 7 pages of the PDF and upload them
+                                using (var extractedPdfStream = ExtractFirst7PagesAsPdf(memoryStream))
+                                {
+                                    if (extractedPdfStream != null)
+                                    {
+                                        var extractedPdfFileName = Path.GetFileNameWithoutExtension(fileName) + "_extracted.pdf";
+                                        extractedPdfUrl = await _fireBaseServices.UploadFileDocAsync(extractedPdfStream, extractedPdfFileName, _req.userId);
                                     }
                                 }
                             }
@@ -305,7 +316,8 @@ namespace study4_be.Services.Rating
                                 DocumentName = fileName,
                                 FileSize = fileSizeReadable,
                                 FileUrl = fileUrl,
-                                ThumbnailUrl = thumbnailUrl
+                                ThumbnailUrl = thumbnailUrl,
+                                ExtractedPdfUrl = extractedPdfUrl
                             });
                         }
                     }
@@ -336,6 +348,28 @@ namespace study4_be.Services.Rating
                     return memoryStream;
                 }
             }
+        }
+        private Stream ExtractFirst7PagesAsPdf(Stream originalPdfStream)
+        {
+            // Load the original PDF
+            var inputDocument = PdfSharp.Pdf.IO.PdfReader.Open(originalPdfStream, PdfSharp.Pdf.IO.PdfDocumentOpenMode.Import);
+
+            // Create a new PDF document to hold the extracted pages
+            var outputDocument = new PdfSharp.Pdf.PdfDocument();
+
+            // Copy up to 7 pages from the original PDF into the new PDF
+            int pagesToExtract = Math.Min(7, inputDocument.PageCount);
+            for (int i = 0; i < pagesToExtract; i++)
+            {
+                outputDocument.AddPage(inputDocument.Pages[i]);
+            }
+
+            // Save the new PDF to a MemoryStream
+            var outputPdfStream = new MemoryStream();
+            outputDocument.Save(outputPdfStream, false);
+            outputPdfStream.Seek(0, SeekOrigin.Begin);
+
+            return outputPdfStream;
         }
 
         private string ConvertFileSize(long fileSizeInBytes)
