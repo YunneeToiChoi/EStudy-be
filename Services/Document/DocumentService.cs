@@ -9,6 +9,9 @@ using study4_be.Services.Document;
 using study4_be.Services;
 using study4_be.Services.Rating;
 using study4_be.Services.User;
+using PdfSharp.Pdf;
+using PdfSharp.Pdf.IO;
+using PdfSharp.Drawing;
 using System.Drawing.Imaging;
 
 namespace study4_be.Services.Rating
@@ -278,14 +281,10 @@ namespace study4_be.Services.Rating
                                             firstPageImage.Seek(0, SeekOrigin.Begin);
                                             var thumbnailFileName = Path.GetFileNameWithoutExtension(fileName) + "_thumbnail.jpg";
                                             thumbnailUrl = await _fireBaseServices.UploadFileDocAsync(firstPageImage, thumbnailFileName, _req.userId);
-                                            // trang 2, 3 - > 5
-                                            // _temp 
                                         }
                                     }
                                 }
-
-                                // Extract the first 7 pages of the PDF and upload them
-                                using (var extractedPdfStream = ExtractFirst7PagesAsPdf(memoryStream))
+                                using (var extractedPdfStream = ExtractFirst7PagesAndBlankOthers(memoryStream))
                                 {
                                     if (extractedPdfStream != null)
                                     {
@@ -301,6 +300,7 @@ namespace study4_be.Services.Rating
                                 DownloadCount = 0,
                                 FileType = fileExtension,
                                 FileUrl = fileUrl,
+                                PreviewUrl = extractedPdfUrl,
                                 ThumbnailUrl = thumbnailUrl,
                                 Title = fileName,
                                 UploadDate = DateTime.UtcNow,
@@ -317,7 +317,6 @@ namespace study4_be.Services.Rating
                                 FileSize = fileSizeReadable,
                                 FileUrl = fileUrl,
                                 ThumbnailUrl = thumbnailUrl,
-                                ExtractedPdfUrl = extractedPdfUrl
                             });
                         }
                     }
@@ -349,22 +348,43 @@ namespace study4_be.Services.Rating
                 }
             }
         }
-        private Stream ExtractFirst7PagesAsPdf(Stream originalPdfStream)
+        private Stream ExtractFirst7PagesAndBlankOthers(Stream originalPdfStream)
         {
             // Load the original PDF
-            var inputDocument = PdfSharp.Pdf.IO.PdfReader.Open(originalPdfStream, PdfSharp.Pdf.IO.PdfDocumentOpenMode.Import);
+            var inputDocument = PdfReader.Open(originalPdfStream, PdfDocumentOpenMode.Import);
 
-            // Create a new PDF document to hold the extracted pages
-            var outputDocument = new PdfSharp.Pdf.PdfDocument();
+            // Create a new PDF document to hold the extracted and modified pages
+            var outputDocument = new PdfDocument();
 
-            // Copy up to 7 pages from the original PDF into the new PDF
-            int pagesToExtract = Math.Min(7, inputDocument.PageCount);
+            // Get the total page count of the original PDF
+            int totalPageCount = inputDocument.PageCount;
+            int pagesToExtract = Math.Min(7, totalPageCount);
+
+            // Add the first 7 pages as they are to the output document
             for (int i = 0; i < pagesToExtract; i++)
             {
                 outputDocument.AddPage(inputDocument.Pages[i]);
             }
 
-            // Save the new PDF to a MemoryStream
+            // Add blank pages for the remaining pages in the original PDF
+            for (int i = pagesToExtract; i < totalPageCount; i++)
+            {
+                var blankPage = outputDocument.AddPage();
+                blankPage.Width = inputDocument.Pages[i].Width;
+                blankPage.Height = inputDocument.Pages[i].Height;
+
+                // Optional: You can add a message or watermark on the blank page to indicate it's intentionally left blank
+                using (XGraphics gfx = XGraphics.FromPdfPage(blankPage))
+                {
+                    gfx.DrawString("Please pay to be able to view the full document content",
+                                   new XFont("Arial", 12),
+                                   XBrushes.Gray,
+                                   new XRect(0, 0, blankPage.Width, blankPage.Height),
+                                   XStringFormats.Center);
+                }
+            }
+
+            // Save the modified PDF to a MemoryStream
             var outputPdfStream = new MemoryStream();
             outputDocument.Save(outputPdfStream, false);
             outputPdfStream.Seek(0, SeekOrigin.Begin);
@@ -456,6 +476,7 @@ namespace study4_be.Services.Rating
                 title = document.Title,
                 documentDescription = document.Description,
                 fileUrl = document.FileUrl,
+                previewUrl = document.PreviewUrl,
                 uploadDate = document.UploadDate,
                 fileType = document.FileType,
                 documentPublic = document.IsPublic,

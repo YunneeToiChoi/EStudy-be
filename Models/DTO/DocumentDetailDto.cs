@@ -6,6 +6,7 @@
         public string title { get; set; }
         public string? documentDescription { get; set; }
         public string fileUrl { get; set; }
+        public string previewUrl { get; set; }
         public DateTime? uploadDate { get; set; }
         public string? fileType { get; set; }
         public bool? documentPublic { get; set; }

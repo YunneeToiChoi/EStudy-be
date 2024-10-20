@@ -33,6 +33,8 @@ public partial class Document
 
     public string? ThumbnailUrl { get; set; }
 
+    public string? PreviewUrl { get; set; }
+
     public virtual Category? Category { get; set; }
 
     public virtual Course? Course { get; set; }
