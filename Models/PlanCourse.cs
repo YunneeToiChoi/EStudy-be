@@ -9,7 +9,9 @@ public partial class PlanCourse
 
     public int CourseId { get; set; }
 
-    public virtual Subscriptionplan Plan { get; set; } = null!;
+    public bool? Isactive { get; set; }
 
     public virtual Course Course { get; set; } = null!;
+
+    public virtual Subscriptionplan Plan { get; set; } = null!;
 }

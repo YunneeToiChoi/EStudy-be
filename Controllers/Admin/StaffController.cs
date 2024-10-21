@@ -99,13 +99,13 @@ namespace study4_be.Controllers.Admin
             return Ok(staff);
         }
 
-        public async Task<IActionResult> Staff_Edit(int id)
+        public async Task<IActionResult> Staff_Edit(string id)
         {
             if (!ModelState.IsValid)
             {
                 return NotFound(new { message = "staffId is invalid" });
             }
-            var staff = await _context.Staff.FirstOrDefaultAsync(c => c.StaffId == id);
+            var staff = await _context.Staff.FirstOrDefaultAsync(c => c.StaffCmnd == id);
             if (staff == null)
             {
                 return NotFound();
@@ -118,7 +118,7 @@ namespace study4_be.Controllers.Admin
         {
             if (ModelState.IsValid)
             {
-                var courseToUpdate = await _context.Staff.FirstOrDefaultAsync(c => c.StaffId == staff.StaffId);
+                var courseToUpdate = await _context.Staff.FirstOrDefaultAsync(c => c.StaffCmnd == staff.StaffCmnd);
                 courseToUpdate.StaffName = staff.StaffName;
                 courseToUpdate.StaffEmail = staff.StaffEmail;
                 courseToUpdate.StaffType = staff.StaffName;
@@ -139,14 +139,14 @@ namespace study4_be.Controllers.Admin
         }
 
         [HttpGet]
-        public async Task<IActionResult> Staff_Delete(int id)
+        public async Task<IActionResult> Staff_Delete(string id)
         {
             if (!ModelState.IsValid)
             {
                 _logger.LogError($"Staff not found for deletion.");
                 return NotFound($"Staff not found.");
             }
-            var staff = await _context.Staff.FirstOrDefaultAsync(c => c.StaffId == id);
+            var staff = await _context.Staff.FirstOrDefaultAsync(c => c.StaffCmnd == id);
             if (staff == null)
             {
                 _logger.LogError($"Staff not found for delete.");
@@ -156,14 +156,14 @@ namespace study4_be.Controllers.Admin
         }
 
         [HttpPost, ActionName("Staff_Delete")]
-        public async Task<IActionResult> Staff_DeleteConfirmed(int id)
+        public async Task<IActionResult> Staff_DeleteConfirmed(string id)
         {
             if (!ModelState.IsValid)
             {
                 _logger.LogError($"Staff not found for deletion.");
                 return NotFound($"Staff not found.");
             }
-            var staff = await _context.Staff.FirstOrDefaultAsync(c => c.StaffId == id);
+            var staff = await _context.Staff.FirstOrDefaultAsync(c => c.StaffCmnd == id);
             if (staff == null)
             {
                 _logger.LogError($"Staff not found for deletion.");
@@ -184,7 +184,7 @@ namespace study4_be.Controllers.Admin
             }
         }
 
-        public async Task<IActionResult> Staff_Details(int id)
+        public async Task<IActionResult> Staff_Details(string id)
         {
             // Check if the ID is invalid (e.g., not positive)
             if (!ModelState.IsValid)
@@ -194,7 +194,7 @@ namespace study4_be.Controllers.Admin
                 return RedirectToAction("Staff_List", "Staff");
             }
 
-            var staff = await _context.Staff.FirstOrDefaultAsync(c => c.StaffId == id);
+            var staff = await _context.Staff.FirstOrDefaultAsync(c => c.StaffCmnd == id);
 
             // If no container is found, return to the list with an error
             if (staff == null)

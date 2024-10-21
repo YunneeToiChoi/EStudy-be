@@ -48,19 +48,42 @@ namespace study4_be.Services
         {
             var currentDate = DateTime.Now;
 
-            // Lấy các subscriptions đã hết hạn
+            // Retrieve all active subscriptions that have expired
             var expiringSubscriptions = await _study4Context.UserSubs
                                         .Where(us => us.UsersubsEnddate < currentDate && us.State == true)
                                         .ToListAsync();
 
             if (expiringSubscriptions.Any())
             {
-                foreach (var sub in expiringSubscriptions)
+                foreach (var userSubscription in expiringSubscriptions)
                 {
-                    // Cập nhật state thành false
-                    sub.State = false;
+                    // Retrieve the courses associated with the plan from the PLAN_COURSES table
+                    var planCourses = await _study4Context.PlanCourses
+                                                    .Where(pc => pc.PlanId == userSubscription.PlanId)
+                                                    .Select(pc => pc.CourseId)
+                                                    .ToListAsync();
+
+                    // Retrieve the courses that the user has explicitly purchased (saved in the ORDERS table)
+                    var purchasedCourses = await _study4Context.Orders
+                                                         .Where(o => o.UserId == userSubscription.UserId && o.CourseId != null)
+                                                         .Select(o => o.CourseId)
+                                                         .ToListAsync();
+
+                    // Disable the courses associated with the plan that were not explicitly purchased by the user
+                    var userCoursesToDisable = await _study4Context.UserCourses
+                                                             .Where(uc => uc.UserId == userSubscription.UserId && planCourses.Contains(uc.CourseId) && !purchasedCourses.Contains(uc.CourseId))
+                                                             .ToListAsync();
+
+                    foreach (var userCourse in userCoursesToDisable)
+                    {
+                        userCourse.State = false; // Mark the course as inactive
+                    }
+
+                    // Soft delete the subscription by setting its state to false
+                    userSubscription.State = false;
                 }
 
+                // Save all changes to the database
                 await _study4Context.SaveChangesAsync();
             }
         }

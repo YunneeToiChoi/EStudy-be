@@ -152,7 +152,7 @@ namespace study4_be.Services
             await _userRepository.DeleteAllUsersAsync();
             return true; // Users deleted successfully
         }
-        public async Task<(bool success, string message)> UpdateUserImageAsync(UserUploadImageRequest request, IFormFile userAvatar, IFormFile userBanner)
+        public async Task<(bool success, string message)> UpdateUserImageAsync(UserUploadImageRequest request)
         {
             var userExist = await _context.Users.FirstOrDefaultAsync(u => u.UserId == request.userId);
             if (userExist == null)
@@ -163,13 +163,13 @@ namespace study4_be.Services
             var firebaseBucketName = _fireBaseServices.GetFirebaseBucketName();
 
             // Handle user avatar update
-            if (userAvatar != null && userAvatar.Length > 0)
+            if (request.userAvatar != null && request.userAvatar.Length > 0)
             {
                 try
                 {
                     var uniqueId = Guid.NewGuid().ToString();
                     var imgFilePath = $"IMG{uniqueId}.jpg";
-                    string firebaseUrl = await _fireBaseServices.UploadFileToFirebaseStorageAsync(userAvatar, imgFilePath, firebaseBucketName);
+                    string firebaseUrl = await _fireBaseServices.UploadFileToFirebaseStorageAsync(request.userAvatar, imgFilePath, firebaseBucketName);
 
                     // Delete old image from Firebase
                     var oldFileName = Path.GetFileName(new Uri(userExist.UserImage).LocalPath);
@@ -184,13 +184,13 @@ namespace study4_be.Services
             }
 
             // Handle user banner update
-            if (userBanner != null && userBanner.Length > 0)
+            if (request.userBanner != null && request.userBanner.Length > 0)
             {
                 try
                 {
                     var uniqueId = Guid.NewGuid().ToString();
                     var imgFilePath = $"IMG{uniqueId}.jpg";
-                    string firebaseUrl = await _fireBaseServices.UploadFileToFirebaseStorageAsync(userBanner, imgFilePath, firebaseBucketName);
+                    string firebaseUrl = await _fireBaseServices.UploadFileToFirebaseStorageAsync(request.userBanner, imgFilePath, firebaseBucketName);
 
                     // Delete old banner from Firebase
                     var oldFileName = Path.GetFileName(new Uri(userExist.UserBanner).LocalPath);

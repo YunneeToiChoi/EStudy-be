@@ -162,7 +162,7 @@ namespace study4_be.Controllers.API
 
         //############ GOOGLE ############// 
 
-        [HttpGet("signin-google")]
+        [HttpGet("signin-google")] // unit test
         public IActionResult SignInGoogle()
         {
             var properties = new AuthenticationProperties
@@ -344,9 +344,9 @@ namespace study4_be.Controllers.API
             return Json(new { status = 200, message = "Delete Users Successful" });
         }
         [HttpPost("User_UpdateImage")]
-        public async Task<IActionResult> User_UpdateImage([FromForm] UserUploadImageRequest request, [FromForm] IFormFile userAvatar, [FromForm] IFormFile userBanner)
+        public async Task<IActionResult> User_UpdateImage([FromForm] UserUploadImageRequest request)
         {
-            var (success, message) = await _userService.UpdateUserImageAsync(request, userAvatar, userBanner);
+            var (success, message) = await _userService.UpdateUserImageAsync(request);
             if (!success)
             {
                 return BadRequest(new { status = 400, message });
