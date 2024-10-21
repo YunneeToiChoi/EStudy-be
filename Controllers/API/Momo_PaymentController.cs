@@ -393,6 +393,31 @@ namespace study4_be.Controllers.API
                 // Add the new user subscription
                 await _context.UserSubs.AddAsync(newUserSub);
 
+                // Retrieve the courses associated with the plan from PLAN_COURSE
+                var planCourses = await _context.PlanCourses
+                                                .Where(pc => pc.PlanId == newOrderPlan.PlanId)
+                                                .ToListAsync();
+
+                // Add each course to the USER_COURSES table for the user
+                foreach (var planCourse in planCourses)
+                {
+                    bool courseExists = await _context.UserCourses
+                                                      .AnyAsync(uc => uc.UserId == newOrderPlan.UserId && uc.CourseId == planCourse.CourseId);
+
+                    if (!courseExists)
+                    {
+                        var userCourse = new UserCourse
+                        {
+                            UserId = newOrderPlan.UserId,
+                            CourseId = planCourse.CourseId,
+                            Process = 0,
+                            Date = DateTime.Now,
+                            State = true,
+                        };
+                        await _context.UserCourses.AddAsync(userCourse);
+                    }
+                }
+
                 // Save all changes in one transaction
                 await _context.SaveChangesAsync();
                 await SendCodeActiveByEmail(newOrderPlan.Email, newOrderPlan.OrderId);

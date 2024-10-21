@@ -17,7 +17,7 @@ public partial class Subscriptionplan
 
     public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
 
-    public virtual ICollection<UserSub> UserSubs { get; set; } = new List<UserSub>();
-
     public virtual ICollection<PlanCourse> PlanCourses { get; set; } = new List<PlanCourse>();
+
+    public virtual ICollection<UserSub> UserSubs { get; set; } = new List<UserSub>();
 }

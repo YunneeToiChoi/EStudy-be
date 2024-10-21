@@ -17,7 +17,7 @@ namespace study4_be.Interface
         Task<bool> EditUserProfileAsync(EditUserProfileRequest request);
         Task<bool> EditPasswordAsync(EditPasswordRequest request);
         Task<bool> DeleteAllUsersAsync();
-        Task<(bool success, string message)> UpdateUserImageAsync(UserUploadImageRequest request, IFormFile userAvatar, IFormFile userBanner);
+        Task<(bool success, string message)> UpdateUserImageAsync(UserUploadImageRequest request);
         Task<(bool success, string message)> ActivateCodeAsync(ActiveCodeRequest request);
         Task<(bool success, string message)> RequestForgotPasswordAsync(OfUserEmailRequest request);
         Task<(bool success, string message)> VerifyUserEmailAsync(string userEmail);

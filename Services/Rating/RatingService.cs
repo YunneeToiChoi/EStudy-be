@@ -107,7 +107,9 @@ namespace study4_be.Services.Rating
                     }
 
                     // Tải lên hình ảnh
-                    var imageUrls = await UploadImages(ratingImages, referenceId, request.rootId, referenceType);
+                    var imageUrls = ratingImages != null && ratingImages.Any()
+                        ? await UploadImages(ratingImages, referenceId, rootId, referenceType)
+                        : new List<string>();
 
                     // Xác định channelId theo courseId hoặc documentId
                     if (request.courseId.HasValue)
@@ -126,6 +128,12 @@ namespace study4_be.Services.Rating
                     // Cam kết giao dịch
                     await transaction.CommitAsync();
 
+                    // Lấy chi tiết user một lần để tránh multiple queries
+                    var userDetail = await _context.Users
+                        .Where(u => u.UserId == request.userId)
+                        .Select(u => new { u.UserImage, u.UserName })
+                        .FirstOrDefaultAsync();
+
                     // Phát sự kiện real-time tới các client qua Pusher
                     await _pusher.TriggerAsync(
                         channelId, // Channel theo courseId hoặc documentId
@@ -134,6 +142,10 @@ namespace study4_be.Services.Rating
                         {
                             ReferenceId = referenceId,
                             UserId = request.userId,
+                            UserImage = userDetail.UserImage,
+                            UserName = userDetail.UserName,
+                            RatingDate = DateTime.UtcNow, // Assuming it's created now
+                            RatingReview = request.ratingReview ?? string.Empty, // Assuming request has a review text
                             ParentId = parentId, // Trả về parentId nếu là reply
                             RootId = rootId,
                             ReferenceType = referenceType,
@@ -155,7 +167,11 @@ namespace study4_be.Services.Rating
                 {
                     // Rollback giao dịch nếu có lỗi
                     await transaction.RollbackAsync();
-                    throw new Exception("Lỗi khi khởi tạo" , ex); ;
+                    throw new Exception("Lỗi khi khởi tạo", ex);
+                }
+                finally
+                {
+                    await transaction.DisposeAsync();
                 }
             }
         }
@@ -219,9 +235,9 @@ namespace study4_be.Services.Rating
 
             return reply.ReplyId;
         }
-        private async Task<List<string>> UploadImages(List<IFormFile> images, int reference, int rootId, string referenceType)
+        private async Task<List<string>> UploadImages(List<IFormFile> images, int reference, int? rootId, string referenceType)
         {
-            if (referenceType == "RATING" && rootId == 0)
+            if (referenceType == "RATING" && (rootId == 0 || rootId == null))
             {
                 var imageUrls = new List<string>();
                 foreach (var image in images)
@@ -255,7 +271,7 @@ namespace study4_be.Services.Rating
                     {
                         ReplyId = reference,
                         ImageUrl = imageUrl,
-                        ReferenceId = rootId,
+                        ReferenceId = rootId.Value,
                         ReferenceType = referenceType,
                     };
 

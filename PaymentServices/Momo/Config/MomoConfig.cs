@@ -8,9 +8,11 @@
         public string PartnerCode { get; set; } = string.Empty;
         public string ReturnUrl { get; set; } = string.Empty;
         public string PaymentUrl { get; set; } = string.Empty;
+        public string AesTokenUrl { get; set; } = string.Empty;
         public string IpnUrl { get; set; } = string.Empty;
         public string AccessKey { get; set; } = string.Empty;
         public string SecretKey { get; set; } = string.Empty;
-        public string Transaction {  get; set; } = string.Empty;    
+        public string Transaction {  get; set; } = string.Empty;
+        public string? LinkAccountUrl { get; set; } = string.Empty;
     }
 }

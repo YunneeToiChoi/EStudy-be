@@ -23,5 +23,5 @@ public partial class Vocabulary
 
     public string VocabTitle { get; set; } = null!;
 
-    public virtual Lesson Lesson { get; set; } = null!;
+    public virtual Lesson? Lesson { get; set; } = null!;
 }

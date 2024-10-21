@@ -43,7 +43,6 @@
         <table class="table">
             <thead class="table-info">
                 <tr>
-                    <th>StaffId</th>
                     <th>StaffName</th>
                     <th>StaffType</th>
                     <th>StaffEmail</th>
@@ -56,9 +55,6 @@
                 @foreach (var staff in Model)
                 {
                     <tr>
-                        <td class="item">
-                            <p>@staff.StaffId</p>
-                        </td>
                         <td class="item">
                             <p>@staff.StaffName</p>
                         </td>
@@ -75,11 +71,11 @@
                             <p>@staff.DepartmentId</p>
                         </td>
                         <td>
-                            <a href="@Url.ActionLink("Staff_Edit","Staff",new { id = staff.StaffId })" class="text-link-action">Sửa</a>
+                            <a href="@Url.ActionLink("Staff_Edit","Staff",new { id = staff.StaffCmnd })" class="text-link-action">Sửa</a>
                             <span style="padding:0 8px">|</span>
-                            <a href="@Url.ActionLink("Staff_Delete","Staff",new { id = staff.StaffId })" class="text-link-action">Xóa</a>
+                            <a href="@Url.ActionLink("Staff_Delete","Staff",new { id = staff.StaffCmnd })" class="text-link-action">Xóa</a>
                             <span style="padding:0 8px">|</span>
-                            <a href="@Url.ActionLink("Staff_Details","Staff",new { id = staff.StaffId })" class="text-link-action">Chi tiết</a>
+                            <a href="@Url.ActionLink("Staff_Details","Staff",new { id = staff.StaffCmnd })" class="text-link-action">Chi tiết</a>
                         </td>
                     </tr>
                 }
