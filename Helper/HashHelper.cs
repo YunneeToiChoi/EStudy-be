@@ -43,7 +43,21 @@ namespace study4_be.Helper
                 var hash = hmac.ComputeHash(Encoding.UTF8.GetBytes(rawData));
                 return BitConverter.ToString(hash).Replace("-", "").ToLower();
             }
-        }  
+        }
+        public string GenerateSignature(DecryptAesTokenRequest request, MomoConfig config)
+        {
+            var rawData = $"accessKey={config.AccessKey}&" +
+               $"callbackToken={request.CallbackToken}&" +
+               $"orderId={request.OrderId}&" +
+               $"partnerClientId={request.PartnerClientId}&" +
+               $"partnerCode={config.PartnerCode}&" +
+               $"requestId={request.RequestId}&";
+            using (var hmac = new HMACSHA256(Encoding.UTF8.GetBytes(config.SecretKey)))
+            {
+                var hash = hmac.ComputeHash(Encoding.UTF8.GetBytes(rawData));
+                return BitConverter.ToString(hash).Replace("-", "").ToLower();
+            }
+        }
         public string GenerateSignatureToCheckingStatus(RequestTrackingStatusMomo request,MomoConfig config)
         {
             // Dữ liệu cần tạo chữ ký

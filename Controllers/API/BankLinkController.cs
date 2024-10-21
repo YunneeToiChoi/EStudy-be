@@ -55,16 +55,7 @@ namespace study4_be.Controllers.API
                         var errorMessage = GetErrorMessage(errorCode.ToString());
                         return BadRequest(new { message = errorMessage });
                     }
-
-                    // Trả về callbackToken và mã lỗi
-                    if (jsonResponse.TryGetValue("callbackToken", out var callbackToken) && !string.IsNullOrEmpty(callbackToken.ToString()))
-                    {
-                        return Ok(new { Message = "Liên kết ví thành công", CallbackToken = callbackToken });
-                    }
-                    else
-                    {
-                        return BadRequest("Không có callbackToken trong phản hồi.");
-                    }
+                    return Ok(new { Message = "Gửi yêu cầu liên kết ví thành công", responseContent });
                 }
                 else
                 {
@@ -78,20 +69,65 @@ namespace study4_be.Controllers.API
                 return StatusCode(500, "Đã xảy ra lỗi khi xử lý yêu cầu thanh toán: " + ex.Message);
             }
         }
+        private async Task<HttpResponseMessage> SendLinkPaymentRequest(BankLinkRequest request, string signature)
+        {
+            // Dữ liệu yêu cầu thanh toán
+            var paymentData = new
+            {
+                partnerCode = _momoConfig.PartnerCode,
+                storeName = _momoConfig.StoreName,
+                storeId = _momoConfig.StoreId,
+                subPartnerCode = request.SubPartnerCode,
+                requestId = request.RequestId,
+                amount = request.Amount,
+                orderId = request.OrderId,
+                orderInfo = request.OrderInfo,
+                redirectUrl = request.RedirectUrl,
+                ipnUrl = request.IpnUrl,
+                requestType = request.RequestType, // alway link wallet 
+                extraData = request.ExtraData, // alway empty
+                partnerClientId = request.partnerClientId,
+                lang = request.Lang,
+                signature = signature
+            };
+            var content = new StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(paymentData), Encoding.UTF8, "application/json");
+            return await _httpClient.PostAsync(_momoConfig.PaymentUrl, content);
+        }
         [HttpPost("DecryptCallbackToken")]
-        public IActionResult DecryptCallbackToken([FromBody] DecryptTokenRequest request)
+        public async Task<IActionResult> DecryptCallbackToken([FromBody] DecryptAesTokenRequest request)
         {
             try
             {
+                // Gửi yêu cầu để nhận AES token từ Momo
+                var aesTokenResponse = await SendAesTokenizationRequest(request);
+                var responseContent = await aesTokenResponse.Content.ReadAsStringAsync();
+
+                if (!aesTokenResponse.IsSuccessStatusCode)
+                {
+                    return StatusCode((int)aesTokenResponse.StatusCode, "Failed to get AES token from Momo." + responseContent);
+                }
+
+                // Đọc nội dung phản hồi và lấy aesToken
+                dynamic responseJson = Newtonsoft.Json.JsonConvert.DeserializeObject(responseContent);
+                string aesToken = responseJson?.aesToken;
+
+                if (string.IsNullOrEmpty(aesToken))
+                {
+                    return BadRequest("aesToken not found in the response.");
+                }
+
                 // Giải mã callbackToken
-                var decryptedToken = DecryptAES(_momoConfig.SecretKey, request.CallbackToken);
+                var decryptedToken = DecryptAES(_momoConfig.SecretKey, aesToken);
+                
+
+                // right here should save aesToken
 
                 // Trả về kết quả
                 return Ok(new { Message = "Giải mã thành công", DecryptedToken = decryptedToken });
             }
             catch (Exception ex)
             {
-                // Ghi log lỗi
+                // Ghi log lỗi và trả về phản hồi lỗi
                 return StatusCode(500, "Đã xảy ra lỗi khi giải mã token: " + ex.Message);
             }
         }
@@ -123,6 +159,30 @@ namespace study4_be.Controllers.API
                 return string.Empty;
             }
         }
+        private async Task<HttpResponseMessage> SendAesTokenizationRequest(DecryptAesTokenRequest request)
+        {
+            // Tạo chữ ký
+            var signature = _hashHelper.GenerateSignature(request, _momoConfig);
+
+            // Dữ liệu yêu cầu gửi lên Momo
+            var paymentData = new
+            {
+                partnerCode = _momoConfig.PartnerCode,
+                callbackToken = request.CallbackToken,
+                requestId = request.RequestId,
+                amount = request.Amount,
+                orderId = request.OrderId,
+                partnerClientId = request.PartnerClientId,
+                lang = request.Lang,
+                signature = signature,
+            };
+
+            // Gửi yêu cầu POST đến API Momo
+            var content = new StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(paymentData), Encoding.UTF8, "application/json");
+            return await _httpClient.PostAsync(_momoConfig.AesTokenUrl, content);
+        }
+
+
         private string GetErrorMessage(string errorCode)
         {
             return Int32.Parse(errorCode) switch
@@ -139,49 +199,6 @@ namespace study4_be.Controllers.API
                 9000 => "Giao dịch đã được xác nhận thành công.",
                 _ => "Đã xảy ra lỗi không xác định.",
             };
-        }
-        private async Task<HttpResponseMessage> SendTokenizationRequest(DecryptTokenRequest request)
-        {
-            // Dữ liệu yêu cầu thanh toán
-            //var signature = _hashHelper.GenerateSignature(request, _momoConfig);
-            var signature = "aa";  // remember replace it 
-            var paymentData = new
-            {
-                partnerCode = _momoConfig.PartnerCode,
-                callbackToken = request.CallbackToken,
-                requestId = request.RequestId,
-                amount = request.Amount,
-                orderId = request.OrderId,
-                partnerClientId = request.PartnerClientId,
-                lang = request.Lang,
-                signature = request.Signature // 
-            };
-            var content = new StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(paymentData), Encoding.UTF8, "application/json");
-            return await _httpClient.PostAsync(_momoConfig.AesTokenUrl, content);
-        }     
-        private async Task<HttpResponseMessage> SendLinkPaymentRequest(BankLinkRequest request, string signature)
-        {
-            // Dữ liệu yêu cầu thanh toán
-            var paymentData = new
-            {
-                partnerCode = _momoConfig.PartnerCode,
-                storeName = _momoConfig.StoreName,
-                storeId = _momoConfig.StoreId,
-                subPartnerCode = request.SubPartnerCode,
-                requestId = request.RequestId,
-                amount = request.Amount,
-                orderId = request.OrderId,
-                orderInfo = request.OrderInfo,
-                redirectUrl = request.RedirectUrl,
-                ipnUrl = request.IpnUrl,
-                requestType = request.RequestType, // alway link wallet 
-                extraData = request.ExtraData, // alway empty
-                partnerClientId = request.partnerClientId,
-                lang = request.Lang,
-                signature = signature
-            };
-            var content = new StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(paymentData), Encoding.UTF8, "application/json");
-            return await _httpClient.PostAsync(_momoConfig.PaymentUrl, content);
         }
 
         [HttpPost("PaymentNotification")]
@@ -207,7 +224,7 @@ namespace study4_be.Controllers.API
             }
         }
     }
-    public class DecryptTokenRequest
+    public class DecryptAesTokenRequest
     {
         public string PartnerCode { get; set; }
         public long Amount { get; set; }
@@ -216,7 +233,6 @@ namespace study4_be.Controllers.API
         public string OrderId { get; set; }
         public string PartnerClientId { get; set; }
         public string Lang { get; set; }
-        public string Signature { get; set; }
     }
     public class PaymentNotification
     {
