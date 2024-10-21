@@ -346,6 +346,10 @@ namespace study4_be.Controllers.API
         [HttpPost("User_UpdateImage")]
         public async Task<IActionResult> User_UpdateImage([FromForm] UserUploadImageRequest request)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
             var (success, message) = await _userService.UpdateUserImageAsync(request);
             if (!success)
             {

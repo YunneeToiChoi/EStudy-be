@@ -7,6 +7,7 @@ using study4_be.Repositories;
 
 namespace study4_be.Controllers.Admin
 {
+    [Route("HR/[controller]/[action]")]
     public class StaffController : Controller
     {
         private readonly ILogger<StaffController> _logger;
@@ -79,10 +80,10 @@ namespace study4_be.Controllers.Admin
         }
 
         // Display staff details
-        public async Task<IActionResult> Staff_Details(int id)
+        public async Task<IActionResult> Staff_Details(string id)
         {
             var staff = await _context.Staff.Include(s => s.Department)
-                                            .FirstOrDefaultAsync(s => s.StaffId == id);
+                                            .FirstOrDefaultAsync(s => s.StaffCmnd == id);
             if (staff == null)
             {
                 TempData["ErrorMessage"] = "Staff not found.";
@@ -93,7 +94,7 @@ namespace study4_be.Controllers.Admin
 
         public async Task<IActionResult> Staff_Edit(string id)
         {
-            var staff = await _context.Staff.FirstOrDefaultAsync(s => s.StaffId == id);
+            var staff = await _context.Staff.FirstOrDefaultAsync(s => s.StaffCmnd == id);
             if (staff == null)
             {
                 return NotFound();
@@ -114,7 +115,7 @@ namespace study4_be.Controllers.Admin
 
         // Handle edit post
         [HttpPost]
-        public async Task<IActionResult> Staff_Edit(int id, StaffEditViewModel staffViewModel)
+        public async Task<IActionResult> Staff_Edit(string id, StaffEditViewModel staffViewModel)
         {
             if (!ModelState.IsValid)
             {
@@ -122,7 +123,7 @@ namespace study4_be.Controllers.Admin
                 return View(staffViewModel);
             }
 
-            var staffToUpdate = await _context.Staff.FirstOrDefaultAsync(s => s.StaffId == id);
+            var staffToUpdate = await _context.Staff.FirstOrDefaultAsync(s => s.StaffCmnd == id);
             if (staffToUpdate == null)
             {
                 return NotFound();
@@ -139,9 +140,8 @@ namespace study4_be.Controllers.Admin
         }
 
         // Display delete confirmation
-        public async Task<IActionResult> Staff_Delete(int id)
+        public async Task<IActionResult> Staff_Delete(string id)
         {
-            var staff = await _context.Staff.FirstOrDefaultAsync(s => s.StaffId == id);
             var staff = await _context.Staff.FirstOrDefaultAsync(c => c.StaffCmnd == id);
             if (staff == null)
             {
@@ -175,23 +175,6 @@ namespace study4_be.Controllers.Admin
             return View(staff);
         }
 
-        [HttpGet]
-        public async Task<IActionResult> Staff_Delete(string id)
-        {
-            if (!ModelState.IsValid)
-            {
-                _logger.LogError($"Staff not found for deletion.");
-                return NotFound($"Staff not found.");
-            }
-            var staff = await _context.Staff.FirstOrDefaultAsync(c => c.StaffCmnd == id);
-            if (staff == null)
-            {
-                _logger.LogError($"Staff not found for delete.");
-                return NotFound($"Staff not found.");
-            }
-            return View(staff);
-        }
-
         [HttpPost, ActionName("Staff_Delete")]
         public async Task<IActionResult> Staff_DeleteConfirmed(string id)
         {
@@ -218,27 +201,6 @@ namespace study4_be.Controllers.Admin
                 ModelState.AddModelError(string.Empty, "An error occurred while deleting the staff.");
                 return View(staff);
             }
-        }
-
-        public async Task<IActionResult> Staff_Details(string id)
-        {
-            // Check if the ID is invalid (e.g., not positive)
-            if (!ModelState.IsValid)
-            {
-                ModelState.AddModelError("", "Invalid Staff ID.");
-                TempData["ErrorMessage"] = "The specified Staff was not found.";
-                return RedirectToAction("Staff_List", "Staff");
-            }
-
-            var staff = await _context.Staff.FirstOrDefaultAsync(c => c.StaffCmnd == id);
-
-            // If no container is found, return to the list with an error
-            if (staff == null)
-            {
-                TempData["ErrorMessage"] = "The specified Staff was not found.";
-                return RedirectToAction("Staff_List", "Staff");
-            }
-            return View(staff);
         }
     }
 }

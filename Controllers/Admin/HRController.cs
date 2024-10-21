@@ -5,6 +5,7 @@ using study4_be.Services;
 
 namespace study4_be.Controllers.Admin
 {
+    [Route("HR/[controller]/[action]")]
     public class HRController : Controller
     {
         public IActionResult HRHome()

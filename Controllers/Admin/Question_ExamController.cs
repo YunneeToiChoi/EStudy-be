@@ -8,6 +8,8 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
 namespace study4_be.Controllers.Admin
 {
+
+    [Route("CourseManager/[controller]/[action]")]
     public class Question_ExamController : Controller
     {
         private readonly ILogger<Question_ExamController> _logger;

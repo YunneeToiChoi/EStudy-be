@@ -1,7 +1,12 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using study4_be.Models;
 using study4_be.Models.ViewModel;
+using System.Security.Claims;
 
 namespace study4_be.Controllers.Admin
 {
@@ -23,13 +28,32 @@ namespace study4_be.Controllers.Admin
         {
             if (ModelState.IsValid)
             {
-                var user = await _context.Staff.FindAsync(model.Email); 
-
+                var user = await _context.Staff.FirstOrDefaultAsync(s => s.StaffEmail == model.Email);
+                if (user == null)
+                {
+                    ModelState.AddModelError(string.Empty, "User is not exist.");
+                    return View();
+                }
+               
                 // Kiểm tra thông tin đăng nhập
                 if (user != null && model.Email == user.StaffEmail && model.Password == user.StaffPassword) 
                 {
                     // Đăng nhập thành công, bạn có thể thiết lập session hoặc cookie ở đây
                     // Chuyển hướng đến dashboard hoặc trang chính
+                    var userRole = await _context.Roles.FindAsync(user.RoleId);
+
+                    HttpContext.Session.SetString("UserRole", userRole.RoleName);
+
+                    var claims = new List<Claim>
+                    {
+                        new Claim(ClaimTypes.Name, user.StaffEmail),
+                        new Claim(ClaimTypes.Role, userRole.RoleName)
+                    };
+
+                    var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+
+                    await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
+
                     return RedirectToAction("Index", "Home");
                 }
 

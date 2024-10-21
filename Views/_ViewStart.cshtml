@@ -1,3 +1,20 @@
 ﻿@{
-    Layout = "_Layout";
+    string userRole = Context.Session.GetString("UserRole");
+
+    if (userRole == "HR")
+    {
+        Layout = "~/Views/Shared/_LayoutHr.cshtml";
+    }
+    else if (userRole == "Finance")
+    {
+        Layout = "~/Views/Shared/_LayoutFinance.cshtml";
+    }
+    else if (userRole == "CourseManager")
+    {
+        Layout = "~/Views/Shared/_LayoutCourse.cshtml";
+    }
+    else
+    {
+        Layout = "~/Views/Shared/LoginLayout.cshtml";
+    }
 }

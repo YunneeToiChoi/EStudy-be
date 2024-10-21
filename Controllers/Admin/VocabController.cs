@@ -11,6 +11,8 @@ using System.Diagnostics;
 
 namespace study4_be.Controllers.Admin
 {
+
+    [Route("CourseManager/[controller]/[action]")]
     public class VocabController : Controller
     {
         private readonly ILogger<VocabController> _logger;

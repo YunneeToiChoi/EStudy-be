@@ -8,6 +8,8 @@ using study4_be.Services;
 
 namespace study4_be.Controllers.Admin
 {
+
+    [Route("CourseManager/[controller]/[action]")]
     public class VideoController : Controller
     {
         private readonly ILogger<VideoController> _logger;

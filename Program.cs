@@ -146,7 +146,18 @@ builder.Services.AddHangfireServer();
 
 builder.Services.AddTransient<study4_be.Services.DateTimeService>(); // or AddTransient if the service needs a shorter lifespan
 
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30); // Set session timeout
+    options.Cookie.HttpOnly = true; // Set the session cookie to be accessible only through HTTP requests
+    options.Cookie.IsEssential = true; // Mark the session cookie as essential
+});
+
 var app = builder.Build();
+
+app.UseHttpsRedirection();
+
 // Cấu hình sử dụng Hangfire dashboard
 app.UseHangfireDashboard();
 
@@ -178,27 +189,45 @@ if (!app.Environment.IsDevelopment())
     app.UseExceptionHandler("/Home/Error");
 }
 
-app.UseStaticFiles();
-
 app.UseRouting();
 
-app.UseCors("AllowAll"); //remember fix this problem
+// Add session middleware before authentication
+app.UseSession(); // Session must be configured before authentication and authorization
 
-// Thêm middleware xác thực và phân quyền
+// Authentication and authorization middleware
 app.UseAuthentication();
 app.UseAuthorization();
 
-// Đăng ký các route
+// Serve static files
+app.UseStaticFiles();
+
+app.UseCors("AllowAll");
+
+// Add your custom RoleMiddleware after authentication
+app.UseMiddleware<RoleMiddleware>();
+
+// Register the endpoints
 app.UseEndpoints(endpoints =>
 {
-    //endpoints.MapControllerRoute(
-    //    name: "default",
-    //    pattern: "{controller=Home}/{action=Index}/{id?}");
-    // Route cho trang đăng nhập
-     endpoints.MapControllerRoute(
-            name: "default",
-            pattern: "{controller=Auth}/{action=Login}/{id?}"); // Chuyển hướng về Auth/Login nếu chưa đăng nhập
+    endpoints.MapControllerRoute(
+        name: "default",
+        pattern: "{controller=Auth}/{action=Login}/{id?}"); // Default route
+    // Route for HR role
+    endpoints.MapControllerRoute(
+        name: "hr",
+        pattern: "HR/{controller=Staff}/{action=Index}/{id?}");
+
+    // Route for CourseManager role
+    endpoints.MapControllerRoute(
+        name: "courseManager",
+        pattern: "CourseManager/{controller=Courses}/{action=Index}/{id?}");
+
+    // Route for CourseManager role
+    endpoints.MapControllerRoute(
+        name: "finance",
+        pattern: "Finance/{controller=Marketing}/{action=Index}/{id?}");
 });
+
 
 // Middleware để đọc body của request và lưu vào context
 app.Use(async (context, next) =>

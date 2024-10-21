@@ -6,6 +6,7 @@ using study4_be.Services;
 
 namespace study4_be.Controllers.Admin
 {
+    [Route("HR/[controller]/[action]")]
     public class DepartmentController : Controller
     {
         private readonly ILogger<DepartmentController> _logger;

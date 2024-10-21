@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Hosting;
 using study4_be.Services;
 namespace study4_be.Controllers.Admin
 {
+
+    [Route("CourseManager/[controller]/[action]")]
     public class CoursesController : Controller
     {
         private readonly ILogger<CoursesController> _logger;
