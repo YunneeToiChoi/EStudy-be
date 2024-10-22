@@ -184,24 +184,34 @@ namespace study4_be.Services
             }
 
             // Handle user banner update
-            if (request.userBanner != null && request.userBanner.Length > 0)
+            if (request.userBanner == null || request.userBanner.Length == 0)
             {
-                try
-                {
-                    var uniqueId = Guid.NewGuid().ToString();
-                    var imgFilePath = $"IMG{uniqueId}.jpg";
-                    string firebaseUrl = await _fireBaseServices.UploadFileToFirebaseStorageAsync(request.userBanner, imgFilePath, firebaseBucketName);
+                return (false, "Chưa cung cấp hình ảnh banner.");
+            }
 
-                    // Delete old banner from Firebase
-                    var oldFileName = Path.GetFileName(new Uri(userExist.UserBanner).LocalPath);
-                    await _fireBaseServices.DeleteFileFromFirebaseStorageAsync(oldFileName, firebaseBucketName);
-                    userExist.UserBanner = firebaseUrl;
-                }
-                catch (Exception ex)
+            try
+            {
+                var uniqueId = Guid.NewGuid().ToString();
+                var imgFilePath = $"IMG{uniqueId}.jpg";
+
+                // Tải lên banner mới lên Firebase
+                string firebaseUrl = await _fireBaseServices.UploadFileToFirebaseStorageAsync(request.userBanner, imgFilePath, firebaseBucketName);
+
+                // Xóa banner cũ khỏi Firebase nếu nó tồn tại
+                var oldBannerUri = userExist.UserBanner;
+                if (!string.IsNullOrEmpty(oldBannerUri))
                 {
-                    _logger.LogError(ex, "Error updating user banner.");
-                    return (false, "Error updating banner. Please try again later.");
+                    var oldFileName = Path.GetFileName(new Uri(oldBannerUri).LocalPath);
+                    await _fireBaseServices.DeleteFileFromFirebaseStorageAsync(oldFileName, firebaseBucketName);
                 }
+
+                // Cập nhật URL banner của người dùng
+                userExist.UserBanner = firebaseUrl;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Lỗi khi cập nhật banner người dùng.");
+                return (false, "Có lỗi xảy ra khi cập nhật banner. Vui lòng thử lại sau.");
             }
 
             try

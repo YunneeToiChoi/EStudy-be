@@ -38,44 +38,6 @@ namespace study4_be.Services.Rating
             }
         );
         }
-        //public async Task<object> SubmitRatingOrReplyAsync(RatingOrReplySubmitRequest request, List<IFormFile> ratingImages)
-        //{
-        //    // Kiểm tra người dùng
-        //    var user = await _context.Users.FindAsync(request.userId);
-        //    if (user == null) throw new NotFoundException("Người dùng không tồn tại.");
-
-        //    // Bắt đầu giao dịch
-        //    using (var transaction = await _context.Database.BeginTransactionAsync())
-        //    {
-        //        int referenceId;
-        //        string referenceType;
-
-        //        if (request.isRating)
-        //        {
-        //            referenceId = await CreateRating(request);
-        //            referenceType = "RATING";
-        //        }
-        //        else
-        //        {
-        //            referenceId = await CreateReply(request);
-        //            referenceType = "REPLY";
-        //        }
-        //        // Tải lên hình ảnh
-        //        var imageUrls = await UploadImages(ratingImages, referenceId, request.rootId, referenceType);
-
-        //        // Cam kết giao dịch
-        //        await transaction.CommitAsync();
-
-        //        // Trả về phản hồi
-        //        return new
-        //        {
-        //            ReferenceId = referenceId,
-        //            UserId = request.userId,
-        //            ReferenceType = referenceType,
-        //            RatingImages = imageUrls
-        //        };
-        //    }
-        //}
         public async Task<object> SubmitRatingOrReplyAsync(RatingOrReplySubmitRequest request, List<IFormFile> ratingImages)
         {
             // Kiểm tra người dùng
@@ -149,6 +111,7 @@ namespace study4_be.Services.Rating
                             ParentId = parentId, // Trả về parentId nếu là reply
                             RootId = rootId,
                             ReferenceType = referenceType,
+                            RatingValue = request.ratingValue,
                             RatingImages = imageUrls
                         });
 
@@ -160,6 +123,7 @@ namespace study4_be.Services.Rating
                         UserId = request.userId,
                         RootId = rootId,
                         ReferenceType = referenceType,
+                        RatingValue = request.ratingValue,
                         RatingImages = imageUrls
                     };
                 }
