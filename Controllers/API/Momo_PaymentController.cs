@@ -387,7 +387,7 @@ namespace study4_be.Controllers.API
                 // Remove the old plan if it exists
                 if (oldPlan != null)
                 {
-                    _context.UserSubs.Remove(oldPlan);
+                    oldPlan.State = false;
                 }
 
                 // Add the new user subscription
@@ -420,7 +420,7 @@ namespace study4_be.Controllers.API
 
                 // Save all changes in one transaction
                 await _context.SaveChangesAsync();
-                await SendCodeActiveByEmail(newOrderPlan.Email, newOrderPlan.OrderId);
+               
                 var respon = new
                 {
                     newOrderPlan.OrderId,
@@ -430,6 +430,8 @@ namespace study4_be.Controllers.API
                     newOrderPlan.CreatedAt,
                     newOrderPlan.State
                 };
+
+                await SendPaymentConfirmationByEmail(newOrderPlan.OrderId);
                 return Ok(new
                 {
                     status = 200,
@@ -464,6 +466,7 @@ namespace study4_be.Controllers.API
                     existingOrderDocument.TotalAmount,
                     existingOrderDocument.State,
                 };
+                await SendPaymentConfirmationByEmail(existingOrderDocument.OrderId);
                 return Ok(new
                 {
                     status = 200,
@@ -472,6 +475,58 @@ namespace study4_be.Controllers.API
                 });
             }
             return BadRequest(new { message = "Order is already completed or invalid" });
+        }
+
+        private async Task<IActionResult> SendPaymentConfirmationByEmail(string orderId)
+        {
+            try
+            {
+                var existOrder = await _context.Orders.FirstOrDefaultAsync(o => o.OrderId == orderId);
+                if (existOrder == null)
+                {
+                    return NotFound(new { status = 404, message = $"Order with ID {orderId} not found." });
+                }
+
+                // Generate PDF and get data
+                string invoiceResult = await _contractPOServices.GenerateInvoicePdf(orderId);
+                if (invoiceResult == null)
+                {
+                    return NotFound(new { status = 404, message = "Had a problem with creating the invoice." });
+                }
+
+                var subject = "[EStudy] - Payment Confirmation for Your Order";
+                var userName = await _context.Users.Where(u => u.UserId == existOrder.UserId).Select(u => u.UserName).FirstOrDefaultAsync();
+                var userEmail = await _context.Users.Where(u => u.UserId == existOrder.UserId).Select(u => u.UserEmail).FirstOrDefaultAsync();
+                // Check if the order is for a document or a subscription plan
+                var documentName = await _context.Documents.Where(d => d.DocumentId == existOrder.DocumentId).Select(d => d.Title).FirstOrDefaultAsync();
+                var planName = await _context.Subscriptionplans.Where(p => p.PlanId == existOrder.PlanId).Select(p => p.PlanName).FirstOrDefaultAsync();
+
+                string emailContent;
+
+                // Generate email content based on the order type
+                if (documentName != null)
+                {
+                    emailContent = _smtpServices.GenerateDocumentPaymentEmailContent(userName, existOrder.OrderDate.ToString(), orderId, documentName, invoiceResult);
+                }
+                else if (planName != null)
+                {
+                    emailContent = _smtpServices.GeneratePlanPaymentEmailContent(userName, existOrder.OrderDate.ToString(), orderId, planName, invoiceResult);
+                }
+                else
+                {
+                    return NotFound(new { status = 404, message = "No valid document or plan found for the given order." });
+                }
+
+                // Attempt to send the email
+                await _smtpServices.SendEmailAsync(userEmail, subject, emailContent, emailContent);
+
+                return Ok(new { status = 200, message = "Payment confirmation email sent successfully" });
+            }
+            catch (Exception ex)
+            {
+                // Log the exception (consider using a logging framework)
+                return StatusCode(500, new { status = 500, message = $"An error occurred while sending the payment confirmation email: {ex.Message}" });
+            }
         }
 
         private async Task<IActionResult> SendCodeActiveByEmail(string userEmail, string orderId)

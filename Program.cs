@@ -24,6 +24,9 @@ using study4_be.Interface.User;
 using study4_be.Repositories;
 using study4_be.Validation;
 using PusherServer;
+using Humanizer;
+using Microsoft.AspNetCore.Routing;
+using static iText.Signatures.LtvVerification;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -207,26 +210,24 @@ app.UseCors("AllowAll");
 app.UseMiddleware<RoleMiddleware>();
 
 // Register the endpoints
-app.UseEndpoints(endpoints =>
-{
-    endpoints.MapControllerRoute(
-        name: "default",
-        pattern: "{controller=Auth}/{action=Login}/{id?}"); // Default route
-    // Route for HR role
-    endpoints.MapControllerRoute(
-        name: "hr",
-        pattern: "HR/{controller=Staff}/{action=Index}/{id?}");
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Auth}/{action=Login}/{id?}"); // Default route
 
-    // Route for CourseManager role
-    endpoints.MapControllerRoute(
-        name: "courseManager",
-        pattern: "CourseManager/{controller=Courses}/{action=Index}/{id?}");
+app.MapControllerRoute(
+    name: "hr",
+    pattern: "HR/{controller=Staff}/{action=Index}/{id?}", // HR route
+    defaults: new { controller = "Staff", action = "Staff_List" });
 
-    // Route for CourseManager role
-    endpoints.MapControllerRoute(
-        name: "finance",
-        pattern: "Finance/{controller=Marketing}/{action=Index}/{id?}");
-});
+app.MapControllerRoute(
+    name: "courseManager",
+    pattern: "CourseManager/{controller=Courses}/{action=Index}/{id?}", // CourseManager route
+    defaults: new { controller = "Courses", action = "Courses_List" });
+
+app.MapControllerRoute(
+    name: "finance",
+    pattern: "Finance/{controller=Marketing}/{action=Index}/{id?}", // Finance route
+    defaults: new { controller = "Marketing", action = "Marketing_Home" });
 
 
 // Middleware để đọc body của request và lưu vào context

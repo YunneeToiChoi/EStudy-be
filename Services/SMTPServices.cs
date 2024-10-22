@@ -82,6 +82,106 @@ namespace study4_be.Services
                 return false;
             }
         }
+        public string GenerateDocumentPaymentEmailContent(string username, string orderDate, string orderId, string documentName, string invoiceUrl)
+        {
+            var stamp = _config["Firebase:Stamp"];
+            var signatureImage = _config["Firebase:SignatureImage"];
+            var logo = _config["Firebase:Logo"]; // default img
+            var sb = new StringBuilder();
+            sb.AppendLine("<html>");
+            sb.AppendLine("<head>");
+            sb.AppendLine("<style>");
+            sb.AppendLine("body { font-family: Arial, sans-serif; background-color: #f4f4f4; margin: 0; padding: 20px; }");
+            sb.AppendLine(".container { background-color: #fff; padding: 20px; border-radius: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }");
+            sb.AppendLine("h3 { color: #333; }");
+            sb.AppendLine(".header { text-align: center; }");
+            sb.AppendLine(".order-details { margin: 20px 0; }");
+            sb.AppendLine("table { width: 100%; border-collapse: collapse; }");
+            sb.AppendLine("th, td { padding: 10px; text-align: left; border: 1px solid #ddd; }");
+            sb.AppendLine("th { background-color: #007BFF; color: white; }");
+            sb.AppendLine(".footer { margin-top: 20px; }");
+            sb.AppendLine("</style>");
+            sb.AppendLine("</head>");
+            sb.AppendLine("<body>");
+            sb.AppendLine("<div class='container'>");
+            sb.AppendLine($"<div class='header'><img src='{logo}' alt='Logo' width='150'/></div>");
+            sb.AppendLine($"<p>Xin chào <strong>{username}</strong>, thanh toán đơn hàng của bạn đã thành công vào ngày <strong>{orderDate}</strong></p>");
+            sb.AppendLine("<h3>Thông tin đơn hàng:</h3>");
+            sb.AppendLine("<div class='order-details'>");
+            sb.AppendLine("<table>");
+            sb.AppendLine("<tr><th>Mã đơn hàng</th><th>Tên tài liệu</th></tr>");
+            sb.AppendLine($"<tr><td>{orderId}</td><td>{documentName}</td></tr>");
+            sb.AppendLine("</table>");
+            sb.AppendLine("</div>");
+            sb.AppendLine("<p>Cảm ơn bạn đã mua tài liệu của chúng tôi. Chúng tôi hy vọng tài liệu này sẽ hữu ích cho bạn.</p>");
+            sb.AppendLine("<p>Trân trọng,</p>");
+            sb.AppendLine("<p>Đội ngũ EStudy</p>");
+            sb.AppendLine("<div class='footer'>");
+            sb.AppendLine("<h4>Liên hệ hỗ trợ:</h4>");
+            sb.AppendLine("<ul>");
+            sb.AppendLine("<li>Email: contact.nangphanvan@gmail.com</li>");
+            sb.AppendLine("<li>Số điện thoại: (+84) 902250149</li>");
+            sb.AppendLine("</ul>");
+            sb.AppendLine($"<h4>Hóa đơn (INVOICE) : <a href='{invoiceUrl}' target='_blank'>Tải về</a></h4>");
+            sb.AppendLine($"<p><img src='{stamp}' alt='Dấu mộc' width='100' /></p>");
+            sb.AppendLine($"<p><img src='{signatureImage}' alt='Chữ ký' width='100' /></p>");
+            sb.AppendLine("</div>");
+            sb.AppendLine("</div>");
+            sb.AppendLine("</body>");
+            sb.AppendLine("</html>");
+            return sb.ToString();
+        }
+
+        public string GeneratePlanPaymentEmailContent(string username, string orderDate, string orderId, string planName, string invoiceUrl)
+        {
+            var stamp = _config["Firebase:Stamp"];
+            var signatureImage = _config["Firebase:SignatureImage"];
+            var logo = _config["Firebase:Logo"]; // default img
+            var sb = new StringBuilder();
+            sb.AppendLine("<html>");
+            sb.AppendLine("<head>");
+            sb.AppendLine("<style>");
+            sb.AppendLine("body { font-family: Arial, sans-serif; background-color: #f4f4f4; margin: 0; padding: 20px; }");
+            sb.AppendLine(".container { background-color: #fff; padding: 20px; border-radius: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }");
+            sb.AppendLine("h3 { color: #333; }");
+            sb.AppendLine(".header { text-align: center; }");
+            sb.AppendLine(".order-details { margin: 20px 0; }");
+            sb.AppendLine("table { width: 100%; border-collapse: collapse; }");
+            sb.AppendLine("th, td { padding: 10px; text-align: left; border: 1px solid #ddd; }");
+            sb.AppendLine("th { background-color: #007BFF; color: white; }");
+            sb.AppendLine(".footer { margin-top: 20px; }");
+            sb.AppendLine("</style>");
+            sb.AppendLine("</head>");
+            sb.AppendLine("<body>");
+            sb.AppendLine("<div class='container'>");
+            sb.AppendLine($"<div class='header'><img src='{logo}' alt='Logo' width='150'/></div>");
+            sb.AppendLine($"<p>Xin chào <strong>{username}</strong>, bạn đã đăng ký thành công gói dịch vụ vào ngày <strong>{orderDate}</strong></p>");
+            sb.AppendLine("<h3>Thông tin đơn hàng:</h3>");
+            sb.AppendLine("<div class='order-details'>");
+            sb.AppendLine("<table>");
+            sb.AppendLine("<tr><th>Mã đơn hàng</th><th>Tên gói dịch vụ</th></tr>");
+            sb.AppendLine($"<tr><td>{orderId}</td><td>{planName}</td></tr>");
+            sb.AppendLine("</table>");
+            sb.AppendLine("</div>");
+            sb.AppendLine("<p>Cảm ơn bạn đã chọn gói dịch vụ của chúng tôi. Chúng tôi hy vọng dịch vụ sẽ mang lại giá trị cho bạn.</p>");
+            sb.AppendLine("<p>Trân trọng,</p>");
+            sb.AppendLine("<p>Đội ngũ EStudy</p>");
+            sb.AppendLine("<div class='footer'>");
+            sb.AppendLine("<h4>Liên hệ hỗ trợ:</h4>");
+            sb.AppendLine("<ul>");
+            sb.AppendLine("<li>Email: contact.nangphanvan@gmail.com</li>");
+            sb.AppendLine("<li>Số điện thoại: (+84) 902250149</li>");
+            sb.AppendLine("</ul>");
+            sb.AppendLine($"<h4>Hóa đơn (INVOICE) : <a href='{invoiceUrl}' target='_blank'>Tải về</a></h4>");
+            sb.AppendLine($"<p><img src='{stamp}' alt='Dấu mộc' width='100' /></p>");
+            sb.AppendLine($"<p><img src='{signatureImage}' alt='Chữ ký' width='100' /></p>");
+            sb.AppendLine("</div>");
+            sb.AppendLine("</div>");
+            sb.AppendLine("</body>");
+            sb.AppendLine("</html>");
+            return sb.ToString();
+        }
+
         public string GenerateCodeByEmailContent(string username, string orderDate, string orderId, string nameCourse, string codeActiveCourse, string invoiceUrl)
         {
             var stamp = _config["Firebase:Stamp"];

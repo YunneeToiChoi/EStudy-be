@@ -67,7 +67,12 @@ namespace study4_be.Controllers.Admin
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Logout()
         {
-            //await _signInManager.SignOutAsync();
+            // Clear the session
+            HttpContext.Session.Clear();
+
+            // Sign the user out (this clears the authentication cookie)
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+
             return RedirectToAction("Login", "Auth"); // Chuyển hướng về trang đăng nhập
         }
     }
