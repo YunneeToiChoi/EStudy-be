@@ -27,6 +27,7 @@ using PusherServer;
 using Humanizer;
 using Microsoft.AspNetCore.Routing;
 using static iText.Signatures.LtvVerification;
+using PdfSharp.Charting;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -86,7 +87,12 @@ builder.Services.AddAuthentication(options =>
     options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
     options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
 })
-.AddCookie()
+.AddCookie(options =>
+{
+    options.LoginPath = "/Auth/Login"; // Đường dẫn đến trang đăng nhập
+    options.LogoutPath = "/Auth/Logout"; // Đường dẫn đến trang đăng xuất
+    options.Cookie.HttpOnly = true; // Chỉ cho phép cookie truy cập từ server
+})
 .AddGoogle(options =>
 {
     options.ClientId = builder.Configuration["Authentication:Google:ClientId"];
@@ -206,7 +212,8 @@ app.UseStaticFiles();
 
 app.UseCors("AllowAll");
 
-
+// Add your custom RoleMiddleware after authentication
+app.UseMiddleware<RoleMiddleware>();
 
 // Register the endpoints
 app.UseEndpoints(endpoints =>
@@ -229,8 +236,7 @@ app.UseEndpoints(endpoints =>
 
 });
 
-// Add your custom RoleMiddleware after authentication
-app.UseMiddleware<RoleMiddleware>();
+
 // Middleware để đọc body của request và lưu vào context
 app.Use(async (context, next) =>
 {
