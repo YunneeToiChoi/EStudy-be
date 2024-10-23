@@ -23,7 +23,7 @@ namespace study4_be.Controllers.Admin
             return View();
         }
 
-        [HttpPost]
+		[HttpPost]
         public async Task<IActionResult> Login(LoginViewModel model) // Sửa: Thêm Task vào IActionResult
         {
             if (ModelState.IsValid)
