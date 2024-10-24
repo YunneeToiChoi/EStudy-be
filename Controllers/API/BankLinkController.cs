@@ -223,6 +223,98 @@ namespace study4_be.Controllers.API
                     return StatusCode(500, $"Lỗi không xác định: {errorMessage}");
             }
         }
+
+        [HttpPost("Disbursement")]
+        public async Task<IActionResult> Disbursement([FromBody] DisbursementRequest request)
+        {
+            try
+            {
+                // Dữ liệu yêu cầu giải ngân
+                string publicKey = _momoConfig.PublicKey;
+                string disbursementMethod = EncryptDisbursementData(JsonConvert.SerializeObject(request), CreateRSAFromPublicKey(publicKey));
+                // Tạo chữ ký (signature) cho yêu cầu giải ngân
+                var signature = _hashHelper.GenerateDisbursementSignature(request, _momoConfig, disbursementMethod);
+
+                // Gửi yêu cầu giải ngân bằng phương thức sendDisbursementRequest
+                var response = await SendDisbursementRequest(request, signature, disbursementMethod);
+
+                // Đọc nội dung phản hồi từ Momo
+                var responseContent = await response.Content.ReadAsStringAsync();
+
+                if (response.IsSuccessStatusCode)
+                {
+                    // Phản hồi thành công
+                    var jsonResponse = JsonConvert.DeserializeObject<Dictionary<string, object>>(responseContent);
+                    return Ok(new { Message = "Giải ngân thành công", jsonResponse });
+                }
+                else
+                {
+                    // Phản hồi thất bại
+                    return BadRequest($"Yêu cầu giải ngân không thành công. Mã lỗi: {response.StatusCode}. Chi tiết: {responseContent}");
+                }
+            }
+            catch (Exception ex)
+            {
+                // Xử lý ngoại lệ và ghi log
+                return StatusCode(500, "Đã xảy ra lỗi khi thực hiện giải ngân: " + ex.Message);
+            }
+        }
+        private async Task<HttpResponseMessage> SendDisbursementRequest(DisbursementRequest request, string signature, string disbursementMethod)
+        {
+
+            var disbursementData = new
+            {
+                partnerCode = _momoConfig.PartnerCode,
+                orderId = request.OrderId,
+                amount = request.Amount,
+                requestId = request.RequestId,
+                requestType = request.RequestType, /*disburseToWallet || disburseToBank*/
+                disbursementMethod = disbursementMethod,
+                extraData = request.ExtraData,
+                orderInfo = request.OrderInfo,
+                partnerClientId = request.PartnerClientId, // sdt
+                lang = request.Lang,
+                signature = signature
+            };
+
+            // Chuyển đổi dữ liệu sang JSON và tạo nội dung yêu cầu
+            var content = new StringContent(JsonConvert.SerializeObject(disbursementData), Encoding.UTF8, "application/json");
+
+            // Gửi yêu cầu POST đến API của Momo (Disbursement API URL)
+            return await _httpClient.PostAsync(_momoConfig.DisbursementUrl, content);
+        }
+        public static RSA CreateRSAFromPublicKey(string publicKeyPEM)
+        {
+            // Remove the header and footer from the PEM public key
+            var publicKey = publicKeyPEM
+                .Replace("-----BEGIN PUBLIC KEY-----", "")
+                .Replace("-----END PUBLIC KEY-----", "")
+                .Trim();
+
+            // Decode the base64 string
+            byte[] keyBytes = Convert.FromBase64String(publicKey);
+
+            // Create a new RSA object
+            RSA rsa = RSA.Create();
+
+            // Import the public key information
+            rsa.ImportSubjectPublicKeyInfo(keyBytes, out _);
+
+            return rsa;
+        }
+
+        public static string EncryptDisbursementData(string data, RSA rsa)
+        {
+            // Convert the input string to a byte array
+            byte[] dataToEncrypt = System.Text.Encoding.UTF8.GetBytes(data);
+
+            // Encrypt the data
+            byte[] encryptedData = rsa.Encrypt(dataToEncrypt, RSAEncryptionPadding.Pkcs1);
+
+            // Return the encrypted data as a base64 string
+            return Convert.ToBase64String(encryptedData);
+        }
+
     }
     public class DecryptAesTokenRequest
     {
@@ -262,6 +354,18 @@ namespace study4_be.Controllers.API
         public string Lang { get; set; }
         public string Signature { get; set; }
     }
+    public class DisbursementRequest
+    {
+        public string RequestId { get; set; } // ID yêu cầu duy nhất
+        public long Amount { get; set; } // Số tiền giải ngân
+        public string OrderId { get; set; } // Mã đơn hàng
+        public string PartnerClientId { get; set; } // ID khách hàng của partner
+        public string Lang { get; set; } // Ngôn ngữ (VD: "vi" hoặc "en")
+        public string RequestType { get; set; }
+        public string OrderInfo { get; set; }
+        public string ExtraData { get; set; }
+    }
+
     public class TokenizationResponse
     {
         public string PartnerCode { get; set; }

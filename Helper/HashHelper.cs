@@ -58,6 +58,26 @@ namespace study4_be.Helper
                 return BitConverter.ToString(hash).Replace("-", "").ToLower();
             }
         }
+        public string GenerateDisbursementSignature(DisbursementRequest request, MomoConfig config,string disbursementMethod)
+        {
+            // Dữ liệu cần tạo chữ ký
+            var data = $"accessKey={config.AccessKey}&" +
+                $"amount={request.Amount}&" +
+                $"disbursementMethod={disbursementMethod}&" +
+                $"extraData={request.ExtraData}&" +
+                $"orderId={request.OrderId}&" +
+                $"orderInfo={request.OrderInfo}&" +
+                $"partnerCode={config.PartnerCode}&" +
+                $"requestId={request.RequestId}&" +
+                $"requestType={request.RequestType}";
+
+            // Sử dụng khóa bí mật để tạo chữ ký
+            using (var hmac = new HMACSHA256(Encoding.UTF8.GetBytes(config.SecretKey)))
+            {
+                var hash = hmac.ComputeHash(Encoding.UTF8.GetBytes(data));
+                return BitConverter.ToString(hash).Replace("-", "").ToLower();
+            }
+        }
         public string GenerateSignatureToCheckingStatus(RequestTrackingStatusMomo request,MomoConfig config)
         {
             // Dữ liệu cần tạo chữ ký
