@@ -13,19 +13,9 @@ namespace study4_be.Validation
 
         public async Task InvokeAsync(HttpContext context)
         {
-            if (!context.User.Identity.IsAuthenticated)
-            {
-                Console.WriteLine("User is not authenticated.");
-                if (!context.Request.Path.StartsWithSegments("/Auth/Login"))
-                {
-                    context.Response.Redirect("/Auth/Login");
-                    return;
-                }
-            }
             // Check if the user is authenticated
-            else
+            if (context.User.Identity.IsAuthenticated)
             {
-                Console.WriteLine("User is authenticated.");
                 // Retrieve the user's role (assuming role is stored in claims or session)
                 var userRole = context.User.FindFirst("Role")?.Value ?? context.Session.GetString("UserRole");
 
