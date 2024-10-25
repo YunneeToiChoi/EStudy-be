@@ -23,6 +23,10 @@ namespace study4_be.Services.Payment
     public class UserInfo
     {
         public string PartnerClientAlias { get; set; } = string.Empty;
+        public string UserId { get; set; }
+        public string WalletType {  get; set; }
+        public string CardNumber { get; set; } = string.Empty; 
+        
     }
 
 }

@@ -106,7 +106,7 @@ namespace study4_be.Controllers.API
                 OrderId = orderId,
                 UserId = existingUser.UserId,
 				CourseId = existingCourse.CourseId,
-				TotalAmount = existingCourse.CoursePrice,
+				TotalAmount = existingCourse.CoursePrice.Value,
 				OrderDate = DateTime.Now,
 				Email = request.Email,
 				Address = request.Address,
@@ -150,7 +150,7 @@ namespace study4_be.Controllers.API
                 OrderId = orderId,
                 UserId = existingUser.UserId,
                 DocumentId = existingDocument.DocumentId,
-                TotalAmount = existingDocument.Price,
+                TotalAmount = existingDocument.Price.Value,
                 OrderDate = DateTime.Now,
                 CreatedAt = DateTime.Now,
                 State = false
@@ -259,7 +259,7 @@ namespace study4_be.Controllers.API
                 OrderId = orderId,
                 UserId = existingUserCourse.UserId,
                 CourseId = existingUserCourse.CourseId,
-                TotalAmount = existingCourse.CoursePrice,
+                TotalAmount = existingCourse.CoursePrice.Value,
                 OrderDate = DateTime.Now,
                 CreatedAt = DateTime.Now,
                 State = false

@@ -53,6 +53,9 @@ namespace study4_be.Controllers.API
                     // Phân tích nội dung phản hồi JSON để kiểm tra mã lỗi
                     var jsonResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<Dictionary<string, object>>(responseContent);
 
+
+
+
                     if (jsonResponse != null && jsonResponse.TryGetValue("errorCode", out var errorCode) && errorCode.ToString() != "0")
                     {
                         // Có mã lỗi trong phản hồi, lấy thông báo lỗi chi tiết
