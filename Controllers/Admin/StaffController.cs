@@ -7,7 +7,7 @@ using study4_be.Repositories;
 
 namespace study4_be.Controllers.Admin
 {
-    [Route("HR/[controller]/[action]")]
+    [Route("Admin/HR/[controller]/[action]")]
     public class StaffController : Controller
     {
         private readonly ILogger<StaffController> _logger;

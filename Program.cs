@@ -206,29 +206,15 @@ app.UseStaticFiles();
 
 app.UseCors("AllowAll");
 
-// Add your custom RoleMiddleware after authentication
 app.UseMiddleware<RoleMiddleware>();
 
-// Register the endpoints
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Auth}/{action=Login}/{id?}"); // Default route
-
-app.MapControllerRoute(
-    name: "hr",
-    pattern: "HR/{controller=Staff}/{action=Index}/{id?}", // HR route
-    defaults: new { controller = "Staff", action = "Staff_List" });
-
-app.MapControllerRoute(
-    name: "courseManager",
-    pattern: "CourseManager/{controller=Courses}/{action=Index}/{id?}", // CourseManager route
-    defaults: new { controller = "Courses", action = "Courses_List" });
-
-app.MapControllerRoute(
-    name: "finance",
-    pattern: "Finance/{controller=Marketing}/{action=Index}/{id?}", // Finance route
-    defaults: new { controller = "Marketing", action = "Marketing_Home" });
-
+app.UseEndpoints(endpoints =>
+{
+    // Register the endpoints
+    endpoints.MapControllerRoute(
+        name: "default",
+        pattern: "{controller=Auth}/{action=Login}/{id?}"); // Default route
+});
 
 // Middleware để đọc body của request và lưu vào context
 app.Use(async (context, next) =>
@@ -241,7 +227,6 @@ app.Use(async (context, next) =>
         context.Request.Body.Position = 0;
         context.Items["RequestBody"] = body;
     }
-
     await next();
 });
 app.Use(async (context, next) =>
@@ -261,6 +246,9 @@ app.Use(async (context, next) =>
 
     await next();
 });
+
+
+
 app.MapControllers();
 
 await app.RunAsync();

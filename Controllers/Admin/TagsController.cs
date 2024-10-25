@@ -7,7 +7,7 @@ using study4_be.Services;
 namespace study4_be.Controllers.Admin
 {
 
-    [Route("CourseManager/[controller]/[action]")]
+    [Route("Admin/CourseManager/[controller]/[action]")]
     public class TagsController : Controller
     {
         private readonly ILogger<TagsController> _logger;

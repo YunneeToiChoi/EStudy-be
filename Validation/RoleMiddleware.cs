@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using System.Security.Claims;
 using System.Threading.Tasks;
 namespace study4_be.Validation
 {
@@ -13,37 +14,44 @@ namespace study4_be.Validation
 
         public async Task InvokeAsync(HttpContext context)
         {
-            // Check if the user is authenticated
-            if (context.User.Identity.IsAuthenticated)
+            // Lấy đường dẫn hiện tại
+            var path = context.Request.Path;
+
+            // Kiểm tra nếu người dùng đã xác thực và yêu cầu đến từ Admin
+            if (path.StartsWithSegments("/Admin"))
             {
-                // Retrieve the user's role (assuming role is stored in claims or session)
-                var userRole = context.User.FindFirst("Role")?.Value ?? context.Session.GetString("UserRole");
-
-                // Get the current request path
-                var path = context.Request.Path;
-
-                // Role-based access rules
-                if (path.StartsWithSegments("/HR") && userRole != "HR")
+                if (!context.User.Identity.IsAuthenticated)
                 {
-                    // Redirect to an unauthorized page if the user is not an Admin
+                    // Nếu người dùng chưa xác thực, chuyển hướng đến trang đăng nhập
+                    context.Response.Redirect("/Auth/Login");
+                    return;
+                }
+
+                // Lấy vai trò của người dùng từ claims hoặc session
+                var userRole = context.User.FindFirst(ClaimTypes.Role)?.Value ?? context.Session.GetString("UserRole");
+
+                // Kiểm tra quyền truy cập dựa trên vai trò
+                if (path.StartsWithSegments("/Admin/HR") && userRole != "HR")
+                {
+                    // Chuyển hướng đến trang không có quyền truy cập nếu người dùng không phải là HR
                     context.Response.Redirect("/Home/Unauthorized");
                     return;
                 }
-                else if (path.StartsWithSegments("/Finance") && userRole != "Finance")
+                else if (path.StartsWithSegments("/Admin/Finance") && userRole != "Finance")
                 {
-                    // Redirect to an unauthorized page if the user is not a User
+                    // Chuyển hướng đến trang không có quyền truy cập nếu người dùng không phải là Finance
                     context.Response.Redirect("/Home/Unauthorized");
                     return;
                 }
-                else if (path.StartsWithSegments("/CourseManager") && userRole != "CourseManager")
+                else if (path.StartsWithSegments("/Admin/CourseManager") && userRole != "CourseManager")
                 {
-                    // Redirect to an unauthorized page if the user is not a User
+                    // Chuyển hướng đến trang không có quyền truy cập nếu người dùng không phải là CourseManager
                     context.Response.Redirect("/Home/Unauthorized");
                     return;
                 }
             }
 
-            // Continue to the next middleware in the pipeline
+            // Tiếp tục xử lý yêu cầu trong pipeline
             await _next(context);
         }
     }

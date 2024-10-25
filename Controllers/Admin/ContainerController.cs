@@ -9,7 +9,7 @@ using study4_be.Services;
 namespace study4_be.Controllers.Admin
 {
 
-    [Route("CourseManager/[controller]/[action]")]
+    [Route("Admin/CourseManager/[controller]/[action]")]
     public class ContainerController : Controller
     {
         private readonly Study4Context _context;
