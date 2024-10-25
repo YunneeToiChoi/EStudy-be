@@ -7,10 +7,10 @@ namespace study4_be.Services.Payment
     public class BankLinkRequest
     {
         public string SubPartnerCode { get; set; } = string.Empty;
-        public string RequestId { get; set; } = string.Empty;
+        public string? RequestId { get; set; } = string.Empty;
         public required long Amount { get; set; }
-        public string OrderId { get; set; } = string.Empty;
-        public string OrderInfo { get; set; } = string.Empty;
+        public string? OrderId { get; set; } = string.Empty;
+        public string? OrderInfo { get; set; } = string.Empty;
         public string RedirectUrl { get; set; } = string.Empty;
         public string IpnUrl { get; set; } = string.Empty;
         public string RequestType { get; set; } = string.Empty; //
@@ -22,11 +22,9 @@ namespace study4_be.Services.Payment
 
     public class UserInfo
     {
-        public string PartnerClientAlias { get; set; } = string.Empty;
+        public string? PartnerClientAlias { get; set; } = string.Empty;
         public string UserId { get; set; }
-        public string WalletType {  get; set; }
-        public string CardNumber { get; set; } = string.Empty; 
-        
+        public string WalletName { get; set; } 
     }
 
 }

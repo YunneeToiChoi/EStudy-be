@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using Microsoft.Identity.Client;
 using Newtonsoft.Json;
 using study4_be.Helper;
 using study4_be.Models;
@@ -53,9 +54,16 @@ namespace study4_be.Controllers.API
                     // Phân tích nội dung phản hồi JSON để kiểm tra mã lỗi
                     var jsonResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<Dictionary<string, object>>(responseContent);
 
-
-
-
+                    var wallet = new Wallet
+                    {
+                        Id = Guid.NewGuid().ToString(),
+                        CardNumber = request.partnerClientId,
+                        IsAvailable = true,
+                        Name = request.UserInfo.WalletName,
+                        Userid = request.UserInfo.UserId,
+                        Type = request.RequestType,
+                    };
+                    await _context.SaveChangesAsync();
                     if (jsonResponse != null && jsonResponse.TryGetValue("errorCode", out var errorCode) && errorCode.ToString() != "0")
                     {
                         // Có mã lỗi trong phản hồi, lấy thông báo lỗi chi tiết
@@ -85,9 +93,9 @@ namespace study4_be.Controllers.API
                 storeName = _momoConfig.StoreName,
                 storeId = _momoConfig.StoreId,
                 subPartnerCode = request.SubPartnerCode,
-                requestId = request.RequestId,
+                requestId = request.RequestId,//tao 
                 amount = request.Amount,
-                orderId = request.OrderId,
+                orderId = request.OrderId,//tao 
                 orderInfo = request.OrderInfo,
                 redirectUrl = request.RedirectUrl,
                 ipnUrl = request.IpnUrl,
@@ -236,6 +244,22 @@ namespace study4_be.Controllers.API
         {
             try
             {
+                if(request.Amount <= 0)
+                {
+                    return BadRequest($"Yêu cầu giải ngân không thành công. Số tiền phải lớn hơn 0");
+
+                }
+                var existUser = await _context.Users.FindAsync(request.userId);
+                long finalAmount = ((long)existUser.Blance) * 10 / 100;
+                if (request.Amount <= existUser.Blance) // case du tien 
+                {
+                    request.Amount = finalAmount;
+                }
+                else // deo du
+                {
+                    return BadRequest($"Yêu cầu giải ngân không thành công. Số tiền hiện tại {existUser.Blance} , Số tiền sau thuế {finalAmount} , Số tiền yêu cầu {request.Amount}. Không đủ tiền");
+                }
+
                 // Dữ liệu yêu cầu giải ngân
                 string publicKey = _momoTestConfig.PublicKey;
                 string disbursementMethod = EncryptDisbursementData(JsonConvert.SerializeObject(request), CreateRSAFromPublicKey(publicKey));
@@ -250,11 +274,21 @@ namespace study4_be.Controllers.API
 
                 if (response.IsSuccessStatusCode || ((int)response.StatusCode) == 11)
                 {
-                    // Phản hồi thành công
-                    var jsonResponse = JsonConvert.DeserializeObject<Dictionary<string, object>>(responseContent);
+                    // Phản hồi thành công ( tru tien wallet va cap nhat order ) 
+                    existUser.Blance  -= ((double)request.Amount);
+                    var saveOrder = new Order {
+                        OrderId = request.OrderId,
+                        CreatedAt = DateTime.UtcNow,    
+                        OrderDate = DateTime.UtcNow,
+                        PaymentType  =  "WithDraw",
+                        State = true ,
+                        TotalAmount = request.Amount,
+                        WalletId = request.walletId,
+                        UserId = request.userId,
+                    };
+                    await _context.SaveChangesAsync();
                     return Ok(new {
                         Message = "Giải ngân thành công", 
-                        jsonResponse,
                         statusCode = 200
                     });
                 }
@@ -276,9 +310,9 @@ namespace study4_be.Controllers.API
             var disbursementData = new
             {
                 partnerCode = _momoTestConfig.PartnerCode,
-                orderId = request.OrderId,
+                orderId = Guid.NewGuid().ToString(),
                 amount = request.Amount,
-                requestId = request.RequestId,
+                requestId = Guid.NewGuid().ToString(),
                 requestType = request.RequestType, /*disburseToWallet || disburseToBank*/
                 disbursementMethod = disbursementMethod,
                 extraData = request.ExtraData,
