@@ -10,6 +10,7 @@ namespace study4_be.PaymentServices.Momo.Request
 {
     public class PaymentNotification
     {
+        public string walletId { get; set; }
         public string PartnerCode { get; set; }
         public string OrderId { get; set; }
         public string RequestId { get; set; }
