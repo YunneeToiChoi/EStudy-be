@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.DotNet.MSIdentity.Shared;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.Identity.Client;
@@ -413,6 +414,18 @@ namespace study4_be.Controllers.API
             public string UserId { get; set; }
             public double Amount { get; set; }
         }
+        public class DisbursementMethodRequest
+        {
+            public string RequestId { get; set; } // ID yêu cầu duy nhất
+            public long Amount { get; set; } // Số tiền giải ngân
+            public string OrderId { get; set; } // Mã đơn hàng
+            public string PartnerClientId { get; set; } // ID khách hàng của partner
+            public string Lang { get; set; } // Ngôn ngữ (VD: "vi" hoặc "en")
+            public string RequestType { get; set; }
+            public string OrderInfo { get; set; }
+            public string ExtraData { get; set; }
+         
+        }
         [HttpPost("Disbursement")]
         public async Task<IActionResult> Disbursement([FromBody] DisbursementRequest request)
         {
@@ -447,16 +460,15 @@ namespace study4_be.Controllers.API
 
                 // Cập nhật số dư của người dùng
                 existUser.Blance -= amountAfterTax; // Trừ số tiền thực tế sau thuế
-                await _context.SaveChangesAsync();
                 request.Amount = amountAfterTax;
                 // Dữ liệu yêu cầu giải ngân (bao gồm cả thông tin người dùng)
                 string publicKey = _momoConfig.PublicKey;
 
                 // Tạo một đối tượng mới không có userId và walletId
-                var disbursementData = new
+                var disbursementData = new DisbursementMethodRequest
                 {
                     RequestId = request.RequestId,
-                    Amount = amountAfterTax, 
+                    Amount = amountAfterTax,
                     OrderId = request.OrderId,
                     PartnerClientId = request.PartnerClientId,
                     Lang = request.Lang,
@@ -474,8 +486,9 @@ namespace study4_be.Controllers.API
                 // Gửi yêu cầu giải ngân
                 var response = await SendDisbursementRequest(request, signature, disbursementMethod);
                 var responseContent = await response.Content.ReadAsStringAsync();
+                var jsonResponse = JsonConvert.DeserializeObject<Dictionary<string, object>>(responseContent);
 
-                if (response.IsSuccessStatusCode || ((int)response.StatusCode) == 11)
+                if (response.IsSuccessStatusCode || (jsonResponse.TryGetValue("resultCode", out var resultCode) && (resultCode.ToString() == "11")))
                 {
                     // Tạo đơn hàng mới
                     var saveOrder = new Order
@@ -495,8 +508,10 @@ namespace study4_be.Controllers.API
 
                     return Ok(new
                     {
-                        Message = "Giải ngân thành công",
-                        StatusCode = 200
+                        message = "Giải ngân thành công",
+                        statusCode = 200,
+                        saveOrder,
+                        existUser,
                     });
                 }
                 else
@@ -516,11 +531,11 @@ namespace study4_be.Controllers.API
         {
 
             var disbursementData = new
-            {   
+            {
                 partnerCode = _momoConfig.PartnerCode,
-                orderId = Guid.NewGuid().ToString(),
+                orderId = request.OrderId,
                 amount = request.Amount,
-                requestId = Guid.NewGuid().ToString(),
+                requestId = request.RequestId,
                 requestType = request.RequestType, /*disburseToWallet || disburseToBank*/
                 disbursementMethod = disbursementMethod,
                 extraData = request.ExtraData,
@@ -536,35 +551,27 @@ namespace study4_be.Controllers.API
             // Gửi yêu cầu POST đến API của Momo (Disbursement API URL)
             return await _httpClient.PostAsync(_momoConfig.DisbursementUrl, content);
         }
-        private static RSA CreateRSAFromPublicKey(string publicKeyPEM)
+        public static RSA CreateRSAFromPublicKey(string publicKeyPEM)
         {
-            // Kiểm tra nếu khóa công khai là rỗng
-            if (string.IsNullOrWhiteSpace(publicKeyPEM))
-            {
-                Console.WriteLine("Môi trường test: Khóa công khai rỗng. Tạo khóa RSA ngẫu nhiên.");
-
-                // Tạo và trả về một đối tượng RSA ngẫu nhiên trong môi trường test
-                return RSA.Create();
-            }
-
-            // Loại bỏ phần header và footer khỏi PEM public key
+            // Remove the header and footer from the PEM public key
             var publicKey = publicKeyPEM
                 .Replace("-----BEGIN PUBLIC KEY-----", "")
                 .Replace("-----END PUBLIC KEY-----", "")
                 .Trim();
 
-            // Giải mã chuỗi base64
+            // Decode the base64 string
             byte[] keyBytes = Convert.FromBase64String(publicKey);
 
-            // Tạo đối tượng RSA
+            // Create a new RSA object
             RSA rsa = RSA.Create();
 
-            // Nhập thông tin khóa công khai
+            // Import the public key information
             rsa.ImportSubjectPublicKeyInfo(keyBytes, out _);
 
             return rsa;
         }
-        private static string EncryptDisbursementData(string data, RSA rsa)
+
+        public static string EncryptDisbursementData(string data, RSA rsa)
         {
             // Convert the input string to a byte array
             byte[] dataToEncrypt = System.Text.Encoding.UTF8.GetBytes(data);
