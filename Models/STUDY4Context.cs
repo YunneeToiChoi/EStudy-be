@@ -68,11 +68,6 @@ public partial class Study4Context : DbContext
     public virtual DbSet<Vocabulary> Vocabularies { get; set; }
 
     public virtual DbSet<Wallet> Wallets { get; set; }
-
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Data Source=LAPTOP-62MKG1UJ;Initial Catalog=STUDY4;Integrated Security=True;Trust Server Certificate=True");
-
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Category>(entity =>
@@ -134,6 +129,7 @@ public partial class Study4Context : DbContext
         modelBuilder.Entity<Document>(entity =>
         {
             entity.HasKey(e => e.DocumentId).HasName("PK__Document__1ABEEF0F24A04C4B");
+
 
             entity.Property(e => e.Description).HasColumnType("text");
             entity.Property(e => e.DownloadCount).HasDefaultValue(0);
@@ -221,6 +217,7 @@ public partial class Study4Context : DbContext
         {
             entity.HasKey(e => e.OrderId).HasName("PK__Orders__F1FF84530D4C85A8");
 
+
             entity.Property(e => e.OrderId)
                 .HasMaxLength(255)
                 .HasColumnName("Order_id");
@@ -282,6 +279,7 @@ public partial class Study4Context : DbContext
         modelBuilder.Entity<PlanCourse>(entity =>
         {
             entity.HasKey(e => new { e.PlanId, e.CourseId }).HasName("PK__PLAN_COU__47E48A7C67AE984C");
+
 
             entity.ToTable("PLAN_COURSES");
 
@@ -361,6 +359,7 @@ public partial class Study4Context : DbContext
         {
             entity.HasKey(e => e.Id).HasName("PK__RATING__3214EC2711F721EC");
 
+
             entity.ToTable("RATING");
 
             entity.Property(e => e.Id).HasColumnName("ID");
@@ -397,6 +396,7 @@ public partial class Study4Context : DbContext
         {
             entity.HasKey(e => e.ImageId).HasName("PK__RATING_I__7EA986895FEA64A4");
 
+
             entity.ToTable("RATING_IMAGES");
 
             entity.Property(e => e.ImageId).HasColumnName("IMAGE_ID");
@@ -420,6 +420,7 @@ public partial class Study4Context : DbContext
         modelBuilder.Entity<RatingReply>(entity =>
         {
             entity.HasKey(e => e.ReplyId).HasName("PK__RATING_R__C48F2A207C16AA01");
+
 
             entity.ToTable("RATING_REPLY");
 
@@ -577,6 +578,7 @@ public partial class Study4Context : DbContext
         modelBuilder.Entity<UserAnswer>(entity =>
         {
             entity.HasKey(e => e.UserAnswerId).HasName("PK__UserAnsw__47CE237F4F948983");
+
 
             entity.Property(e => e.QuestionId).HasColumnName("QUESTION_ID");
             entity.Property(e => e.UserExamId)

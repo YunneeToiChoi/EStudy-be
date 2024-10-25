@@ -7,10 +7,11 @@ public partial class Wallet
 {
     public string Id { get; set; } = null!;
 
+
     public string Userid { get; set; } = null!;
 
     public string Type { get; set; } = null!;
-    public string Name { get; set; }
+    public string Name { get; set; } = null!;
 
     public string CardNumber { get; set; } = null!;
 

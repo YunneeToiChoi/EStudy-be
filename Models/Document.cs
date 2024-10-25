@@ -27,7 +27,7 @@ public partial class Document
 
     public int? CourseId { get; set; }
 
-    public double? Price { get; set; }
+    public double Price { get; set; }
 
     public double? DocumentSize { get; set; }
 
