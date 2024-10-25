@@ -111,7 +111,9 @@ namespace study4_be.Controllers.API
 				Email = request.Email,
 				Address = request.Address,
 				CreatedAt = DateTime.Now,
-				State = false
+				State = false,
+                PaymentType = "Abate" // Thanh Toan
+                
 			};
 			_context.Orders.Add(order);
 			await _context.SaveChangesAsync();
@@ -153,7 +155,8 @@ namespace study4_be.Controllers.API
                 TotalAmount = existingDocument.Price,
                 OrderDate = DateTime.Now,
                 CreatedAt = DateTime.Now,
-                State = false
+                State = false,
+                PaymentType = "Abate",
             };
             _context.Orders.Add(order);
             await _context.SaveChangesAsync();
@@ -195,7 +198,8 @@ namespace study4_be.Controllers.API
                 TotalAmount = existingPlan.PlanPrice,
                 OrderDate = DateTime.Now,
                 CreatedAt = DateTime.Now,
-                State = false
+                State = false,
+                PaymentType = "Abate"
             };
             _context.Orders.Add(order);
             await _context.SaveChangesAsync();
@@ -229,7 +233,8 @@ namespace study4_be.Controllers.API
                 TotalAmount = existingPlan.PlanPrice,
                 OrderDate = DateTime.Now,
                 CreatedAt = DateTime.Now,
-                State = false
+                State = false,
+                PaymentType = "Abate"
             };
             _context.Orders.Add(order);
             await _context.SaveChangesAsync();
@@ -262,7 +267,8 @@ namespace study4_be.Controllers.API
                 TotalAmount = existingCourse.CoursePrice,
                 OrderDate = DateTime.Now,
                 CreatedAt = DateTime.Now,
-                State = false
+                State = false,
+                PaymentType = "Abate"
             };
             _context.Orders.Add(order);
             await _context.SaveChangesAsync();
