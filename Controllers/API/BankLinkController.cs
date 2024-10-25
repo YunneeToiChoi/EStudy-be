@@ -6,6 +6,7 @@ using study4_be.Helper;
 using study4_be.Models;
 using study4_be.Payment.MomoPayment;
 using study4_be.PaymentServices.Momo.Config;
+using study4_be.PaymentServices.Momo.Request;
 using study4_be.Services;
 using study4_be.Services.Payment;
 using System.Security.Cryptography;
@@ -19,6 +20,7 @@ namespace study4_be.Controllers.API
     public class BankLinkController : ControllerBase
     {
         private readonly MomoConfig _momoConfig;
+        private readonly MomoTestConfig _momoTestConfig;
         private readonly HashHelper _hashHelper;
         private readonly Study4Context _context;
         private HttpClient _httpClient = new();
@@ -27,12 +29,14 @@ namespace study4_be.Controllers.API
                                   IOptions<MomoConfig> momoPaymentSettings,
                                   SMTPServices smtpServices,
                                   ContractPOServices contractPOServices,
-                                  Study4Context context)
+                                  Study4Context context, IOptions<MomoTestConfig> momoTestConfig)
         {
             _context = context;
             _hashHelper = new HashHelper();
             _momoConfig = momoPaymentSettings.Value;
+            _momoTestConfig = momoTestConfig.Value;
         }
+
         [HttpPost("LinkWallet")]
         public async Task<IActionResult> LinkWallet([FromBody] BankLinkRequest request)
         {
@@ -230,10 +234,10 @@ namespace study4_be.Controllers.API
             try
             {
                 // Dữ liệu yêu cầu giải ngân
-                string publicKey = _momoConfig.PublicKey;
+                string publicKey = _momoTestConfig.PublicKey;
                 string disbursementMethod = EncryptDisbursementData(JsonConvert.SerializeObject(request), CreateRSAFromPublicKey(publicKey));
                 // Tạo chữ ký (signature) cho yêu cầu giải ngân
-                var signature = _hashHelper.GenerateDisbursementSignature(request, _momoConfig, disbursementMethod);
+                var signature = _hashHelper.GenerateDisbursementSignature(request, _momoTestConfig, disbursementMethod);
 
                 // Gửi yêu cầu giải ngân bằng phương thức sendDisbursementRequest
                 var response = await SendDisbursementRequest(request, signature, disbursementMethod);
@@ -241,11 +245,15 @@ namespace study4_be.Controllers.API
                 // Đọc nội dung phản hồi từ Momo
                 var responseContent = await response.Content.ReadAsStringAsync();
 
-                if (response.IsSuccessStatusCode)
+                if (response.IsSuccessStatusCode || ((int)response.StatusCode) == 11)
                 {
                     // Phản hồi thành công
                     var jsonResponse = JsonConvert.DeserializeObject<Dictionary<string, object>>(responseContent);
-                    return Ok(new { Message = "Giải ngân thành công", jsonResponse });
+                    return Ok(new {
+                        Message = "Giải ngân thành công", 
+                        jsonResponse,
+                        statusCode = 200
+                    });
                 }
                 else
                 {
@@ -264,7 +272,7 @@ namespace study4_be.Controllers.API
 
             var disbursementData = new
             {
-                partnerCode = _momoConfig.PartnerCode,
+                partnerCode = _momoTestConfig.PartnerCode,
                 orderId = request.OrderId,
                 amount = request.Amount,
                 requestId = request.RequestId,
@@ -281,29 +289,37 @@ namespace study4_be.Controllers.API
             var content = new StringContent(JsonConvert.SerializeObject(disbursementData), Encoding.UTF8, "application/json");
 
             // Gửi yêu cầu POST đến API của Momo (Disbursement API URL)
-            return await _httpClient.PostAsync(_momoConfig.DisbursementUrl, content);
+            return await _httpClient.PostAsync(_momoTestConfig.DisbursementUrl, content);
         }
-        public static RSA CreateRSAFromPublicKey(string publicKeyPEM)
+        private static RSA CreateRSAFromPublicKey(string publicKeyPEM)
         {
-            // Remove the header and footer from the PEM public key
+            // Kiểm tra nếu khóa công khai là rỗng
+            if (string.IsNullOrWhiteSpace(publicKeyPEM))
+            {
+                Console.WriteLine("Môi trường test: Khóa công khai rỗng. Tạo khóa RSA ngẫu nhiên.");
+
+                // Tạo và trả về một đối tượng RSA ngẫu nhiên trong môi trường test
+                return RSA.Create();
+            }
+
+            // Loại bỏ phần header và footer khỏi PEM public key
             var publicKey = publicKeyPEM
                 .Replace("-----BEGIN PUBLIC KEY-----", "")
                 .Replace("-----END PUBLIC KEY-----", "")
                 .Trim();
 
-            // Decode the base64 string
+            // Giải mã chuỗi base64
             byte[] keyBytes = Convert.FromBase64String(publicKey);
 
-            // Create a new RSA object
+            // Tạo đối tượng RSA
             RSA rsa = RSA.Create();
 
-            // Import the public key information
+            // Nhập thông tin khóa công khai
             rsa.ImportSubjectPublicKeyInfo(keyBytes, out _);
 
             return rsa;
         }
-
-        public static string EncryptDisbursementData(string data, RSA rsa)
+        private static string EncryptDisbursementData(string data, RSA rsa)
         {
             // Convert the input string to a byte array
             byte[] dataToEncrypt = System.Text.Encoding.UTF8.GetBytes(data);
@@ -315,66 +331,5 @@ namespace study4_be.Controllers.API
             return Convert.ToBase64String(encryptedData);
         }
 
-    }
-    public class DecryptAesTokenRequest
-    {
-        public string PartnerCode { get; set; }
-        public long Amount { get; set; }
-        public string CallbackToken { get; set; }
-        public string RequestId { get; set; }
-        public string OrderId { get; set; }
-        public string PartnerClientId { get; set; }
-        public string Lang { get; set; }
-    }
-    public class PaymentNotification
-    {
-        public string PartnerCode { get; set; }
-        public string OrderId { get; set; }
-        public string RequestId { get; set; }
-        public long Amount { get; set; }
-        public string OrderInfo { get; set; }
-        public string OrderType { get; set; } // Momo_wallet
-        public string PartnerClientId { get; set; }
-        public string CallbackToken { get; set; }
-        public long TransId { get; set; }
-        public int ResultCode { get; set; }
-        public string Message { get; set; }
-        public string PayType { get; set; }
-        public long ResponseTime { get; set; }
-        public string ExtraData { get; set; }
-        public string Signature { get; set; }
-    }
-    public class TokenizationRequest
-    {
-        public string PartnerCode { get; set; }
-        public string RequestId { get; set; }
-        public string CallbackToken { get; set; }
-        public string OrderId { get; set; }
-        public string PartnerClientId { get; set; }
-        public string Lang { get; set; }
-        public string Signature { get; set; }
-    }
-    public class DisbursementRequest
-    {
-        public string RequestId { get; set; } // ID yêu cầu duy nhất
-        public long Amount { get; set; } // Số tiền giải ngân
-        public string OrderId { get; set; } // Mã đơn hàng
-        public string PartnerClientId { get; set; } // ID khách hàng của partner
-        public string Lang { get; set; } // Ngôn ngữ (VD: "vi" hoặc "en")
-        public string RequestType { get; set; }
-        public string OrderInfo { get; set; }
-        public string ExtraData { get; set; }
-    }
-
-    public class TokenizationResponse
-    {
-        public string PartnerCode { get; set; }
-        public string RequestId { get; set; }
-        public string OrderId { get; set; }
-        public string AesToken { get; set; }
-        public int ResultCode { get; set; }
-        public string PartnerClientId { get; set; }
-        public long ResponseTime { get; set; }
-        public string Message { get; set; }
     }
 }   

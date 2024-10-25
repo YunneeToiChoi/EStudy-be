@@ -24,6 +24,7 @@ using study4_be.Interface.User;
 using study4_be.Repositories;
 using study4_be.Validation;
 using PusherServer;
+using study4_be.PaymentServices.Momo.Request;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -60,6 +61,7 @@ builder.Services.AddTransient<ICategoryService, CategoryService>();
 builder.Services.AddTransient<ICourseService, CourseService>();
 
 builder.Services.Configure<MomoConfig>(builder.Configuration.GetSection(MomoConfig.ConfigName));
+builder.Services.Configure<MomoTestConfig>(builder.Configuration.GetSection(MomoTestConfig.ConfigName));
 builder.Services.AddScoped<ContractPOServices>();
 // Dịch vụ Firebase và SMTP
 builder.Services.AddSingleton<FireBaseServices>();
