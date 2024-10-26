@@ -25,6 +25,9 @@ using study4_be.Repositories;
 using study4_be.Validation;
 using PusherServer;
 using study4_be.PaymentServices.Momo.Request;
+using Azure.Storage.Blobs;
+using study4_be.Services.Backup;
+using study4_be.Services.Category;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -45,7 +48,8 @@ builder.Services.AddDbContext<Study4Context>(options =>
     var connectString = builder.Configuration.GetConnectionString("DefaultConnection");
     options.UseSqlServer(connectString);
 });
-
+builder.Services.AddSingleton(x =>
+    new BlobServiceClient(builder.Configuration.GetValue<string>("AzureBlobStorage:ConnectionStringAzure")));
 // Đăng ký các dịch vụ
 builder.Services.AddScoped<UserCourseExpirationService>();
 builder.Services.AddTransient<ICurrentUserServices, CurrentUserServices>();
@@ -59,7 +63,7 @@ builder.Services.AddTransient<IReplyService, ReplyService>();
 builder.Services.AddTransient<IDocumentService, DocumentService>();
 builder.Services.AddTransient<ICategoryService, CategoryService>();
 builder.Services.AddTransient<ICourseService, CourseService>();
-
+// Register BlobServiceClient for Azure Blob Storage
 builder.Services.Configure<MomoConfig>(builder.Configuration.GetSection(MomoConfig.ConfigName));
 builder.Services.Configure<MomoTestConfig>(builder.Configuration.GetSection(MomoTestConfig.ConfigName));
 builder.Services.AddScoped<ContractPOServices>();
@@ -70,9 +74,6 @@ builder.Services.AddSingleton<AzureOpenAiService>();
 
 // Configure Pusher settings
 builder.Services.Configure<study4_be.Services.PusherOptions>(builder.Configuration.GetSection("Pusher"));
-
-
-
 
 // Thêm IHttpContextAccessor
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
@@ -144,10 +145,13 @@ builder.Services.AddHangfireServer();
 
 builder.Services.AddTransient<study4_be.Services.DateTimeService>(); // or AddTransient if the service needs a shorter lifespan
 
+builder.Services.AddScoped<BackupService>();
+
+// Register BackupSchedulerService as a hosted service
+builder.Services.AddHostedService<BackupSchedulerService>();
 var app = builder.Build();
 // Cấu hình sử dụng Hangfire dashboard
 app.UseHangfireDashboard();
-
 // Khởi động server cho Hangfire
 app.UseHangfireServer();
 

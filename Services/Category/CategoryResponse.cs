@@ -1,4 +1,4 @@
-namespace study4_be.Services.Rating
+namespace study4_be.Services.Category
 {
     public class CategoryResponse
     {
