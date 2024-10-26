@@ -15,8 +15,6 @@ using study4_be.Services;
 using study4_be.Services.Payment;
 using System.Security.Cryptography;
 using System.Text;
-using static Google.Cloud.Firestore.V1.StructuredAggregationQuery.Types.Aggregation.Types;
-
 namespace study4_be.Controllers.API
 {
     [Route("api/[controller]")]
