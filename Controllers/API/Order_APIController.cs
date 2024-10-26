@@ -105,19 +105,21 @@ namespace study4_be.Controllers.API
             {
                 OrderId = orderId,
                 UserId = existingUser.UserId,
-                CourseId = existingCourse.CourseId,
-                TotalAmount = existingCourse.CoursePrice,
-                OrderDate = DateTime.Now,
-                Email = request.Email,
-                Address = request.Address,
-                CreatedAt = DateTime.Now,
-                State = false
-            };
-            _context.Orders.Add(order);
-            await _context.SaveChangesAsync();
-            var newlyAddedOrderId = order.OrderId; // Lấy giá trị ID vừa được thêm vào
-            return Json(new { status = 200, orderId = newlyAddedOrderId, message = "Course purchased successfully." });
-        }
+				CourseId = existingCourse.CourseId,
+				TotalAmount = existingCourse.CoursePrice,
+				OrderDate = DateTime.Now,
+				Email = request.Email,
+				Address = request.Address,
+				CreatedAt = DateTime.Now,
+				State = false,
+                PaymentType = "Abate" // Thanh Toan
+                
+			};
+			_context.Orders.Add(order);
+			await _context.SaveChangesAsync();
+			var newlyAddedOrderId = order.OrderId; // Lấy giá trị ID vừa được thêm vào
+			return Json(new { status = 200, orderId = newlyAddedOrderId, message = "Course purchased successfully." });
+		}
 
         [HttpPost("Order_Document")]
         public async Task<IActionResult> Order_Document([FromBody] OrderDocumentRequest request)
@@ -153,7 +155,8 @@ namespace study4_be.Controllers.API
                 TotalAmount = existingDocument.Price,
                 OrderDate = DateTime.Now,
                 CreatedAt = DateTime.Now,
-                State = false
+                State = false,
+                PaymentType = "Abate",
             };
             _context.Orders.Add(order);
             await _context.SaveChangesAsync();
@@ -195,7 +198,8 @@ namespace study4_be.Controllers.API
                 TotalAmount = existingPlan.PlanPrice,
                 OrderDate = DateTime.Now,
                 CreatedAt = DateTime.Now,
-                State = false
+                State = false,
+                PaymentType = "Abate"
             };
             _context.Orders.Add(order);
             await _context.SaveChangesAsync();
@@ -229,7 +233,8 @@ namespace study4_be.Controllers.API
                 TotalAmount = existingPlan.PlanPrice,
                 OrderDate = DateTime.Now,
                 CreatedAt = DateTime.Now,
-                State = false
+                State = false,
+                PaymentType = "Abate"
             };
             _context.Orders.Add(order);
             await _context.SaveChangesAsync();
@@ -262,7 +267,8 @@ namespace study4_be.Controllers.API
                 TotalAmount = existingCourse.CoursePrice,
                 OrderDate = DateTime.Now,
                 CreatedAt = DateTime.Now,
-                State = false
+                State = false,
+                PaymentType = "Abate"
             };
             _context.Orders.Add(order);
             await _context.SaveChangesAsync();

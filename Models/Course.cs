@@ -15,7 +15,7 @@ public partial class Course
 
     public string? CourseTag { get; set; }
 
-    public double? CoursePrice { get; set; }
+    public double CoursePrice { get; set; }
 
     public int? CourseSale { get; set; }
 

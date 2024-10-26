@@ -27,6 +27,7 @@ using PusherServer;
 using Humanizer;
 using Microsoft.AspNetCore.Routing;
 using static iText.Signatures.LtvVerification;
+using study4_be.PaymentServices.Momo.Request;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -63,6 +64,7 @@ builder.Services.AddTransient<ICategoryService, CategoryService>();
 builder.Services.AddTransient<ICourseService, CourseService>();
 
 builder.Services.Configure<MomoConfig>(builder.Configuration.GetSection(MomoConfig.ConfigName));
+builder.Services.Configure<MomoTestConfig>(builder.Configuration.GetSection(MomoTestConfig.ConfigName));
 builder.Services.AddScoped<ContractPOServices>();
 // Dịch vụ Firebase và SMTP
 builder.Services.AddSingleton<FireBaseServices>();

@@ -12,7 +12,7 @@ namespace study4_be.Services.Document
         [JsonRequired]
         public bool state { get; set; } // state right here is premium or premium => required post api 
         public string? description { get; set; }
-        public double? price { get; set; }
+        public double price { get; set; }
         public string title { get; set; }
     }
 }

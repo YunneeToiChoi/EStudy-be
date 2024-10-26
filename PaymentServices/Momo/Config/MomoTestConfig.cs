@@ -1,8 +1,8 @@
 ﻿namespace study4_be.PaymentServices.Momo.Config
 {
-    public class MomoConfig
+    public class MomoTestConfig
     {
-        public static string ConfigName => "Momo";
+        public static string ConfigName => "MomoTest";
         public string StoreId { get; set; } = string.Empty;
         public string StoreName { get; set; } = string.Empty;
         public string PublicKey { get; set; } = string.Empty;
