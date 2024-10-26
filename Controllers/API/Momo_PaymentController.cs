@@ -454,6 +454,12 @@ namespace study4_be.Controllers.API
                     OrderDate = DateTime.Now,
                     State = true,
                 };
+                var existingDocument = await _context.Documents.FindAsync(existingOrderDocument.DocumentId);
+            
+                var userUploaded = await _context.Users.FindAsync(existingDocument.UserId);
+
+                userUploaded.Blance += existingOrderDocument.TotalAmount;
+
                 await _context.UserDocuments.AddAsync(newUserDocument);
                 await _context.SaveChangesAsync();
                 var respone = new
