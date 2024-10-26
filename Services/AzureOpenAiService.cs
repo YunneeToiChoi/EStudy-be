@@ -21,19 +21,27 @@ namespace study4_be.Services
 
         public async Task<string> GenerateResponseAsync(string prompt)
         {
+            Console.WriteLine(prompt);
             var requestBody = new
             {
-                prompt = prompt,
-                max_tokens = 150
+                messages = new[]
+                {
+                    new { role = "user", content = prompt }
+                },
+                max_tokens = 150,
+                temperature = 0.7 // Bạn có thể điều chỉnh giá trị này theo nhu cầu
             };
+
             var content = new StringContent(JsonSerializer.Serialize(requestBody), Encoding.UTF8, "application/json");
 
-            var response = await _httpClient.PostAsync($"{_endpoint}", content);
+            var response = await _httpClient.PostAsync($"{_endpoint}/openai/deployments/{_deploymentId}/chat/completions?api-version=2024-08-01-preview", content);
+
+
             response.EnsureSuccessStatusCode();
 
             var responseBody = await response.Content.ReadAsStringAsync();
             var jsonDoc = JsonDocument.Parse(responseBody);
-            return jsonDoc.RootElement.GetProperty("choices")[0].GetProperty("text").GetString();
+            return jsonDoc.RootElement.GetProperty("choices")[0].GetProperty("message").GetProperty("content").GetString();
         }
     }
 }

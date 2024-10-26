@@ -18,9 +18,19 @@ namespace study4_be.Controllers.API
 
         [HttpGet("generate")]
         public async Task<IActionResult> Generate()
-        {
-            var content = "Please check the following sentence for grammatical errors and provide a corrected version. Also, rate the quality of the writing on a scale from 0 to 5, and provide the response in the following format: SCORE : value\r \nCOMMENT : value\r \nEXPLAN : value \nHere is the sentence: \n'Last weekend, me and my friend was planning to go on a hiking trip in the mountains. We thought it would be a great opportunity for us to spend time together and enjoy nature. However, when we arrived at the trail, we realized that the weather was not what we expected, it started raining heavily and we didn’t brought enough equipment to stay dry. So, we decided to cancel our trip and went back home instead, feeling disappointed but also knowing that it was for the best.'";
-            var response = await _azureOpenAiService.GenerateResponseAsync(content);
+        { 
+            int minScore = 0;
+            int maxScore = 10;
+            var content =
+                "During our recent weekend getaway, my friend and I intended to embark on a hiking adventure in the mountains. We were excited about the chance to bond and enjoy the beauty of nature together. Unfortunately, upon reaching the trailhead, we discovered that the weather was not favorable; heavy rain began to pour, and we realized that we hadn't packed sufficient gear to keep ourselves dry. Consequently, we made the difficult choice to cancel our hike and return home, feeling a bit disheartened but understanding that safety was our priority.";
+            var requestContent = $"Please check the following sentence for grammatical errors and provide a corrected version. " +
+                                 $"Also, rate the quality of the writing on a scale from {minScore} to {maxScore}, " +
+                                 $"and provide the response in the following format: \n" +
+                                 $"[SCORE] : value\n" +
+                                 $"[COMMENT] : value\n" +
+                                 $"[EXPLAN] : value\n" +
+                                 $"Here is the sentence: \n'{content}'";
+            var response = await _azureOpenAiService.GenerateResponseAsync(requestContent);
             return Ok(response);
         }
         public class Prompt
