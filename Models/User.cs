@@ -25,7 +25,7 @@ public partial class User
 
     public int? RoleId { get; set; }
 
-    public double? Blance { get; set; }
+    public double Blance { get; set; }
 
     public virtual ICollection<Document> Documents { get; set; } = new List<Document>();
 
