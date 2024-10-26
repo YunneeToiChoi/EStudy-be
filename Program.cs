@@ -66,6 +66,8 @@ builder.Services.AddScoped<ContractPOServices>();
 // Dịch vụ Firebase và SMTP
 builder.Services.AddSingleton<FireBaseServices>();
 builder.Services.AddSingleton<SMTPServices>();
+builder.Services.AddSingleton<AzureOpenAiService>();
+
 // Configure Pusher settings
 builder.Services.Configure<study4_be.Services.PusherOptions>(builder.Configuration.GetSection("Pusher"));
 

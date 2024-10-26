@@ -36,6 +36,7 @@
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.6" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="OpenAI" Version="1.11.0" />
     <PackageReference Include="PdfiumViewer" Version="2.13.0" />
     <PackageReference Include="PdfiumViewer.Native.x86_64.v8-xfa" Version="2018.4.8.256" />
     <PackageReference Include="PdfSharp" Version="6.1.1" />
