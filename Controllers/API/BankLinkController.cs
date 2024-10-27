@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using System.Net;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.DotNet.MSIdentity.Shared;
 using Microsoft.EntityFrameworkCore;
@@ -15,6 +16,10 @@ using study4_be.Services;
 using study4_be.Services.Payment;
 using System.Security.Cryptography;
 using System.Text;
+using study4_be.PaymentServices.Bank.Request;
+using study4_be.PaymentServices.Bank.Validator;
+using study4_be.Services.Tingee;
+
 namespace study4_be.Controllers.API
 {
     [Route("api/[controller]")]
@@ -25,18 +30,21 @@ namespace study4_be.Controllers.API
         private readonly MomoTestConfig _momoTestConfig;
         private readonly HashHelper _hashHelper;
         private readonly Study4Context _context;
+        private readonly TingeeApi _tingeeApi;
         private HttpClient _httpClient = new();
 
         public BankLinkController(ILogger<BankLinkController> logger,
                                   IOptions<MomoConfig> momoPaymentSettings,
                                   SMTPServices smtpServices,
                                   ContractPOServices contractPOServices,
-                                  Study4Context context, IOptions<MomoTestConfig> momoTestConfig)
+                                  Study4Context context, IOptions<MomoTestConfig> momoTestConfig,
+                                  TingeeApi tingeeApi)
         {
             _context = context;
             _hashHelper = new HashHelper();
             _momoConfig = momoPaymentSettings.Value;
             _momoTestConfig = momoTestConfig.Value;
+            _tingeeApi = tingeeApi;
         }
         [HttpGet("GetAllWallets")]
         public async Task<ActionResult> GetAllWallets()
@@ -89,7 +97,7 @@ namespace study4_be.Controllers.API
                         userId = wallet.Userid,
                         type = wallet.Type,
                     };
-                    return Ok(new { statusCode =200 ,message = "Gửi yêu cầu liên kết ví thành công", responseContent, walletResponse });
+                    return Ok(new { statusCode = 200, message = "Gửi yêu cầu liên kết ví thành công", responseContent, walletResponse });
                 }
                 else
                 {
@@ -113,7 +121,7 @@ namespace study4_be.Controllers.API
                 storeName = _momoConfig.StoreName,
                 storeId = _momoConfig.StoreId,
                 subPartnerCode = request.SubPartnerCode,
-                requestId =request.RequestId,
+                requestId = request.RequestId,
                 amount = request.Amount,
                 orderId = request.OrderId,
                 orderInfo = request.OrderInfo,
@@ -153,7 +161,7 @@ namespace study4_be.Controllers.API
 
                 // Giải mã callbackToken
                 var decryptedToken = DecryptAES(_momoConfig.SecretKey, aesToken);
-                
+
 
                 // right here should save aesToken
 
@@ -280,7 +288,7 @@ namespace study4_be.Controllers.API
         public async Task<IActionResult> PaymentNotificationIpn([FromBody] PaymentNotification notification)
         {
             // Kiểm tra dữ liệu đầu vào
-            if (string.IsNullOrEmpty(notification.OrderId) || string.IsNullOrEmpty(notification.RequestId )|| string.IsNullOrEmpty(notification.walletId))
+            if (string.IsNullOrEmpty(notification.OrderId) || string.IsNullOrEmpty(notification.RequestId) || string.IsNullOrEmpty(notification.walletId))
             {
                 return BadRequest("Dữ liệu không hợp lệ.");
             }
@@ -422,7 +430,7 @@ namespace study4_be.Controllers.API
             public string RequestType { get; set; }
             public string OrderInfo { get; set; }
             public string ExtraData { get; set; }
-         
+
         }
         [HttpPost("Disbursement")]
         public async Task<IActionResult> Disbursement([FromBody] DisbursementRequest request)
@@ -580,6 +588,120 @@ namespace study4_be.Controllers.API
             // Return the encrypted data as a base64 string
             return Convert.ToBase64String(encryptedData);
         }
+      [HttpPost("LinkBankAccountTingee")]
+public async Task<IActionResult> LinkBankAccountTingee([FromBody] BankLinkAccountTingeeRequest tingeeRequest)
+{
+    if (BankValidator.CheckValidBankSupportTingee(tingeeRequest.BankName))
+    {
+        if (tingeeRequest.AccountType == "personal-account" || tingeeRequest.AccountType == "business-account")
+        {
+            var (statusCode, resultContent) = await _tingeeApi.CreateBankLinkAsync(
+                tingeeRequest.AccountType,
+                tingeeRequest.BankName,
+                tingeeRequest.AccountNumber,
+                tingeeRequest.AccountName,
+                tingeeRequest.Identity,
+                tingeeRequest.Mobile,
+                tingeeRequest.Email
+            );
+
+            // Kiểm tra mã trạng thái
+            if (statusCode == HttpStatusCode.OK) // Kiểm tra mã thành công
+            {
+                var result = JsonConvert.DeserializeObject<dynamic>(resultContent);
+
+                // Kiểm tra giá trị của trường code
+                if (result.code == "00")
+                {
+                    // Thêm ví vào cơ sở dữ liệu
+                    var wallet = new Wallet
+                    {
+                        Id = Guid.NewGuid().ToString(),
+                        CardNumber = tingeeRequest.AccountNumber,
+                        IsAvailable = false,
+                        Name = tingeeRequest.BankName,
+                        Userid = tingeeRequest.UserId,
+                        Type = tingeeRequest.RequestType,
+                    };
+
+                    await _context.AddAsync(wallet);
+                    await _context.SaveChangesAsync();
+
+                    var walletResponse = new
+                    {
+                        walletId = wallet.Id,
+                        cardNumber = wallet.CardNumber,
+                        isAvailable = wallet.IsAvailable,
+                        name = wallet.Name,
+                        userId = wallet.Userid,
+                        type = wallet.Type,
+                    };
+
+                    return Ok(new
+                    {
+                        statusCode = 200,
+                        success = true,
+                        message = "Liên kết ngân hàng thành công.",
+                        walletData = walletResponse,
+                    });
+                }
+                else
+                {
+                    // Nếu mã code không phải "00", trả về thông điệp lỗi từ phản hồi Tingee
+                    var errorMessage = result.message ?? "Có lỗi xảy ra trong quá trình liên kết.";
+                    return BadRequest(errorMessage);
+                }
+            }
+            else
+            {
+                // Nếu mã trạng thái không phải 200, trả về thông điệp lỗi từ phản hồi Tingee
+                var errorMessage = JsonConvert.DeserializeObject<dynamic>(resultContent)?.message ?? "Lỗi không xác định.";
+                return StatusCode((int)statusCode, errorMessage);
+            }
+        }
+        return BadRequest($"{tingeeRequest.AccountType} không hợp lệ.");
+    }
+    else
+    {
+        return BadRequest($"{tingeeRequest.BankName} không phải là ngân hàng hợp lệ trong danh sách hỗ trợ của chúng tôi.");
+    }
+}
+
+        [HttpPost("ConfirmBankLinkTingee")]
+        public async Task<IActionResult> ConfirmBankLinkTingee([FromBody] ConfirmBankLinkRequest request)
+        {
+            // Kiểm tra thông tin xác thực OTP
+            var (code, message) = await _tingeeApi.ConfirmBankLinkAsync(request.BankName, request.ConfirmId, request.OtpNumber);
+
+            if (code == "00")
+            {
+                // Nếu xác thực thành công, lưu thông tin ví
+                var walletId = request.WalletId; // Sử dụng walletId từ request hoặc từ một nguồn khác
+
+                var (success, saveMessage, wallet) = await SaveWallet(walletId);
+
+                if (success)
+                {
+                    // Nếu lưu thành công, trả về thông điệp thành công
+                    return Ok(new
+                    {
+                        message = $"Xác thực thành công. {saveMessage}",
+                        statusCode = 200 ,
+                        wallet
+                    });
+                }
+                else
+                {
+                    // Nếu lưu không thành công, trả về thông điệp lỗi
+                    return BadRequest(saveMessage);
+                }
+            }
+            else
+            {
+                // Nếu xác thực không thành công, trả về thông báo lỗi từ phản hồi
+                return BadRequest(message ?? "Có lỗi xảy ra trong quá trình xác thực.");
+            }
+        }
 
     }
-}   
+}
