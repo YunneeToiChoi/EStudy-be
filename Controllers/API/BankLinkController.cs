@@ -358,7 +358,7 @@ namespace study4_be.Controllers.API
 
             // Truy vấn tất cả các Wallet của người dùng với userId tương ứng
             var userWallets = await _context.Wallets
-                                            .Where(wallet => wallet.Userid == userId)
+                                            .Where(wallet => wallet.Userid == userId && wallet.IsAvailable == true)
                                             .Select(wallet => new
                                             {
                                                 walletId = wallet.Id,
