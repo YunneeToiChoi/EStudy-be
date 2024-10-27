@@ -28,6 +28,7 @@ using study4_be.PaymentServices.Momo.Request;
 using Azure.Storage.Blobs;
 using study4_be.Services.Backup;
 using study4_be.Services.Category;
+using study4_be.Services.Exam;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -63,6 +64,7 @@ builder.Services.AddTransient<IReplyService, ReplyService>();
 builder.Services.AddTransient<IDocumentService, DocumentService>();
 builder.Services.AddTransient<ICategoryService, CategoryService>();
 builder.Services.AddTransient<ICourseService, CourseService>();
+builder.Services.AddTransient<IWritingService, WritingService>();
 // Register BlobServiceClient for Azure Blob Storage
 builder.Services.Configure<MomoConfig>(builder.Configuration.GetSection(MomoConfig.ConfigName));
 builder.Services.Configure<MomoTestConfig>(builder.Configuration.GetSection(MomoTestConfig.ConfigName));

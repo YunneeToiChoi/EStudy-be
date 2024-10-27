@@ -1,6 +1,7 @@
 ﻿using System.Text.Json;
 using System.Text;
 
+
 namespace study4_be.Services
 {
     public class AzureOpenAiService
@@ -10,32 +11,27 @@ namespace study4_be.Services
         private readonly string _deploymentId;
         private readonly HttpClient _httpClient;
 
-        public AzureOpenAiService(IConfiguration configuration)
+        public AzureOpenAiService(IConfiguration configuration, IHttpClientFactory httpClientFactory)
         {
             _endpoint = configuration["AzureOpenAI:Endpoint"];
             _apiKey = configuration["AzureOpenAI:ApiKey"];
             _deploymentId = configuration["AzureOpenAI:DeploymentId"];
-            _httpClient = new HttpClient();
+        
+            _httpClient = httpClientFactory.CreateClient();
             _httpClient.DefaultRequestHeaders.Add("api-key", _apiKey);
         }
-
-        public async Task<string> GenerateResponseAsync(string prompt)
+        public async Task<string> GenerateResponseAsync(string prompt, int maxTokens = 150, double temperature = 0.7)
         {
-            Console.WriteLine(prompt);
             var requestBody = new
             {
-                messages = new[]
-                {
-                    new { role = "user", content = prompt }
-                },
-                max_tokens = 150,
-                temperature = 0.7 // Bạn có thể điều chỉnh giá trị này theo nhu cầu
+                messages = new[] { new { role = "user", content = prompt } },
+                max_tokens = maxTokens,
+                temperature = temperature
             };
 
             var content = new StringContent(JsonSerializer.Serialize(requestBody), Encoding.UTF8, "application/json");
 
             var response = await _httpClient.PostAsync($"{_endpoint}/openai/deployments/{_deploymentId}/chat/completions?api-version=2024-08-01-preview", content);
-
 
             response.EnsureSuccessStatusCode();
 

@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Text.RegularExpressions;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using study4_be.Controllers.Admin;
+using study4_be.Interface;
 using study4_be.Models;
 using study4_be.Repositories;
 using study4_be.Services;
@@ -15,8 +17,13 @@ namespace study4_be.Controllers.API
     public class Exam_APIController : Controller
     {
         private readonly Study4Context _context;
+        private readonly IWritingService _writingService;
 
-        public Exam_APIController(Study4Context context) { _context = context; }
+        public Exam_APIController(Study4Context context, IWritingService writingService)
+        {
+            _context = context;
+            _writingService = writingService;
+        }
         [HttpGet("Get_AllExams")]
         public async Task<ActionResult<IEnumerable<Exam>>> Get_AllExams()
         {
@@ -473,7 +480,6 @@ namespace study4_be.Controllers.API
                 {
                     return BadRequest("Exam not found");
                 }
-
                 var userExamId = Guid.NewGuid().ToString();
                 var newUserExam = new UsersExam
                 {
@@ -495,19 +501,22 @@ namespace study4_be.Controllers.API
                 }).ToList();
 
                 await _context.UserAnswers.AddRangeAsync(userAnswers);
-
+                
+                var writingQuestions = userAnswers
+                    .Where(ua => _context.Questions.Any(q => q.QuestionId == ua.QuestionId && q.QuestionTag == "Part 8"))
+                    .ToList();
+                
                 int totalQuestions = 200;
-                int answeredQuestions = _req.answer.Count;
+                int answeredQuestions = _req.answer.Count - writingQuestions.Count;
                 int correctAnswers = _req.answer.Count(a => a.State);
                 int incorrectAnswers = totalQuestions - answeredQuestions + _req.answer.Count(a => !a.State);
 
                 int score = (int)((double)correctAnswers / totalQuestions * 990);
+                
+                int writingScore = await CalculateWritingScore(writingQuestions);
 
-                var writingQuestions = userAnswers
-                .Where(ua => _context.Questions.Any(q => q.QuestionId == ua.QuestionId && q.QuestionTag == "Part 8"))
-                .ToList();
-                int writingScore = CalculateWritingScore(writingQuestions);
-
+                var finalWritingScore = GetScore(writingScore);
+                
                 newUserExam.Score = score + writingScore;
                 await _context.SaveChangesAsync();
 
@@ -520,6 +529,8 @@ namespace study4_be.Controllers.API
                     userId = newUserExam.UserId,
                     userExamId = newUserExam.UserExamId, 
                     userTime = newUserExam.UserTime,
+                    listenAndReadingScore = score,
+                    finalWritingScore,
                     incorrectAnswers
                 };
                 return Json(new { status = 200, message = "Submit Exam Successful", responseUserExam });
@@ -527,6 +538,32 @@ namespace study4_be.Controllers.API
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
+            }
+        }
+        public string GetScore(int writingScore)
+        {
+            switch (writingScore)
+            {
+                case 9:
+                    return "200";
+                case 8:
+                    return "170-190"; // Có thể trả về 170 hoặc 190 tùy vào yêu cầu cụ thể
+                case 7:
+                    return "140-160"; // Có thể trả về 140 hoặc 160 tùy vào yêu cầu cụ thể
+                case 6:
+                    return "110-130"; // Có thể trả về 110 hoặc 130 tùy vào yêu cầu cụ thể
+                case 5:
+                    return "90-100";  // Có thể trả về 90 hoặc 100 tùy vào yêu cầu cụ thể
+                case 4:
+                    return "70-80";  // Có thể trả về 70 hoặc 80 tùy vào yêu cầu cụ thể
+                case 3:
+                    return "50-60";  // Có thể trả về 50 hoặc 60 tùy vào yêu cầu cụ thể
+                case 2:
+                    return "40";
+                case 1:
+                    return "0-30";   // Có thể trả về 0 hoặc 30 tùy vào yêu cầu cụ thể
+                default:
+                    return "-1"; // Hoặc ném ra một ngoại lệ nếu không tìm thấy loại điểm hợp lệ
             }
         }
         [HttpGet("ReviewQuestions/userExamId={userExamId}")]
@@ -604,21 +641,32 @@ namespace study4_be.Controllers.API
 
             return $"{hours} giờ {minutes} phút {seconds} giây";
         }
-        private int CalculateWritingScore(List<UserAnswer> writingAnswers)
+        private async Task<int> CalculateWritingScore(List<UserAnswer> writingAnswers)
         {
             int totalWritingScore = 0;
 
-            foreach (var answer in writingAnswers)
+            for (int i = 0; i < writingAnswers.Count; i++)
             {
-                // Tính điểm từng câu viết dựa trên các tiêu chí chấm điểm
                 int score = 0;
 
-                // Giả sử các tiêu chí chấm điểm có thể bao gồm độ dài câu trả lời, ngữ pháp, và sự chính xác của nội dung
-                int lengthScore = GetLengthScore(answer.Answer);
-                int grammarScore = GetGrammarScore(answer.Answer);
-                int contentScore = GetContentScore(answer.Answer);
-
-                score = lengthScore + grammarScore + contentScore;
+                if (i < 5)
+                {
+                    // Thuật toán cho 5 câu đầu
+                    var respone = await _writingService.ScoringWritingAsync(3, writingAnswers[i].Answer);
+                    score = respone.score;
+                }
+                else if (i < 7)
+                {
+                    var respone = await _writingService.ScoringWritingAsync(4, writingAnswers[i].Answer);
+                    score = respone.score;
+                    // Thuật toán cho 2 câu tiếp theo
+                }
+                else
+                {
+                    var respone = await _writingService.ScoringWritingAsync(5, writingAnswers[i].Answer);
+                    score = respone.score;
+                    // Thuật toán cho câu cuối
+                }
 
                 totalWritingScore += score;
             }
