@@ -28,6 +28,7 @@ using study4_be.PaymentServices.Momo.Request;
 using Azure.Storage.Blobs;
 using study4_be.Services.Backup;
 using study4_be.Services.Category;
+using study4_be.Services.Tingee;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -67,6 +68,7 @@ builder.Services.AddTransient<ICourseService, CourseService>();
 builder.Services.Configure<MomoConfig>(builder.Configuration.GetSection(MomoConfig.ConfigName));
 builder.Services.Configure<MomoTestConfig>(builder.Configuration.GetSection(MomoTestConfig.ConfigName));
 builder.Services.AddScoped<ContractPOServices>();
+builder.Services.AddSingleton<TingeeApi>(); // Đăng ký TingeeApi là dịch vụ
 // Dịch vụ Firebase và SMTP
 builder.Services.AddSingleton<FireBaseServices>();
 builder.Services.AddSingleton<SMTPServices>();
