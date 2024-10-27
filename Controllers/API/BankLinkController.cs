@@ -611,7 +611,7 @@ public async Task<IActionResult> LinkBankAccountTingee([FromBody] BankLinkAccoun
                 var result = JsonConvert.DeserializeObject<dynamic>(resultContent);
 
                 // Kiểm tra giá trị của trường code
-                if (result.code == "00")
+                if (result.code.ToString() == "00")
                 {
                     // Thêm ví vào cơ sở dữ liệu
                     var wallet = new Wallet
@@ -643,20 +643,21 @@ public async Task<IActionResult> LinkBankAccountTingee([FromBody] BankLinkAccoun
                         success = true,
                         message = "Liên kết ngân hàng thành công.",
                         walletData = walletResponse,
+                        resultContent
                     });
                 }
                 else
                 {
                     // Nếu mã code không phải "00", trả về thông điệp lỗi từ phản hồi Tingee
-                    var errorMessage = result.message ?? "Có lỗi xảy ra trong quá trình liên kết.";
+                    var errorMessage = result.message.ToString() ?? "Có lỗi xảy ra trong quá trình liên kết.";
                     return BadRequest(errorMessage);
                 }
             }
             else
             {
                 // Nếu mã trạng thái không phải 200, trả về thông điệp lỗi từ phản hồi Tingee
-                var errorMessage = JsonConvert.DeserializeObject<dynamic>(resultContent)?.message ?? "Lỗi không xác định.";
-                return StatusCode((int)statusCode, errorMessage);
+                var errorMessage = JsonConvert.DeserializeObject<dynamic>(resultContent)?.message.ToString() ?? "Lỗi không xác định.";
+                return StatusCode((int)statusCode, errorMessage); 
             }
         }
         return BadRequest($"{tingeeRequest.AccountType} không hợp lệ.");
@@ -699,7 +700,7 @@ public async Task<IActionResult> LinkBankAccountTingee([FromBody] BankLinkAccoun
             else
             {
                 // Nếu xác thực không thành công, trả về thông báo lỗi từ phản hồi
-                return BadRequest(message ?? "Có lỗi xảy ra trong quá trình xác thực.");
+                return BadRequest(message.ToString() ?? "Có lỗi xảy ra trong quá trình xác thực.");
             }
         }
 

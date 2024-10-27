@@ -41,7 +41,7 @@ public class TingeeApi
             httpClient.Timeout = TimeSpan.FromSeconds(30);
 
             // Tạo dấu thời gian
-            string timestamp = DateTime.UtcNow.ToString("yyyyMMddHHmmssfff");
+            string timestamp = DateTime.UtcNow.ToString("yyyyMMddHHmmssSSS");
 
             // Tạo request body
             var requestBody = new
