@@ -4,5 +4,5 @@ public class WritingScore
 {
     public int score { get; set; }
     public string comment { get; set; }
-    public string explan { get; set; }
+    public string explain { get; set; }
 }

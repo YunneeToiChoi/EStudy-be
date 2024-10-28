@@ -502,9 +502,12 @@ namespace study4_be.Controllers.API
 
                 await _context.UserAnswers.AddRangeAsync(userAnswers);
                 
+                // Lọc trước các câu trả lời có userExamId phù hợp và QuestionTag là "Part 8"
                 var writingQuestions = userAnswers
-                    .Where(ua => _context.Questions.Any(q => q.QuestionId == ua.QuestionId && q.QuestionTag == "Part 8"))
+                    .Where(ua => ua.UserExamId == newUserExam.UserExamId && 
+                                 _context.Questions.Any(q => q.QuestionId == ua.QuestionId && q.QuestionTag == "Part 8"))
                     .ToList();
+
                 
                 int totalQuestions = 200;
                 int answeredQuestions = _req.answer.Count - writingQuestions.Count;
@@ -513,11 +516,11 @@ namespace study4_be.Controllers.API
 
                 int score = (int)((double)correctAnswers / totalQuestions * 990);
                 
-                int writingScore = await CalculateWritingScore(writingQuestions);
-
-                var finalWritingScore = GetScore(writingScore);
+                var writingScore = await CalculateWritingScore(writingQuestions);
                 
-                newUserExam.Score = score + writingScore;
+                var finalWritingScore = GetScore(writingScore.Sum(respone => respone.score));
+                
+                newUserExam.Score = score;
                 await _context.SaveChangesAsync();
 
                 var responseUserExam = new
@@ -562,8 +565,10 @@ namespace study4_be.Controllers.API
                     return "40";
                 case 1:
                     return "0-30";   // Có thể trả về 0 hoặc 30 tùy vào yêu cầu cụ thể
+                case 0:
+                    return "0";
                 default:
-                    return "-1"; // Hoặc ném ra một ngoại lệ nếu không tìm thấy loại điểm hợp lệ
+                    return "200"; // Hoặc ném ra một ngoại lệ nếu không tìm thấy loại điểm hợp lệ
             }
         }
         [HttpGet("ReviewQuestions/userExamId={userExamId}")]
@@ -623,6 +628,8 @@ namespace study4_be.Controllers.API
                        optionD =  q.OptionD,
                        correctAnswer = q.CorrectAnswer,
                        userAnswer = userAnswers.Find(ua => ua.QuestionId == q.QuestionId)?.Answer,
+                       comment = userAnswers.Find(ua => ua.QuestionId == q.QuestionId)?.Comment,
+                       explain = userAnswers.Find(ua => ua.QuestionId == q.QuestionId)?.Explain,
                        state = userAnswers.Find(ua => ua.QuestionId == q.QuestionId)?.Answer == q.CorrectAnswer
                     }).ToList()
                 };
@@ -641,37 +648,43 @@ namespace study4_be.Controllers.API
 
             return $"{hours} giờ {minutes} phút {seconds} giây";
         }
-        private async Task<int> CalculateWritingScore(List<UserAnswer> writingAnswers)
+        private async Task<List<WritingScore>> CalculateWritingScore(List<UserAnswer> writingAnswers)
         {
-            int totalWritingScore = 0;
-
+            List<WritingScore> writingScoreResponses = new List<WritingScore>();
+    
             for (int i = 0; i < writingAnswers.Count; i++)
             {
-                int score = 0;
-
-                if (i < 5)
+                WritingScore writingScoreRespone = new WritingScore();
+        
+                if (!string.IsNullOrEmpty(writingAnswers[i].Answer))
                 {
-                    // Thuật toán cho 5 câu đầu
-                    var respone = await _writingService.ScoringWritingAsync(3, writingAnswers[i].Answer);
-                    score = respone.score;
-                }
-                else if (i < 7)
-                {
-                    var respone = await _writingService.ScoringWritingAsync(4, writingAnswers[i].Answer);
-                    score = respone.score;
-                    // Thuật toán cho 2 câu tiếp theo
+                    if (i < 5)
+                    {
+                        // Thuật toán cho 5 câu đầu
+                        writingScoreRespone = await _writingService.ScoringWritingAsync(3, writingAnswers[i].Answer);
+                    }
+                    else if (i < 7)
+                    {
+                        // Thuật toán cho 2 câu tiếp theo
+                        writingScoreRespone = await _writingService.ScoringWritingAsync(4, writingAnswers[i].Answer);
+                    }
+                    else
+                    {
+                        // Thuật toán cho câu cuối
+                        writingScoreRespone = await _writingService.ScoringWritingAsync(5, writingAnswers[i].Answer);
+                    }
                 }
                 else
                 {
-                    var respone = await _writingService.ScoringWritingAsync(5, writingAnswers[i].Answer);
-                    score = respone.score;
-                    // Thuật toán cho câu cuối
+                    // Trường hợp không có câu trả lời
+                    writingScoreRespone.score = 0; // Hoặc giá trị mặc định tùy theo yêu cầu
                 }
-
-                totalWritingScore += score;
+                writingAnswers[i].Comment = writingScoreRespone.comment;
+                writingAnswers[i].Explain = writingScoreRespone.explain;
+                writingScoreResponses.Add(writingScoreRespone); // Lưu WritingScoreRespone vào danh sách
             }
 
-            return totalWritingScore;
+            return writingScoreResponses; // Trả về danh sách WritingScoreRespone
         }
 
         private static int GetLengthScore(string answer)

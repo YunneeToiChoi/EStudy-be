@@ -42,7 +42,7 @@ public class WritingService : IWritingService
             {
                 score = score,
                 comment = comment,
-                explan = explanation
+                explain = explanation
             };
             return writingScore;
         }
