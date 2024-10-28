@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using study4_be.Controllers.Admin;
@@ -501,12 +502,18 @@ namespace study4_be.Controllers.API
                 }).ToList();
 
                 await _context.UserAnswers.AddRangeAsync(userAnswers);
-                
-                // Lọc trước các câu trả lời có userExamId phù hợp và QuestionTag là "Part 8"
-                var writingQuestions = userAnswers
-                    .Where(ua => ua.UserExamId == newUserExam.UserExamId && 
-                                 _context.Questions.Any(q => q.QuestionId == ua.QuestionId && q.QuestionTag == "Part 8"))
-                    .ToList();
+                await _context.SaveChangesAsync();
+                // Step 1: Retrieve relevant QuestionIds for Part 8 and the specified examId
+                var questionIds = await _context.Questions
+                    .Where(q => q.ExamId == existExam.ExamId && q.QuestionTag == "Part 8")
+                    .Select(q => q.QuestionId)
+                    .ToListAsync();
+
+                // Step 2: Retrieve UserAnswers based on UserExamId and the filtered QuestionIds
+                var writingQuestions = await _context.UserAnswers
+                    .Where(ua => ua.UserExamId == newUserExam.UserExamId && questionIds.Contains(ua.QuestionId))
+                    .ToListAsync();
+
 
                 
                 int totalQuestions = 200;
@@ -658,30 +665,34 @@ namespace study4_be.Controllers.API
         
                 if (!string.IsNullOrEmpty(writingAnswers[i].Answer))
                 {
+                    var question = await _context.Questions.FindAsync(writingAnswers[i].QuestionId);
+                    string content = $"Question : {question.QuestionParagraph} \n Answer : {writingAnswers[i].Answer}";
                     if (i < 5)
                     {
                         // Thuật toán cho 5 câu đầu
-                        writingScoreRespone = await _writingService.ScoringWritingAsync(3, writingAnswers[i].Answer);
+                        writingScoreRespone = await _writingService.ScoringWritingAsync(3, content);
                     }
                     else if (i < 7)
                     {
                         // Thuật toán cho 2 câu tiếp theo
-                        writingScoreRespone = await _writingService.ScoringWritingAsync(4, writingAnswers[i].Answer);
+                        writingScoreRespone = await _writingService.ScoringWritingAsync(4, content);
                     }
                     else
                     {
                         // Thuật toán cho câu cuối
-                        writingScoreRespone = await _writingService.ScoringWritingAsync(5, writingAnswers[i].Answer);
+                        writingScoreRespone = await _writingService.ScoringWritingAsync(5, content);
                     }
+                    writingAnswers[i].Comment = writingScoreRespone.comment;
+                    writingAnswers[i].Explain = writingScoreRespone.explain;
                 }
                 else
                 {
                     // Trường hợp không có câu trả lời
                     writingScoreRespone.score = 0; // Hoặc giá trị mặc định tùy theo yêu cầu
                 }
-                writingAnswers[i].Comment = writingScoreRespone.comment;
-                writingAnswers[i].Explain = writingScoreRespone.explain;
                 writingScoreResponses.Add(writingScoreRespone); // Lưu WritingScoreRespone vào danh sách
+                
+               
             }
 
             return writingScoreResponses; // Trả về danh sách WritingScoreRespone
