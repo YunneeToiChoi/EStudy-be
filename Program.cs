@@ -26,6 +26,7 @@ using study4_be.Validation;
 using PusherServer;
 using study4_be.PaymentServices.Momo.Request;
 using Azure.Storage.Blobs;
+using study4_be.Services.Azure;
 using study4_be.Services.Backup;
 using study4_be.Services.Category;
 using study4_be.Services.Exam;
@@ -69,6 +70,7 @@ builder.Services.AddTransient<IWritingService, WritingService>();
 // Register BlobServiceClient for Azure Blob Storage
 builder.Services.Configure<MomoConfig>(builder.Configuration.GetSection(MomoConfig.ConfigName));
 builder.Services.Configure<MomoTestConfig>(builder.Configuration.GetSection(MomoTestConfig.ConfigName));
+builder.Services.Configure<AzureSpeechConfig>(builder.Configuration.GetSection("AzureSpeech"));
 builder.Services.AddScoped<ContractPOServices>();
 builder.Services.AddSingleton<TingeeApi>(); // Đăng ký TingeeApi là dịch vụ
 // Dịch vụ Firebase và SMTP
