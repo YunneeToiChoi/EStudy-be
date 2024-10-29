@@ -224,7 +224,25 @@ namespace study4_be.Controllers.API
                 return StatusCode(500, "Đã xảy ra lỗi khi xử lý yêu cầu thanh toán: " + ex.Message);
             }
         }
+        [HttpPost("RemoveWallet")]
+        public async Task<IActionResult> RemoveWallet(RemoveWalletRequest __req)
+        {
+            // Check if user exists
+            var userExist = await _context.Users.FindAsync(__req.userId);
+            if (userExist == null) 
+                return BadRequest("User không tồn tại");
 
+            // Find the specific wallet for the user
+            var walletExist = await _context.Wallets.SingleOrDefaultAsync(w => w.Userid == __req.userId && w.Id == __req.walletId);
+            if (walletExist == null) 
+                return BadRequest("Ví của người dùng không tồn tại");
+
+            // Remove the wallet
+            _context.Wallets.Remove(walletExist);
+            await _context.SaveChangesAsync(); // Save changes to persist deletion
+            return Ok("Ví đã được xóa thành công.");
+        }
+        
         private async Task<HttpResponseMessage> SendLinkPaymentRequest(BankLinkRequest request, string signature)
         {
             // Dữ liệu yêu cầu thanh toán
