@@ -7,6 +7,8 @@ public partial class Wallet
 {
     public string Id { get; set; } = null!;
 
+    public string WalletImage { get; set; } = null!;
+
     public string Name { get; set; } = null!;
 
     public string Userid { get; set; } = null!;

@@ -27,24 +27,24 @@ namespace study4_be.Controllers.API
     public class BankLinkController : ControllerBase
     {
         private readonly MomoConfig _momoConfig;
-        private readonly MomoTestConfig _momoTestConfig;
         private readonly HashHelper _hashHelper;
         private readonly Study4Context _context;
         private readonly TingeeApi _tingeeApi;
+        private string bankUrl;
         private HttpClient _httpClient = new();
 
         public BankLinkController(ILogger<BankLinkController> logger,
                                   IOptions<MomoConfig> momoPaymentSettings,
                                   SMTPServices smtpServices,
                                   ContractPOServices contractPOServices,
-                                  Study4Context context, IOptions<MomoTestConfig> momoTestConfig,
+                                  Study4Context context, IConfiguration configuration,
                                   TingeeApi tingeeApi)
         {
             _context = context;
             _hashHelper = new HashHelper();
             _momoConfig = momoPaymentSettings.Value;
-            _momoTestConfig = momoTestConfig.Value;
             _tingeeApi = tingeeApi;
+            bankUrl = configuration["Tingee:ApiUrl:BankUrl"];
         }
         [HttpGet("GetAllWallets")]
         public async Task<ActionResult> GetAllWallets()
@@ -53,7 +53,95 @@ namespace study4_be.Controllers.API
             return Ok(new { status = 200, message = "Get Wallets Successful", wallets });
 
         }
+        [HttpGet("GetAllBanks")]
+        public async Task<ActionResult> GetAllBanks([FromServices] IHttpClientFactory httpClientFactory)
+        {
+            var httpClient = httpClientFactory.CreateClient();
 
+            try
+            {
+                var response = await httpClient.GetAsync("https://api.vietqr.io/v2/banks");
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    return StatusCode((int)response.StatusCode, "Lỗi khi lấy dữ liệu ngân hàng từ API.");
+                }
+
+                var resultContent = await response.Content.ReadAsStringAsync();
+
+                // Giải mã dữ liệu JSON
+                var bankResponse = JsonConvert.DeserializeObject<BankResponse>(resultContent);
+
+                // Kiểm tra và sửa code nếu cần
+                if (bankResponse.data != null)
+                {
+                    foreach (var bank in bankResponse.data)
+                    {
+                        if (bank.code == "MB")
+                        {
+                            bank.code = "MBB"; // Sửa code
+                        }
+                    }
+                }
+
+                // Trả về dữ liệu cho người dùng
+                return Ok(bankResponse.data);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Đã xảy ra lỗi: {ex.Message}");
+            }
+        }
+
+        public class BankResponse
+        {
+            public int code { get; set; }
+            public List<Bank> data { get; set; }
+        }
+        [HttpGet("GetUserWallets/{userId}")]
+        public async Task<IActionResult> GetUserWallets(string userId)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(userId))
+                {
+                    return BadRequest("UserId không được để trống.");
+                }
+
+                var userExist = await _context.Users.FindAsync(userId);
+                if (userExist == null)
+                {
+                    return BadRequest("UserId không tồn tại");
+                }
+                // Truy vấn tất cả các Wallet của người dùng với userId tương ứng
+                var userWallets = await _context.Wallets
+                    .Where(wallet => wallet.Userid == userId && wallet.IsAvailable == true)
+                    .Select(wallet => new
+                    {
+                        walletId = wallet.Id,
+                        walletImage = wallet.WalletImage,
+                        cardNumber = wallet.CardNumber,
+                        isAvailable = wallet.IsAvailable,
+                        name = wallet.Name,
+                        userId = wallet.Userid,
+                        userBlance = userExist.Blance,
+                        type = wallet.Type,
+                    })
+                    .ToListAsync();
+
+                if (userWallets == null || !userWallets.Any())
+                {
+                    return NotFound("Không tìm thấy ví nào cho người dùng này.");
+                }
+
+                return Ok(new { statusCode = 200, message = "Lấy danh sách ví thành công", data = userWallets });
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+        
         [HttpPost("LinkWallet")]
         public async Task<IActionResult> LinkWallet([FromBody] BankLinkRequest request)
         {
@@ -224,17 +312,6 @@ namespace study4_be.Controllers.API
             var content = new StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(paymentData), Encoding.UTF8, "application/json");
             return await _httpClient.PostAsync(_momoConfig.AesTokenUrl, content);
         }
-
-        private string GenerateOrderId(string userId, int walletId)
-        {
-            using (var sha256 = SHA256.Create())
-            {
-                var baseString = $"{userId}-{walletId}-{DateTime.UtcNow.Ticks}-{Guid.NewGuid()}";
-                var hashBytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(baseString));
-                return ToBase32String(hashBytes).Substring(0, 32); // Increase length to 32 characters
-            }
-        }
-
         [HttpGet]
         private string ToBase32String(byte[] bytes)
         {
@@ -348,35 +425,7 @@ namespace study4_be.Controllers.API
             // Trả về đối tượng Wallet trong JSON khi thành công
             return (true, "Xác thực ví thành công.", walletResponse);
         }
-        [HttpGet("GetUserWallets/{userId}")]
-        public async Task<IActionResult> GetUserWallets(string userId)
-        {
-            if (string.IsNullOrEmpty(userId))
-            {
-                return BadRequest("UserId không được để trống.");
-            }
-
-            // Truy vấn tất cả các Wallet của người dùng với userId tương ứng
-            var userWallets = await _context.Wallets
-                                            .Where(wallet => wallet.Userid == userId && wallet.IsAvailable == true)
-                                            .Select(wallet => new
-                                            {
-                                                walletId = wallet.Id,
-                                                cardNumber = wallet.CardNumber,
-                                                isAvailable = wallet.IsAvailable,
-                                                name = wallet.Name,
-                                                userId = wallet.Userid,
-                                                type = wallet.Type
-                                            })
-                                            .ToListAsync();
-
-            if (userWallets == null || !userWallets.Any())
-            {
-                return NotFound("Không tìm thấy ví nào cho người dùng này.");
-            }
-
-            return Ok(new { statusCode = 200, message = "Lấy danh sách ví thành công", data = userWallets });
-        }
+     
         [HttpPost("TestAddBalance")]
         public async Task<IActionResult> TestAddBalance([FromBody] TestAddBalanceRequest request)
         {

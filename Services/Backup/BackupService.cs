@@ -37,7 +37,6 @@ namespace study4_be.Services.Backup
         var orders = await _context.Orders.ToListAsync();
         var categories = await _context.Categories.ToListAsync();
         var containers = await _context.Containers.ToListAsync();
-        var counters = await _context.Counters.ToListAsync();
         var courses = await _context.Courses.Include(c => c.Documents).ToListAsync();
         var departments = await _context.Departments.ToListAsync();
         var documents = await _context.Documents.ToListAsync();
@@ -48,7 +47,6 @@ namespace study4_be.Services.Backup
         var ratings = await _context.Ratings.ToListAsync();
         var roles = await _context.Roles.ToListAsync();
         var staffs = await _context.Staff.ToListAsync();
-        var states = await _context.States.ToListAsync();
         var subscriptionPlans = await _context.Subscriptionplans.ToListAsync();
         var tags = await _context.Tags.ToListAsync();
         var units = await _context.Units.ToListAsync();
@@ -61,7 +59,6 @@ namespace study4_be.Services.Backup
         var orderExcelFile = GenerateExcel(orders, "Orders");
         var categoryExcelFile = GenerateExcel(categories, "Categories");
         var containerExcelFile = GenerateExcel(containers, "Containers");
-        var counterExcelFile = GenerateExcel(counters, "Counters");
         var courseExcelFile = GenerateExcel(courses, "Courses");
         var departmentExcelFile = GenerateExcel(departments, "Departments");
         var documentExcelFile = GenerateExcel(documents, "Documents");
@@ -72,7 +69,6 @@ namespace study4_be.Services.Backup
         var ratingExcelFile = GenerateExcel(ratings, "Ratings");
         var roleExcelFile = GenerateExcel(roles, "Roles");
         var staffExcelFile = GenerateExcel(staffs, "Staffs");
-        var stateExcelFile = GenerateExcel(states, "States");
         var subscriptionPlanExcelFile = GenerateExcel(subscriptionPlans, "SubscriptionPlans");
         var tagExcelFile = GenerateExcel(tags, "Tags");
         var unitExcelFile = GenerateExcel(units, "Units");
@@ -91,7 +87,6 @@ namespace study4_be.Services.Backup
         await UploadToBlobAsync($"Orders/{timestamp}_orders.xlsx", orderExcelFile);
         await UploadToBlobAsync($"Categories/{timestamp}_categories.xlsx", categoryExcelFile);
         await UploadToBlobAsync($"Containers/{timestamp}_containers.xlsx", containerExcelFile);
-        await UploadToBlobAsync($"Counters/{timestamp}_counters.xlsx", counterExcelFile);
         await UploadToBlobAsync($"Courses/{timestamp}_courses.xlsx", courseExcelFile);
         await UploadToBlobAsync($"Departments/{timestamp}_departments.xlsx", departmentExcelFile);
         await UploadToBlobAsync($"Documents/{timestamp}_documents.xlsx", documentExcelFile);
@@ -102,7 +97,6 @@ namespace study4_be.Services.Backup
         await UploadToBlobAsync($"Ratings/{timestamp}_ratings.xlsx", ratingExcelFile);
         await UploadToBlobAsync($"Roles/{timestamp}_roles.xlsx", roleExcelFile);
         await UploadToBlobAsync($"Staffs/{timestamp}_staffs.xlsx", staffExcelFile);
-        await UploadToBlobAsync($"States/{timestamp}_states.xlsx", stateExcelFile);
         await UploadToBlobAsync($"SubscriptionPlans/{timestamp}_subscriptionPlans.xlsx", subscriptionPlanExcelFile);
         await UploadToBlobAsync($"Tags/{timestamp}_tags.xlsx", tagExcelFile);
         await UploadToBlobAsync($"Units/{timestamp}_units.xlsx", unitExcelFile);
