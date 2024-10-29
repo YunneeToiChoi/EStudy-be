@@ -142,8 +142,30 @@ namespace study4_be.Controllers.API
             {
                 return BadRequest(e.Message);
             }
+        }   
+        [HttpGet("HistoryPayment/{userId}")]
+        public async Task<IActionResult> HistoryPayment(string userId)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(userId))
+                {
+                    return BadRequest("UserId không được để trống.");
+                }
+
+                var userExist = await _context.Users.FindAsync(userId);
+                if (userExist == null)
+                {
+                    return BadRequest("UserId không tồn tại");
+                }
+                var ord = await _context.Orders.Where(u=> u.UserId == userId && u.State == true).ToListAsync(); ;
+                return Ok(new { statusCode = 200, message = "Lấy danh sách lịch sử giao dịch thành công", data = ord });
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
-        
         [HttpPost("LinkWallet")]
         public async Task<IActionResult> LinkWallet([FromBody] BankLinkRequest request)
         {
@@ -315,36 +337,6 @@ namespace study4_be.Controllers.API
             var content = new StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(paymentData), Encoding.UTF8, "application/json");
             return await _httpClient.PostAsync(_momoConfig.AesTokenUrl, content);
         }
-        [HttpGet]
-        private string ToBase32String(byte[] bytes)
-        {
-            const string alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXY1Z23456789";
-            StringBuilder result = new StringBuilder((bytes.Length + 4) / 5 * 8);
-            int bitIndex = 0;
-            int currentByte = 0;
-
-            while (bitIndex < bytes.Length * 8)
-            {
-                if (bitIndex % 8 == 0)
-                {
-                    currentByte = bytes[bitIndex / 8];
-                }
-
-                int dualByte = currentByte << 8;
-                if ((bitIndex / 8) + 1 < bytes.Length)
-                {
-                    dualByte |= bytes[(bitIndex / 8) + 1];
-                }
-
-                int index = (dualByte >> (16 - (bitIndex % 8 + 5))) & 31;
-                result.Append(alphabet[index]);
-
-                bitIndex += 5;
-            }
-
-            return result.ToString();
-        }
-
         private string GetErrorMessage(string errorCode)
         {
             return Int32.Parse(errorCode) switch
@@ -499,7 +491,11 @@ namespace study4_be.Controllers.API
                 {
                     return BadRequest($"Không tìm thấy người dùng với ID: {request.userId}.");
                 }
-
+                var existWallet = await _context.Wallets.FindAsync(request.walletId);
+                if (existWallet == null)
+                {
+                    return BadRequest($"Không tìm thấy ví người dùng với ID: {request.walletId}.");
+                }
                 // Nếu số dư là null, khởi tạo nó về 0
                 if (existUser.Blance == null)
                 {
@@ -521,8 +517,7 @@ namespace study4_be.Controllers.API
                 request.Amount = amountAfterTax;
                 // Dữ liệu yêu cầu giải ngân (bao gồm cả thông tin người dùng)
                 string publicKey = _momoConfig.PublicKey;
-
-                // Tạo một đối tượng mới không có userId và walletId
+                
                 var disbursementData = new DisbursementMethodRequest
                 {
                     RequestId = request.RequestId,
