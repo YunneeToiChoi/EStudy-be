@@ -31,6 +31,7 @@ namespace study4_be.Controllers.API
         private readonly Study4Context _context;
         private readonly TingeeApi _tingeeApi;
         private string bankUrl;
+        private string logoMomo;
         private HttpClient _httpClient = new();
 
         public BankLinkController(ILogger<BankLinkController> logger,
@@ -45,6 +46,7 @@ namespace study4_be.Controllers.API
             _momoConfig = momoPaymentSettings.Value;
             _tingeeApi = tingeeApi;
             bankUrl = configuration["Tingee:ApiUrl:BankUrl"];
+            logoMomo = configuration["Momo:Logo"];
         }
         [HttpGet("GetAllWallets")]
         public async Task<ActionResult> GetAllWallets()
@@ -167,6 +169,7 @@ namespace study4_be.Controllers.API
                         Name = request.UserInfo.WalletName,
                         Userid = request.UserInfo.UserId,
                         Type = request.RequestType,
+                        WalletImage = logoMomo,
                     };
                     if (jsonResponse != null && jsonResponse.TryGetValue("errorCode", out var errorCode) && errorCode.ToString() != "0")
                     {
@@ -640,11 +643,15 @@ namespace study4_be.Controllers.API
       [HttpPost("LinkBankAccountTingee")]
 public async Task<IActionResult> LinkBankAccountTingee([FromBody] BankLinkAccountTingeeRequest tingeeRequest)
 {
-    if (BankValidator.CheckValidBankSupportTingee(tingeeRequest.BankName))
+    if (!IsValidAccountType(tingeeRequest.AccountType))
     {
-        if (tingeeRequest.AccountType == "personal-account" || tingeeRequest.AccountType == "business-account")
-        {
-            var (statusCode, resultContent) = await _tingeeApi.CreateBankLinkAsync(
+        return BadRequest($"{tingeeRequest.AccountType} không hợp lệ.");
+    }
+    if (!BankValidator.CheckValidBankSupportTingee(tingeeRequest.BankName))
+    {
+        return BadRequest($"{tingeeRequest.BankName} không phải là ngân hàng hợp lệ trong danh sách hỗ trợ của chúng tôi.");
+    }
+    var (statusCode, resultContent) = await _tingeeApi.CreateBankLinkAsync(
                 tingeeRequest.AccountType,
                 tingeeRequest.BankName,
                 tingeeRequest.AccountNumber,
@@ -663,6 +670,7 @@ public async Task<IActionResult> LinkBankAccountTingee([FromBody] BankLinkAccoun
                 if (result.code.ToString() == "00")
                 {
                     // Thêm ví vào cơ sở dữ liệu
+                    string bankCode = tingeeRequest.BankName;
                     var wallet = new Wallet
                     {
                         Id = Guid.NewGuid().ToString(),
@@ -672,7 +680,8 @@ public async Task<IActionResult> LinkBankAccountTingee([FromBody] BankLinkAccoun
                         Userid = tingeeRequest.UserId,
                         Type = tingeeRequest.RequestType,
                     };
-
+                    ProcessBanks(wallet.Id, bankCode, out string walletImage);
+                    wallet.WalletImage = walletImage;
                     await _context.AddAsync(wallet);
                     await _context.SaveChangesAsync();
 
@@ -684,6 +693,7 @@ public async Task<IActionResult> LinkBankAccountTingee([FromBody] BankLinkAccoun
                         name = wallet.Name,
                         userId = wallet.Userid,
                         type = wallet.Type,
+                        walletImage = wallet.WalletImage,
                     };
 
                     return Ok(new
@@ -708,14 +718,92 @@ public async Task<IActionResult> LinkBankAccountTingee([FromBody] BankLinkAccoun
                 var errorMessage = JsonConvert.DeserializeObject<dynamic>(resultContent)?.message.ToString() ?? "Lỗi không xác định.";
                 return StatusCode((int)statusCode, errorMessage); 
             }
-        }
-        return BadRequest($"{tingeeRequest.AccountType} không hợp lệ.");
+}
+private bool IsValidAccountType(string accountType)
+{
+    return accountType == "personal-account" || accountType == "business-account";
+}
+
+private void ProcessBanks(string walletId, string code, out string walletImage)
+{
+    walletImage = string.Empty; // Initialize the variable to store the image path
+
+    // Dictionary to map bank codes to their respective image URLs
+    var bankImages = new Dictionary<string, string>
+    {
+        { "MBB", "https://api.vietqr.io/img/MB.png" },
+        { "ICB", "https://api.vietqr.io/img/ICB.png" },
+        { "VCB", "https://api.vietqr.io/img/VCB.png" },
+        { "BIDV", "https://api.vietqr.io/img/BIDV.png" },
+        { "VBA", "https://api.vietqr.io/img/VBA.png" },
+        { "OCB", "https://api.vietqr.io/img/OCB.png" },
+        { "TCB", "https://api.vietqr.io/img/TCB.png" },
+        { "ACB", "https://api.vietqr.io/img/ACB.png" },
+        { "VPB", "https://api.vietqr.io/img/VPB.png" },
+        { "TPB", "https://api.vietqr.io/img/TPB.png" },
+        { "STB", "https://api.vietqr.io/img/STB.png" },
+        { "HDB", "https://api.vietqr.io/img/HDB.png" },
+        { "VCCB", "https://api.vietqr.io/img/VCCB.png" },
+        { "SCB", "https://api.vietqr.io/img/SCB.png" },
+        { "VIB", "https://api.vietqr.io/img/VIB.png" },
+        { "SHB", "https://api.vietqr.io/img/SHB.png" },
+        { "EIB", "https://api.vietqr.io/img/EIB.png" },
+        { "MSB", "https://api.vietqr.io/img/MSB.png" },
+        { "CAKE", "https://api.vietqr.io/img/CAKE.png" },
+        { "Ubank", "https://api.vietqr.io/img/UBANK.png" },
+        { "TIMO", "https://vietqr.net/portal-service/resources/icons/TIMO.png" },
+        { "VTLMONEY", "https://api.vietqr.io/img/VIETTELMONEY.png" },
+        { "VNPTMONEY", "https://api.vietqr.io/img/VNPTMONEY.png" },
+        { "SGICB", "https://api.vietqr.io/img/SGICB.png" },
+        { "BAB", "https://api.vietqr.io/img/BAB.png" },
+        { "PVCB", "https://api.vietqr.io/img/PVCB.png" },
+        { "Oceanbank", "https://api.vietqr.io/img/OCEANBANK.png" },
+        { "PGB", "https://api.vietqr.io/img/PGB.png" }, // PGBank
+        { "VIETBANK", "https://api.vietqr.io/img/VIETBANK.png" }, // VietBank
+        { "BVB", "https://api.vietqr.io/img/BVB.png" }, // BaoVietBank
+        { "SEAB", "https://api.vietqr.io/img/SEAB.png" }, // SeABank
+        { "COOPBANK", "https://api.vietqr.io/img/COOPBANK.png" }, // COOPBANK
+        { "LPB", "https://api.vietqr.io/img/LPB.png" }, // LPBank
+        { "KLB", "https://api.vietqr.io/img/KLB.png" }, // KienLongBank
+        { "KBank", "https://api.vietqr.io/img/KBANK.png" }, // KBank
+        { "KBHN", "https://api.vietqr.io/img/KBHN.png" }, // KookminHN
+        { "KEBHANAHCM", "https://api.vietqr.io/img/KEBHANAHCM.png" }, // KEBHanaHCM
+        { "KEBHANAHN", "https://api.vietqr.io/img/KEBHANAHN.png" }, // KEBHANAHN
+        { "MAFC", "https://api.vietqr.io/img/MAFC.png" }, // MAFC
+        { "CITIBANK", "https://api.vietqr.io/img/CITIBANK.png" }, // Citibank
+        { "KBHCM", "https://api.vietqr.io/img/KBHCM.png" }, // KookminHCM
+        { "VBSP", "https://api.vietqr.io/img/VBSP.png" }, // VBSP
+        { "WVN", "https://api.vietqr.io/img/WVN.png" }, // Woori
+        { "VRB", "https://api.vietqr.io/img/VRB.png" }, // VRB
+        { "UOB", "https://api.vietqr.io/img/UOB.png" }, // UnitedOverseas
+        { "SCVN", "https://api.vietqr.io/img/SCVN.png" }, // StandardChartered
+        { "PBVN", "https://api.vietqr.io/img/PBVN.png" }, // PublicBank
+        { "NHB HN", "https://api.vietqr.io/img/NHB.png" }, // Nonghyup
+        { "IVB", "https://api.vietqr.io/img/IVB.png" }, // IndovinaBank
+        { "IBK - HCM", "https://api.vietqr.io/img/IBK.png" }, // IBKHCM
+        { "IBK - HN", "https://api.vietqr.io/img/IBK.png" }, // IBKHN
+        { "HSBC", "https://api.vietqr.io/img/HSBC.png" }, // HSBC
+        { "HLBVN", "https://api.vietqr.io/img/HLBVN.png" }, // HongLeong
+        { "GPB", "https://api.vietqr.io/img/GPB.png" }, // GPBank
+        { "DOB", "https://api.vietqr.io/img/DOB.png" }, // DongABank
+        { "DBS", "https://api.vietqr.io/img/DBS.png" }, // DBSBank
+        { "CIMB", "https://api.vietqr.io/img/CIMB.png" }, // CIMB
+        { "CBB", "https://api.vietqr.io/img/CBB.png" } // CBBank
+        // Add other banks as needed
+    };
+
+    // Check if the bank code exists in the dictionary
+    if (bankImages.TryGetValue(code, out string imageUrl))
+    {
+        walletImage = imageUrl; // Set the wallet image to the corresponding URL
     }
     else
     {
-        return BadRequest($"{tingeeRequest.BankName} không phải là ngân hàng hợp lệ trong danh sách hỗ trợ của chúng tôi.");
+        // If no matching bank code is found, set a default image URL
+        walletImage = "https://default-image-url.com/default.png";
     }
 }
+
 
         [HttpPost("ConfirmBankLinkTingee")]
         public async Task<IActionResult> ConfirmBankLinkTingee([FromBody] ConfirmBankLinkRequest request)
