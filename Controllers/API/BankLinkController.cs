@@ -171,6 +171,11 @@ namespace study4_be.Controllers.API
         {
             try
             {
+                var userExist = _context.Users.FindAsync(request.UserInfo.UserId);
+                if(userExist == null)
+                {
+                    BadRequest("User not found ");
+                }
                 request.OrderId = Guid.NewGuid().ToString();
                 request.RequestId = Guid.NewGuid().ToString();
                 var signature = _hashHelper.GenerateSignature(request, _momoConfig);
