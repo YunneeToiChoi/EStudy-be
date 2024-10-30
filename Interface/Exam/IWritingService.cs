@@ -5,5 +5,5 @@ namespace study4_be.Interface;
 
 public interface IWritingService
 {
-    Task<WritingScore> ScoringWritingAsync(int maxScore, string content);
+    Task<WritingScore> ScoringWritingAsync(int maxScore, string content, int modelIndex);
 }
