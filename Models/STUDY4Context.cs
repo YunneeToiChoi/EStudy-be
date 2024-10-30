@@ -851,6 +851,9 @@ public partial class Study4Context : DbContext
                 .HasMaxLength(100)
                 .IsUnicode(false)
                 .HasColumnName("Exam_Id");
+            entity.Property(e => e.SpeakingScore)
+                .HasMaxLength(20)
+                .IsUnicode(false);
             entity.Property(e => e.UserId)
                 .HasMaxLength(100)
                 .IsUnicode(false)

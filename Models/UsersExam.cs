@@ -21,6 +21,8 @@ public partial class UsersExam
 
     public string? WritingScore { get; set; }
 
+    public string? SpeakingScore { get; set; }
+
     public virtual Exam Exam { get; set; } = null!;
 
     public virtual User User { get; set; } = null!;
