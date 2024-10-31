@@ -259,7 +259,7 @@ namespace study4_be.Controllers.API
             // Remove the wallet
             _context.Wallets.Remove(walletExist);
             await _context.SaveChangesAsync(); // Save changes to persist deletion
-            return Ok("Ví đã được xóa thành công.");
+            return Ok(new {statusCode = 200, message ="Ví đã xóa thành công"});
         }
         
         private async Task<HttpResponseMessage> SendLinkPaymentRequest(BankLinkRequest request, string signature)
