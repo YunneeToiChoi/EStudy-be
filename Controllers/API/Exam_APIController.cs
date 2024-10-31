@@ -476,14 +476,14 @@ namespace study4_be.Controllers.API
                 if (questionPart != null)
                 {
                     int number = 209;
-                    var part8Response = questionPart.Select(p => new Part8Response
+                    var part9Response = questionPart.Select(p => new Part9Response
                     {
                         number = number++,
                         questionId = p.QuestionId,
                         questionText = p.QuestionParagraph,
                         questionImage = p.QuestionImage,
                     }).ToList();
-                    return Json(new { status = 200, message = "Get_ExamPart8 successful", part8Response });
+                    return Json(new { status = 200, message = "Get_ExamPart9 successful", part9Response });
                 }
                 else
                 {
