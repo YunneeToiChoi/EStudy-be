@@ -174,7 +174,7 @@ public partial class Study4Context : DbContext
 
         modelBuilder.Entity<Document>(entity =>
         {
-            entity.HasKey(e => e.DocumentId).HasName("PK__Document__1ABEEF0FEB146C1E");
+            entity.HasKey(e => e.DocumentId).HasName("PK__Document__1ABEEF0FDC05D05C");
 
             entity.Property(e => e.Description).HasColumnType("text");
             entity.Property(e => e.DownloadCount).HasDefaultValue(0);
@@ -214,7 +214,7 @@ public partial class Study4Context : DbContext
 
         modelBuilder.Entity<Exam>(entity =>
         {
-            entity.HasKey(e => e.ExamId).HasName("PK__Exam__C782CA590F3F0A91");
+            entity.HasKey(e => e.ExamId).HasName("PK__Exam__C782CA5931D3146E");
 
             entity.ToTable("Exam");
 
@@ -324,7 +324,7 @@ public partial class Study4Context : DbContext
 
         modelBuilder.Entity<Order>(entity =>
         {
-            entity.HasKey(e => e.OrderId).HasName("PK__Orders__F1FF8453E1DEA7EF");
+            entity.HasKey(e => e.OrderId).HasName("PK__Orders__F1FF8453A0C399BE");
 
             entity.Property(e => e.OrderId)
                 .HasMaxLength(255)
@@ -386,7 +386,7 @@ public partial class Study4Context : DbContext
 
         modelBuilder.Entity<PlanCourse>(entity =>
         {
-            entity.HasKey(e => new { e.PlanId, e.CourseId }).HasName("PK__PLAN_COU__47E48A7CE509C509");
+            entity.HasKey(e => new { e.PlanId, e.CourseId }).HasName("PK__PLAN_COU__47E48A7C3B7C311C");
 
             entity.ToTable("PLAN_COURSES");
 
@@ -464,7 +464,7 @@ public partial class Study4Context : DbContext
 
         modelBuilder.Entity<Rating>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__RATING__3214EC2755A56EF1");
+            entity.HasKey(e => e.Id).HasName("PK__RATING__3214EC27BA19BD3F");
 
             entity.ToTable("RATING");
 
@@ -500,7 +500,7 @@ public partial class Study4Context : DbContext
 
         modelBuilder.Entity<RatingImage>(entity =>
         {
-            entity.HasKey(e => e.ImageId).HasName("PK__RATING_I__7EA9868985374207");
+            entity.HasKey(e => e.ImageId).HasName("PK__RATING_I__7EA986894017CF9E");
 
             entity.ToTable("RATING_IMAGES");
 
@@ -524,7 +524,7 @@ public partial class Study4Context : DbContext
 
         modelBuilder.Entity<RatingReply>(entity =>
         {
-            entity.HasKey(e => e.ReplyId).HasName("PK__RATING_R__C48F2A207DC25E1D");
+            entity.HasKey(e => e.ReplyId).HasName("PK__RATING_R__C48F2A2012E0EC0E");
 
             entity.ToTable("RATING_REPLY");
 
@@ -735,7 +735,7 @@ public partial class Study4Context : DbContext
 
         modelBuilder.Entity<UserAnswer>(entity =>
         {
-            entity.HasKey(e => e.UserAnswerId).HasName("PK__UserAnsw__47CE237FAFA7FEDF");
+            entity.HasKey(e => e.UserAnswerId).HasName("PK__UserAnsw__47CE237F493F3B98");
 
             entity.Property(e => e.QuestionId).HasColumnName("QUESTION_ID");
             entity.Property(e => e.UserExamId)
@@ -851,17 +851,11 @@ public partial class Study4Context : DbContext
                 .HasMaxLength(100)
                 .IsUnicode(false)
                 .HasColumnName("Exam_Id");
-            entity.Property(e => e.SpeakingScore)
-                .HasMaxLength(20)
-                .IsUnicode(false);
             entity.Property(e => e.UserId)
                 .HasMaxLength(100)
                 .IsUnicode(false)
                 .HasColumnName("User_Id");
             entity.Property(e => e.UserTime).HasColumnName("userTime");
-            entity.Property(e => e.WritingScore)
-                .HasMaxLength(20)
-                .IsUnicode(false);
 
             entity.HasOne(d => d.Exam).WithMany(p => p.UsersExams)
                 .HasForeignKey(d => d.ExamId)

@@ -1,16 +1,12 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Polly;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CognitiveServices.Speech;
 using Microsoft.CognitiveServices.Speech.Audio;
-using System.IO;
-using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
-using System.Threading.Tasks;
+using System.Text.Json;
 using NAudio.Wave;
-using Microsoft.Extensions.Configuration;
-using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
+using Polly.Extensions.Http;
 using study4_be.Models;
 
 namespace study4_be.Controllers.API
@@ -36,107 +32,132 @@ namespace study4_be.Controllers.API
             _context = context;
         }
 
-        [HttpPost("EvaluateQuestion/{questionId:int}")]
-        public async Task<IActionResult> EvaluateQuestion(IFormFile audioFile, int questionId)
+        [HttpPost("EvaluateQuestionBatch")]
+        public async Task<IActionResult> EvaluateQuestionBatch([FromForm]List<IFormFile> audioFiles,[FromForm] List<int> questionIds, string userExamId)
         {
-            if (audioFile == null || audioFile.Length == 0)
+            if (audioFiles == null || audioFiles.Count == 0 || questionIds == null || questionIds.Count == 0 || audioFiles.Count != questionIds.Count)
             {
-                return BadRequest("No audio file uploaded.");
+                return BadRequest("Invalid audio files or question IDs.");
             }
 
-            string tempFilePath = Path.GetTempFileName();
-            string wavFilePath = tempFilePath + ".wav";
+            var results = new List<dynamic>(); // To hold results for each question
 
-            // Save the file to the temporary path
-            using (var stream = new FileStream(tempFilePath, FileMode.Create))
+            for (int i = 0; i < audioFiles.Count; i++)
             {
-                await audioFile.CopyToAsync(stream);
-            }
+                var audioFile = audioFiles[i];
+                var questionId = questionIds[i];
 
-            // Convert file to WAV
-            ConvertToWav(tempFilePath, wavFilePath);
+                // Save and process each audio file as before
+                string tempFilePath = Path.GetTempFileName();
+                string wavFilePath = tempFilePath + ".wav";
 
-            var speechConfig = SpeechConfig.FromSubscription(_speechKey, _region);
-            var audioConfig = AudioConfig.FromWavFileInput(wavFilePath);
-
-            try
-            {
-                using (var recognizer = new SpeechRecognizer(speechConfig, audioConfig))
+                using (var stream = new FileStream(tempFilePath, FileMode.Create))
                 {
-                    var result = await recognizer.RecognizeOnceAsync();
-                    if (result.Reason == ResultReason.RecognizedSpeech)
+                    await audioFile.CopyToAsync(stream);
+                }
+
+                ConvertToWav(tempFilePath, wavFilePath);
+
+                var speechConfig = SpeechConfig.FromSubscription(_speechKey, _region);
+                var audioConfig = AudioConfig.FromWavFileInput(wavFilePath);
+
+                try
+                {
+                    using (var recognizer = new SpeechRecognizer(speechConfig, audioConfig))
                     {
-                        string recognizedText = result.Text;
-                        string topic = await GetTopicById(questionId);
-                        if (topic == null)
+                        var result = await recognizer.RecognizeOnceAsync();
+                        if (result.Reason == ResultReason.RecognizedSpeech)
                         {
-                            return NotFound($"Topic with ID {questionId} not found.");
-                        }
-
-                        // Call AI and get the raw JSON response
-                        string aiResponseJson = await ProcessWithAI(recognizedText, topic);
-
-                        // Parse AI response JSON to extract the relevant message content
-                        var aiResponseObject = System.Text.Json.JsonDocument.Parse(aiResponseJson);
-                        string aiContent = aiResponseObject.RootElement
-                                            .GetProperty("choices")[0]
-                                            .GetProperty("message")
-                                            .GetProperty("content")
-                                            .GetString();
-
-                        // Extract [SCORE] and [FeedBack] from the content
-                        string scoreMarker = "[SCORE]:";
-                        string feedbackMarker = "[FeedBack]:";
-                        string score = "";
-                        string feedback = "";
-
-                        int scoreIndex = aiContent.IndexOf(scoreMarker);
-                        if (scoreIndex != -1)
-                        {
-                            int scoreStart = scoreIndex + scoreMarker.Length;
-                            int scoreEnd = aiContent.IndexOf("\n", scoreStart);
-                            score = aiContent.Substring(scoreStart, scoreEnd - scoreStart).Trim();
-                        }
-
-                        int feedbackIndex = aiContent.IndexOf(feedbackMarker);
-                        if (feedbackIndex != -1)
-                        {
-                            feedback = aiContent.Substring(feedbackIndex + feedbackMarker.Length).Trim();
-                        }
-
-                        // Return the response in the required format
-                        return Ok(new
-                        {
-                            recognizedText,
-                            aiResponse = new
+                            string recognizedText = result.Text;
+                            string topic = await GetTopicById(questionId);
+                            if (topic == null)
                             {
-                                Score = score,
-                                Feedback = feedback
+                                return NotFound($"Topic with ID {questionId} not found.");
                             }
-                        });
-                    }
-                    else
-                    {
-                        return BadRequest("Could not recognize speech.");
+
+                            string aiResponseJson = await ProcessWithAI(recognizedText, topic);
+                            var aiResponseObject = System.Text.Json.JsonDocument.Parse(aiResponseJson);
+                            string aiContent = aiResponseObject.RootElement
+                                .GetProperty("choices")[0]
+                                .GetProperty("message")
+                                .GetProperty("content")
+                                .GetString();
+
+                            string scoreMarker = "[SCORE]:";
+                            string feedbackMarker = "[FeedBack]:";
+                            string score = "";
+                            string feedback = "";
+
+                            int scoreIndex = aiContent.IndexOf(scoreMarker);
+                            if (scoreIndex != -1)
+                            {
+                                int feedbackIndex = aiContent.IndexOf(feedbackMarker, scoreIndex);
+                                if (feedbackIndex != -1)
+                                {
+                                    score = aiContent.Substring(scoreIndex + scoreMarker.Length, feedbackIndex - scoreIndex - scoreMarker.Length).Trim();
+                                    feedback = aiContent.Substring(feedbackIndex + feedbackMarker.Length).Trim();
+                                }
+                            }
+
+                            results.Add(new
+                            {
+                                questionId,
+                                RecognizedText = recognizedText,
+                                AiResponse = new
+                                {
+                                    Content = aiContent,
+                                    Score = score,
+                                    Feedback = feedback
+                                }
+                            });
+                        }
+                        else
+                        {
+                            results.Add(new
+                            {
+                                questionId,
+                                RecognizedText = "",
+                                AiResponse = new
+                                {
+                                    Score = "0",
+                                    Feedback = "No speech recognized."
+                                }
+                            });
+                        }
                     }
                 }
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Internal server error: {ex.Message}");
-            }
-            finally
-            {
-                // Clean up temporary files
-                if (System.IO.File.Exists(tempFilePath))
+                catch (Exception ex)
                 {
+                    return StatusCode(500, $"Internal server error: {ex.Message}");
+                }
+                finally
+                {
+                    // Clean up temporary files
                     System.IO.File.Delete(tempFilePath);
-                }
-                if (System.IO.File.Exists(wavFilePath))
-                {
                     System.IO.File.Delete(wavFilePath);
                 }
             }
+            
+            var userExam = await _context.UsersExams.FindAsync(userExamId);
+            if (userExam == null)
+            {
+                return NotFound($"User exam not found.");
+            }
+            // Tính tổng điểm từ results
+            int totalScore = results.Sum(x => 
+            {
+                // Đảm bảo x.Score là một string và không null
+                if (int.TryParse(x.Score?.ToString(), out int score)) 
+                {
+                    return score;
+                }
+                return 0; // Nếu không thể chuyển đổi, trả về 0
+            });
+
+            userExam.SpeakingScore += totalScore;
+            // Cập nhật lại SpeakingScore trong userExam và session
+            await _context.SaveChangesAsync();
+            return Ok(results);
         }
 
         [HttpPost("EvaluateQuestionSix/{questionId:int}")]
@@ -150,13 +171,11 @@ namespace study4_be.Controllers.API
             string tempFilePath = Path.GetTempFileName();
             string wavFilePath = tempFilePath + ".wav";
 
-            // Save the file to the temporary path
             using (var stream = new FileStream(tempFilePath, FileMode.Create))
             {
                 await audioFile.CopyToAsync(stream);
             }
 
-            // Convert file to WAV
             ConvertToWav(tempFilePath, wavFilePath);
 
             var speechConfig = SpeechConfig.FromSubscription(_speechKey, _region);
@@ -177,9 +196,8 @@ namespace study4_be.Controllers.API
                         }
 
                         // Call AI and get the raw JSON response
-                        string aiResponseJson = await ProcessWithAIFollowUp(recognizedText, topic); // send to get follow up question
+                        string aiResponseJson = await ProcessWithAIFollowUp(recognizedText, topic);
 
-                        // Parse AI response JSON to extract the relevant message content
                         var aiResponseObject = System.Text.Json.JsonDocument.Parse(aiResponseJson);
                         string aiContent = aiResponseObject.RootElement
                                             .GetProperty("choices")[0]
@@ -195,14 +213,19 @@ namespace study4_be.Controllers.API
                         string feedback = "";
                         string followUpQuestion = "";
 
+                        // Lấy điểm
                         int scoreIndex = aiContent.IndexOf(scoreMarker);
                         if (scoreIndex != -1)
                         {
                             int scoreStart = scoreIndex + scoreMarker.Length;
                             int scoreEnd = aiContent.IndexOf("\n", scoreStart);
                             score = aiContent.Substring(scoreStart, scoreEnd - scoreStart).Trim();
+
+                            // Lưu điểm vào session
+                            HttpContext.Session.SetInt32("SpeakingScore", int.Parse(score));
                         }
 
+                        // Lấy phản hồi
                         int feedbackIndex = aiContent.IndexOf(feedbackMarker);
                         if (feedbackIndex != -1)
                         {
@@ -211,6 +234,7 @@ namespace study4_be.Controllers.API
                             feedback = aiContent.Substring(feedbackStart, feedbackEnd - feedbackStart).Trim();
                         }
 
+                        // Lấy câu hỏi tiếp theo
                         int followUpIndex = aiContent.IndexOf(followUpMarker);
                         if (followUpIndex != -1)
                         {
@@ -219,7 +243,7 @@ namespace study4_be.Controllers.API
 
                         var synthesizer = new SpeechSynthesizer(speechConfig, AudioConfig.FromDefaultSpeakerOutput());
                         await synthesizer.SpeakTextAsync(followUpQuestion);
-                        // Return the response in the required format
+
                         return Ok(new
                         {
                             recognizedText,
@@ -243,7 +267,6 @@ namespace study4_be.Controllers.API
             }
             finally
             {
-                // Clean up temporary files
                 if (System.IO.File.Exists(tempFilePath))
                 {
                     System.IO.File.Delete(tempFilePath);
@@ -254,6 +277,7 @@ namespace study4_be.Controllers.API
                 }
             }
         }
+
 
 
         // Helper methods for extracting score and follow-up question
@@ -283,7 +307,7 @@ namespace study4_be.Controllers.API
 
 
         [HttpPost("EvaluateQuestionFollowUp")]
-        public async Task<IActionResult> EvaluateQuestion(IFormFile audioFile, string followUpQuestion)
+        public async Task<IActionResult> EvaluateQuestion(IFormFile audioFile, string followUpQuestion, string userExamId)
         {
             if (audioFile == null || audioFile.Length == 0)
             {
@@ -345,6 +369,19 @@ namespace study4_be.Controllers.API
                             feedback = aiContent.Substring(feedbackIndex + feedbackMarker.Length).Trim();
                         }
 
+                        var userExam = await _context.UsersExams.FindAsync(userExamId);
+                        if (userExam == null)
+                        {
+                            return NotFound("User exam not found.");
+                        }
+                        int totalScore = int.Parse(score);
+                        
+                        int speakingScore = HttpContext.Session.GetInt32("SpeakingScore") ?? 0;
+
+                        totalScore += speakingScore;
+                        userExam.SpeakingScore = totalScore;
+                        await _context.SaveChangesAsync();
+                        
                         // Return the response in the required format
                         return Ok(new
                         {
@@ -398,6 +435,13 @@ namespace study4_be.Controllers.API
 
         private async Task<string> ProcessWithAI(string inputText, string topic)
         {
+            // Cấu hình retry policy
+
+            var retryPolicy = HttpPolicyExtensions
+                .HandleTransientHttpError()
+                .OrResult(msg => msg.StatusCode == System.Net.HttpStatusCode.TooManyRequests)
+                .WaitAndRetryAsync(5, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)));
+
             using (var httpClient = new HttpClient())
             {
                 int minScore = 0;
@@ -412,18 +456,28 @@ namespace study4_be.Controllers.API
                     messages = new[] { new { role = "user", content = prompt } }
                 };
 
-                var content = new StringContent(System.Text.Json.JsonSerializer.Serialize(requestBody), Encoding.UTF8, "application/json");
-                var response = await httpClient.PostAsync($"{_endpoint}/openai/deployments/{_deploymentId}/chat/completions?api-version=2024-08-01-preview", content);
+                var content = new StringContent(JsonSerializer.Serialize(requestBody), Encoding.UTF8, "application/json");
+
+                // Thực hiện yêu cầu với policy retry
+                var response = await retryPolicy.ExecuteAsync(() =>
+                    httpClient.PostAsync($"{_endpoint}/openai/deployments/{_deploymentId}/chat/completions?api-version=2024-08-01-preview", content)
+                );
 
                 return response.IsSuccessStatusCode
                     ? await response.Content.ReadAsStringAsync()
                     : $"Error: {await response.Content.ReadAsStringAsync()}";
             }
-        } 
+        }
         private async Task<string> ProcessWithAIFollowUp(string inputText, string topic)
         {
             using (var httpClient = new HttpClient())
             {
+                
+                var retryPolicy = HttpPolicyExtensions
+                    .HandleTransientHttpError()
+                    .OrResult(msg => msg.StatusCode == System.Net.HttpStatusCode.TooManyRequests)
+                    .WaitAndRetryAsync(5, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)));
+                
                 int minScore = 0;
                 int maxScore = 50;
                 httpClient.DefaultRequestHeaders.Add("api-key", _apiKey);
