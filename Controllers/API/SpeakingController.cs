@@ -33,7 +33,7 @@ namespace study4_be.Controllers.API
         }
 
         [HttpPost("EvaluateQuestionBatch")]
-        public async Task<IActionResult> EvaluateQuestionBatch([FromForm]List<IFormFile> audioFiles,[FromForm] List<int> questionIds, string userExamId)
+        public async Task<IActionResult> EvaluateQuestionBatch([FromForm]List<IFormFile> audioFiles,[FromForm] List<int> questionIds, [FromForm]string userExamId)
         {
             if (audioFiles == null || audioFiles.Count == 0 || questionIds == null || questionIds.Count == 0 || audioFiles.Count != questionIds.Count)
             {
