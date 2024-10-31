@@ -158,8 +158,22 @@ namespace study4_be.Controllers.API
                 {
                     return BadRequest("UserId không tồn tại");
                 }
-                var ord = await _context.Orders.Where(u=> u.UserId == userId && u.State == true).ToListAsync(); ;
-                return Ok(new { statusCode = 200, message = "Lấy danh sách lịch sử giao dịch thành công", data = ord });
+                var data = await _context.Orders
+                    .Where(u => u.UserId == userId && u.State == true)
+                    .Select(o => new {
+                        OrderId = o.OrderId,
+                        userId = o.UserId,
+                        orderDate = o.OrderDate,
+                        totalAmount = o.TotalAmount,
+                        state = o.State,
+                        createAt = o.CreatedAt,
+                        paymentType = o.PaymentType,
+                        User = o.User,// Include full Order data
+                        WalletId = o.Wallet.Id,          // Assuming WalletId is a property within Wallet
+                        WalletImage = o.Wallet.WalletImage     // Retrieve only the Wallet's Image
+                    })
+                    .ToListAsync();
+                return Ok(new { statusCode = 200, message = "Lấy danh sách lịch sử giao dịch thành công", data });
             }
             catch (Exception e)
             {
