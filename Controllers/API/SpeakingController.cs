@@ -15,7 +15,10 @@ namespace study4_be.Controllers.API
     [Route("api/[controller]")]
     public class SpeakingController : ControllerBase
     {
-        private readonly string _deploymentId;
+        private readonly string _deploymentId1;
+        private readonly string _deploymentId2;
+        private readonly string _deploymentId3;
+        private readonly string _deploymentId4;
         private readonly string _endpoint;
         private readonly string _speechKey;
         private readonly string _apiKey;
@@ -27,7 +30,10 @@ namespace study4_be.Controllers.API
             _endpoint = configuration["AzureSpeech:Endpoint"];
             _speechKey = configuration["AzureSpeech:SubcriptionSpeechKey"];
             _apiKey = configuration["AzureSpeech:SubcriptionApiKey"];
-            _deploymentId = configuration["AzureSpeech:DeploymentId"];
+            _deploymentId1 = configuration["AzureSpeech:DeploymentId1"];
+            _deploymentId2 = configuration["AzureSpeech:DeploymentId2"];
+            _deploymentId3 = configuration["AzureSpeech:DeploymentId3"];
+            _deploymentId4 = configuration["AzureSpeech:DeploymentId4"];
             _region = configuration["AzureSpeech:Region"];
             _context = context;
         }
@@ -75,7 +81,8 @@ namespace study4_be.Controllers.API
                                 return NotFound($"Topic with ID {questionId} not found.");
                             }
 
-                            string aiResponseJson = await ProcessWithAI(recognizedText, topic);
+                            int modelNumber = i % 4 + 1;
+                            string aiResponseJson = await ProcessWithAI(recognizedText, topic, modelNumber);
                             var aiResponseObject = System.Text.Json.JsonDocument.Parse(aiResponseJson);
                             string aiContent = aiResponseObject.RootElement
                                 .GetProperty("choices")[0]
@@ -146,12 +153,12 @@ namespace study4_be.Controllers.API
             // Tính tổng điểm từ results
             int totalScore = results.Sum(x => 
             {
-                // Đảm bảo x.Score là một string và không null
-                if (int.TryParse(x.Score?.ToString(), out int score)) 
+                // Đảm bảo rằng x.AiResponse.Score có thể chuyển đổi thành int
+                if (int.TryParse(x.AiResponse.Score?.ToString(), out int score)) 
                 {
                     return score;
                 }
-                return 0; // Nếu không thể chuyển đổi, trả về 0
+                return 0; // Trả về 0 nếu không thể chuyển đổi
             });
 
             userExam.SpeakingScore += totalScore;
@@ -338,9 +345,8 @@ namespace study4_be.Controllers.API
                     if (result.Reason == ResultReason.RecognizedSpeech)
                     {
                         string recognizedText = result.Text;
-
                         // Call AI and get the raw JSON response
-                        string aiResponseJson = await ProcessWithAI(recognizedText, followUpQuestion);
+                        string aiResponseJson = await ProcessWithAI(recognizedText, followUpQuestion, 2);
 
                         // Parse AI response JSON to extract the relevant message content
                         var aiResponseObject = System.Text.Json.JsonDocument.Parse(aiResponseJson);
@@ -452,7 +458,7 @@ namespace study4_be.Controllers.API
             return tempFilePath;
         }
 
-        private async Task<string> ProcessWithAI(string inputText, string topic)
+        private async Task<string> ProcessWithAI(string inputText, string topic, int modelNumber)
         {
             // Cấu hình retry policy
 
@@ -461,6 +467,25 @@ namespace study4_be.Controllers.API
                 .OrResult(msg => msg.StatusCode == System.Net.HttpStatusCode.TooManyRequests)
                 .WaitAndRetryAsync(5, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)));
 
+            string apiUrl;
+            switch (modelNumber)
+            {
+                case 1:
+                    apiUrl = $"{_endpoint}/openai/deployments/{_deploymentId1}/chat/completions?api-version=2024-08-01-preview";
+                    break;
+                case 2:
+                    apiUrl = $"{_endpoint}/openai/deployments/{_deploymentId2}/chat/completions?api-version=2024-08-01-preview";
+                    break;
+                case 3:
+                    apiUrl = $"{_endpoint}/openai/deployments/{_deploymentId3}/chat/completions?api-version=2024-08-01-preview";
+                    break;
+                case 4:
+                    apiUrl = $"{_endpoint}/openai/deployments/{_deploymentId4}/chat/completions?api-version=2024-08-01-preview";
+                    break;
+                default:
+                    throw new ArgumentException("Invalid model number");
+            }
+            
             using (var httpClient = new HttpClient())
             {
                 int minScore = 0;
@@ -471,7 +496,6 @@ namespace study4_be.Controllers.API
                 string prompt = $"The topic is '{topic}'. The user said: '{inputText}'. Suppose you are an exam examiner .Now, respond with feedback and score. [SCORE] : Value {minScore} -> {maxScore}, [FeedBack] : Value";
                 var requestBody = new
                 {
-                    model = _deploymentId,
                     messages = new[] { new { role = "user", content = prompt } }
                 };
 
@@ -479,7 +503,7 @@ namespace study4_be.Controllers.API
 
                 // Thực hiện yêu cầu với policy retry
                 var response = await retryPolicy.ExecuteAsync(() =>
-                    httpClient.PostAsync($"{_endpoint}/openai/deployments/{_deploymentId}/chat/completions?api-version=2024-08-01-preview", content)
+                    httpClient.PostAsync(apiUrl, content)
                 );
 
                 return response.IsSuccessStatusCode
@@ -489,14 +513,13 @@ namespace study4_be.Controllers.API
         }
         private async Task<string> ProcessWithAIFollowUp(string inputText, string topic)
         {
+            var retryPolicy = HttpPolicyExtensions
+                .HandleTransientHttpError()
+                .OrResult(msg => msg.StatusCode == System.Net.HttpStatusCode.TooManyRequests)
+                .WaitAndRetryAsync(5, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)));
+
             using (var httpClient = new HttpClient())
             {
-                
-                var retryPolicy = HttpPolicyExtensions
-                    .HandleTransientHttpError()
-                    .OrResult(msg => msg.StatusCode == System.Net.HttpStatusCode.TooManyRequests)
-                    .WaitAndRetryAsync(5, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)));
-                
                 int minScore = 0;
                 int maxScore = 50;
                 httpClient.DefaultRequestHeaders.Add("api-key", _apiKey);
@@ -515,13 +538,13 @@ namespace study4_be.Controllers.API
 
                 var requestBody = new
                 {
-                    model = _deploymentId,
                     messages = new[] { new { role = "user", content = prompt } }
                 };
 
                 var content = new StringContent(System.Text.Json.JsonSerializer.Serialize(requestBody), Encoding.UTF8, "application/json");
-                var response = await httpClient.PostAsync($"{_endpoint}/openai/deployments/{_deploymentId}/chat/completions?api-version=2024-08-01-preview", content);
-
+                var response = await retryPolicy.ExecuteAsync(() =>
+                    httpClient.PostAsync($"{_endpoint}/openai/deployments/{_deploymentId1}/chat/completions?api-version=2024-08-01-preview", content)
+                );
                 return response.IsSuccessStatusCode
                     ? await response.Content.ReadAsStringAsync()
                     : $"Error: {await response.Content.ReadAsStringAsync()}";
@@ -530,7 +553,7 @@ namespace study4_be.Controllers.API
         private async Task<string> GetTopicById(int questionId)
         {
             var topic = await _context.Questions.FindAsync(questionId);
-            return topic?.QuestionParagraph ?? "What is accountant ? ";
+            return topic?.QuestionText ?? "What is accountant ? ";
         }
         private void ConvertToWav(string inputFilePath, string outputFilePath)
         {

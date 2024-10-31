@@ -155,6 +155,15 @@ builder.Services.AddScoped<BackupService>();
 
 // Register BackupSchedulerService as a hosted service
 builder.Services.AddHostedService<BackupSchedulerService>();
+
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30); // Thời gian tồn tại của session
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
+
+
 var app = builder.Build();
 // Cấu hình sử dụng Hangfire dashboard
 app.UseHangfireDashboard();
@@ -195,6 +204,8 @@ app.UseCors("AllowAll"); //remember fix this problem
 // Thêm middleware xác thực và phân quyền
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.UseSession();
 
 // Đăng ký các route
 app.UseEndpoints(endpoints =>
