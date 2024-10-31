@@ -313,6 +313,7 @@ namespace study4_be.Controllers.API
             {
                 return BadRequest("No audio file uploaded.");
             }
+            
 
             string tempFilePath = Path.GetTempFileName();
             string wavFilePath = tempFilePath + ".wav";
@@ -380,8 +381,26 @@ namespace study4_be.Controllers.API
 
                         totalScore += speakingScore;
                         userExam.SpeakingScore = totalScore;
+
+                        var newQuestion = new Question()
+                        {
+                            QuestionText = followUpQuestion,
+                            ExamId = userExam.ExamId,
+                        };
+                        await _context.Questions.AddAsync(newQuestion);
                         await _context.SaveChangesAsync();
                         
+                        var questionId = newQuestion.QuestionId;
+
+                        var newUserAnswer = new UserAnswer()
+                        {
+                            QuestionId = questionId,
+                            UserExamId = userExamId,
+                            Answer = recognizedText,
+                            Comment = feedback
+                        };
+                        await _context.UserAnswers.AddAsync(newUserAnswer);
+                        await _context.SaveChangesAsync();
                         // Return the response in the required format
                         return Ok(new
                         {
