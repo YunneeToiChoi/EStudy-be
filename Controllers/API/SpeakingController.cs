@@ -8,6 +8,7 @@ using System.Text.Json;
 using NAudio.Wave;
 using Polly.Extensions.Http;
 using study4_be.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace study4_be.Controllers.API
 {
@@ -90,22 +91,30 @@ namespace study4_be.Controllers.API
                                 .GetProperty("content")
                                 .GetString();
 
+                            // Define markers
                             string scoreMarker = "[SCORE]:";
-                            string feedbackMarker = "[FeedBack]:";
+                            string feedbackMarker1 = "[Feedback]:";
+                            string feedbackMarker2 = "[FeedBack]:"; // Alternate handling
+
                             string score = "";
                             string feedback = "";
 
+                            // Locate marker indices
                             int scoreIndex = aiContent.IndexOf(scoreMarker);
-                            if (scoreIndex != -1)
+                            int feedbackIndex = aiContent.IndexOf(feedbackMarker1);
+                            if (feedbackIndex == -1) feedbackIndex = aiContent.IndexOf(feedbackMarker2); // Fallback for alternate marker
+
+                            // Extract score and feedback values if markers are found
+                            if (scoreIndex != -1 && feedbackIndex > scoreIndex)
                             {
-                                int feedbackIndex = aiContent.IndexOf(feedbackMarker, scoreIndex);
-                                if (feedbackIndex != -1)
-                                {
-                                    score = aiContent.Substring(scoreIndex + scoreMarker.Length, feedbackIndex - scoreIndex - scoreMarker.Length).Trim();
-                                    feedback = aiContent.Substring(feedbackIndex + feedbackMarker.Length).Trim();
-                                }
+                                score = aiContent.Substring(scoreIndex + scoreMarker.Length, feedbackIndex - scoreIndex - scoreMarker.Length).Trim();
+                            }
+                            if (feedbackIndex != -1)
+                            {
+                                feedback = aiContent.Substring(feedbackIndex + (aiContent.Contains(feedbackMarker1) ? feedbackMarker1.Length : feedbackMarker2.Length)).Trim();
                             }
 
+                            // Add structured result
                             results.Add(new
                             {
                                 questionId,
@@ -122,6 +131,7 @@ namespace study4_be.Controllers.API
                         {
                             results.Add(new
                             {
+                                statusCode = 200,
                                 questionId,
                                 RecognizedText = "",
                                 AiResponse = new
@@ -139,12 +149,14 @@ namespace study4_be.Controllers.API
                 }
                 finally
                 {
-                    // Clean up temporary files
-                    System.IO.File.Delete(tempFilePath);
-                    System.IO.File.Delete(wavFilePath);
+                    // Clean up temporary files if they exist
+                    if (System.IO.File.Exists(tempFilePath))
+                    {
+                        System.IO.File.Delete(tempFilePath);
+                    }
                 }
             }
-            
+
             var userExam = await _context.UsersExams.FindAsync(userExamId);
             if (userExam == null)
             {
@@ -207,52 +219,57 @@ namespace study4_be.Controllers.API
 
                         var aiResponseObject = System.Text.Json.JsonDocument.Parse(aiResponseJson);
                         string aiContent = aiResponseObject.RootElement
-                                            .GetProperty("choices")[0]
-                                            .GetProperty("message")
-                                            .GetProperty("content")
-                                            .GetString();
+                            .GetProperty("choices")[0]
+                            .GetProperty("message")
+                            .GetProperty("content")
+                            .GetString();
 
-                        // Extract [SCORE], [FeedBack], and follow-up question from the content
+                        // Define markers, allowing for slight variations
                         string scoreMarker = "[SCORE]:";
-                        string feedbackMarker = "[FeedBack]:";
+                        string feedbackMarker1 = "[Feedback]:";
+                        string feedbackMarker2 = "[FeedBack]:"; // Handle both versions
                         string followUpMarker = "[FollowUp]:";
+
                         string score = "";
                         string feedback = "";
                         string followUpQuestion = "";
 
-                        // Lấy điểm
+                        // Find the start index of each marker
                         int scoreIndex = aiContent.IndexOf(scoreMarker);
-                        if (scoreIndex != -1)
-                        {
-                            int scoreStart = scoreIndex + scoreMarker.Length;
-                            int scoreEnd = aiContent.IndexOf("\n", scoreStart);
-                            score = aiContent.Substring(scoreStart, scoreEnd - scoreStart).Trim();
+                        int feedbackIndex = aiContent.IndexOf(feedbackMarker1);
+                        if (feedbackIndex == -1) feedbackIndex = aiContent.IndexOf(feedbackMarker2); // Fallback for alternative spelling
+                        int followUpIndex = aiContent.IndexOf(followUpMarker);
 
-                            // Lưu điểm vào session
-                            HttpContext.Session.SetInt32("SpeakingScore", int.Parse(score));
+                        // Extract the score value
+                        if (scoreIndex != -1 && feedbackIndex > scoreIndex)
+                        {
+                            score = aiContent.Substring(scoreIndex + scoreMarker.Length, feedbackIndex - scoreIndex - scoreMarker.Length).Trim();
                         }
 
-                        // Lấy phản hồi
-                        int feedbackIndex = aiContent.IndexOf(feedbackMarker);
+                        // Extract the feedback value
                         if (feedbackIndex != -1)
                         {
-                            int feedbackStart = feedbackIndex + feedbackMarker.Length;
-                            int feedbackEnd = aiContent.IndexOf("\n", feedbackStart);
-                            feedback = aiContent.Substring(feedbackStart, feedbackEnd - feedbackStart).Trim();
+                            if (followUpIndex > feedbackIndex)
+                            {
+                                feedback = aiContent.Substring(feedbackIndex + feedbackMarker1.Length, followUpIndex - feedbackIndex - feedbackMarker1.Length).Trim();
+                            }
+                            else
+                            {
+                                feedback = aiContent.Substring(feedbackIndex + feedbackMarker1.Length).Trim();
+                            }
                         }
 
-                        // Lấy câu hỏi tiếp theo
-                        int followUpIndex = aiContent.IndexOf(followUpMarker);
+                        // Extract the follow-up question
                         if (followUpIndex != -1)
                         {
                             followUpQuestion = aiContent.Substring(followUpIndex + followUpMarker.Length).Trim();
                         }
-
                         var synthesizer = new SpeechSynthesizer(speechConfig, AudioConfig.FromDefaultSpeakerOutput());
                         await synthesizer.SpeakTextAsync(followUpQuestion);
 
                         return Ok(new
                         {
+                            statusCode = 200,
                             recognizedText,
                             aiResponse = new
                             {
@@ -314,7 +331,7 @@ namespace study4_be.Controllers.API
 
 
         [HttpPost("EvaluateQuestionFollowUp")]
-        public async Task<IActionResult> EvaluateQuestion(IFormFile audioFile, string followUpQuestion, string userExamId)
+        public async Task<IActionResult> EvaluateQuestion([FromForm] IFormFile audioFile, [FromForm] string followUpQuestion, [FromForm]  string userExamId)
         {
             if (audioFile == null || audioFile.Length == 0)
             {
@@ -351,30 +368,34 @@ namespace study4_be.Controllers.API
                         // Parse AI response JSON to extract the relevant message content
                         var aiResponseObject = System.Text.Json.JsonDocument.Parse(aiResponseJson);
                         string aiContent = aiResponseObject.RootElement
-                                            .GetProperty("choices")[0]
-                                            .GetProperty("message")
-                                            .GetProperty("content")
-                                            .GetString();
+                            .GetProperty("choices")[0]
+                            .GetProperty("message")
+                            .GetProperty("content")
+                            .GetString();
 
-                        // Extract [SCORE] and [FeedBack] from the content
+                        // Define markers
                         string scoreMarker = "[SCORE]:";
-                        string feedbackMarker = "[FeedBack]:";
+                        string feedbackMarker1 = "[Feedback]:";
+                        string feedbackMarker2 = "[FeedBack]:"; // Alternate handling
+
                         string score = "";
                         string feedback = "";
 
+                        // Locate marker indices
                         int scoreIndex = aiContent.IndexOf(scoreMarker);
-                        if (scoreIndex != -1)
-                        {
-                            int scoreStart = scoreIndex + scoreMarker.Length;
-                            int scoreEnd = aiContent.IndexOf("\n", scoreStart);
-                            score = aiContent.Substring(scoreStart, scoreEnd - scoreStart).Trim();
-                        }
+                        int feedbackIndex = aiContent.IndexOf(feedbackMarker1);
+                        if (feedbackIndex == -1) feedbackIndex = aiContent.IndexOf(feedbackMarker2); // Fallback for alternate marker
 
-                        int feedbackIndex = aiContent.IndexOf(feedbackMarker);
+                        // Extract score and feedback values if markers are found
+                        if (scoreIndex != -1 && feedbackIndex > scoreIndex)
+                        {
+                            score = aiContent.Substring(scoreIndex + scoreMarker.Length, feedbackIndex - scoreIndex - scoreMarker.Length).Trim();
+                        }
                         if (feedbackIndex != -1)
                         {
-                            feedback = aiContent.Substring(feedbackIndex + feedbackMarker.Length).Trim();
+                            feedback = aiContent.Substring(feedbackIndex + (aiContent.Contains(feedbackMarker1) ? feedbackMarker1.Length : feedbackMarker2.Length)).Trim();
                         }
+
 
                         var userExam = await _context.UsersExams.FindAsync(userExamId);
                         if (userExam == null)
@@ -552,8 +573,8 @@ namespace study4_be.Controllers.API
         }
         private async Task<string> GetTopicById(int questionId)
         {
-            var topic = await _context.Questions.FindAsync(questionId);
-            return topic?.QuestionText ?? "What is accountant ? ";
+            var topic = await _context.Questions.Where(q=> q.QuestionId == questionId).Select(e=>e.QuestionParagraph).FirstOrDefaultAsync();
+            return topic;
         }
         private void ConvertToWav(string inputFilePath, string outputFilePath)
         {
