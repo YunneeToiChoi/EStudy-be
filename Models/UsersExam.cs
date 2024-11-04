@@ -19,6 +19,10 @@ public partial class UsersExam
 
     public int? UserTime { get; set; }
 
+    public int? WritingScore { get; set; }
+
+    public int? SpeakingScore { get; set; }
+
     public virtual Exam Exam { get; set; } = null!;
 
     public virtual User User { get; set; } = null!;

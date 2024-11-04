@@ -27,8 +27,8 @@ namespace study4_be.Controllers.Admin
                 var videos = await _context.Videos
                     .Include(v => v.Lesson)
                     .ThenInclude(l => l.Container)
-                        .ThenInclude(c => c.Unit)
-                            .ThenInclude(u => u.Course)
+                    .ThenInclude(c => c.Unit)
+                    .ThenInclude(u => u.Course)
                     .ToListAsync();
 
                 var videoViewModels = videos
@@ -41,18 +41,17 @@ namespace study4_be.Controllers.Admin
                         lessonTittle = video.Lesson?.LessonTitle ?? "N/A",
                     }).ToList();
 
-                return View(videoViewModels);
+                return View(videoViewModels); // Make sure this is VideoListViewModel
             }
             catch (Exception ex)
             {
-                // Log the exception
-                _logger.LogError(ex, "Error occurred while fetching vocabulary list.");
-
-                // Handle the exception gracefully
+                // Handle exception
+                _logger.LogError(ex, "Error occurred while fetching videos.");
                 ModelState.AddModelError("", "An error occurred while processing your request. Please try again later.");
-                return View(new List<VocabListViewModel>());
+                return View(new List<VideoListViewModel>()); // This should match the view's model type
             }
         }
+
         public async Task<IActionResult> Video_Create()
         {
             var lessons = await _context.Lessons

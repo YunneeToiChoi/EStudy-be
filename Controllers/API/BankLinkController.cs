@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using System.Net;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.DotNet.MSIdentity.Shared;
 using Microsoft.EntityFrameworkCore;
@@ -15,7 +16,9 @@ using study4_be.Services;
 using study4_be.Services.Payment;
 using System.Security.Cryptography;
 using System.Text;
-using static Google.Cloud.Firestore.V1.StructuredAggregationQuery.Types.Aggregation.Types;
+using study4_be.PaymentServices.Bank.Request;
+using study4_be.PaymentServices.Bank.Validator;
+using study4_be.Services.Tingee;
 
 namespace study4_be.Controllers.API
 {
@@ -24,21 +27,26 @@ namespace study4_be.Controllers.API
     public class BankLinkController : ControllerBase
     {
         private readonly MomoConfig _momoConfig;
-        private readonly MomoTestConfig _momoTestConfig;
         private readonly HashHelper _hashHelper;
         private readonly Study4Context _context;
+        private readonly TingeeApi _tingeeApi;
+        private string bankUrl;
+        private string logoMomo;
         private HttpClient _httpClient = new();
 
         public BankLinkController(ILogger<BankLinkController> logger,
                                   IOptions<MomoConfig> momoPaymentSettings,
                                   SMTPServices smtpServices,
                                   ContractPOServices contractPOServices,
-                                  Study4Context context, IOptions<MomoTestConfig> momoTestConfig)
+                                  Study4Context context, IConfiguration configuration,
+                                  TingeeApi tingeeApi)
         {
             _context = context;
             _hashHelper = new HashHelper();
             _momoConfig = momoPaymentSettings.Value;
-            _momoTestConfig = momoTestConfig.Value;
+            _tingeeApi = tingeeApi;
+            bankUrl = configuration["Tingee:ApiUrl:BankUrl"];
+            logoMomo = configuration["Momo:Logo"];
         }
         [HttpGet("GetAllWallets")]
         public async Task<ActionResult> GetAllWallets()
@@ -47,12 +55,141 @@ namespace study4_be.Controllers.API
             return Ok(new { status = 200, message = "Get Wallets Successful", wallets });
 
         }
+        [HttpGet("GetAllBanks")]
+        public async Task<ActionResult> GetAllBanks([FromServices] IHttpClientFactory httpClientFactory)
+        {
+            var httpClient = httpClientFactory.CreateClient();
 
+            try
+            {
+                var response = await httpClient.GetAsync("https://api.vietqr.io/v2/banks");
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    return StatusCode((int)response.StatusCode, "Lỗi khi lấy dữ liệu ngân hàng từ API.");
+                }
+
+                var resultContent = await response.Content.ReadAsStringAsync();
+
+                // Giải mã dữ liệu JSON
+                var bankResponse = JsonConvert.DeserializeObject<BankResponse>(resultContent);
+
+                // Kiểm tra và sửa code nếu cần
+                if (bankResponse.data != null)
+                {
+                    foreach (var bank in bankResponse.data)
+                    {
+                        if (bank.code == "MB")
+                        {
+                            bank.code = "MBB"; // Sửa code
+                        }
+                    }
+                }
+
+                // Trả về dữ liệu cho người dùng
+                return Ok(bankResponse.data);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Đã xảy ra lỗi: {ex.Message}");
+            }
+        }
+
+        public class BankResponse
+        {
+            public int code { get; set; }
+            public List<Bank> data { get; set; }
+        }
+        [HttpGet("GetUserWallets/{userId}")]
+        public async Task<IActionResult> GetUserWallets(string userId)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(userId))
+                {
+                    return BadRequest("UserId không được để trống.");
+                }
+
+                var userExist = await _context.Users.FindAsync(userId);
+                if (userExist == null)
+                {
+                    return BadRequest("UserId không tồn tại");
+                }
+                // Truy vấn tất cả các Wallet của người dùng với userId tương ứng
+                var userWallets = await _context.Wallets
+                    .Where(wallet => wallet.Userid == userId && wallet.IsAvailable == true)
+                    .Select(wallet => new
+                    {
+                        walletId = wallet.Id,
+                        walletImage = wallet.WalletImage,
+                        cardNumber = wallet.CardNumber,
+                        isAvailable = wallet.IsAvailable,
+                        name = wallet.Name,
+                        userId = wallet.Userid,
+                        userBlance = userExist.Blance,
+                        type = wallet.Type,
+                    })
+                    .ToListAsync();
+
+                if (userWallets == null || !userWallets.Any())
+                {
+                    return NotFound("Không tìm thấy ví nào cho người dùng này.");
+                }
+
+                return Ok(new { statusCode = 200, message = "Lấy danh sách ví thành công", data = userWallets });
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }   
+        [HttpGet("HistoryPayment/{userId}")]
+        public async Task<IActionResult> HistoryPayment(string userId)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(userId))
+                {
+                    return BadRequest("UserId không được để trống.");
+                }
+
+                var userExist = await _context.Users.FindAsync(userId);
+                if (userExist == null)
+                {
+                    return BadRequest("UserId không tồn tại");
+                }
+                var data = await _context.Orders
+                    .Where(u => u.UserId == userId && u.State == true)
+                    .Select(o => new {
+                        OrderId = o.OrderId,
+                        userId = o.UserId,
+                        orderDate = o.OrderDate,
+                        totalAmount = o.TotalAmount,
+                        state = o.State,
+                        createAt = o.CreatedAt,
+                        paymentType = o.PaymentType,
+                        User = o.User,// Include full Order data
+                        WalletId = o.Wallet.Id,          // Assuming WalletId is a property within Wallet
+                        WalletImage = o.Wallet.WalletImage     // Retrieve only the Wallet's Image
+                    })
+                    .ToListAsync();
+                return Ok(new { statusCode = 200, message = "Lấy danh sách lịch sử giao dịch thành công", data });
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
         [HttpPost("LinkWallet")]
         public async Task<IActionResult> LinkWallet([FromBody] BankLinkRequest request)
         {
             try
             {
+                var userExist = _context.Users.FindAsync(request.UserInfo.UserId);
+                if(userExist == null)
+                {
+                    BadRequest("User not found ");
+                }
                 request.OrderId = Guid.NewGuid().ToString();
                 request.RequestId = Guid.NewGuid().ToString();
                 var signature = _hashHelper.GenerateSignature(request, _momoConfig);
@@ -73,6 +210,7 @@ namespace study4_be.Controllers.API
                         Name = request.UserInfo.WalletName,
                         Userid = request.UserInfo.UserId,
                         Type = request.RequestType,
+                        WalletImage = logoMomo,
                     };
                     if (jsonResponse != null && jsonResponse.TryGetValue("errorCode", out var errorCode) && errorCode.ToString() != "0")
                     {
@@ -91,7 +229,7 @@ namespace study4_be.Controllers.API
                         userId = wallet.Userid,
                         type = wallet.Type,
                     };
-                    return Ok(new { statusCode =200 ,message = "Gửi yêu cầu liên kết ví thành công", responseContent, walletResponse });
+                    return Ok(new { statusCode = 200, message = "Gửi yêu cầu liên kết ví thành công", responseContent, walletResponse });
                 }
                 else
                 {
@@ -105,7 +243,25 @@ namespace study4_be.Controllers.API
                 return StatusCode(500, "Đã xảy ra lỗi khi xử lý yêu cầu thanh toán: " + ex.Message);
             }
         }
+        [HttpPost("RemoveWallet")]
+        public async Task<IActionResult> RemoveWallet(RemoveWalletRequest __req)
+        {
+            // Check if user exists
+            var userExist = await _context.Users.FindAsync(__req.userId);
+            if (userExist == null) 
+                return BadRequest("User không tồn tại");
 
+            // Find the specific wallet for the user
+            var walletExist = await _context.Wallets.SingleOrDefaultAsync(w => w.Userid == __req.userId && w.Id == __req.walletId);
+            if (walletExist == null) 
+                return BadRequest("Ví của người dùng không tồn tại");
+
+            // Remove the wallet
+            _context.Wallets.Remove(walletExist);
+            await _context.SaveChangesAsync(); // Save changes to persist deletion
+            return Ok(new {statusCode = 200, message ="Ví đã xóa thành công"});
+        }
+        
         private async Task<HttpResponseMessage> SendLinkPaymentRequest(BankLinkRequest request, string signature)
         {
             // Dữ liệu yêu cầu thanh toán
@@ -115,7 +271,7 @@ namespace study4_be.Controllers.API
                 storeName = _momoConfig.StoreName,
                 storeId = _momoConfig.StoreId,
                 subPartnerCode = request.SubPartnerCode,
-                requestId =request.RequestId,
+                requestId = request.RequestId,
                 amount = request.Amount,
                 orderId = request.OrderId,
                 orderInfo = request.OrderInfo,
@@ -155,7 +311,7 @@ namespace study4_be.Controllers.API
 
                 // Giải mã callbackToken
                 var decryptedToken = DecryptAES(_momoConfig.SecretKey, aesToken);
-                
+
 
                 // right here should save aesToken
 
@@ -218,47 +374,6 @@ namespace study4_be.Controllers.API
             var content = new StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(paymentData), Encoding.UTF8, "application/json");
             return await _httpClient.PostAsync(_momoConfig.AesTokenUrl, content);
         }
-
-        private string GenerateOrderId(string userId, int walletId)
-        {
-            using (var sha256 = SHA256.Create())
-            {
-                var baseString = $"{userId}-{walletId}-{DateTime.UtcNow.Ticks}-{Guid.NewGuid()}";
-                var hashBytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(baseString));
-                return ToBase32String(hashBytes).Substring(0, 32); // Increase length to 32 characters
-            }
-        }
-
-        [HttpGet]
-        private string ToBase32String(byte[] bytes)
-        {
-            const string alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXY1Z23456789";
-            StringBuilder result = new StringBuilder((bytes.Length + 4) / 5 * 8);
-            int bitIndex = 0;
-            int currentByte = 0;
-
-            while (bitIndex < bytes.Length * 8)
-            {
-                if (bitIndex % 8 == 0)
-                {
-                    currentByte = bytes[bitIndex / 8];
-                }
-
-                int dualByte = currentByte << 8;
-                if ((bitIndex / 8) + 1 < bytes.Length)
-                {
-                    dualByte |= bytes[(bitIndex / 8) + 1];
-                }
-
-                int index = (dualByte >> (16 - (bitIndex % 8 + 5))) & 31;
-                result.Append(alphabet[index]);
-
-                bitIndex += 5;
-            }
-
-            return result.ToString();
-        }
-
         private string GetErrorMessage(string errorCode)
         {
             return Int32.Parse(errorCode) switch
@@ -282,7 +397,7 @@ namespace study4_be.Controllers.API
         public async Task<IActionResult> PaymentNotificationIpn([FromBody] PaymentNotification notification)
         {
             // Kiểm tra dữ liệu đầu vào
-            if (string.IsNullOrEmpty(notification.OrderId) || string.IsNullOrEmpty(notification.RequestId )|| string.IsNullOrEmpty(notification.walletId))
+            if (string.IsNullOrEmpty(notification.OrderId) || string.IsNullOrEmpty(notification.RequestId) || string.IsNullOrEmpty(notification.walletId))
             {
                 return BadRequest("Dữ liệu không hợp lệ.");
             }
@@ -342,35 +457,7 @@ namespace study4_be.Controllers.API
             // Trả về đối tượng Wallet trong JSON khi thành công
             return (true, "Xác thực ví thành công.", walletResponse);
         }
-        [HttpGet("GetUserWallets/{userId}")]
-        public async Task<IActionResult> GetUserWallets(string userId)
-        {
-            if (string.IsNullOrEmpty(userId))
-            {
-                return BadRequest("UserId không được để trống.");
-            }
-
-            // Truy vấn tất cả các Wallet của người dùng với userId tương ứng
-            var userWallets = await _context.Wallets
-                                            .Where(wallet => wallet.Userid == userId)
-                                            .Select(wallet => new
-                                            {
-                                                walletId = wallet.Id,
-                                                cardNumber = wallet.CardNumber,
-                                                isAvailable = wallet.IsAvailable,
-                                                name = wallet.Name,
-                                                userId = wallet.Userid,
-                                                type = wallet.Type
-                                            })
-                                            .ToListAsync();
-
-            if (userWallets == null || !userWallets.Any())
-            {
-                return NotFound("Không tìm thấy ví nào cho người dùng này.");
-            }
-
-            return Ok(new { statusCode = 200, message = "Lấy danh sách ví thành công", data = userWallets });
-        }
+     
         [HttpPost("TestAddBalance")]
         public async Task<IActionResult> TestAddBalance([FromBody] TestAddBalanceRequest request)
         {
@@ -424,7 +511,7 @@ namespace study4_be.Controllers.API
             public string RequestType { get; set; }
             public string OrderInfo { get; set; }
             public string ExtraData { get; set; }
-         
+
         }
         [HttpPost("Disbursement")]
         public async Task<IActionResult> Disbursement([FromBody] DisbursementRequest request)
@@ -441,7 +528,11 @@ namespace study4_be.Controllers.API
                 {
                     return BadRequest($"Không tìm thấy người dùng với ID: {request.userId}.");
                 }
-
+                var existWallet = await _context.Wallets.FindAsync(request.walletId);
+                if (existWallet == null)
+                {
+                    return BadRequest($"Không tìm thấy ví người dùng với ID: {request.walletId}.");
+                }
                 // Nếu số dư là null, khởi tạo nó về 0
                 if (existUser.Blance == null)
                 {
@@ -463,8 +554,7 @@ namespace study4_be.Controllers.API
                 request.Amount = amountAfterTax;
                 // Dữ liệu yêu cầu giải ngân (bao gồm cả thông tin người dùng)
                 string publicKey = _momoConfig.PublicKey;
-
-                // Tạo một đối tượng mới không có userId và walletId
+                
                 var disbursementData = new DisbursementMethodRequest
                 {
                     RequestId = request.RequestId,
@@ -582,6 +672,206 @@ namespace study4_be.Controllers.API
             // Return the encrypted data as a base64 string
             return Convert.ToBase64String(encryptedData);
         }
+      [HttpPost("LinkBankAccountTingee")]
+public async Task<IActionResult> LinkBankAccountTingee([FromBody] BankLinkAccountTingeeRequest tingeeRequest)
+{
+    if (!IsValidAccountType(tingeeRequest.AccountType))
+    {
+        return BadRequest($"{tingeeRequest.AccountType} không hợp lệ.");
+    }
+    if (!BankValidator.CheckValidBankSupportTingee(tingeeRequest.BankName))
+    {
+        return BadRequest($"{tingeeRequest.BankName} không phải là ngân hàng hợp lệ trong danh sách hỗ trợ của chúng tôi.");
+    }
+    var (statusCode, resultContent) = await _tingeeApi.CreateBankLinkAsync(
+                tingeeRequest.AccountType,
+                tingeeRequest.BankName,
+                tingeeRequest.AccountNumber,
+                tingeeRequest.AccountName,
+                tingeeRequest.Identity,
+                tingeeRequest.Mobile,
+                tingeeRequest.Email
+            );
+
+            // Kiểm tra mã trạng thái
+            if (statusCode == HttpStatusCode.OK) // Kiểm tra mã thành công
+            {
+                var result = JsonConvert.DeserializeObject<dynamic>(resultContent);
+
+                // Kiểm tra giá trị của trường code
+                if (result.code.ToString() == "00")
+                {
+                    // Thêm ví vào cơ sở dữ liệu
+                    string bankCode = tingeeRequest.BankName;
+                    var wallet = new Wallet
+                    {
+                        Id = Guid.NewGuid().ToString(),
+                        CardNumber = tingeeRequest.AccountNumber,
+                        IsAvailable = false,
+                        Name = tingeeRequest.BankName,
+                        Userid = tingeeRequest.UserId,
+                        Type = tingeeRequest.RequestType,
+                    };
+                    ProcessBanks(wallet.Id, bankCode, out string walletImage);
+                    wallet.WalletImage = walletImage;
+                    await _context.AddAsync(wallet);
+                    await _context.SaveChangesAsync();
+
+                    var walletResponse = new
+                    {
+                        walletId = wallet.Id,
+                        cardNumber = wallet.CardNumber,
+                        isAvailable = wallet.IsAvailable,
+                        name = wallet.Name,
+                        userId = wallet.Userid,
+                        type = wallet.Type,
+                        walletImage = wallet.WalletImage,
+                    };
+
+                    return Ok(new
+                    {
+                        statusCode = 200,
+                        success = true,
+                        message = "Liên kết ngân hàng thành công.",
+                        walletData = walletResponse,
+                        resultContent
+                    });
+                }
+                else
+                {
+                    // Nếu mã code không phải "00", trả về thông điệp lỗi từ phản hồi Tingee
+                    var errorMessage = result.message.ToString() ?? "Có lỗi xảy ra trong quá trình liên kết.";
+                    return BadRequest(errorMessage);
+                }
+            }
+            else
+            {
+                // Nếu mã trạng thái không phải 200, trả về thông điệp lỗi từ phản hồi Tingee
+                var errorMessage = JsonConvert.DeserializeObject<dynamic>(resultContent)?.message.ToString() ?? "Lỗi không xác định.";
+                return StatusCode((int)statusCode, errorMessage); 
+            }
+}
+private bool IsValidAccountType(string accountType)
+{
+    return accountType == "personal-account" || accountType == "business-account";
+}
+
+private void ProcessBanks(string walletId, string code, out string walletImage)
+{
+    walletImage = string.Empty; // Initialize the variable to store the image path
+
+    // Dictionary to map bank codes to their respective image URLs
+    var bankImages = new Dictionary<string, string>
+    {
+        { "MBB", "https://api.vietqr.io/img/MB.png" },
+        { "ICB", "https://api.vietqr.io/img/ICB.png" },
+        { "VCB", "https://api.vietqr.io/img/VCB.png" },
+        { "BIDV", "https://api.vietqr.io/img/BIDV.png" },
+        { "VBA", "https://api.vietqr.io/img/VBA.png" },
+        { "OCB", "https://api.vietqr.io/img/OCB.png" },
+        { "TCB", "https://api.vietqr.io/img/TCB.png" },
+        { "ACB", "https://api.vietqr.io/img/ACB.png" },
+        { "VPB", "https://api.vietqr.io/img/VPB.png" },
+        { "TPB", "https://api.vietqr.io/img/TPB.png" },
+        { "STB", "https://api.vietqr.io/img/STB.png" },
+        { "HDB", "https://api.vietqr.io/img/HDB.png" },
+        { "VCCB", "https://api.vietqr.io/img/VCCB.png" },
+        { "SCB", "https://api.vietqr.io/img/SCB.png" },
+        { "VIB", "https://api.vietqr.io/img/VIB.png" },
+        { "SHB", "https://api.vietqr.io/img/SHB.png" },
+        { "EIB", "https://api.vietqr.io/img/EIB.png" },
+        { "MSB", "https://api.vietqr.io/img/MSB.png" },
+        { "CAKE", "https://api.vietqr.io/img/CAKE.png" },
+        { "Ubank", "https://api.vietqr.io/img/UBANK.png" },
+        { "TIMO", "https://vietqr.net/portal-service/resources/icons/TIMO.png" },
+        { "VTLMONEY", "https://api.vietqr.io/img/VIETTELMONEY.png" },
+        { "VNPTMONEY", "https://api.vietqr.io/img/VNPTMONEY.png" },
+        { "SGICB", "https://api.vietqr.io/img/SGICB.png" },
+        { "BAB", "https://api.vietqr.io/img/BAB.png" },
+        { "PVCB", "https://api.vietqr.io/img/PVCB.png" },
+        { "Oceanbank", "https://api.vietqr.io/img/OCEANBANK.png" },
+        { "PGB", "https://api.vietqr.io/img/PGB.png" }, // PGBank
+        { "VIETBANK", "https://api.vietqr.io/img/VIETBANK.png" }, // VietBank
+        { "BVB", "https://api.vietqr.io/img/BVB.png" }, // BaoVietBank
+        { "SEAB", "https://api.vietqr.io/img/SEAB.png" }, // SeABank
+        { "COOPBANK", "https://api.vietqr.io/img/COOPBANK.png" }, // COOPBANK
+        { "LPB", "https://api.vietqr.io/img/LPB.png" }, // LPBank
+        { "KLB", "https://api.vietqr.io/img/KLB.png" }, // KienLongBank
+        { "KBank", "https://api.vietqr.io/img/KBANK.png" }, // KBank
+        { "KBHN", "https://api.vietqr.io/img/KBHN.png" }, // KookminHN
+        { "KEBHANAHCM", "https://api.vietqr.io/img/KEBHANAHCM.png" }, // KEBHanaHCM
+        { "KEBHANAHN", "https://api.vietqr.io/img/KEBHANAHN.png" }, // KEBHANAHN
+        { "MAFC", "https://api.vietqr.io/img/MAFC.png" }, // MAFC
+        { "CITIBANK", "https://api.vietqr.io/img/CITIBANK.png" }, // Citibank
+        { "KBHCM", "https://api.vietqr.io/img/KBHCM.png" }, // KookminHCM
+        { "VBSP", "https://api.vietqr.io/img/VBSP.png" }, // VBSP
+        { "WVN", "https://api.vietqr.io/img/WVN.png" }, // Woori
+        { "VRB", "https://api.vietqr.io/img/VRB.png" }, // VRB
+        { "UOB", "https://api.vietqr.io/img/UOB.png" }, // UnitedOverseas
+        { "SCVN", "https://api.vietqr.io/img/SCVN.png" }, // StandardChartered
+        { "PBVN", "https://api.vietqr.io/img/PBVN.png" }, // PublicBank
+        { "NHB HN", "https://api.vietqr.io/img/NHB.png" }, // Nonghyup
+        { "IVB", "https://api.vietqr.io/img/IVB.png" }, // IndovinaBank
+        { "IBK - HCM", "https://api.vietqr.io/img/IBK.png" }, // IBKHCM
+        { "IBK - HN", "https://api.vietqr.io/img/IBK.png" }, // IBKHN
+        { "HSBC", "https://api.vietqr.io/img/HSBC.png" }, // HSBC
+        { "HLBVN", "https://api.vietqr.io/img/HLBVN.png" }, // HongLeong
+        { "GPB", "https://api.vietqr.io/img/GPB.png" }, // GPBank
+        { "DOB", "https://api.vietqr.io/img/DOB.png" }, // DongABank
+        { "DBS", "https://api.vietqr.io/img/DBS.png" }, // DBSBank
+        { "CIMB", "https://api.vietqr.io/img/CIMB.png" }, // CIMB
+        { "CBB", "https://api.vietqr.io/img/CBB.png" } // CBBank
+        // Add other banks as needed
+    };
+
+    // Check if the bank code exists in the dictionary
+    if (bankImages.TryGetValue(code, out string imageUrl))
+    {
+        walletImage = imageUrl; // Set the wallet image to the corresponding URL
+    }
+    else
+    {
+        // If no matching bank code is found, set a default image URL
+        walletImage = "https://default-image-url.com/default.png";
+    }
+}
+
+
+        [HttpPost("ConfirmBankLinkTingee")]
+        public async Task<IActionResult> ConfirmBankLinkTingee([FromBody] ConfirmBankLinkRequest request)
+        {
+            // Kiểm tra thông tin xác thực OTP
+            var (code, message) = await _tingeeApi.ConfirmBankLinkAsync(request.BankName, request.ConfirmId, request.OtpNumber);
+
+            if (code == "00")
+            {
+                // Nếu xác thực thành công, lưu thông tin ví
+                var walletId = request.WalletId; // Sử dụng walletId từ request hoặc từ một nguồn khác
+
+                var (success, saveMessage, wallet) = await SaveWallet(walletId);
+
+                if (success)
+                {
+                    // Nếu lưu thành công, trả về thông điệp thành công
+                    return Ok(new
+                    {
+                        message = $"Xác thực thành công. {saveMessage}",
+                        statusCode = 200 ,
+                        wallet
+                    });
+                }
+                else
+                {
+                    // Nếu lưu không thành công, trả về thông điệp lỗi
+                    return BadRequest(saveMessage);
+                }
+            }
+            else
+            {
+                // Nếu xác thực không thành công, trả về thông báo lỗi từ phản hồi
+                return BadRequest(message.ToString() ?? "Có lỗi xảy ra trong quá trình xác thực.");
+            }
+        }
 
     }
-}   
+}

@@ -13,6 +13,10 @@ public partial class UserAnswer
 
     public string? Answer { get; set; }
 
+    public string? Comment { get; set; }
+
+    public string? Explain { get; set; }
+
     public virtual Question Question { get; set; } = null!;
 
     public virtual UsersExam UserExam { get; set; } = null!;

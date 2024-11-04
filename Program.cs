@@ -1,4 +1,4 @@
-﻿using FirebaseAdmin;
+using FirebaseAdmin;
 using Google.Apis.Auth.OAuth2;
 using MediatR;
 using study4_be.Interface;
@@ -28,6 +28,12 @@ using Humanizer;
 using Microsoft.AspNetCore.Routing;
 using static iText.Signatures.LtvVerification;
 using study4_be.PaymentServices.Momo.Request;
+using Azure.Storage.Blobs;
+using study4_be.Services.Azure;
+using study4_be.Services.Backup;
+using study4_be.Services.Category;
+using study4_be.Services.Exam;
+using study4_be.Services.Tingee;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -48,7 +54,8 @@ builder.Services.AddDbContext<Study4Context>(options =>
     var connectString = builder.Configuration.GetConnectionString("DefaultConnection");
     options.UseSqlServer(connectString);
 });
-
+builder.Services.AddSingleton(x =>
+    new BlobServiceClient(builder.Configuration.GetValue<string>("AzureBlobStorage:ConnectionStringAzure")));
 // Đăng ký các dịch vụ
 builder.Services.AddScoped<UserCourseExpirationService>();
 builder.Services.AddTransient<ICurrentUserServices, CurrentUserServices>();
@@ -62,18 +69,20 @@ builder.Services.AddTransient<IReplyService, ReplyService>();
 builder.Services.AddTransient<IDocumentService, DocumentService>();
 builder.Services.AddTransient<ICategoryService, CategoryService>();
 builder.Services.AddTransient<ICourseService, CourseService>();
-
+builder.Services.AddTransient<IWritingService, WritingService>();
+// Register BlobServiceClient for Azure Blob Storage
 builder.Services.Configure<MomoConfig>(builder.Configuration.GetSection(MomoConfig.ConfigName));
 builder.Services.Configure<MomoTestConfig>(builder.Configuration.GetSection(MomoTestConfig.ConfigName));
+builder.Services.Configure<AzureSpeechConfig>(builder.Configuration.GetSection("AzureSpeech"));
 builder.Services.AddScoped<ContractPOServices>();
+builder.Services.AddSingleton<TingeeApi>(); // Đăng ký TingeeApi là dịch vụ
 // Dịch vụ Firebase và SMTP
 builder.Services.AddSingleton<FireBaseServices>();
 builder.Services.AddSingleton<SMTPServices>();
+builder.Services.AddSingleton<AzureOpenAiService>();
+
 // Configure Pusher settings
 builder.Services.Configure<study4_be.Services.PusherOptions>(builder.Configuration.GetSection("Pusher"));
-
-
-
 
 // Thêm IHttpContextAccessor
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
@@ -165,7 +174,6 @@ app.UseHttpsRedirection();
 
 // Cấu hình sử dụng Hangfire dashboard
 app.UseHangfireDashboard();
-
 // Khởi động server cho Hangfire
 app.UseHangfireServer();
 

@@ -10,7 +10,7 @@ using study4_be.Services.Rating;
 using study4_be.Services.User;
 using study4_be.Services;
 
-namespace study4_be.Services.Rating
+namespace study4_be.Services.Category
 {
     public class CategoryService : ICategoryService
     {

@@ -28,24 +28,23 @@ namespace study4_be.Controllers.Admin
             {
                 var questions = await _context.Questions.Where(u => u.ExamId != null).ToListAsync();
 
+                // Map each Question to a QuestionListViewModel instance
                 var questionViewModels = questions
-                    .Select(ques => new QuestionExamListVIewModel
+                    .Select(ques => new QuestionListViewModel
                     {
-                        question = ques,
+                        question = ques,    
                     }).ToList();
 
                 return View(questionViewModels);
             }
             catch (Exception ex)
             {
-                // Log the exception
-                _logger.LogError(ex, "Error occurred while fetching vocabulary list.");
-
-                // Handle the exception gracefully
+                _logger.LogError(ex, "Error occurred while fetching the question list.");
                 ModelState.AddModelError("", "An error occurred while processing your request. Please try again later.");
-                return View(new List<QuestionListViewModel>());
+                return View(new List<QuestionListViewModel>()); // Return the expected model type here
             }
-        }  
+        }
+ 
         public async Task<IActionResult> Question_Exam_Create()
         {
             var exam = await _context.Exams.ToListAsync();
