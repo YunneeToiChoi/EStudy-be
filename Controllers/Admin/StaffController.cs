@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using study4_be.Models;
@@ -139,6 +140,7 @@ namespace study4_be.Controllers.Admin
             return RedirectToAction("Staff_List");
         }
 
+        
         // Display delete confirmation
         public async Task<IActionResult> Staff_Delete(string id)
         {
@@ -149,32 +151,6 @@ namespace study4_be.Controllers.Admin
             }
             return View(staff);
         }
-
-        [HttpPost]
-        public async Task<IActionResult> Staff_Edit(Staff staff)
-        {
-            if (ModelState.IsValid)
-            {
-                var courseToUpdate = await _context.Staff.FirstOrDefaultAsync(c => c.StaffCmnd == staff.StaffCmnd);
-                courseToUpdate.StaffName = staff.StaffName;
-                courseToUpdate.StaffEmail = staff.StaffEmail;
-                courseToUpdate.StaffType = staff.StaffName;
-                courseToUpdate.StaffCmnd = staff.StaffCmnd;
-                courseToUpdate.Department = staff.Department;
-                try
-                {
-                    await _context.SaveChangesAsync();
-                    return RedirectToAction("Staff_List");
-                }
-                catch (Exception ex)
-                {
-                    _logger.LogError(ex, "Error updating staff ");
-                    ModelState.AddModelError(string.Empty, "An error occurred while updating the staff.");
-                }
-            }
-            return View(staff);
-        }
-
         [HttpPost, ActionName("Staff_Delete")]
         public async Task<IActionResult> Staff_DeleteConfirmed(string id)
         {
