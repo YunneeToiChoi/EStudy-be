@@ -126,17 +126,11 @@ namespace study4_be.Controllers.API
                         isAvailable = wallet.IsAvailable,
                         name = wallet.Name,
                         userId = wallet.Userid,
-                        userBlance = userExist.Blance,
                         type = wallet.Type,
                     })
                     .ToListAsync();
-
-                if (userWallets == null || !userWallets.Any())
-                {
-                    return NotFound("Không tìm thấy ví nào cho người dùng này.");
-                }
-
-                return Ok(new { statusCode = 200, message = "Lấy danh sách ví thành công", data = userWallets });
+                var userPrices = userExist.Blance;
+                return Ok(new { statusCode = 200, message = "Lấy danh sách ví thành công", data = userWallets, userPrices });
             }
             catch (Exception e)
             {
