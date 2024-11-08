@@ -480,7 +480,7 @@ namespace study4_be.Controllers.API
                     {
                         number = number++,
                         questionId = p.QuestionId,
-                        questionText = p.QuestionParagraph,
+                        questionText = p.QuestionText + ": " +p.QuestionParagraph,
                         questionImage = p.QuestionImage,
                     }).ToList();
                     return Json(new { status = 200, message = "Get_ExamPart9 successful", part9Response });
