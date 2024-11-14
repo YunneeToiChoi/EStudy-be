@@ -117,6 +117,7 @@ namespace study4_be.Controllers.API
                             // Add structured result
                             results.Add(new
                             {
+                                statusCode = 200,
                                 questionId,
                                 RecognizedText = recognizedText,
                                 AiResponse = new
@@ -281,7 +282,16 @@ namespace study4_be.Controllers.API
                     }
                     else
                     {
-                        return BadRequest("Could not recognize speech.");
+                        return Ok(new
+                        {
+                            statusCode = 200,
+                            aiResponse = new
+                            {
+                                Score = "0",
+                                Feedback = "No speech recognized.",
+                                FollowUpQuestion = ""
+                            }
+                        });
                     }
                 }
             }
@@ -431,6 +441,7 @@ namespace study4_be.Controllers.API
                         // Return the response in the required format
                         return Ok(new
                         {
+                            statusCode = 200,
                             recognizedText,
                             aiResponse = new
                             {
@@ -441,7 +452,15 @@ namespace study4_be.Controllers.API
                     }
                     else
                     {
-                        return BadRequest("Could not recognize speech.");
+                        return Ok(new
+                        {
+                            statusCode = 200,
+                            aiResponse = new
+                            {
+                                Score = "0",
+                                Feedback = "No speech recognized.No speech recognized."
+                            }
+                        });
                     }
                 }
             }

@@ -186,7 +186,8 @@ namespace study4_be.Services
             // Handle user banner update
             if (request.userBanner == null || request.userBanner.Length == 0)
             {
-                return (false, "Chưa cung cấp hình ảnh banner.");
+                await _context.SaveChangesAsync();
+                return (true, "Images updated successfully.");
             }
 
             try

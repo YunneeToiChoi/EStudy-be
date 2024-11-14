@@ -99,10 +99,17 @@ namespace study4_be.Services.Rating
             var documentIds = userDocument.Select(d => d.DocumentId).ToList();
 
             var documents = await _context.Documents
-                .Where (d => documentIds.Contains(d.DocumentId))
-                .Select(d => new {d.DocumentId, d.Title, d.FileUrl })
+                .Where(d => documentIds.Contains(d.DocumentId))
+                .Select(d => new 
+                {
+                    d.DocumentId, 
+                    d.Title, 
+                    d.ThumbnailUrl, 
+                    d.UploadDate, 
+                    d.Price, 
+                    CategoryName = d.Category != null ? d.Category.CategoryName : string.Empty
+                })
                 .ToListAsync();
-           
             return new OkObjectResult(new {documents});
         }
         public async Task<IEnumerable<UserDocumentResponse>> GetDocumentsByUserIdAsync(string userId)
@@ -157,33 +164,37 @@ namespace study4_be.Services.Rating
                     return new NotFoundObjectResult($"Document with Id {documentId} does not exist.");
                 }
 
-                if (document.Price <= 0)
-                {
-                    var newUserDocument = new UserDocument
-                    {
-                        DocumentId = documentId,
-                        UserId = userId,
-                        OrderDate = DateTime.Now,
-                        State = true,
-                    };
-                    await _context.UserDocuments.AddAsync(newUserDocument);
-                    await _context.SaveChangesAsync();
-                }
                 // Check if the document is free or the price is 0
-                if (document.Price > 0)
+                var existingUserDocument = await _context.UserDocuments.FindAsync(userId, documentId);
+
+                if (existingUserDocument == null)
                 {
-                    var existingUserDocument = await _context.UserDocuments.FindAsync(userId, documentId);
-                    if (existingUserDocument == null) 
+                    // If UserDocument does not exist, we need to check if the document is free or paid
+                    if (document.Price <= 0)
                     {
-                        // Nếu cần kiểm tra giá, bạn có thể thêm logic ở đây
+                        // If the document is free, create a new UserDocument record
+                        var newUserDocument = new UserDocument
+                        {
+                            DocumentId = documentId,
+                            UserId = userId,
+                            OrderDate = DateTime.Now,
+                            State = true,
+                        };
+                        await _context.UserDocuments.AddAsync(newUserDocument);
+                        await _context.SaveChangesAsync();
+                    }
+                    else
+                    {
+                        // If the document is not free, return a BadRequest to indicate payment is required
                         return new BadRequestObjectResult("Document is not free. Please pay to download.");
                     }
                 }
-                // Increment the download count
+                
+                // Increment the download count even if the document is free or paid
                 document.DownloadCount++;
                 _context.Documents.Update(document);
                 await _context.SaveChangesAsync();
-                
+
                 // Get the file URL from Firebase (assuming documents are stored in Firebase)
                 var fileUrl = document.FileUrl;
 
@@ -199,7 +210,8 @@ namespace study4_be.Services.Rating
             {
                 return new BadRequestObjectResult($"An error occurred while downloading the document: {ex.Message}");
             }
-        }
+}
+
         public async Task<CourseResponse> GetCoursesByUserIdAsync(string userId)
         {
             var user = await _context.Users
