@@ -131,8 +131,10 @@ builder.Services.AddAuthentication(options =>
 builder.Services.AddAuthentication("AdminCookieScheme")
     .AddCookie("AdminCookieScheme", options =>
     {
-        options.LoginPath = "/Admin/Auth/Login"; // Đường dẫn trang đăng nhập admin
-        options.AccessDeniedPath = "/Admin/Auth/AccessDenied"; // Đường dẫn khi bị từ chối quyền truy cập
+        options.LoginPath = "/Auth/Login"; // Đường dẫn trang đăng nhập admin
+        options.AccessDeniedPath = "/Home/Unauthorized"; // Đường dẫn khi bị từ chối quyền truy cập
+        
+        
     });
 builder.Services.AddControllers();
 // Đăng ký JwtTokenGenerator

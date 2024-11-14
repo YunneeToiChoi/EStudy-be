@@ -383,12 +383,12 @@ namespace study4_be.Controllers.API
 
                 // Find the old subscription for the user, if it exists
                 var oldPlan = await _context.UserSubs
-                                             .FirstOrDefaultAsync(us => us.UserId == newUserSub.UserId && us.State == true);
+                                             .FirstOrDefaultAsync(us => us.UserId == newUserSub.UserId);
 
                 // Remove the old plan if it exists
                 if (oldPlan != null)
                 {
-                    oldPlan.State = false;
+                    _context.UserSubs.RemoveRange(oldPlan);
                 }
 
                 // Add the new user subscription
@@ -402,12 +402,13 @@ namespace study4_be.Controllers.API
                 // Add each course to the USER_COURSES table for the user
                 foreach (var planCourse in planCourses)
                 {
-                    bool courseExists = await _context.UserCourses
-                                                      .AnyAsync(uc => uc.UserId == newOrderPlan.UserId && uc.CourseId == planCourse.CourseId);
-
-                    if (!courseExists)
+                    var userCourse = await _context.UserCourses
+                        .FirstOrDefaultAsync(uc => uc.UserId == newOrderPlan.UserId && uc.CourseId == planCourse.CourseId);
+    
+                    if (userCourse == null)
                     {
-                        var userCourse = new UserCourse
+                        // Nếu không tìm thấy userCourse thì thêm mới
+                        userCourse = new UserCourse
                         {
                             UserId = newOrderPlan.UserId,
                             CourseId = planCourse.CourseId,
@@ -416,6 +417,12 @@ namespace study4_be.Controllers.API
                             State = true,
                         };
                         await _context.UserCourses.AddAsync(userCourse);
+                    }
+                    else if (!userCourse.State)
+                    {
+                        // Nếu course đã tồn tại nhưng State = false thì cập nhật lại State = true
+                        userCourse.State = true;
+                        _context.UserCourses.Update(userCourse);
                     }
                 }
 
