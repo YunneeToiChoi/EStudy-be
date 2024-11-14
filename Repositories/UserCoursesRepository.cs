@@ -18,8 +18,8 @@ namespace study4_be.Repositories
         {
             // Lấy danh sách các CourseId từ bảng UserCourses (các khóa học đã thanh toán)
             var userCourses = _context.UserCourses
-                                      .Where(uc => uc.UserId == idUser && uc.State == true)
-                                      .Select(uc => uc.CourseId);
+                .Where(uc => uc.UserId == idUser && uc.State == true)
+                .Select(uc => uc.CourseId);
 
             return userCourses;
         }

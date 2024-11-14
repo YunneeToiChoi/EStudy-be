@@ -1,4 +1,4 @@
-﻿using FirebaseAdmin.Auth;
+﻿﻿using FirebaseAdmin.Auth;
 using FirebaseAdmin;
 using Microsoft.AspNetCore.Mvc;
 using MimeKit;
