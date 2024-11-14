@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using study4_be.Helper;
 using study4_be.Models;
@@ -143,7 +143,7 @@ namespace study4_be.Controllers.API
                 lang = trackingQuery.lang,
                 signature = signature
             };
-            string aa = "https://payment.momo.vn/v2/gateway/api/query"; 
+            string aa = "https://payment.momo.vn/v2/gateway/api/query";
             var content = new StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(dataRequest), Encoding.UTF8, "application/json");
             var response = await _httpClient.PostAsync(aa, content);
             var responseContent = await response.Content.ReadAsStringAsync();
@@ -246,7 +246,7 @@ namespace study4_be.Controllers.API
         }
 
         [HttpPost("test")]
-        public async Task<IActionResult> Buy_Success([FromQuery]string orderId)
+        public async Task<IActionResult> Buy_Success([FromQuery] string orderId)
         {
             try
             {
@@ -294,7 +294,7 @@ namespace study4_be.Controllers.API
                 }
                 else
                 {
-                   return await HandleRenewCourse(existingOrderCourse, existingUserCourse);
+                    return await HandleRenewCourse(existingOrderCourse, existingUserCourse);
                 }
             }
 
@@ -383,12 +383,12 @@ namespace study4_be.Controllers.API
 
                 // Find the old subscription for the user, if it exists
                 var oldPlan = await _context.UserSubs
-                                             .FirstOrDefaultAsync(us => us.UserId == newUserSub.UserId && us.State == true);
+                                             .FirstOrDefaultAsync(us => us.UserId == newUserSub.UserId);
 
                 // Remove the old plan if it exists
                 if (oldPlan != null)
                 {
-                    _context.UserSubs.Remove(oldPlan);
+                    _context.UserSubs.RemoveRange(oldPlan);
                 }
 
                 // Add the new user subscription
@@ -402,12 +402,13 @@ namespace study4_be.Controllers.API
                 // Add each course to the USER_COURSES table for the user
                 foreach (var planCourse in planCourses)
                 {
-                    bool courseExists = await _context.UserCourses
-                                                      .AnyAsync(uc => uc.UserId == newOrderPlan.UserId && uc.CourseId == planCourse.CourseId);
-
-                    if (!courseExists)
+                    var userCourse = await _context.UserCourses
+                        .FirstOrDefaultAsync(uc => uc.UserId == newOrderPlan.UserId && uc.CourseId == planCourse.CourseId);
+    
+                    if (userCourse == null)
                     {
-                        var userCourse = new UserCourse
+                        // Nếu không tìm thấy userCourse thì thêm mới
+                        userCourse = new UserCourse
                         {
                             UserId = newOrderPlan.UserId,
                             CourseId = planCourse.CourseId,
@@ -417,11 +418,17 @@ namespace study4_be.Controllers.API
                         };
                         await _context.UserCourses.AddAsync(userCourse);
                     }
+                    else if (!userCourse.State)
+                    {
+                        // Nếu course đã tồn tại nhưng State = false thì cập nhật lại State = true
+                        userCourse.State = true;
+                        _context.UserCourses.Update(userCourse);
+                    }
                 }
 
                 // Save all changes in one transaction
                 await _context.SaveChangesAsync();
-                await SendCodeActiveByEmail(newOrderPlan.Email, newOrderPlan.OrderId);
+               
                 var respon = new
                 {
                     newOrderPlan.OrderId,
@@ -431,6 +438,8 @@ namespace study4_be.Controllers.API
                     newOrderPlan.CreatedAt,
                     newOrderPlan.State
                 };
+
+                await SendPaymentConfirmationByEmail(newOrderPlan.OrderId);
                 return Ok(new
                 {
                     status = 200,
@@ -471,6 +480,7 @@ namespace study4_be.Controllers.API
                     existingOrderDocument.TotalAmount,
                     existingOrderDocument.State,
                 };
+                await SendPaymentConfirmationByEmail(existingOrderDocument.OrderId);
                 return Ok(new
                 {
                     status = 200,
@@ -479,6 +489,58 @@ namespace study4_be.Controllers.API
                 });
             }
             return BadRequest(new { message = "Order is already completed or invalid" });
+        }
+
+        private async Task<IActionResult> SendPaymentConfirmationByEmail(string orderId)
+        {
+            try
+            {
+                var existOrder = await _context.Orders.FirstOrDefaultAsync(o => o.OrderId == orderId);
+                if (existOrder == null)
+                {
+                    return NotFound(new { status = 404, message = $"Order with ID {orderId} not found." });
+                }
+
+                // Generate PDF and get data
+                string invoiceResult = await _contractPOServices.GenerateInvoicePdf(orderId);
+                if (invoiceResult == null)
+                {
+                    return NotFound(new { status = 404, message = "Had a problem with creating the invoice." });
+                }
+
+                var subject = "[EStudy] - Payment Confirmation for Your Order";
+                var userName = await _context.Users.Where(u => u.UserId == existOrder.UserId).Select(u => u.UserName).FirstOrDefaultAsync();
+                var userEmail = await _context.Users.Where(u => u.UserId == existOrder.UserId).Select(u => u.UserEmail).FirstOrDefaultAsync();
+                // Check if the order is for a document or a subscription plan
+                var documentName = await _context.Documents.Where(d => d.DocumentId == existOrder.DocumentId).Select(d => d.Title).FirstOrDefaultAsync();
+                var planName = await _context.Subscriptionplans.Where(p => p.PlanId == existOrder.PlanId).Select(p => p.PlanName).FirstOrDefaultAsync();
+
+                string emailContent;
+
+                // Generate email content based on the order type
+                if (documentName != null)
+                {
+                    emailContent = _smtpServices.GenerateDocumentPaymentEmailContent(userName, existOrder.OrderDate.ToString(), orderId, documentName, invoiceResult);
+                }
+                else if (planName != null)
+                {
+                    emailContent = _smtpServices.GeneratePlanPaymentEmailContent(userName, existOrder.OrderDate.ToString(), orderId, planName, invoiceResult);
+                }
+                else
+                {
+                    return NotFound(new { status = 404, message = "No valid document or plan found for the given order." });
+                }
+
+                // Attempt to send the email
+                await _smtpServices.SendEmailAsync(userEmail, subject, emailContent, emailContent);
+
+                return Ok(new { status = 200, message = "Payment confirmation email sent successfully" });
+            }
+            catch (Exception ex)
+            {
+                // Log the exception (consider using a logging framework)
+                return StatusCode(500, new { status = 500, message = $"An error occurred while sending the payment confirmation email: {ex.Message}" });
+            }
         }
 
         private async Task<IActionResult> SendCodeActiveByEmail(string userEmail, string orderId)
