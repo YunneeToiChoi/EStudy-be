@@ -65,7 +65,7 @@ namespace study4_be.Services.Rating
                 return null; // return null on error
             }
         }
-        public async Task<IActionResult> GetDocumentIdAsync(string orderId)
+        public async Task<int?> GetDocumentIdAsync(string orderId)
         {
             var existingOrder = await _context.Orders.FindAsync(orderId);
 
@@ -80,12 +80,8 @@ namespace study4_be.Services.Rating
                 throw new KeyNotFoundException("Document not found");
             }
 
-            var respon = new
-            {
-                documentId = existingDocument.DocumentId,
-            };
-
-            return new OkObjectResult(respon);
+            // Trả về DocumentId nếu có
+            return existingDocument.DocumentId;
         }
         public async Task<IActionResult> GetDocumentsFromUserAsync(string userId)
         {
