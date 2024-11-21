@@ -164,7 +164,7 @@ namespace study4_be.Controllers.API
                         paymentType = o.PaymentType,
                         User = o.User,// Include full Order data
                         WalletId = o.Wallet.Id,          // Assuming WalletId is a property within Wallet
-                        WalletImage = o.Wallet.WalletImage     // Retrieve only the Wallet's Image
+                        WalletImage = o.Wallet.WalletImage ??  logoMomo // sau nay fix lai    // Retrieve only the Wallet's Image
                     })
                     .ToListAsync();
                 return Ok(new { statusCode = 200, message = "Lấy danh sách lịch sử giao dịch thành công", data });
@@ -544,7 +544,7 @@ namespace study4_be.Controllers.API
                 }
 
                 // Cập nhật số dư của người dùng
-                existUser.Blance -= amountAfterTax; // Trừ số tiền thực tế sau thuế
+                existUser.Blance -= request.Amount; // Trừ số tiền thực tế sau thuế
                 request.Amount = amountAfterTax;
                 // Dữ liệu yêu cầu giải ngân (bao gồm cả thông tin người dùng)
                 string publicKey = _momoConfig.PublicKey;

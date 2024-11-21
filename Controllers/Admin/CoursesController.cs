@@ -53,11 +53,28 @@ namespace study4_be.Controllers.Admin
         {
             if (!ModelState.IsValid)
             {
-
+                ModelState.AddModelError("","You have to provide all fields");
                 return View(course);    //show form with value input and show errors
             }
             try
             {
+                if (_context.Courses.Any(
+                        c => c.CourseName.ToLower() == course.CourseName.ToLower()))
+                {
+                    ModelState.AddModelError("CourseName", "Course's name already exists");
+                    return View(course);
+                }
+
+                if (course.CoursePrice < 0)
+                {
+                    ModelState.AddModelError("CoursePrice", "Course price cannot be less than 0");
+                    return View(course);
+                }
+                if (course.CourseSale < 0 || course.CourseSale > 100)
+                {
+                    ModelState.AddModelError("CourseSale", "Course sale cannot be less than 0 or more than 100");
+                    return View(course);
+                }
                 // Handle file upload to Firebase Storage
                 if (CourseImage != null && CourseImage.Length > 0)
                 {
