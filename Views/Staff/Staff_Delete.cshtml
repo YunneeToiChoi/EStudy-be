@@ -10,8 +10,8 @@
         <p>@Model.StaffType</p>
         <p>@Model.StaffEmail</p>
     </div>
-    <form asp-action="Staff_Delete">
-        <input type="hidden" asp-for="StaffCmnd" />
+    <form asp-action="Staff_DeleteConfirmed">
+        <input type="hidden" name="id" value="@Model.StaffCmnd" />
         <button type="submit" class="btn btn-danger">Delete</button>
         @Html.ActionLink("Cancel", "Staff_List", null, new { @class = "btn btn-light" })
     </form>

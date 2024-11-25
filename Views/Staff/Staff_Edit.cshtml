@@ -13,40 +13,45 @@
     <hr />
     <div class="card-body">
         <form asp-action="Staff_Edit" method="post" enctype="multipart/form-data" class="forms-sample">
-            <input type="hidden" asp-for="Staff.StaffCmnd" />
+            <input type="hidden" name="id" value="@Model.Staffs.StaffCmnd" />
             <div class="form-group">
                 <label for="StaffName">Name</label>
-                <input asp-for="Staff.StaffName" class="form-control" />
-                <span asp-validation-for="Staff.StaffName" class="text-danger"></span>
+                <input asp-for="Staffs.StaffName" class="form-control" />
+                <span asp-validation-for="Staffs.StaffName" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label for="StaffType">Type</label>
-                <input asp-for="Staff.StaffType" class="form-control" />
-                <span asp-validation-for="Staff.StaffType" class="text-danger"></span>
+                <input asp-for="Staffs.StaffType" class="form-control" />
+                <span asp-validation-for="Staffs.StaffType" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label for="StaffEmail">Email</label>
-                <input asp-for="Staff.StaffEmail" class="form-control" />
-                <span asp-validation-for="Staff.StaffEmail" class="text-danger"></span>
+                <input asp-for="Staffs.StaffEmail" class="form-control" />
+                <span asp-validation-for="Staffs.StaffEmail" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label for="Staffs.StaffPassword">StaffPassword</label>
-                <input asp-for="Staff.StaffPassword" class="form-control" />
-                <span asp-validation-for="Staff.StaffPassword" class="text-danger"></span>
+                <input asp-for="Staffs.StaffPassword" class="form-control" />
+                <span asp-validation-for="Staffs.StaffPassword" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label for="StaffCmnd">CMND</label>
-                <input asp-for="Staff.StaffCmnd" class="form-control" />
-                <span asp-validation-for="Staff.StaffCmnd" class="text-danger"></span>
+                <input asp-for="Staffs.StaffCmnd" class="form-control" />
+                <span asp-validation-for="Staffs.StaffCmnd" class="text-danger"></span>
             </div>
-@*             <div class="form-group">
-                <label for="Department">Department</label>
-                <select asp-for="Department" class="form-control" asp-items="Model.DepartmentId"></select>
-                <span asp-validation-for="Department" class="text-danger"></span>
-            </div> *@
+            <div class="form-group">
+                <label for="Staffs.DepartmentId">DepartmentId</label>
+                <select asp-for="Staffs.DepartmentId" class="form-control" asp-items="Model.Departments"></select>
+                <span asp-validation-for="Staffs.DepartmentId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label for="Staffs.Role">Role</label>
+                <select asp-for="Staffs.RoleId" class="form-control" asp-items="Model.Roles"></select>
+                <span asp-validation-for="Staffs.RoleId" class="text-danger"></span>
+            </div>
             <div class="flex">
                 <button type="submit" class="btn btn-gradient-primary me-2">Submit</button>
-                @Html.ActionLink("Cancel", "Staff_List", "List", null, new { @class = "btn btn-light" })
+                @Html.ActionLink("Cancel", "Staff_List", "Staff", null, new { @class = "btn btn-light" })
             </div>
         </form>
     </div>

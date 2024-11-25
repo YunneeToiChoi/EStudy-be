@@ -4,7 +4,9 @@ namespace study4_be.Models.ViewModel
 {
     public class StaffEditViewModel
     {
-        public Staff Staff { get; set; }
-        public List<SelectListItem> Departments { get; set; }
+        public Staff Staffs { get; set; }
+
+        public List<SelectListItem>? Departments { get; set; } 
+        public List<SelectListItem>? Roles { get; set; }
     }
 }

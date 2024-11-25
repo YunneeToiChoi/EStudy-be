@@ -102,13 +102,19 @@ namespace study4_be.Controllers.Admin
             }
 
             var departments = await _context.Departments.ToListAsync();
+            var roles = await _context.Roles.ToListAsync();
             var model = new StaffEditViewModel
             {
-                Staff = staff,
-                Departments = departments.Select(d => new SelectListItem
+                Staffs = staff,
+                Departments = departments.Select(c => new SelectListItem
                 {
-                    Value = d.DepartmentId.ToString(),
-                    Text = d.DepartmentName
+                    Value = c.DepartmentId.ToString(),
+                    Text = c.DepartmentName
+                }).ToList(),
+                Roles = roles.Select(c => new SelectListItem
+                {
+                    Value = c.RoleId.ToString(),
+                    Text = c.RoleName
                 }).ToList()
             };
             return View(model);
@@ -130,17 +136,17 @@ namespace study4_be.Controllers.Admin
                 return NotFound();
             }
 
-            staffToUpdate.StaffName = staffViewModel.Staff.StaffName;
-            staffToUpdate.StaffEmail = staffViewModel.Staff.StaffEmail;
-            staffToUpdate.StaffType = staffViewModel.Staff.StaffType;
-            staffToUpdate.StaffCmnd = staffViewModel.Staff.StaffCmnd;
-            staffToUpdate.DepartmentId = staffViewModel.Staff.DepartmentId;
+            staffToUpdate.StaffName = staffViewModel.Staffs.StaffName;
+            staffToUpdate.StaffEmail = staffViewModel.Staffs.StaffEmail;
+            staffToUpdate.StaffType = staffViewModel.Staffs.StaffType;
+            staffToUpdate.StaffCmnd = staffViewModel.Staffs.StaffCmnd;
+            staffToUpdate.DepartmentId = staffViewModel.Staffs.DepartmentId;
 
             await _context.SaveChangesAsync();
             return RedirectToAction("Staff_List");
         }
 
-        
+        [HttpGet]
         // Display delete confirmation
         public async Task<IActionResult> Staff_Delete(string id)
         {
@@ -151,7 +157,7 @@ namespace study4_be.Controllers.Admin
             }
             return View(staff);
         }
-        [HttpPost, ActionName("Staff_Delete")]
+        [HttpPost]
         public async Task<IActionResult> Staff_DeleteConfirmed(string id)
         {
             if (!ModelState.IsValid)
