@@ -99,6 +99,7 @@ namespace study4_be.Services.Rating
                 CoursePrice = course.CoursePrice,
                 CourseSale = course.CourseSale,
                 LastPrice = course.CoursePrice - (course.CoursePrice * course.CourseSale / 100),
+                // missing people 
             }).ToList();
         }
 

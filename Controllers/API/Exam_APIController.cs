@@ -2,6 +2,7 @@
 using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using NaCl;
 using study4_be.Controllers.Admin;
 using study4_be.Interface;
 using study4_be.Models;
@@ -128,6 +129,7 @@ namespace study4_be.Controllers.API
         {
             try
             {
+                // List to hold exams
                 IEnumerable<Exam> outstandingExams;
 
                 if (!string.IsNullOrEmpty(_req.userId))
@@ -137,18 +139,51 @@ namespace study4_be.Controllers.API
                 }
                 else
                 {
-                    // If user ID is null, return the outstanding exams for guests
+                    // If user ID is null, return outstanding exams for guests
                     outstandingExams = await GetOutstandingExamsForGuestAsync(4);
                 }
+                
+                // Create a list to hold the exam details
+                var examDetailsList = new List<ExamDetails>();
+                
+                // Now process each exam
+                foreach (var e in outstandingExams)
+                {
+                    int examCommentsCounts = 100; // default because ratings model hasn't relationship with exam model
+                    
+                    // get amount user test this exam
+                    int usersExamsCounts = await _context.UsersExams
+                        .Where(ue=>ue.ExamId == e.ExamId)
+                        .CountAsync();
+                    
+                    // return exam details data
+                    var examDetails = new ExamDetails
+                    {
+                        ExamId = e.ExamId,
+                        ExamName = e.ExamName,
+                        ExamImage = e.ExamImage,
+                        TotalComments = 100,
+                        TotalMinutes = 120, // default because total minutes not exist in models
+                        TotalUsersTest = usersExamsCounts
+                    };
 
-                return Json(new { status = 200, message = "Get Outstanding Exams Success", outstandingExams });
+                    examDetailsList.Add(examDetails);
+                }
+
+                // Return the formatted response
+                return Json(new
+                {
+                    outstandingExams = examDetailsList,
+                    message = "Success",
+                    error = (string)null,
+                    statusCode = 200
+                });
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return BadRequest(new { statusCode = 500, message = "Error", error = ex.Message });
             }
         }
-
         // Private method to get outstanding exams for guests
         private async Task<IEnumerable<Exam>> GetOutstandingExamsForGuestAsync(int amountOutstanding)
         {
@@ -174,20 +209,6 @@ namespace study4_be.Controllers.API
                 .ToListAsync();
         }
 
-        [HttpPost("Get_AudioExam")]
-        public async Task<ActionResult<IEnumerable<Exam>>> Get_AudioExam(OfExamIdRequest _req)
-        {
-            try
-            {
-                var examAudio = await _context.Exams.Where(u => u.ExamId == _req.examId).Select(a=>a.ExamAudio).FirstOrDefaultAsync();
-                return Json(new { status = 200, message = "Get Exam Detail By Id ", examAudio });
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-
-        }
         [HttpPost("Get_ExamPart1")]
         public async Task<ActionResult> Get_ExamPart1(Part2Request _req)
         {
