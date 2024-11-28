@@ -32,57 +32,57 @@ namespace study4_be.Services
                 var existOrder = await _context.Orders.FirstOrDefaultAsync(o => o.OrderId == orderId);
                 if (existOrder == null)
                 {
-                    return null; // Nếu đơn hàng không tồn tại
+                    return null; // If the order does not exist
                 }
 
                 var user = await _context.Users.FirstOrDefaultAsync(u => u.UserId == existOrder.UserId);
+
+                // Check which type of object (course, document, or plan) the order is for
                 var course = await _context.Courses.FirstOrDefaultAsync(c => c.CourseId == existOrder.CourseId);
+                var document = await _context.Documents.FirstOrDefaultAsync(d => d.DocumentId == existOrder.DocumentId);
+                var plan = await _context.Subscriptionplans.FirstOrDefaultAsync(p => p.PlanId == existOrder.PlanId);
 
                 using (var outputStream = new MemoryStream())
                 {
                     var writer = new PdfWriter(outputStream);
                     var pdf = new PdfDocument(writer);
-                    var document = new iText.Layout.Document(pdf);
+                    var documentLayout = new iText.Layout.Document(pdf);
 
-                    // Thêm font hỗ trợ tiếng Việt
+                    // Add font support for Vietnamese characters
                     var fontPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "fonts", "arial-unicode-ms.ttf");
                     var font = PdfFontFactory.CreateFont(fontPath, PdfEncodings.IDENTITY_H);
 
-                    // Tiêu đề hóa đơn
-                    document.Add(new Paragraph("HÓA ĐƠN ĐIỆN TỬ")
+                    // Add the invoice title
+                    documentLayout.Add(new Paragraph("HÓA ĐƠN ĐIỆN TỬ")
                         .SetTextAlignment(TextAlignment.CENTER)
                         .SetFont(font)
                         .SetFontSize(24)
                         .SetBold()
                         .SetMarginBottom(20)
-                        .SetFontColor(new DeviceRgb(0, 102, 204))); // Màu xanh
+                        .SetFontColor(new DeviceRgb(0, 102, 204))); // Blue color
 
-                    // Thông tin khách hàng
-                    document.Add(new Paragraph($"Tên khách hàng: {user.UserName}")
+                    // Add customer information
+                    documentLayout.Add(new Paragraph($"Tên khách hàng: {user.UserName}")
                         .SetFont(font)
                         .SetFontSize(14)
                         .SetMarginBottom(5));
-                    document.Add(new Paragraph($"Mã đơn hàng: {orderId}")
+                    documentLayout.Add(new Paragraph($"Mã đơn hàng: {orderId}")
                         .SetFont(font)
                         .SetFontSize(14)
                         .SetMarginBottom(5));
-                    document.Add(new Paragraph($"Tên khóa học: {course.CourseName}")
+                    documentLayout.Add(new Paragraph($"Ngày đặt: {existOrder.OrderDate:dd/MM/yyyy}")
                         .SetFont(font)
-                        .SetFontSize(14)
-                        .SetMarginBottom(5));
-                    document.Add(new Paragraph($"Ngày đặt: {existOrder.OrderDate:dd/MM/yyyy}")
-                          .SetFont(font)
                         .SetFontSize(14)
                         .SetMarginBottom(20));
 
-                    // Thêm bảng
+                    // Create a table for invoice items
                     Table table = new Table(UnitValue.CreatePercentArray(new float[] { 1, 3, 2 })).SetWidth(UnitValue.CreatePercentValue(100));
                     table.SetMarginTop(20);
                     table.SetMarginBottom(20);
                     table.SetPadding(5);
                     table.SetBorder(Border.NO_BORDER);
 
-                    // Định dạng tiêu đề bảng
+                    // Table header
                     table.AddHeaderCell(new Cell().Add(new Paragraph("STT").SetFont(font).SetFontSize(12).SetBold())
                         .SetBackgroundColor(new DeviceRgb(0, 102, 204))
                         .SetTextAlignment(TextAlignment.CENTER)
@@ -96,67 +96,68 @@ namespace study4_be.Services
                         .SetTextAlignment(TextAlignment.CENTER)
                         .SetBorder(Border.NO_BORDER));
 
-                    // Dữ liệu trong bảng
-                    table.AddCell(new Cell().Add(new Paragraph("1").SetFont(font).SetFontSize(12)).SetTextAlignment(TextAlignment.CENTER));
-                    table.AddCell(new Cell().Add(new Paragraph(course.CourseName).SetFont(font).SetFontSize(12)));
-                    table.AddCell(new Cell()
-                              .Add(new Paragraph($"{existOrder.TotalAmount:C0}")
-                              .SetFont(font)
-                              .SetFontSize(12))
-                              .SetTextAlignment(TextAlignment.RIGHT));
-
-
-                    // Định dạng viền và padding cho ô trong bảng
-                    foreach (var cell in table.GetChildren())
+                    // Populate the table based on the product type
+                    if (course != null)
                     {
-                        if (cell is Cell tableCell)
-                        {
-                            tableCell.SetBorder(Border.NO_BORDER);
-                            tableCell.SetPadding(5);
-                        }
+                        table.AddCell(new Cell().Add(new Paragraph("1").SetFont(font).SetFontSize(12)).SetTextAlignment(TextAlignment.CENTER));
+                        table.AddCell(new Cell().Add(new Paragraph(course.CourseName).SetFont(font).SetFontSize(12)));
+                        table.AddCell(new Cell().Add(new Paragraph($"{existOrder.TotalAmount:C0}").SetFont(font).SetFontSize(12)).SetTextAlignment(TextAlignment.RIGHT));
+                    }
+                    else if (document != null)
+                    {
+                        table.AddCell(new Cell().Add(new Paragraph("1").SetFont(font).SetFontSize(12)).SetTextAlignment(TextAlignment.CENTER));
+                        table.AddCell(new Cell().Add(new Paragraph(document.Title).SetFont(font).SetFontSize(12)));
+                        table.AddCell(new Cell().Add(new Paragraph($"{existOrder.TotalAmount:C0}").SetFont(font).SetFontSize(12)).SetTextAlignment(TextAlignment.RIGHT));
+                    }
+                    else if (plan != null)
+                    {
+                        table.AddCell(new Cell().Add(new Paragraph("1").SetFont(font).SetFontSize(12)).SetTextAlignment(TextAlignment.CENTER));
+                        table.AddCell(new Cell().Add(new Paragraph(plan.PlanName).SetFont(font).SetFontSize(12)));
+                        table.AddCell(new Cell().Add(new Paragraph($"{existOrder.TotalAmount:C0}").SetFont(font).SetFontSize(12)).SetTextAlignment(TextAlignment.RIGHT));
                     }
 
-                    // Thêm bảng vào tài liệu
-                    document.Add(table);
+                    // Add the table to the document
+                    documentLayout.Add(table);
 
-                    // Chèn hình ảnh chữ ký và stamp từ Firebase
+                    // Add signature and stamp images from Firebase
                     string signatureUrl = _config["Firebase:SignatureImage"];
                     string stampUrl = _config["Firebase:Stamp"];
 
                     var signatureImage = new Image(ImageDataFactory.Create(signatureUrl))
                         .ScaleAbsolute(100, 50)
                         .SetFixedPosition(400, 100);
-                    document.Add(signatureImage);
+                    documentLayout.Add(signatureImage);
 
                     var stampImage = new Image(ImageDataFactory.Create(stampUrl))
                         .ScaleAbsolute(80, 80)
                         .SetFixedPosition(100, 100);
-                    document.Add(stampImage);
+                    documentLayout.Add(stampImage);
 
-                    // Đóng tài liệu
-                    document.Close();
+                    // Close the document
+                    documentLayout.Close();
 
-                    // Sao chép nội dung sang MemoryStream khác để upload
+                    // Copy the content to a new MemoryStream for upload
                     using (var uploadStream = new MemoryStream(outputStream.ToArray()))
                     {
                         uploadStream.Seek(0, SeekOrigin.Begin);
 
-                        // Tạo tên file hóa đơn
+                        // Create the invoice file name
                         string invoiceFileName = $"{user.UserId}_{orderId}.pdf";
 
-                        // Upload file PDF lên Firebase
+                        // Upload the PDF file to Firebase
                         var pdfFileUrl = await _fireBaseServices.UploadInvoiceAsync(uploadStream, invoiceFileName, user.UserId);
 
-                        return pdfFileUrl; // Trả về URL của file PDF
+                        return pdfFileUrl; // Return the PDF file URL
                     }
                 }
             }
             catch (Exception ex)
             {
-                // Ghi log lỗi nếu cần
-                return null; // Trả về null nếu có lỗi xảy ra
+                // Log the error if necessary
+                return null; // Return null if an error occurs
             }
         }
+
 
 
         // Helper method to download an image from a URL

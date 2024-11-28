@@ -8,6 +8,8 @@ using System.Numerics;
 
 namespace study4_be.Controllers.Admin
 {
+
+    [Route("Admin/CourseManager/[controller]/[action]")]
     public class PlanCourseController : Controller
     {
         private readonly Study4Context _context;

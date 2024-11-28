@@ -2,7 +2,7 @@
 
 namespace study4_be.Models.ViewModel
 {
-    public class StaffCreateViewModel
+    public class StaffEditViewModel
     {
         public Staff Staffs { get; set; }
 

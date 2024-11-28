@@ -1,3 +1,21 @@
-﻿@{
-    Layout = "_Layout";
+﻿@using System.Security.Claims
+@{
+    var userRole = Context.User.FindFirst(ClaimTypes.Role)?.Value ?? Context.Session.GetString("UserRole");
+
+    if (userRole == "HR")
+    {
+        Layout = "~/Views/Shared/_LayoutHr.cshtml";
+    }
+    else if (userRole == "Finance")
+    {
+        Layout = "~/Views/Shared/_LayoutFinance.cshtml";
+    }
+    else if (userRole == "CourseManager")
+    {
+        Layout = "~/Views/Shared/_LayoutCourse.cshtml";
+    }
+    else
+    {
+        Layout = "~/Views/Shared/LoginLayout.cshtml";
+    }
 }

@@ -13,7 +13,7 @@ namespace study4_be.Interface
         Task<IEnumerable<UserDocumentResponse>> GetDocumentsByUserIdAsync(string userId);
         Task<IActionResult> GetDocumentsFromUserAsync(string  userId);
         Task<IActionResult> DownloadDocumentAsync(int documentId, string userId);
-        Task<IActionResult> GetDocumentIdAsync(string orderId);
+        Task<int?> GetDocumentIdAsync(string orderId);
         Task<CourseResponse> GetCoursesByUserIdAsync(string userId);
         Task<IActionResult> UploadDocuments(UploadDocumentRequest request);
         Task<IActionResult> UploadDetail(UploadDetailRequest request);

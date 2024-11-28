@@ -344,8 +344,12 @@ namespace study4_be.Controllers.API
             return Json(new { status = 200, message = "Delete Users Successful" });
         }
         [HttpPost("User_UpdateImage")]
-        public async Task<IActionResult> User_UpdateImage([FromForm] UserUploadImageRequest request)
+        public async Task<IActionResult> User_UpdateImage([FromBody] UserUploadImageRequest request)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
             var (success, message) = await _userService.UpdateUserImageAsync(request);
             if (!success)
             {

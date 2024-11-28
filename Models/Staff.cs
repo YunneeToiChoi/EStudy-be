@@ -11,13 +11,13 @@ public partial class Staff
 
     public string? StaffName { get; set; }
 
+    public string? StaffPassword { get; set; }
+
     public string? StaffType { get; set; }
 
     public string? StaffEmail { get; set; }
 
     public string StaffCmnd { get; set; } = null!;
-
-    public string? StaffPassword { get; set; }
 
     public virtual Department? Department { get; set; }
 

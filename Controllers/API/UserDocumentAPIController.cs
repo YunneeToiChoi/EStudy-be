@@ -262,11 +262,17 @@ namespace study4_be.Controllers.API
             try
             {
                 var documentId = await _documentService.GetDocumentIdAsync(orderId);
+                if (documentId == null)
+                {
+                    // Nếu documentId là null, trả về lỗi
+                    return NotFound("Document not found");
+                }
                 return Ok(new { documentId });
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                // Trả về lỗi chi tiết khi gặp exception
+                return BadRequest(new { error = ex.Message });
             }
         }
         [HttpPost("GetDocumentFromUser")]

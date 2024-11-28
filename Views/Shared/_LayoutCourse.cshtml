@@ -1,0 +1,206 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <title>Purple Admin</title>
+
+    <!-- plugins:css -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/MaterialDesign-Webfont/7.4.47/css/materialdesignicons.min.css" integrity="sha512-/k658G6UsCvbkGRB3vPXpsPHgWeduJwiWGPCGS14IQw3xpr63AEMdA8nMYG2gmYkXitQxDTn6iiK/2fD4T87qA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- LayoutAdmin styles and custom CSS -->
+    <link rel="stylesheet" href="@Url.Content("~/LayoutAdmin/assets/vendors/css/vendor.bundle.base.css")" />
+    <link rel="stylesheet" href="@Url.Content("~/LayoutAdmin/assets/css/style.css")" />
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="@Url.Content("~/LayoutAdmin/assets/images/favicon.ico")" />
+
+    <!-- Bootstrap JS and Popper.js -->
+    <script src="https://cdn.jsdelivr.net/npm/@@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+    <div class="container-scroller">
+        <!-- partial:partials/_navbar.html -->
+        <nav class="navbar default-layout-navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
+            <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
+                <a class="navbar-brand brand-logo" href="index.html">
+                    <img src="~/LayoutAdmin/assets/images/logo.svg" alt="logo" />
+                </a>
+                <a class="navbar-brand brand-logo-mini" href="index.html">
+                    <img src="~/LayoutAdmin/assets/images/logo-mini.svg" alt="logo" />
+                </a>
+            </div>
+            <div class="navbar-menu-wrapper d-flex align-items-stretch">
+                <button class="navbar-toggler navbar-toggler align-self-center"
+                        type="button"
+                        data-bs-toggle="minimize">
+                    <span class="mdi mdi-menu"></span>
+                </button>
+                <div class="search-field d-none d-md-block">
+                    <form class="d-flex align-items-center h-100" action="#">
+                        <div class="input-group">
+                            <div class="input-group-prepend bg-transparent">
+                                <i class="input-group-text border-0 mdi mdi-magnify"></i>
+                            </div>
+                            <input type="text"
+                                   class="form-control bg-transparent border-0"
+                                   placeholder="Search projects" />
+                        </div>
+                    </form>
+                </div>
+                <ul class="navbar-nav navbar-nav-right">
+                    <li class="nav-item nav-profile dropdown">
+                        <a class="nav-link dropdown-toggle"
+                           id="profileDropdown"
+                           href="#"
+                           role="button"
+                           data-bs-toggle="dropdown"
+                           aria-expanded="false">
+                            <div class="nav-profile-img">
+                                <img src="https://firebasestorage.googleapis.com/v0/b/estudy-426108.appspot.com/o/logoSVG.svg?alt=media&token=e623ff5c-b323-48a6-93b5-894f91d6f2dd" alt="" />
+                                <span class="availability-status online"></span>
+                            </div>
+                            <div class="nav-profile-text">
+                                <p class="mb-1 text-black">EStudy Admin</p>
+                            </div>
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="profileDropdown">
+                            <li>
+                                <form action="@Url.Action("Logout", "Auth")" method="post">
+                                    <button type="submit" class="dropdown-item">
+                                        <i class="mdi mdi-logout me-2 text-primary"></i> Logout
+                                    </button>
+                                    @Html.AntiForgeryToken()
+                                </form>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+                <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center"
+                        type="button"
+                        data-bs-toggle="offcanvas">
+                    <span class="mdi mdi-menu"></span>
+                </button>
+            </div>
+        </nav>
+        <!-- partial -->
+        <div class="container-fluid page-body-wrapper">
+            <!-- partial:partials/_sidebar.html -->
+            <nav class="sidebar sidebar-offcanvas" id="sidebar">
+                <ul class="nav">
+                    <li class="nav-item nav-profile">
+                        <a href="#" class="nav-link">
+                            <div class="nav-profile-image">
+                                <img src="https://firebasestorage.googleapis.com/v0/b/estudy-426108.appspot.com/o/logoSVG.svg?alt=media&token=e623ff5c-b323-48a6-93b5-894f91d6f2dd" alt="profile" />
+                                <span class="login-status online"></span>
+                                <!--change to offline or busy as needed-->
+                            </div>
+                            <div class="nav-profile-text d-flex flex-column">
+                                <span class="font-weight-bold mb-2">EStudy</span>
+                                <span class="text-secondary text-small">Student</span>
+                            </div>
+                            <i class="mdi mdi-bookmark-check text-success nav-profile-badge"></i>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.ActionLink("Course_List","Courses")">
+                            <span class="menu-title">Courses</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.ActionLink("Tag_List","Tags")">
+                            <span class="menu-title">Tags</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.ActionLink("Unit_List","Unit")">
+                            <span class="menu-title">Units</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.ActionLink("Container_List","Container")">
+                            <span class="menu-title">Containers</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.ActionLink("Lesson_List","Lesson")">
+                            <span class="menu-title">Lessons</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.ActionLink("Vocab_List","Vocab")">
+                            <span class="menu-title">Vocabs</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.ActionLink("Question_List","Question")">
+                            <span class="menu-title">Questions</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.ActionLink("Question_Exam_List","Question_Exam")">
+                            <span class="menu-title">Questions Exam</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.ActionLink("Video_List","Video")">
+                            <span class="menu-title">Videos</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.ActionLink("Exam_List","Exam")">
+                            <span class="menu-title">Exams</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.ActionLink("Subscriptionplan_List","Subscriptionplan")">
+                            <span class="menu-title">Subscriptionplan</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.ActionLink("Plan_Course_List","PlanCourse")">
+                            <span class="menu-title">PlanCourse</span>
+                        </a>
+                    </li>
+
+                </ul>
+            </nav>
+            <!-- partial -->
+            <div class="main-panel">
+                <div class="content-wrapper">
+                    @RenderBody()
+                </div>
+                <!-- content-wrapper ends -->
+                <!-- partial:partials/_footer.html -->
+                <!-- partial -->
+            </div>
+            <!-- main-panel ends -->
+        </div>
+        <!-- page-body-wrapper ends -->
+    </div>
+    <!-- container-scroller -->
+    <!-- plugins:js -->
+    <script src="~/LayoutAdmin/assets/vendors/js/vendor.bundle.base.js"></script>
+    <!-- endinject -->
+    <!-- Plugin js for this page -->
+    <script src="~/LayoutAdmin/assets/vendors/chart.js/Chart.min.js"></script>
+    <script src="~/LayoutAdmin/assets/js/jquery.cookie.js" type="text/javascript"></script>
+    <!-- End plugin js for this page -->
+    <!-- inject:js -->
+    <script src="~/LayoutAdmin/assets/js/off-canvas.js"></script>
+    <script src="~/LayoutAdmin/assets/js/hoverable-collapse.js"></script>
+    <script src="~/LayoutAdmin/assets/js/misc.js"></script>
+    <!-- endinject -->
+    <!-- Custom js for this page -->
+    <script src="~/LayoutAdmin/assets/js/dashboard.js"></script>
+    <script src="~/LayoutAdmin/assets/js/todolist.js"></script>
+    <!-- End custom js for this page -->
+</body>
+</html>

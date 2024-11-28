@@ -7,17 +7,17 @@ public partial class Course
 {
     public int CourseId { get; set; }
 
-    public string? CourseName { get; set; }
+    public string CourseName { get; set; } = null!;
 
-    public string? CourseDescription { get; set; }
+    public string CourseDescription { get; set; } = null!;
 
     public string? CourseImage { get; set; }
 
-    public string? CourseTag { get; set; }
+    public string CourseTag { get; set; } = null!;
 
     public double CoursePrice { get; set; }
 
-    public int? CourseSale { get; set; }
+    public int CourseSale { get; set; }
 
     public virtual ICollection<Document> Documents { get; set; } = new List<Document>();
 

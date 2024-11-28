@@ -544,7 +544,7 @@ namespace study4_be.Controllers.API
                 }
 
                 // Cập nhật số dư của người dùng
-                existUser.Blance -= amountAfterTax; // Trừ số tiền thực tế sau thuế
+                existUser.Blance -= request.Amount; // Trừ số tiền thực tế sau thuế
                 request.Amount = amountAfterTax;
                 // Dữ liệu yêu cầu giải ngân (bao gồm cả thông tin người dùng)
                 string publicKey = _momoConfig.PublicKey;

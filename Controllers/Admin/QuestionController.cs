@@ -9,6 +9,8 @@ using study4_be.Services;
 
 namespace study4_be.Controllers.Admin
 {
+
+    [Route("Admin/CourseManager/[controller]/[action]")]
     public class QuestionController : Controller
     {
         private readonly ILogger<QuestionController> _logger;

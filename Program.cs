@@ -1,4 +1,4 @@
-﻿using FirebaseAdmin;
+using FirebaseAdmin;
 using Google.Apis.Auth.OAuth2;
 using MediatR;
 using study4_be.Interface;
@@ -24,6 +24,9 @@ using study4_be.Interface.User;
 using study4_be.Repositories;
 using study4_be.Validation;
 using PusherServer;
+using Humanizer;
+using Microsoft.AspNetCore.Routing;
+using static iText.Signatures.LtvVerification;
 using study4_be.PaymentServices.Momo.Request;
 using Azure.Storage.Blobs;
 using study4_be.Interface;
@@ -129,7 +132,15 @@ builder.Services.AddAuthentication(options =>
         ValidateAudience = true,
         ValidAudience = jwtSettings["Audience"]
     };
-}); 
+});
+builder.Services.AddAuthentication("AdminCookieScheme")
+    .AddCookie("AdminCookieScheme", options =>
+    {
+        options.LoginPath = "/Auth/Login"; // Đường dẫn trang đăng nhập admin
+        options.AccessDeniedPath = "/Home/Unauthorized"; // Đường dẫn khi bị từ chối quyền truy cập
+        
+        
+    });
 builder.Services.AddControllers();
 // Đăng ký JwtTokenGenerator
 builder.Services.AddSingleton<JwtTokenGenerator>();
@@ -156,20 +167,18 @@ builder.Services.AddHangfireServer();
 
 builder.Services.AddTransient<study4_be.Services.DateTimeService>(); // or AddTransient if the service needs a shorter lifespan
 
-builder.Services.AddScoped<BackupService>();
-
-// Register BackupSchedulerService as a hosted service
-builder.Services.AddHostedService<BackupSchedulerService>();
-
+builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options =>
 {
-    options.IdleTimeout = TimeSpan.FromMinutes(30); // Thời gian tồn tại của session
-    options.Cookie.HttpOnly = true;
-    options.Cookie.IsEssential = true;
+    options.IdleTimeout = TimeSpan.FromMinutes(30); // Set session timeout
+    options.Cookie.HttpOnly = true; // Set the session cookie to be accessible only through HTTP requests
+    options.Cookie.IsEssential = true; // Mark the session cookie as essential
 });
 
-
 var app = builder.Build();
+
+app.UseHttpsRedirection();
+
 // Cấu hình sử dụng Hangfire dashboard
 app.UseHangfireDashboard();
 // Khởi động server cho Hangfire
@@ -200,24 +209,28 @@ if (!app.Environment.IsDevelopment())
     app.UseExceptionHandler("/Home/Error");
 }
 
-app.UseStaticFiles();
-
 app.UseRouting();
 
-app.UseCors("AllowAll"); //remember fix this problem
+// Add session middleware before authentication
+app.UseSession(); // Session must be configured before authentication and authorization
 
-// Thêm middleware xác thực và phân quyền
+// Authentication and authorization middleware
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.UseSession();
+// Serve static files
+app.UseStaticFiles();
 
-// Đăng ký các route
+app.UseCors("AllowAll");
+
+app.UseMiddleware<RoleMiddleware>();
+
 app.UseEndpoints(endpoints =>
 {
+    // Register the endpoints
     endpoints.MapControllerRoute(
         name: "default",
-        pattern: "{controller=Home}/{action=Index}/{id?}");
+        pattern: "{controller=Auth}/{action=Login}/{id?}"); // Default route
 });
 
 // Middleware để đọc body của request và lưu vào context
@@ -231,9 +244,26 @@ app.Use(async (context, next) =>
         context.Request.Body.Position = 0;
         context.Items["RequestBody"] = body;
     }
+    await next();
+});
+app.Use(async (context, next) =>
+{
+    var path = context.Request.Path;
+
+    // Nếu yêu cầu đến từ admin
+    if (path.StartsWithSegments("/Admin"))
+    {
+        context.Items["AuthenticationScheme"] = "AdminCookieScheme";
+    }
+    // Nếu yêu cầu đến từ client
+    else
+    {
+        context.Items["AuthenticationScheme"] = "ClientCookieScheme";
+    }
 
     await next();
 });
+
 
 app.MapControllers();
 
