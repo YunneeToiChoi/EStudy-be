@@ -1,6 +1,6 @@
 ﻿namespace study4_be.Services.Exam;
 
-public class ExamDetails
+public class ExamPreviewDetails
 {
     public string ExamId { get; set; }
     public string ExamName { get; set; }

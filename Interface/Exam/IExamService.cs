@@ -1,6 +1,10 @@
-﻿namespace study4_be.Interface;
+﻿using study4_be.Models;
+using study4_be.Services.Exam;
 
-public class IExamService
+namespace study4_be.Interface.Exam;
+
+public interface IExamService
 {
-    
+    Task<IEnumerable<ExamPreviewDetails>> GetAllExamsAsync();
+    Task<IEnumerable<UsersExamResponse>> GetUserExamsAsync(string userId);
 }

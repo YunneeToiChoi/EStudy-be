@@ -18,6 +18,7 @@ using System.Security.Claims;
 using study4_be.Services.Course;
 using study4_be.Services.Document;
 using System.Reflection.Metadata.Ecma335;
+using study4_be.Interface.Course;
 
 namespace study4_be.Controllers.API
 {

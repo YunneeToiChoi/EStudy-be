@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using NaCl;
 using study4_be.Controllers.Admin;
 using study4_be.Interface;
+using study4_be.Interface.Exam;
 using study4_be.Models;
 using study4_be.Repositories;
 using study4_be.Services;
@@ -19,50 +20,34 @@ namespace study4_be.Controllers.API
     public class Exam_APIController : Controller
     {
         private readonly Study4Context _context;
+        private readonly IExamService _examService;
         private readonly IWritingService _writingService;
 
-        public Exam_APIController(Study4Context context, IWritingService writingService)
+        public Exam_APIController(Study4Context context, IWritingService writingService, IExamService examService)
         {
             _context = context;
             _writingService = writingService;
+            _examService = examService; 
         }
         [HttpGet("Get_AllExams")]
         public async Task<ActionResult<IEnumerable<Exam>>> Get_AllExams()
         {
             try
             {
-                var exams = await _context.Exams.ToListAsync();
+                var exams = await _examService.GetAllExamsAsync();
                 return Json(new { status = 200, message = "Get Exams Successful", exams });
             }
             catch(Exception e)
             {
                 return BadRequest(e.Message);
             }
-        
         }  
         [HttpPost("Get_UserExams")]
         public async Task<ActionResult<IEnumerable<Exam>>> Get_UserExams(OfUserIdRequest _req)
         {
             try
             {
-                var exams = await _context.UsersExams
-                  .AsNoTracking()
-                  .Where(ux => ux.UserId == _req.userId)
-                  .Join(_context.Exams.AsNoTracking(), // khong theo doi neu ko thao tac -> toi uu performance
-                        ux => ux.ExamId,
-                        e => e.ExamId,
-                        (ux, e) => new
-                        {
-                            e.ExamId,
-                            e.ExamName,
-                            e.ExamImage,
-                            ux.UserExamId,
-                            ux.DateTime,
-                            ux.State,
-                            ux.Score,
-                            ux.UserTime,
-                        })
-                  .ToListAsync();
+                var exams = await _examService.GetUserExamsAsync(_req.userId);
                 return Json(new { status = 200, message = "Get User Exams Successful", exams });
             }
             catch(Exception e)
@@ -144,7 +129,7 @@ namespace study4_be.Controllers.API
                 }
                 
                 // Create a list to hold the exam details
-                var examDetailsList = new List<ExamDetails>();
+                var examDetailsList = new List<ExamPreviewDetails>();
                 
                 // Now process each exam
                 foreach (var e in outstandingExams)
@@ -157,7 +142,7 @@ namespace study4_be.Controllers.API
                         .CountAsync();
                     
                     // return exam details data
-                    var examDetails = new ExamDetails
+                    var examDetails = new ExamPreviewDetails
                     {
                         ExamId = e.ExamId,
                         ExamName = e.ExamName,

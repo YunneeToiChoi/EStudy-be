@@ -1,14 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using study4_be.Interface.Course;
 using study4_be.Models;
-using study4_be.Repositories;
-using study4_be.Validation;
-using NuGet.Protocol.Core.Types;
-using System.IO;
-using System.Text.Json;
-using System.Threading.Tasks;
-using study4_be.Services;
-using Microsoft.EntityFrameworkCore;
-using System.Linq;
 using study4_be.Services.Course;
 using study4_be.Interface.Rating;
 namespace study4_be.Controllers.API

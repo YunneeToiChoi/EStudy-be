@@ -26,9 +26,13 @@ using study4_be.Validation;
 using PusherServer;
 using study4_be.PaymentServices.Momo.Request;
 using Azure.Storage.Blobs;
+using study4_be.Interface;
+using study4_be.Interface.Course;
+using study4_be.Interface.Exam;
 using study4_be.Services.Azure;
 using study4_be.Services.Backup;
 using study4_be.Services.Category;
+using study4_be.Services.Course;
 using study4_be.Services.Exam;
 using study4_be.Services.Tingee;
 
@@ -66,6 +70,7 @@ builder.Services.AddTransient<IReplyService, ReplyService>();
 builder.Services.AddTransient<IDocumentService, DocumentService>();
 builder.Services.AddTransient<ICategoryService, CategoryService>();
 builder.Services.AddTransient<ICourseService, CourseService>();
+builder.Services.AddTransient<IExamService, ExamService>();
 builder.Services.AddTransient<IWritingService, WritingService>();
 // Register BlobServiceClient for Azure Blob Storage
 builder.Services.Configure<MomoConfig>(builder.Configuration.GetSection(MomoConfig.ConfigName));

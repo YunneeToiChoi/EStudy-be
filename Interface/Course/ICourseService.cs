@@ -1,7 +1,5 @@
-using study4_be.Models.DTO;
 using study4_be.Services.Course;
-
-namespace study4_be.Interface.Rating
+namespace study4_be.Interface.Course
 {
     public interface ICourseService
     {

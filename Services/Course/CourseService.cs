@@ -1,16 +1,11 @@
 ﻿
-using Google;
 using Microsoft.EntityFrameworkCore;
-using SendGrid.Helpers.Errors.Model;
+using study4_be.Interface.Course;
 using study4_be.Interface.Rating;
 using study4_be.Models;
-using study4_be.Models.DTO;
 using study4_be.Services.Course;
-using study4_be.Services.Document;
-using study4_be.Services.Rating;
-using study4_be.Services.User;
 
-namespace study4_be.Services.Rating
+namespace study4_be.Services.Course
 {
     public class CourseService : ICourseService
     {
