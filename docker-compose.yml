@@ -1,0 +1,27 @@
+﻿version: '3.8'
+
+services:
+  web:
+    image: study4-be
+    build: .
+    ports:
+      - "8080:80"  # Maps port 8080 on host to port 80 in the container
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Server=db;Database=Study4;User Id=sa;Password=1234;
+    depends_on:
+      - db  # Ensure the DB container is started before the web app
+  
+  db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=1234 # SQL Server 'sa' password
+      - MSSQL_PID=Express  # Use SQL Server Express edition (you can use other editions too)
+    ports:
+      - "1433:1433"  # Exposes port 1433 for SQL Server
+    volumes:
+      - db_data:/var/opt/mssql  # Persistent data storage across container restarts
+
+volumes:
+  db_data:  # This creates a named volume to persist SQL Server data
